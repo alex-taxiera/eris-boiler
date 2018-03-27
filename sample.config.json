@@ -1,0 +1,9 @@
+{
+  "TOKEN": "",
+  "DB_CREDENTIALS": {
+    "database": "eris-boiler",
+    "host": "127.0.0.1",
+    "user": "root",
+    "password": ""
+  }
+}
