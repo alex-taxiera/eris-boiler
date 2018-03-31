@@ -41,6 +41,7 @@ bot.on('ready', () => {
 bot.on('messageCreate', async (msg) => {
   if (!msg.member || msg.member.id === bot.user.id) return
   const { prefix } = await database.getClient(msg.channel.guild.id)
+  if (!msg.content.startsWith(prefix)) return
   let params = msg.content.substring(prefix.length).split(' ')
   let command = commands[params.splice(0, 1)[0]]; if (!command) return
 
