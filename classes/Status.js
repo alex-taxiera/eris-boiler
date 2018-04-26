@@ -56,7 +56,7 @@ class Status {
   async setStatus (bot, { name, type = 0 }) {
     let status
     if (!name) {
-      const statuses = (await bot.dbm.getGames()).map((status) => {
+      const statuses = (await bot.dbm.getStatuses()).map((status) => {
         return { name: status.name, type: status.type }
       })
       status = statuses[Math.round(Math.random() * (statuses.length - 1))]
