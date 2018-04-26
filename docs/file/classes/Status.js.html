@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">classes/Status.js | eris-boiler</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<link rel="stylesheet" href="./inject/css/0-custom-css.css"><meta name="description" content="A Discord Bot boilerplate using JavaScript and the Eris library"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eris-boiler"><meta property="twitter:description" content="A Discord Bot boilerplate using JavaScript and the Eris library"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/alex-taxiera/eris-boiler"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Command.js~Command.html">Command</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html">DatabaseManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Permission.js~Permission.html">Permission</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Setting.js~Setting.html">Setting</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Status.js~Status.html">Status</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Toggle.js~Toggle.html">Toggle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://abal.moe/Eris/docs/Client">Client</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://abal.moe/Eris/docs/Collection">Collection</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">classes/Status.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * Class representing the bot status.
+ */
+class Status {
+  /**
+   * Create a status.
+   */
+  constructor () {
+    /**
+     * The current status.
+     * @type     {Object}
+     * @property {String} name The name of the current status.
+     * @property {Number} type The type of the current status.
+     */
+    this.current = { name: &apos;&apos;, type: 1 }
+    /**
+     * Enum for status types
+     * @type     {Object}
+     * @property {String} 0 &apos;Playing&apos;
+     * @property {String} 1 &apos;Streaming&apos; (Twitch only)
+     * @property {String} 2 &apos;Listening&apos;
+     * @property {String} 3 &apos;Watching&apos;
+     */
+    this.type = {
+      0: &apos;Playing&apos;,
+      1: &apos;Streaming&apos;,
+      2: &apos;Listening&apos;,
+      3: &apos;Watching&apos;
+    }
+    /**
+     * The interval for automatic status changes
+     * @type {Timeout}
+     */
+    this.interval = undefined
+  }
+  /**
+   * Set the status to the default.
+   * @param {Client} bot The bot object.
+   */
+  default (bot) {
+    this.setStatus(bot, bot.config.DEFAULT.status)
+  }
+  /**
+   * Stop changing status automatically
+   */
+  endRotate () {
+    if (this.interval) this.interval = clearInterval(this.interval)
+  }
+  /**
+   * Set the status of the bot
+   * @param {Client} bot             The bot object.
+   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random
+   * @param {String} [status.name]   Name of status
+   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.
+   */
+  async setStatus (bot, { name, type = 0 }) {
+    let status
+    if (!name) {
+      const statuses = (await bot.dbm.getGames()).map((status) =&gt; {
+        return { name: status.name, type: status.type }
+      })
+      status = statuses[Math.round(Math.random() * (statuses.length - 1))]
+      if (statuses.length &gt; 1) {
+        while (status.name === this.current.name) {
+          status = statuses[Math.round(Math.random() * (statuses.length - 1))]
+        }
+      }
+    }
+    status = { name, type }
+    bot.logger.log(`${this.type[status.type]} ${status.name}`, &apos;cyan&apos;)
+    bot.editStatus(&apos;online&apos;, status)
+    this.current = status
+  }
+  /**
+   * Set the status of the bot
+   * @param {Client} bot The bot object.
+   */
+  startRotate (bot) {
+    this.interval = setInterval(() =&gt; { this.setStatus(bot) }, 43200000)
+  }
+}
+
+module.exports = Status
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
