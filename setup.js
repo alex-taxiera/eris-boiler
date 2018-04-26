@@ -1,25 +1,21 @@
-const { DB_CREDENTIALS } = require('./config.json')
+const { DB_CREDENTIALS, DEFAULT } = require('./config.json')
 const db = require('knex')({ client: 'mysql', connection: DB_CREDENTIALS })
 
 db.schema.createTable('guild_settings', (table) => {
   table.charset('utf8')
   table.string('id').primary()
   table.string('vip')
-  table.string('prefix')
-}).then(() => {
-  db.schema.createTable('global_settings', (table) => {
+  table.string('prefix').defaultTo(DEFAULT.prefix)
+})
+.then(() => {
+  db.schema.createTable('statuses', (table) => {
     table.charset('utf8')
-    table.integer('id').primary()
-    table.string('defaultPrefix').defaultTo('!')
-    table.string('defaultGame')
-    table.boolean('randomGames')
-  }).then(() => {
-    db('global_settings').insert({ id: 0, randomGames: false, defaultGame: null })
-    .then(() => {
-      db.schema.createTable('games', (table) => {
-        table.charset('utf8')
-        table.string('name').primary()
-      }).then(() => { db.destroy() })
-    })
+    table.string('name').primary()
+    table.integer('type').defaultTo(0)
+    table.boolean('default').defaultTo('false')
+  })
+  .then(() => {
+    db('statuses').insert({ name: DEFAULT.status, default: true })
+    .then(() => process.exit())
   })
 })

@@ -1,7 +1,8 @@
-const Permission = require('./Permission.js')
+const Permission = require('../classes/Permission.js')
 
 module.exports = new Permission({
-  name: 'Owner',
+  name: 'Guild Owner',
+  level: 80,
   check: (member) => member.id === member.guild.ownerID,
   deny: () => 'Must be guild owner!'
 })
