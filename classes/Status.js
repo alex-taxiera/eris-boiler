@@ -14,24 +14,16 @@ class Status {
      */
     this.current = { name: '', type: 1 }
     /**
-     * Enum for status types
-     * @type     {Object}
-     * @property {String} 0 'Playing'
-     * @property {String} 1 'Streaming' (Twitch only)
-     * @property {String} 2 'Listening'
-     * @property {String} 3 'Watching'
+     * StatusType data
+     * @private
+     * @type {StatusType}
      */
-    this.type = {
-      0: 'Playing',
-      1: 'Streaming',
-      2: 'Listening',
-      3: 'Watching'
-    }
+    this._type = new (require('./StatusType'))()
     /**
      * The interval for automatic status changes
-     * @type {Timeout}
+     * @private
      */
-    this.interval = undefined
+    this._interval = undefined
   }
   /**
    * Set the status to the default.
@@ -44,7 +36,7 @@ class Status {
    * Stop changing status automatically
    */
   endRotate () {
-    if (this.interval) this.interval = clearInterval(this.interval)
+    if (this._interval) this._interval = clearInterval(this._interval)
   }
   /**
    * Set the status of the bot
@@ -67,7 +59,7 @@ class Status {
       }
     }
     status = { name, type }
-    bot.logger.log(`${this.type[status.type]} ${status.name}`, 'cyan')
+    bot.logger.log(`${this._type.getStatusName(status.type)} ${status.name}`, 'cyan')
     bot.editStatus('online', status)
     this.current = status
   }
@@ -76,7 +68,7 @@ class Status {
    * @param {Client} bot The bot object.
    */
   startRotate (bot) {
-    this.interval = setInterval(() => { this.setStatus(bot) }, 43200000)
+    this._interval = setInterval(() => { this.setStatus(bot) }, 43200000)
   }
 }
 
