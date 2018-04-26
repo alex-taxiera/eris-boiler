@@ -1,0 +1,2474 @@
+[
+  {
+    "__docId__": 1,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Infinity",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 2,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~NaN",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 3,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~undefined",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 4,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~null",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 5,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 6,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 7,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 8,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 9,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 10,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 11,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Symbol",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 12,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Error",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~EvalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 14,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~InternalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 15,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~RangeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 16,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~ReferenceError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 17,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~SyntaxError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 18,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~TypeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 19,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~URIError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 20,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 21,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 22,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Date",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 23,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~String",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 24,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~string",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 25,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~RegExp",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 26,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 27,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Int8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 28,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Uint8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 29,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Uint8ClampedArray",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 30,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Int16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Uint16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 32,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Int32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 33,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Uint32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Float32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 35,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Float64Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 36,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Map",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Set",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 38,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~WeakMap",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~WeakSet",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~ArrayBuffer",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 41,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~DataView",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 42,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~JSON",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Promise",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 44,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Generator",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 45,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~GeneratorFunction",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 46,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Reflect",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "classes/.external-ecmascript.js",
+    "static": true,
+    "longname": "classes/.external-ecmascript.js~Proxy",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "file",
+    "name": "classes/Command.js",
+    "content": "/**\r\n * Class representing a command.\r\n */\r\nclass Command {\r\n  /**\r\n   * Create a command.\r\n   * @param {Object}   data                       The command data.\r\n   * @param {String}   data.name                  The command name.\r\n   * @param {String[]} [data.aliases=[]]          List of alias names for the command.\r\n   * @param {String}   data.description           The command description.\r\n   * @param {String[]} [data.parameters=[]]       List of paremeters that the command takes.\r\n   * @param {String}   [data.permission='Anyone'] The name of the permission required to use the command.\r\n   * @param {Function} data.run                   The command function.\r\n   */\r\n  constructor ({ name, aliases, description, parameters, permission, run }) {\r\n    if (typeof name !== 'string') throw Error(`command cannot have name \"${name}\"`)\r\n    if (typeof description !== 'string') throw Error(`command cannot have description \"${description}\"`)\r\n    if (typeof run !== 'function') throw Error(`command cannot have run function \"${run}\"`)\r\n\r\n    /**\r\n     * The command name.\r\n     * @type {String}\r\n     */\r\n    this.name = name\r\n    /**\r\n     * List of alias names for the command.\r\n     * @type {String[]}\r\n     */\r\n    this.aliases = aliases || []\r\n    /**\r\n     * The command description.\r\n     * @type {String}\r\n     */\r\n    this.description = description\r\n    /**\r\n     * List of paremeters that the command takes.\r\n     * @type {String[]}\r\n     */\r\n    this.parameters = parameters || []\r\n    /**\r\n     * The name of the permission required to use the command.\r\n     * @type {String}\r\n     */\r\n    this.permission = permission || 'Anyone'\r\n    /**\r\n     * The command function.\r\n     * @type {Function}\r\n     */\r\n    this.run = run\r\n  }\r\n  /**\r\n   * Get information about the command.\r\n   * @return {String} Info string containing name and description.\r\n   */\r\n  help () {\r\n    return `Name: ${this.name}\\nDescription: ${this.description}\\nParameters:${this.parameters.join(', ')}`\r\n  }\r\n}\r\n\r\nmodule.exports = Command\r\n",
+    "static": true,
+    "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/Command.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "class",
+    "name": "Command",
+    "memberof": "classes/Command.js",
+    "static": true,
+    "longname": "classes/Command.js~Command",
+    "access": "public",
+    "export": true,
+    "importPath": "eris-boiler/classes/Command.js",
+    "importStyle": "Command",
+    "description": "Class representing a command.",
+    "lineNumber": 4,
+    "interface": false
+  },
+  {
+    "__docId__": 50,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "classes/Command.js~Command",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Command.js~Command#constructor",
+    "access": "public",
+    "description": "Create a command.",
+    "lineNumber": 15,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data",
+        "description": "The command data."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.name",
+        "description": "The command name."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String[]"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "[]",
+        "defaultRaw": [],
+        "name": "data.aliases",
+        "description": "List of alias names for the command."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.description",
+        "description": "The command description."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String[]"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "[]",
+        "defaultRaw": [],
+        "name": "data.parameters",
+        "description": "List of paremeters that the command takes."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "'Anyone'",
+        "defaultRaw": "'Anyone'",
+        "name": "data.permission",
+        "description": "The name of the permission required to use the command."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.run",
+        "description": "The command function."
+      }
+    ]
+  },
+  {
+    "__docId__": 51,
+    "kind": "member",
+    "name": "name",
+    "memberof": "classes/Command.js~Command",
+    "static": false,
+    "longname": "classes/Command.js~Command#name",
+    "access": "public",
+    "description": "The command name.",
+    "lineNumber": 24,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "member",
+    "name": "aliases",
+    "memberof": "classes/Command.js~Command",
+    "static": false,
+    "longname": "classes/Command.js~Command#aliases",
+    "access": "public",
+    "description": "List of alias names for the command.",
+    "lineNumber": 29,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String[]"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 53,
+    "kind": "member",
+    "name": "description",
+    "memberof": "classes/Command.js~Command",
+    "static": false,
+    "longname": "classes/Command.js~Command#description",
+    "access": "public",
+    "description": "The command description.",
+    "lineNumber": 34,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 54,
+    "kind": "member",
+    "name": "parameters",
+    "memberof": "classes/Command.js~Command",
+    "static": false,
+    "longname": "classes/Command.js~Command#parameters",
+    "access": "public",
+    "description": "List of paremeters that the command takes.",
+    "lineNumber": 39,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String[]"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 55,
+    "kind": "member",
+    "name": "permission",
+    "memberof": "classes/Command.js~Command",
+    "static": false,
+    "longname": "classes/Command.js~Command#permission",
+    "access": "public",
+    "description": "The name of the permission required to use the command.",
+    "lineNumber": 44,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "member",
+    "name": "run",
+    "memberof": "classes/Command.js~Command",
+    "static": false,
+    "longname": "classes/Command.js~Command#run",
+    "access": "public",
+    "description": "The command function.",
+    "lineNumber": 49,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Function"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "method",
+    "name": "help",
+    "memberof": "classes/Command.js~Command",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Command.js~Command#help",
+    "access": "public",
+    "description": "Get information about the command.",
+    "lineNumber": 55,
+    "return": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": "Info string containing name and description."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 58,
+    "kind": "file",
+    "name": "classes/DatabaseManager.js",
+    "content": "/**\r\n * Class representing a database manager.\r\n */\r\nclass DatabaseManager {\r\n  /**\r\n   * Create a database manager.\r\n   * @param {Object} DB_CREDENTIALS          The credentials to create the db connection. This should be filled in the config file.\r\n   * @param {String} DB_CREDENTIALS.database The name of your database.\r\n   * @param {String} DB_CREDENTIALS.host     The address of your database.\r\n   * @param {String} DB_CREDENTIALS.user     The username to login with.\r\n   * @param {String} DB_CREDENTIALS.password The password associated with your user.\r\n   */\r\n  constructor (DB_CREDENTIALS) {\r\n    /**\r\n     * The knex query builder.\r\n     * @private\r\n     * @type    {Function}\r\n     */\r\n    this._knex = require('knex')({ client: 'mysql', connection: DB_CREDENTIALS })\r\n  }\r\n\r\n  /**\r\n   * Insert a guild into the guild_settings table.\r\n   * @param  {String}             id The ID of the guild\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  addClient (id) {\r\n    return this.insert({ table: 'guild_settings', data: { id } })\r\n  }\r\n\r\n  /**\r\n   * Insert a status into the statuses table.\r\n   * @param  {Object}             status      The status to make default.\r\n   * @param  {String}             status.name The name of the status.\r\n   * @param  {Number}             status.type The type of the status.\r\n   * @return {(Number|undefined)}             Returns 0 on success or undefined.\r\n   */\r\n  addStatus (status) {\r\n    return this.insert({ table: 'statuses', data: status })\r\n  }\r\n\r\n  /**\r\n   * Get data on a guild from the guild_settings table\r\n   * @param  {String} id The ID of the guild.\r\n   * @return {Object}    The guild data.\r\n   */\r\n  async getClient (id) {\r\n    return (await this.select({ table: 'guild_settings', where: { id } }))[0]\r\n  }\r\n\r\n  /**\r\n   * Get the statuses of the bot from the statuses table.\r\n   * @return {Object[]} Array of statuses, name and type.\r\n   */\r\n  async getStatuses () {\r\n    return this.select({ table: 'statuses' })\r\n  }\r\n\r\n  /**\r\n   * Check saved guild data against live guild data.\r\n   * @param {Collection<Guild>} guilds The bots collection of guilds at start up.\r\n   */\r\n  async initialize (guilds) {\r\n    let tmpGuilds = new Map(guilds)\r\n    const saved = await this.select({ table: 'guild_settings' })\r\n    if (saved) {\r\n      for (let i = 0; i < saved.length; i++) {\r\n        const id = saved[i].id\r\n        const guild = tmpGuilds.get(id)\r\n        if (guild) {\r\n          tmpGuilds.delete(id)\r\n          if (saved[i].vip && !guild.roles.get(saved[i].vip)) this.updateClient(id, { vip: null })\r\n          continue\r\n        }\r\n        await this.removeClient(saved[i].id)\r\n      }\r\n    }\r\n    for (const [id] of tmpGuilds) {\r\n      this.addClient(id)\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Remove a guild from the guild_settings table.\r\n   * @param  {String}             id The guild ID to remove.\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  removeClient (id) {\r\n    return this.del({ table: 'guild_settings', where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Update a guild entry in the guild_settings table.\r\n   * @param  {String}             id   The ID of the guild.\r\n   * @param  {Object}             data The data to update. Property names should match column names.\r\n   * @return {(Number|undefined)}      Returns 0 on success or undefined.\r\n   */\r\n  updateClient (id, data) {\r\n    return this.update({ table: 'guild_settings', data, where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Update the default status of the bot.\r\n   * @param  {Object}             status      The status to make default.\r\n   * @param  {String}             status.name The name of the status.\r\n   * @param  {Number}             status.type The type of the status.\r\n   * @return {(Number|undefined)}             Returns 0 on success or undefined.\r\n   */\r\n  updateDefaultStatus (status) {\r\n    return this.update({ table: 'games', data: status, where: { default: 1 } })\r\n  }\r\n\r\n  /**\r\n   * Update the default prefix in the guild_settings table. Not available with SQLite.\r\n   * @param {String} prefix The prefix to set as default.\r\n   */\r\n  updateDefaultPrefix (prefix) {\r\n    this._knex.schema.alterTable('guild_settings', (table) => {\r\n      table.string('prefix').defaultTo(prefix)\r\n    })\r\n  }\r\n\r\n  // private methods\r\n  /**\r\n   * Get the number of rows in a table.\r\n   * @private\r\n   * @param   {String}             table The name of the table.\r\n   * @return  {(Number|undefined)}       Returns the number of rows on success or undefined.\r\n   */\r\n  count (table) {\r\n    return this._knex(table).count('*')\r\n    .then((val) => val[0]['count(*)'])\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Delete an entry from a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to delete. Property name should match column name.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  del ({ table, where }) {\r\n    return this._knex(table).where(where).del()\r\n    .then((success) => 0)\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Insert an entry into a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.data  The data to insert. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  insert ({ table, data }) {\r\n    return this._knex(table).insert(data)\r\n    .then((success) => 0)\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Select entries from a table.\r\n   * @private\r\n   * @param   {Object}               data               The query data.\r\n   * @param   {String}               data.table         The name of the table.\r\n   * @param   {(String[]|String)}    [data.columns='*'] The column(s) to select.\r\n   * @param   {Number}               [data.offset=0]    The amount of rows to skip before selecting.\r\n   * @param   {Number}               [data.limit=null]  The amount of rows to select. Will be set to all columns if null.\r\n   * @param   {Object}               [data.where=true]  The condition to match your selection against. Property name should match column name.\r\n   * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.\r\n   */\r\n  async select ({ table, columns = '*', offset = 0, limit = null, where = true }) {\r\n    if (!limit) limit = await this.count(table)\r\n    return this._knex(table).select(columns).where(where).offset(offset).limit(limit)\r\n    .then((rows) => rows)\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Update entries in a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to update. Property name should match column name.\r\n   * @param   {Object}             data.data  The data to update. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  update ({ table, where, data }) {\r\n    return this._knex(table).where(where).update(data)\r\n    .then((success) => 0)\r\n    .catch((e) => undefined)\r\n  }\r\n}\r\n\r\nmodule.exports = DatabaseManager\r\n",
+    "static": true,
+    "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/DatabaseManager.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 59,
+    "kind": "class",
+    "name": "DatabaseManager",
+    "memberof": "classes/DatabaseManager.js",
+    "static": true,
+    "longname": "classes/DatabaseManager.js~DatabaseManager",
+    "access": "public",
+    "export": true,
+    "importPath": "eris-boiler/classes/DatabaseManager.js",
+    "importStyle": "DatabaseManager",
+    "description": "Class representing a database manager.",
+    "lineNumber": 4,
+    "interface": false
+  },
+  {
+    "__docId__": 60,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#constructor",
+    "access": "public",
+    "description": "Create a database manager.",
+    "lineNumber": 13,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "DB_CREDENTIALS",
+        "description": "The credentials to create the db connection. This should be filled in the config file."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "DB_CREDENTIALS.database",
+        "description": "The name of your database."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "DB_CREDENTIALS.host",
+        "description": "The address of your database."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "DB_CREDENTIALS.user",
+        "description": "The username to login with."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "DB_CREDENTIALS.password",
+        "description": "The password associated with your user."
+      }
+    ]
+  },
+  {
+    "__docId__": 61,
+    "kind": "member",
+    "name": "_knex",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#_knex",
+    "access": "private",
+    "description": "The knex query builder.",
+    "lineNumber": 19,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Function"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 62,
+    "kind": "method",
+    "name": "addClient",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#addClient",
+    "access": "public",
+    "description": "Insert a guild into the guild_settings table.",
+    "lineNumber": 27,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "id",
+        "description": "The ID of the guild"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns 0 on success or undefined."
+    }
+  },
+  {
+    "__docId__": 63,
+    "kind": "method",
+    "name": "addStatus",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#addStatus",
+    "access": "public",
+    "description": "Insert a status into the statuses table.",
+    "lineNumber": 38,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "status",
+        "description": "The status to make default."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "status.name",
+        "description": "The name of the status."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "status.type",
+        "description": "The type of the status."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns 0 on success or undefined."
+    }
+  },
+  {
+    "__docId__": 64,
+    "kind": "method",
+    "name": "getClient",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#getClient",
+    "access": "public",
+    "description": "Get data on a guild from the guild_settings table",
+    "lineNumber": 47,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "id",
+        "description": "The ID of the guild."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": "The guild data."
+    }
+  },
+  {
+    "__docId__": 65,
+    "kind": "method",
+    "name": "getStatuses",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#getStatuses",
+    "access": "public",
+    "description": "Get the statuses of the bot from the statuses table.",
+    "lineNumber": 55,
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object[]"
+      ],
+      "spread": false,
+      "description": "Array of statuses, name and type."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 66,
+    "kind": "method",
+    "name": "initialize",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#initialize",
+    "access": "public",
+    "description": "Check saved guild data against live guild data.",
+    "lineNumber": 63,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Collection<Guild>"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "guilds",
+        "description": "The bots collection of guilds at start up."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 67,
+    "kind": "method",
+    "name": "removeClient",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#removeClient",
+    "access": "public",
+    "description": "Remove a guild from the guild_settings table.",
+    "lineNumber": 88,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "id",
+        "description": "The guild ID to remove."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns 0 on success or undefined."
+    }
+  },
+  {
+    "__docId__": 68,
+    "kind": "method",
+    "name": "updateClient",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#updateClient",
+    "access": "public",
+    "description": "Update a guild entry in the guild_settings table.",
+    "lineNumber": 98,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "id",
+        "description": "The ID of the guild."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data",
+        "description": "The data to update. Property names should match column names."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns 0 on success or undefined."
+    }
+  },
+  {
+    "__docId__": 69,
+    "kind": "method",
+    "name": "updateDefaultStatus",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#updateDefaultStatus",
+    "access": "public",
+    "description": "Update the default status of the bot.",
+    "lineNumber": 109,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "status",
+        "description": "The status to make default."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "status.name",
+        "description": "The name of the status."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "status.type",
+        "description": "The type of the status."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns 0 on success or undefined."
+    }
+  },
+  {
+    "__docId__": 70,
+    "kind": "method",
+    "name": "updateDefaultPrefix",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#updateDefaultPrefix",
+    "access": "public",
+    "description": "Update the default prefix in the guild_settings table. Not available with SQLite.",
+    "lineNumber": 117,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "prefix",
+        "description": "The prefix to set as default."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 71,
+    "kind": "method",
+    "name": "count",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#count",
+    "access": "private",
+    "description": "Get the number of rows in a table.",
+    "lineNumber": 130,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "table",
+        "description": "The name of the table."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns the number of rows on success or undefined."
+    }
+  },
+  {
+    "__docId__": 72,
+    "kind": "method",
+    "name": "del",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#del",
+    "access": "private",
+    "description": "Delete an entry from a table.",
+    "lineNumber": 144,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data",
+        "description": "The query data."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.table",
+        "description": "The name of the table."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.where",
+        "description": "The condition to be met to find what to delete. Property name should match column name."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns 0 on success or undefined."
+    }
+  },
+  {
+    "__docId__": 73,
+    "kind": "method",
+    "name": "insert",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#insert",
+    "access": "private",
+    "description": "Insert an entry into a table.",
+    "lineNumber": 158,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data",
+        "description": "The query data."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.table",
+        "description": "The name of the table."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.data",
+        "description": "The data to insert. Property names should match column names."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns 0 on success or undefined."
+    }
+  },
+  {
+    "__docId__": 74,
+    "kind": "method",
+    "name": "select",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#select",
+    "access": "private",
+    "description": "Select entries from a table.",
+    "lineNumber": 175,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data",
+        "description": "The query data."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.table",
+        "description": "The name of the table."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String[]",
+          "String"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "'*'",
+        "defaultRaw": "'*'",
+        "name": "data.columns",
+        "description": "The column(s) to select."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "0",
+        "defaultRaw": 0,
+        "name": "data.offset",
+        "description": "The amount of rows to skip before selecting."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "null",
+        "defaultRaw": null,
+        "name": "data.limit",
+        "description": "The amount of rows to select. Will be set to all columns if null."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "true",
+        "defaultRaw": true,
+        "name": "data.where",
+        "description": "The condition to match your selection against. Property name should match column name."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object[]",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns array of rows on success or undefined."
+    }
+  },
+  {
+    "__docId__": 75,
+    "kind": "method",
+    "name": "update",
+    "memberof": "classes/DatabaseManager.js~DatabaseManager",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DatabaseManager.js~DatabaseManager#update",
+    "access": "private",
+    "description": "Update entries in a table.",
+    "lineNumber": 191,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data",
+        "description": "The query data."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.table",
+        "description": "The name of the table."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.where",
+        "description": "The condition to be met to find what to update. Property name should match column name."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.data",
+        "description": "The data to update. Property names should match column names."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number",
+        "undefined"
+      ],
+      "spread": false,
+      "description": "Returns 0 on success or undefined."
+    }
+  },
+  {
+    "__docId__": 76,
+    "kind": "file",
+    "name": "classes/index.js",
+    "content": "/**\r\n * @external {Client}     https://abal.moe/Eris/docs/Client\r\n */\r\n/**\r\n * @external {Collection} https://abal.moe/Eris/docs/Collection\r\n */\r\n",
+    "static": true,
+    "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 77,
+    "kind": "external",
+    "name": "Client",
+    "externalLink": "https://abal.moe/Eris/docs/Client",
+    "memberof": "classes/index.js",
+    "static": true,
+    "longname": "classes/index.js~Client",
+    "access": "public",
+    "description": ""
+  },
+  {
+    "__docId__": 78,
+    "kind": "external",
+    "name": "Collection",
+    "externalLink": "https://abal.moe/Eris/docs/Collection",
+    "memberof": "classes/index.js",
+    "static": true,
+    "longname": "classes/index.js~Collection",
+    "access": "public",
+    "description": ""
+  },
+  {
+    "__docId__": 79,
+    "kind": "file",
+    "name": "classes/Logger.js",
+    "content": "const moment = require('moment')\r\nconst colors = require('colors')\r\n\r\n/**\r\n * Class representing a logger.\r\n */\r\nclass Logger {\r\n  /**\r\n   * Log something.\r\n   * @param {String} str             The string to log (can also be something with a toString method).\r\n   * @param {String} [color='white'] The color that the message should be in.\r\n   */\r\n  log (str, color = 'white') {\r\n    if (typeof str !== 'string') str = str.toString()\r\n    console.log(colors.gray(`${moment().format('MM/DD HH:mm:ss')}`) + ' | ' +\r\n    colors[color](`BZZT ${str.toUpperCase()} BZZT`))\r\n  }\r\n  /**\r\n   * Log something in green for success.\r\n   * @param {String} str The string to log (can also be something with a toString method).\r\n   */\r\n  success (str) {\r\n    this.log(str, 'green')\r\n  }\r\n  /**\r\n   * Log something in yellow for warning.\r\n   * @param {String} str The string to log (can also be something with a toString method).\r\n   */\r\n  warn (str) {\r\n    this.log(str, 'yellow')\r\n  }\r\n  /**\r\n   * Log something in red for error.\r\n   * @param {String} err The string to log (can also be something with a toString method).\r\n   */\r\n  error (err) {\r\n    this.log(err, 'red')\r\n  }\r\n}\r\n\r\nmodule.exports = Logger\r\n",
+    "static": true,
+    "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/Logger.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 80,
+    "kind": "class",
+    "name": "Logger",
+    "memberof": "classes/Logger.js",
+    "static": true,
+    "longname": "classes/Logger.js~Logger",
+    "access": "public",
+    "export": true,
+    "importPath": "eris-boiler/classes/Logger.js",
+    "importStyle": "Logger",
+    "description": "Class representing a logger.",
+    "lineNumber": 7,
+    "interface": false
+  },
+  {
+    "__docId__": 81,
+    "kind": "method",
+    "name": "log",
+    "memberof": "classes/Logger.js~Logger",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Logger.js~Logger#log",
+    "access": "public",
+    "description": "Log something.",
+    "lineNumber": 13,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "str",
+        "description": "The string to log (can also be something with a toString method)."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "'white'",
+        "defaultRaw": "'white'",
+        "name": "color",
+        "description": "The color that the message should be in."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 82,
+    "kind": "method",
+    "name": "success",
+    "memberof": "classes/Logger.js~Logger",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Logger.js~Logger#success",
+    "access": "public",
+    "description": "Log something in green for success.",
+    "lineNumber": 22,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "str",
+        "description": "The string to log (can also be something with a toString method)."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 83,
+    "kind": "method",
+    "name": "warn",
+    "memberof": "classes/Logger.js~Logger",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Logger.js~Logger#warn",
+    "access": "public",
+    "description": "Log something in yellow for warning.",
+    "lineNumber": 29,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "str",
+        "description": "The string to log (can also be something with a toString method)."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 84,
+    "kind": "method",
+    "name": "error",
+    "memberof": "classes/Logger.js~Logger",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Logger.js~Logger#error",
+    "access": "public",
+    "description": "Log something in red for error.",
+    "lineNumber": 36,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "err",
+        "description": "The string to log (can also be something with a toString method)."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 85,
+    "kind": "file",
+    "name": "classes/Permission.js",
+    "content": "/**\r\n * Class representing a permission.\r\n */\r\nclass Permission {\r\n  /**\r\n   * Create a permission.\r\n   * @param {String}   name                                The name of the permission.\r\n   * @param {Number}   level                               The level of the permission (0 is the bottom).\r\n   * @param {Function} [check=function () { return true }] A test to see if a member has this permission.\r\n   */\r\n  constructor ({ name, level, check }) {\r\n    if (typeof name !== 'string') throw Error(`permission cannot have name ${name}`)\r\n    if (isNaN(level)) throw Error(`permission cannot have level ${level}`)\r\n    /**\r\n     * The name of the permission.\r\n     * @type {String}\r\n     */\r\n    this.name = name\r\n    /**\r\n     * The level of the permission (0 is the bottom).\r\n     * @type {String}\r\n     */\r\n    this.level = level\r\n    /**\r\n     * A test to see if a member has this permission.\r\n     * @type {Function}\r\n     */\r\n    this.check = check || function () { return true }\r\n  }\r\n  /**\r\n   * Denial message telling the user what level permission they need.\r\n   * @return {String} Denial message including permission name.\r\n   */\r\n  deny () {\r\n    return `Must be ${this.name}!`\r\n  }\r\n}\r\n\r\nmodule.exports = Permission\r\n",
+    "static": true,
+    "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/Permission.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 86,
+    "kind": "class",
+    "name": "Permission",
+    "memberof": "classes/Permission.js",
+    "static": true,
+    "longname": "classes/Permission.js~Permission",
+    "access": "public",
+    "export": true,
+    "importPath": "eris-boiler/classes/Permission.js",
+    "importStyle": "Permission",
+    "description": "Class representing a permission.",
+    "lineNumber": 4,
+    "interface": false
+  },
+  {
+    "__docId__": 87,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "classes/Permission.js~Permission",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Permission.js~Permission#constructor",
+    "access": "public",
+    "description": "Create a permission.",
+    "lineNumber": 11,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "The name of the permission."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "level",
+        "description": "The level of the permission (0 is the bottom)."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Function"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "function () { return true }",
+        "defaultRaw": "function () { return true }",
+        "name": "check",
+        "description": "A test to see if a member has this permission."
+      }
+    ]
+  },
+  {
+    "__docId__": 88,
+    "kind": "member",
+    "name": "name",
+    "memberof": "classes/Permission.js~Permission",
+    "static": false,
+    "longname": "classes/Permission.js~Permission#name",
+    "access": "public",
+    "description": "The name of the permission.",
+    "lineNumber": 18,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 89,
+    "kind": "member",
+    "name": "level",
+    "memberof": "classes/Permission.js~Permission",
+    "static": false,
+    "longname": "classes/Permission.js~Permission#level",
+    "access": "public",
+    "description": "The level of the permission (0 is the bottom).",
+    "lineNumber": 23,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 90,
+    "kind": "member",
+    "name": "check",
+    "memberof": "classes/Permission.js~Permission",
+    "static": false,
+    "longname": "classes/Permission.js~Permission#check",
+    "access": "public",
+    "description": "A test to see if a member has this permission.",
+    "lineNumber": 28,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Function"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 91,
+    "kind": "method",
+    "name": "deny",
+    "memberof": "classes/Permission.js~Permission",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Permission.js~Permission#deny",
+    "access": "public",
+    "description": "Denial message telling the user what level permission they need.",
+    "lineNumber": 34,
+    "return": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": "Denial message including permission name."
+    },
+    "params": []
+  },
+  {
+    "__docId__": 92,
+    "kind": "file",
+    "name": "classes/Setting.js",
+    "content": "/**\r\n * Class representing a setting.\r\n */\r\nclass Setting {\r\n  /**\r\n   * Create a setting.\r\n   * @param {Object}   data          An object with data to assign to the Setting.\r\n   * @param {String}   data.name     The name of the Setting.\r\n   * @param {String}   data.code     The (camelCase) code of the setting.\r\n   * @param {Function} data.onChange A function that gets executed whenever the value of the setting is changed.\r\n   * @param {Client}   bot           The bot object.\r\n   */\r\n  constructor ({ name, code, onChange }, bot) {\r\n    if (typeof name !== 'string') throw new Error(`setting cannot have name ${name}`)\r\n    if (typeof code !== 'string') throw new Error(`setting cannot have code ${code}`)\r\n    if (typeof onChange !== 'function') throw new Error(`setting cannot have onChange function ${onChange}`)\r\n    /**\r\n     * The name of the setting.\r\n     * @type {String}\r\n     */\r\n    this.name = name\r\n    /**\r\n     * The (camelCase) code of the setting.\r\n     * @type {String}\r\n     */\r\n    this.code = code\r\n    /**\r\n     * A function that gets executed whenever the value of the setting is changed.\r\n     * @type {Function}\r\n     */\r\n    this.onChange = onChange\r\n    /**\r\n     * The value of the setting.\r\n     * @type {*}\r\n     */\r\n    this.value = bot.config.DEFAULT[this.code]\r\n  }\r\n  /**\r\n   * Sets the value of the setting.\r\n   * @param  {*}      value The value to set.\r\n   * @param  {Client} bot   The bot object.\r\n   * @return {String}       Confirmation message.\r\n   */\r\n  setValue (value, bot) {\r\n    if (this.value === value) return `${this.name} is already ${this.value}!`\r\n    this.value = bot.config.DEFAULT[this.code] = value\r\n    this.save(bot.config)\r\n    this.onChange(bot, value)\r\n    return `${this.name} set to ${this.value}!`\r\n  }\r\n  /**\r\n   * Save settings to file.\r\n   * @param {Object} config The client's config object.\r\n   */\r\n  save (config) {\r\n    require('fs').writeFile('./config.json', JSON.stringify(config, undefined, 2), (err) => {\r\n      if (err) throw err\r\n    })\r\n  }\r\n}\r\n\r\nmodule.exports = Setting\r\n",
+    "static": true,
+    "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/Setting.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 93,
+    "kind": "class",
+    "name": "Setting",
+    "memberof": "classes/Setting.js",
+    "static": true,
+    "longname": "classes/Setting.js~Setting",
+    "access": "public",
+    "export": true,
+    "importPath": "eris-boiler/classes/Setting.js",
+    "importStyle": "Setting",
+    "description": "Class representing a setting.",
+    "lineNumber": 4,
+    "interface": false
+  },
+  {
+    "__docId__": 94,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "classes/Setting.js~Setting",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Setting.js~Setting#constructor",
+    "access": "public",
+    "description": "Create a setting.",
+    "lineNumber": 13,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data",
+        "description": "An object with data to assign to the Setting."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.name",
+        "description": "The name of the Setting."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.code",
+        "description": "The (camelCase) code of the setting."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Function"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "data.onChange",
+        "description": "A function that gets executed whenever the value of the setting is changed."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Client"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "bot",
+        "description": "The bot object."
+      }
+    ]
+  },
+  {
+    "__docId__": 95,
+    "kind": "member",
+    "name": "name",
+    "memberof": "classes/Setting.js~Setting",
+    "static": false,
+    "longname": "classes/Setting.js~Setting#name",
+    "access": "public",
+    "description": "The name of the setting.",
+    "lineNumber": 21,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 96,
+    "kind": "member",
+    "name": "code",
+    "memberof": "classes/Setting.js~Setting",
+    "static": false,
+    "longname": "classes/Setting.js~Setting#code",
+    "access": "public",
+    "description": "The (camelCase) code of the setting.",
+    "lineNumber": 26,
+    "type": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 97,
+    "kind": "member",
+    "name": "onChange",
+    "memberof": "classes/Setting.js~Setting",
+    "static": false,
+    "longname": "classes/Setting.js~Setting#onChange",
+    "access": "public",
+    "description": "A function that gets executed whenever the value of the setting is changed.",
+    "lineNumber": 31,
+    "type": {
+      "nullable": null,
+      "types": [
+        "Function"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 98,
+    "kind": "member",
+    "name": "value",
+    "memberof": "classes/Setting.js~Setting",
+    "static": false,
+    "longname": "classes/Setting.js~Setting#value",
+    "access": "public",
+    "description": "The value of the setting.",
+    "lineNumber": 36,
+    "type": {
+      "nullable": null,
+      "types": [
+        "*"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 99,
+    "kind": "method",
+    "name": "setValue",
+    "memberof": "classes/Setting.js~Setting",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Setting.js~Setting#setValue",
+    "access": "public",
+    "description": "Sets the value of the setting.",
+    "lineNumber": 44,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "value",
+        "description": "The value to set."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Client"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "bot",
+        "description": "The bot object."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": "Confirmation message."
+    }
+  },
+  {
+    "__docId__": 101,
+    "kind": "method",
+    "name": "save",
+    "memberof": "classes/Setting.js~Setting",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Setting.js~Setting#save",
+    "access": "public",
+    "description": "Save settings to file.",
+    "lineNumber": 55,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "config",
+        "description": "The client's config object."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 102,
+    "kind": "file",
+    "name": "classes/Status.js",
+    "content": "/**\r\n * Class representing the bot status.\r\n */\r\nclass Status {\r\n  /**\r\n   * Create a status.\r\n   */\r\n  constructor () {\r\n    /**\r\n     * The current status.\r\n     * @type     {Object}\r\n     * @property {String} name The name of the current status.\r\n     * @property {Number} type The type of the current status.\r\n     */\r\n    this.current = { name: '', type: 1 }\r\n    /**\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {String} 0 'Playing'\r\n     * @property {String} 1 'Streaming' (Twitch only)\r\n     * @property {String} 2 'Listening'\r\n     * @property {String} 3 'Watching'\r\n     */\r\n    this.type = {\r\n      0: 'Playing',\r\n      1: 'Streaming',\r\n      2: 'Listening',\r\n      3: 'Watching'\r\n    }\r\n    /**\r\n     * The interval for automatic status changes\r\n     * @type {Timeout}\r\n     */\r\n    this.interval = undefined\r\n  }\r\n  /**\r\n   * Set the status to the default.\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  default (bot) {\r\n    this.setStatus(bot, bot.config.DEFAULT.status)\r\n  }\r\n  /**\r\n   * Stop changing status automatically\r\n   */\r\n  endRotate () {\r\n    if (this.interval) this.interval = clearInterval(this.interval)\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot             The bot object.\r\n   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random\r\n   * @param {String} [status.name]   Name of status\r\n   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.\r\n   */\r\n  async setStatus (bot, { name, type = 0 }) {\r\n    let status\r\n    if (!name) {\r\n      const statuses = (await bot.dbm.getGames()).map((status) => {\r\n        return { name: status.name, type: status.type }\r\n      })\r\n      status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n      if (statuses.length > 1) {\r\n        while (status.name === this.current.name) {\r\n          status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n        }\r\n      }\r\n    }\r\n    status = { name, type }\r\n    bot.logger.log(`${this.type[status.type]} ${status.name}`, 'cyan')\r\n    bot.editStatus('online', status)\r\n    this.current = status\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  startRotate (bot) {\r\n    this.interval = setInterval(() => { this.setStatus(bot) }, 43200000)\r\n  }\r\n}\r\n\r\nmodule.exports = Status\r\n",
+    "static": true,
+    "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/Status.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 103,
+    "kind": "class",
+    "name": "Status",
+    "memberof": "classes/Status.js",
+    "static": true,
+    "longname": "classes/Status.js~Status",
+    "access": "public",
+    "export": true,
+    "importPath": "eris-boiler/classes/Status.js",
+    "importStyle": "Status",
+    "description": "Class representing the bot status.",
+    "lineNumber": 4,
+    "interface": false
+  },
+  {
+    "__docId__": 104,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "classes/Status.js~Status",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Status.js~Status#constructor",
+    "access": "public",
+    "description": "Create a status.",
+    "lineNumber": 8
+  },
+  {
+    "__docId__": 105,
+    "kind": "member",
+    "name": "current",
+    "memberof": "classes/Status.js~Status",
+    "static": false,
+    "longname": "classes/Status.js~Status#current",
+    "access": "public",
+    "description": "The current status.",
+    "lineNumber": 15,
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": "The name of the current status."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "type",
+        "description": "The type of the current status."
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 106,
+    "kind": "member",
+    "name": "type",
+    "memberof": "classes/Status.js~Status",
+    "static": false,
+    "longname": "classes/Status.js~Status#type",
+    "access": "public",
+    "description": null,
+    "lineNumber": 24,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"0\": string, \"1\": string, \"2\": string, \"3\": string}"
+      ]
+    }
+  },
+  {
+    "__docId__": 107,
+    "kind": "member",
+    "name": "interval",
+    "memberof": "classes/Status.js~Status",
+    "static": false,
+    "longname": "classes/Status.js~Status#interval",
+    "access": "public",
+    "description": null,
+    "lineNumber": 34,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 108,
+    "kind": "method",
+    "name": "default",
+    "memberof": "classes/Status.js~Status",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Status.js~Status#default",
+    "access": "public",
+    "description": "Set the status to the default.",
+    "lineNumber": 40,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Client"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "bot",
+        "description": "The bot object."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 109,
+    "kind": "method",
+    "name": "endRotate",
+    "memberof": "classes/Status.js~Status",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Status.js~Status#endRotate",
+    "access": "public",
+    "description": "Stop changing status automatically",
+    "lineNumber": 46,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 111,
+    "kind": "method",
+    "name": "setStatus",
+    "memberof": "classes/Status.js~Status",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "classes/Status.js~Status#setStatus",
+    "access": "public",
+    "description": "Set the status of the bot",
+    "lineNumber": 56,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Client"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "bot",
+        "description": "The bot object."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "status",
+        "description": "Status to set to, if none is given it will be chosen at random"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": true,
+        "name": "status.name",
+        "description": "Name of status"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "0",
+        "defaultRaw": 0,
+        "name": "status.type",
+        "description": "Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 113,
+    "kind": "method",
+    "name": "startRotate",
+    "memberof": "classes/Status.js~Status",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Status.js~Status#startRotate",
+    "access": "public",
+    "description": "Set the status of the bot",
+    "lineNumber": 78,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Client"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "bot",
+        "description": "The bot object."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 115,
+    "kind": "file",
+    "name": "classes/Toggle.js",
+    "content": "/**\r\n * Class representing a Toggle.\r\n * @extends {Setting}\r\n * @prop    {Boolean} value The value of the Toggle.\r\n */\r\nclass Toggle extends require('./Setting.js') {\r\n  /**\r\n   * Set the value of the Toggle to true.\r\n   * @param  {Client} bot   The bot object.\r\n   * @return {String}       Confirmation message.\r\n   */\r\n  enable (bot) {\r\n    return this.setValue(true, bot)\r\n  }\r\n  /**\r\n   * Set the value of the Toggle to false.\r\n   * @param  {Client} bot   The bot object.\r\n   * @return {String}       Confirmation message.\r\n   */\r\n  disable (bot) {\r\n    return this.setValue(false, bot)\r\n  }\r\n}\r\n\r\nmodule.exports = Toggle\r\n",
+    "static": true,
+    "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/Toggle.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 116,
+    "kind": "class",
+    "name": "Toggle",
+    "memberof": "classes/Toggle.js",
+    "static": true,
+    "longname": "classes/Toggle.js~Toggle",
+    "access": "public",
+    "export": true,
+    "importPath": "eris-boiler/classes/Toggle.js",
+    "importStyle": "Toggle",
+    "description": "Class representing a Toggle.",
+    "lineNumber": 6,
+    "unknown": [
+      {
+        "tagName": "@prop",
+        "tagValue": "   {Boolean} value The value of the Toggle."
+      }
+    ],
+    "interface": false,
+    "extends": [
+      "Setting"
+    ]
+  },
+  {
+    "__docId__": 117,
+    "kind": "method",
+    "name": "enable",
+    "memberof": "classes/Toggle.js~Toggle",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Toggle.js~Toggle#enable",
+    "access": "public",
+    "description": "Set the value of the Toggle to true.",
+    "lineNumber": 12,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Client"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "bot",
+        "description": "The bot object."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": "Confirmation message."
+    }
+  },
+  {
+    "__docId__": 118,
+    "kind": "method",
+    "name": "disable",
+    "memberof": "classes/Toggle.js~Toggle",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/Toggle.js~Toggle#disable",
+    "access": "public",
+    "description": "Set the value of the Toggle to false.",
+    "lineNumber": 20,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Client"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "bot",
+        "description": "The bot object."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": "Confirmation message."
+    }
+  },
+  {
+    "kind": "index",
+    "content": "# eris-boiler\r\nA Discord Bot boilerplate using JavaScript and the Eris library\r\n",
+    "longname": "C:\\Users\\Alex\\Source\\Repos\\eris-boiler\\README.md",
+    "name": "./README.md",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "packageJSON",
+    "content": "{\n  \"name\": \"eris-boiler\",\n  \"version\": \"2.0.0b\",\n  \"description\": \"A Discord Bot boilerplate using JavaScript and the Eris library\",\n  \"main\": \"bot.js\",\n  \"scripts\": {\n    \"test\": \"mocha --recursive test & standard & nodemon\",\n    \"doc\": \"./node_modules/.bin/esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/alex-taxiera/eris-boiler.git\"\n  },\n  \"keywords\": [\n    \"discord\",\n    \"bot\",\n    \"boiler\",\n    \"help\"\n  ],\n  \"author\": \"Alex Taxiera\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/alex-taxiera/eris-boiler/issues\"\n  },\n  \"homepage\": \"https://github.com/alex-taxiera/eris-boiler#readme\",\n  \"dependencies\": {\n    \"colors\": \"^1.2.1\",\n    \"eris\": \"^0.8.5\",\n    \"esdoc\": \"^1.0.4\",\n    \"esdoc-custom-theme\": \"^1.4.2\",\n    \"esdoc-inject-style-plugin\": \"^1.0.0\",\n    \"esdoc-node\": \"^1.0.3\",\n    \"esdoc-publish-html-plugin\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"knex\": \"^0.14.4\",\n    \"moment\": \"^2.21.0\",\n    \"mysql\": \"^2.15.0\",\n    \"npm\": \"^5.7.1\"\n  },\n  \"devDependencies\": {\n    \"mocha\": \"^5.0.5\",\n    \"nodemon\": \"^1.17.2\",\n    \"standard\": \"^10.0.3\"\n  }\n}\n",
+    "longname": "C:\\Users\\Alex\\Source\\Repos\\eris-boiler\\package.json",
+    "name": "package.json",
+    "static": true,
+    "access": "public"
+  }
+]
