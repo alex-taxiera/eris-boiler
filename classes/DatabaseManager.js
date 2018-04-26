@@ -25,7 +25,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
   addClient (id) {
-    return this.insert({ table: 'guild_settings', data: { id } })
+    return this._insert({ table: 'guild_settings', data: { id } })
   }
 
   /**
@@ -36,7 +36,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}             Returns 0 on success or undefined.
    */
   addStatus (status) {
-    return this.insert({ table: 'statuses', data: status })
+    return this._insert({ table: 'statuses', data: status })
   }
 
   /**
@@ -45,7 +45,7 @@ class DatabaseManager {
    * @return {Object}    The guild data.
    */
   async getClient (id) {
-    return (await this.select({ table: 'guild_settings', where: { id } }))[0]
+    return (await this._select({ table: 'guild_settings', where: { id } }))[0]
   }
 
   /**
@@ -53,7 +53,7 @@ class DatabaseManager {
    * @return {Object[]} Array of statuses, name and type.
    */
   async getStatuses () {
-    return this.select({ table: 'statuses' })
+    return this._select({ table: 'statuses' })
   }
 
   /**
@@ -86,7 +86,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
   removeClient (id) {
-    return this.del({ table: 'guild_settings', where: { id } })
+    return this._del({ table: 'guild_settings', where: { id } })
   }
 
   /**
@@ -96,7 +96,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}      Returns 0 on success or undefined.
    */
   updateClient (id, data) {
-    return this.update({ table: 'guild_settings', data, where: { id } })
+    return this._update({ table: 'guild_settings', data, where: { id } })
   }
 
   /**
@@ -107,7 +107,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}             Returns 0 on success or undefined.
    */
   updateDefaultStatus (status) {
-    return this.update({ table: 'games', data: status, where: { default: 1 } })
+    return this._update({ table: 'games', data: status, where: { default: 1 } })
   }
 
   /**
@@ -127,7 +127,7 @@ class DatabaseManager {
    * @param   {String}             table The name of the table.
    * @return  {(Number|undefined)}       Returns the number of rows on success or undefined.
    */
-  count (table) {
+  _count (table) {
     return this._knex(table).count('*')
     .then((val) => val[0]['count(*)'])
     .catch((e) => undefined)
@@ -141,7 +141,7 @@ class DatabaseManager {
    * @param   {Object}             data.where The condition to be met to find what to delete. Property name should match column name.
    * @return  {(Number|undefined)}            Returns 0 on success or undefined.
    */
-  del ({ table, where }) {
+  _del ({ table, where }) {
     return this._knex(table).where(where).del()
     .then((success) => 0)
     .catch((e) => undefined)
@@ -155,7 +155,7 @@ class DatabaseManager {
    * @param   {Object}             data.data  The data to insert. Property names should match column names.
    * @return  {(Number|undefined)}            Returns 0 on success or undefined.
    */
-  insert ({ table, data }) {
+  _insert ({ table, data }) {
     return this._knex(table).insert(data)
     .then((success) => 0)
     .catch((e) => undefined)
@@ -172,7 +172,7 @@ class DatabaseManager {
    * @param   {Object}               [data.where=true]  The condition to match your selection against. Property name should match column name.
    * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.
    */
-  async select ({ table, columns = '*', offset = 0, limit = null, where = true }) {
+  async _select ({ table, columns = '*', offset = 0, limit = null, where = true }) {
     if (!limit) limit = await this.count(table)
     return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
     .then((rows) => rows)
@@ -188,7 +188,7 @@ class DatabaseManager {
    * @param   {Object}             data.data  The data to update. Property names should match column names.
    * @return  {(Number|undefined)}            Returns 0 on success or undefined.
    */
-  update ({ table, where, data }) {
+  _update ({ table, where, data }) {
     return this._knex(table).where(where).update(data)
     .then((success) => 0)
     .catch((e) => undefined)
