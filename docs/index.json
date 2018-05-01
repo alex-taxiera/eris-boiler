@@ -2119,7 +2119,7 @@
     "__docId__": 102,
     "kind": "file",
     "name": "classes/Status.js",
-    "content": "/**\r\n * Class representing the bot status.\r\n */\r\nclass Status {\r\n  /**\r\n   * Create a status.\r\n   */\r\n  constructor () {\r\n    /**\r\n     * The current status.\r\n     * @type     {Object}\r\n     * @property {String} name The name of the current status.\r\n     * @property {Number} type The type of the current status.\r\n     */\r\n    this.current = { name: '', type: 1 }\r\n    /**\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {String} 0 'Playing'\r\n     * @property {String} 1 'Streaming' (Twitch only)\r\n     * @property {String} 2 'Listening'\r\n     * @property {String} 3 'Watching'\r\n     */\r\n    this.type = {\r\n      0: 'Playing',\r\n      1: 'Streaming',\r\n      2: 'Listening',\r\n      3: 'Watching'\r\n    }\r\n    /**\r\n     * The interval for automatic status changes\r\n     * @type {Timeout}\r\n     */\r\n    this.interval = undefined\r\n  }\r\n  /**\r\n   * Set the status to the default.\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  default (bot) {\r\n    this.setStatus(bot, bot.config.DEFAULT.status)\r\n  }\r\n  /**\r\n   * Stop changing status automatically\r\n   */\r\n  endRotate () {\r\n    if (this.interval) this.interval = clearInterval(this.interval)\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot             The bot object.\r\n   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random\r\n   * @param {String} [status.name]   Name of status\r\n   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.\r\n   */\r\n  async setStatus (bot, { name, type = 0 }) {\r\n    let status\r\n    if (!name) {\r\n      const statuses = (await bot.dbm.getGames()).map((status) => {\r\n        return { name: status.name, type: status.type }\r\n      })\r\n      status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n      if (statuses.length > 1) {\r\n        while (status.name === this.current.name) {\r\n          status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n        }\r\n      }\r\n    }\r\n    status = { name, type }\r\n    bot.logger.log(`${this.type[status.type]} ${status.name}`, 'cyan')\r\n    bot.editStatus('online', status)\r\n    this.current = status\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  startRotate (bot) {\r\n    this.interval = setInterval(() => { this.setStatus(bot) }, 43200000)\r\n  }\r\n}\r\n\r\nmodule.exports = Status\r\n",
+    "content": "const StatusType = require('./StatusType')\r\n/**\r\n * Class representing the bot status.\r\n */\r\nclass Status {\r\n  /**\r\n   * Create a status.\r\n   */\r\n  constructor () {\r\n    /**\r\n     * The current status.\r\n     * @type     {Object}\r\n     * @property {String} name The name of the current status.\r\n     * @property {Number} type The type of the current status.\r\n     */\r\n    this.current = { name: '', type: 1 }\r\n    /**\r\n     * StatusType data\r\n     * @type {StatusType}\r\n     */\r\n    this.type = new StatusType()\r\n    /**\r\n     * The interval for automatic status changes\r\n     * @type {Timeout}\r\n     */\r\n    this.interval = undefined\r\n  }\r\n  /**\r\n   * Set the status to the default.\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  default (bot) {\r\n    this.setStatus(bot, bot.config.DEFAULT.status)\r\n  }\r\n  /**\r\n   * Stop changing status automatically\r\n   */\r\n  endRotate () {\r\n    if (this.interval) this.interval = clearInterval(this.interval)\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot             The bot object.\r\n   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random\r\n   * @param {String} [status.name]   Name of status\r\n   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.\r\n   */\r\n  async setStatus (bot, { name, type = 0 }) {\r\n    let status\r\n    if (!name) {\r\n      const statuses = (await bot.dbm.getStatuses()).map((status) => {\r\n        return { name: status.name, type: status.type }\r\n      })\r\n      status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n      if (statuses.length > 1) {\r\n        while (status.name === this.current.name) {\r\n          status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n        }\r\n      }\r\n    }\r\n    status = { name, type }\r\n    bot.logger.log(`${this.type[status.type]} ${status.name}`, 'cyan')\r\n    bot.editStatus('online', status)\r\n    this.current = status\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  startRotate (bot) {\r\n    this.interval = setInterval(() => { this.setStatus(bot) }, 43200000)\r\n  }\r\n}\r\n\r\nmodule.exports = Status\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/Status.js",
     "access": "public",
@@ -2138,7 +2138,7 @@
     "importPath": "eris-boiler/classes/Status.js",
     "importStyle": "Status",
     "description": "Class representing the bot status.",
-    "lineNumber": 4,
+    "lineNumber": 5,
     "interface": false
   },
   {
@@ -2152,7 +2152,7 @@
     "longname": "classes/Status.js~Status#constructor",
     "access": "public",
     "description": "Create a status.",
-    "lineNumber": 8
+    "lineNumber": 9
   },
   {
     "__docId__": 105,
@@ -2163,7 +2163,7 @@
     "longname": "classes/Status.js~Status#current",
     "access": "public",
     "description": "The current status.",
-    "lineNumber": 15,
+    "lineNumber": 16,
     "properties": [
       {
         "nullable": null,
@@ -2204,11 +2204,11 @@
     "longname": "classes/Status.js~Status#type",
     "access": "public",
     "description": null,
-    "lineNumber": 24,
+    "lineNumber": 21,
     "undocument": true,
     "type": {
       "types": [
-        "{\"0\": string, \"1\": string, \"2\": string, \"3\": string}"
+        "*"
       ]
     }
   },
@@ -2220,13 +2220,15 @@
     "static": false,
     "longname": "classes/Status.js~Status#interval",
     "access": "public",
-    "description": null,
-    "lineNumber": 34,
-    "undocument": true,
+    "description": "The interval for automatic status changes",
+    "lineNumber": 26,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "Timeout"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -2240,7 +2242,7 @@
     "longname": "classes/Status.js~Status#default",
     "access": "public",
     "description": "Set the status to the default.",
-    "lineNumber": 40,
+    "lineNumber": 32,
     "params": [
       {
         "nullable": null,
@@ -2266,7 +2268,7 @@
     "longname": "classes/Status.js~Status#endRotate",
     "access": "public",
     "description": "Stop changing status automatically",
-    "lineNumber": 46,
+    "lineNumber": 38,
     "params": [],
     "return": null
   },
@@ -2281,7 +2283,7 @@
     "longname": "classes/Status.js~Status#setStatus",
     "access": "public",
     "description": "Set the status of the bot",
-    "lineNumber": 56,
+    "lineNumber": 48,
     "params": [
       {
         "nullable": null,
@@ -2339,7 +2341,7 @@
     "longname": "classes/Status.js~Status#startRotate",
     "access": "public",
     "description": "Set the status of the bot",
-    "lineNumber": 78,
+    "lineNumber": 70,
     "params": [
       {
         "nullable": null,
@@ -2357,6 +2359,141 @@
   {
     "__docId__": 115,
     "kind": "file",
+    "name": "classes/StatusType.js",
+    "content": "class StatusType {\r\n  constructor () {\r\n    /**\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} PLAYING   1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     */\r\n    this.num = {\r\n      PLAYING: 0,\r\n      STREAMING: 1,\r\n      LISTENING: 2,\r\n      WATCHING: 3\r\n    }\r\n  }\r\n  /**\r\n   * Get a status type string by num.\r\n   * @param  {Number} num The number type to lookup.\r\n   * @return {String}     The nice string name.\r\n   */\r\n  getStatusName (num) {\r\n    const strings = {\r\n      PLAYING: 'Playing',\r\n      STREAMING: 'Streaming',\r\n      LISTENING: 'Listening',\r\n      WATCHING: 'Watching'\r\n    }\r\n    for (let key of this.num) {\r\n      if (this.num[key] === num) return strings[key]\r\n    }\r\n  }\r\n}\r\n\r\nmodule.exports = StatusType\r\n",
+    "static": true,
+    "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/StatusType.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 116,
+    "kind": "class",
+    "name": "StatusType",
+    "memberof": "classes/StatusType.js",
+    "static": true,
+    "longname": "classes/StatusType.js~StatusType",
+    "access": "public",
+    "export": true,
+    "importPath": "eris-boiler/classes/StatusType.js",
+    "importStyle": "StatusType",
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "interface": false
+  },
+  {
+    "__docId__": 117,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "classes/StatusType.js~StatusType",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/StatusType.js~StatusType#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true
+  },
+  {
+    "__docId__": 118,
+    "kind": "member",
+    "name": "num",
+    "memberof": "classes/StatusType.js~StatusType",
+    "static": false,
+    "longname": "classes/StatusType.js~StatusType#num",
+    "access": "public",
+    "description": "Enum for status types",
+    "lineNumber": 11,
+    "properties": [
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "PLAYING",
+        "description": "0"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "PLAYING",
+        "description": "1 (Twitch only)"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "LISTENING",
+        "description": "2"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "WATCHING",
+        "description": "3"
+      }
+    ],
+    "type": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": null
+    }
+  },
+  {
+    "__docId__": 119,
+    "kind": "method",
+    "name": "getStatusName",
+    "memberof": "classes/StatusType.js~StatusType",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/StatusType.js~StatusType#getStatusName",
+    "access": "public",
+    "description": "Get a status type string by num.",
+    "lineNumber": 23,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "num",
+        "description": "The number type to lookup."
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": "The nice string name."
+    }
+  },
+  {
+    "__docId__": 120,
+    "kind": "file",
     "name": "classes/Toggle.js",
     "content": "/**\r\n * Class representing a Toggle.\r\n * @extends {Setting}\r\n * @prop    {Boolean} value The value of the Toggle.\r\n */\r\nclass Toggle extends require('./Setting.js') {\r\n  /**\r\n   * Set the value of the Toggle to true.\r\n   * @param  {Client} bot   The bot object.\r\n   * @return {String}       Confirmation message.\r\n   */\r\n  enable (bot) {\r\n    return this.setValue(true, bot)\r\n  }\r\n  /**\r\n   * Set the value of the Toggle to false.\r\n   * @param  {Client} bot   The bot object.\r\n   * @return {String}       Confirmation message.\r\n   */\r\n  disable (bot) {\r\n    return this.setValue(false, bot)\r\n  }\r\n}\r\n\r\nmodule.exports = Toggle\r\n",
     "static": true,
@@ -2366,7 +2503,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 116,
+    "__docId__": 121,
     "kind": "class",
     "name": "Toggle",
     "memberof": "classes/Toggle.js",
@@ -2390,7 +2527,7 @@
     ]
   },
   {
-    "__docId__": 117,
+    "__docId__": 122,
     "kind": "method",
     "name": "enable",
     "memberof": "classes/Toggle.js~Toggle",
@@ -2423,7 +2560,7 @@
     }
   },
   {
-    "__docId__": 118,
+    "__docId__": 123,
     "kind": "method",
     "name": "disable",
     "memberof": "classes/Toggle.js~Toggle",
@@ -2457,7 +2594,7 @@
   },
   {
     "kind": "index",
-    "content": "# eris-boiler\r\nA Discord Bot boilerplate using JavaScript and the Eris library\r\n",
+    "content": "# eris-boiler\r\nA Discord Bot boilerplate using JavaScript and the Eris library\r\n# Documentation\r\nClass documentation can be found [here](https://alex-taxiera.github.io/eris-boiler/)\r\n",
     "longname": "C:\\Users\\Alex\\Source\\Repos\\eris-boiler\\README.md",
     "name": "./README.md",
     "static": true,

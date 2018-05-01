@@ -36,6 +36,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "eris-boiler/classes/statustype.js~statustype",
+    "class/classes/StatusType.js~StatusType.html",
+    "<span>StatusType</span> <span class=\"search-result-import-path\">eris-boiler/classes/StatusType.js</span>",
+    "class"
+  ],
+  [
     "eris-boiler/classes/toggle.js~toggle",
     "class/classes/Toggle.js~Toggle.html",
     "<span>Toggle</span> <span class=\"search-result-import-path\">eris-boiler/classes/Toggle.js</span>",
@@ -645,6 +651,30 @@ window.esdocSearchIndex = [
     "classes/status.js~status#type",
     "class/classes/Status.js~Status.html#instance-member-type",
     "classes/Status.js~Status#type",
+    "member"
+  ],
+  [
+    "classes/statustype.js",
+    "file/classes/StatusType.js.html",
+    "classes/StatusType.js",
+    "file"
+  ],
+  [
+    "classes/statustype.js~statustype#constructor",
+    "class/classes/StatusType.js~StatusType.html#instance-constructor-constructor",
+    "classes/StatusType.js~StatusType#constructor",
+    "method"
+  ],
+  [
+    "classes/statustype.js~statustype#getstatusname",
+    "class/classes/StatusType.js~StatusType.html#instance-method-getStatusName",
+    "classes/StatusType.js~StatusType#getStatusName",
+    "method"
+  ],
+  [
+    "classes/statustype.js~statustype#num",
+    "class/classes/StatusType.js~StatusType.html#instance-member-num",
+    "classes/StatusType.js~StatusType#num",
     "member"
   ],
   [
