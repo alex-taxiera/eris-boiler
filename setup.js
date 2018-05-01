@@ -8,14 +8,20 @@ db.schema.createTable('guild_settings', (table) => {
   table.string('prefix').defaultTo(DEFAULT.prefix)
 })
 .then(() => {
-  db.schema.createTable('statuses', (table) => {
+  db.schema.createTable('guild_toggles', (table) => {
     table.charset('utf8')
-    table.string('name').primary()
-    table.integer('type').defaultTo(0)
-    table.boolean('default').defaultTo('false')
+    table.string('id').primary()
   })
   .then(() => {
-    db('statuses').insert({ name: DEFAULT.status, default: true })
-    .then(() => process.exit())
+    db.schema.createTable('statuses', (table) => {
+      table.charset('utf8')
+      table.string('name').primary()
+      table.integer('type').defaultTo(0)
+      table.boolean('default').defaultTo('false')
+    })
+    .then(() => {
+      db('statuses').insert({ name: DEFAULT.status, default: true })
+      .then(() => process.exit())
+    })
   })
 })
