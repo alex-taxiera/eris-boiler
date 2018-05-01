@@ -62,7 +62,7 @@ class DatabaseManager {
    */
   async initialize (guilds) {
     let tmpGuilds = new Map(guilds)
-    const saved = await this.select({ table: 'guild_settings' })
+    const saved = await this._select({ table: 'guild_settings' })
     if (saved) {
       for (let i = 0; i < saved.length; i++) {
         const id = saved[i].id
@@ -173,7 +173,7 @@ class DatabaseManager {
    * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.
    */
   async _select ({ table, columns = '*', offset = 0, limit = null, where = true }) {
-    if (!limit) limit = await this.count(table)
+    if (!limit) limit = await this._count(table)
     return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
     .then((rows) => rows)
     .catch((e) => undefined)
