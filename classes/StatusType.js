@@ -27,7 +27,7 @@ class StatusType {
       LISTENING: 'Listening',
       WATCHING: 'Watching'
     }
-    for (let key of this.num) {
+    for (let key in this.num) {
       if (this.num[key] === num) return strings[key]
     }
   }
