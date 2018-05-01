@@ -50,7 +50,7 @@ async function allow (bot, perm, msg) {
  * @return {Object}                  A properly formatted response.
  */
 function parseResponse (message) {
-  const delay = message.delay || false
+  let delay = message.delay || 10000
   if (typeof message === 'object') {
     const { content, embed } = message
     if (embed) {
