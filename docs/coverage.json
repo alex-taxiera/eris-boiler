@@ -1,7 +1,7 @@
 {
-  "coverage": "96.49%",
-  "expectCount": 57,
-  "actualCount": 55,
+  "coverage": "95.08%",
+  "expectCount": 61,
+  "actualCount": 58,
   "files": {
     "classes/Command.js": {
       "expectCount": 9,
@@ -30,10 +30,17 @@
     },
     "classes/Status.js": {
       "expectCount": 9,
-      "actualCount": 7,
+      "actualCount": 8,
       "undocumentLines": [
-        24,
-        34
+        21
+      ]
+    },
+    "classes/StatusType.js": {
+      "expectCount": 4,
+      "actualCount": 2,
+      "undocumentLines": [
+        1,
+        2
       ]
     },
     "classes/Toggle.js": {
