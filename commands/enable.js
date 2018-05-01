@@ -2,12 +2,16 @@ const Command = require('../classes/Command.js')
 
 module.exports = new Command({
   name: 'enable',
-  description: 'enable a global setting',
+  description: 'enable a guild-wide option',
   parameters: ['toggleName'],
   permission: 'Admin',
-  run: async ({ params, bot }) => {
-    const toggle = bot.toggles.get(params[0])
-    if (!toggle) return 'Specify option to enable'
-    return toggle.enable(bot)
+  run: async ({ msg, params, bot }) => {
+    const id = msg.channel.guild.id
+
+    switch (params[0]) {
+      default:
+        // follow same organization as set.js, calling toggle.enable
+        return 'Specify option to disable!'
+    }
   }
 })
