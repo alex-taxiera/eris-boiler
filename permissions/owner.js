@@ -3,6 +3,6 @@ const Permission = require('../classes/Permission.js')
 module.exports = new Permission({
   name: 'Guild Owner',
   level: 80,
-  check: (member) => member.id === member.guild.ownerID,
+  check: async (member) => member.id === member.guild.ownerID,
   deny: () => 'Must be guild owner!'
 })
