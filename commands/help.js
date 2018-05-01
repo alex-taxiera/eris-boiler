@@ -15,7 +15,7 @@ module.exports = new Command({
       content = 'Available commands:```'
       let commands = []
       for (let [key, val] of bot.commands) {
-        if (!bot.permissions.get(val.permission).check(msg.member, bot)) continue
+        if (!await bot.permissions.get(val.permission).check(msg.member, bot)) continue
         commands.push({ name: key + ':', desc: val.description })
       }
       const long = commands.sort((a, b) => (a - b) * -1)[0].name.length + 2
