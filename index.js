@@ -23,6 +23,44 @@ bot = Object.assign(bot, {
 start()
 
 async function start () {
+  /* set up database */
+  const db1 = bot.dbm._knex.schema.hasTable('guild_settings')
+  .then((exists) => {
+    if (exists) return
+    return bot.dbm._knex.schema.createTable('guild_settings', (table) => {
+      table.charset('utf8')
+      table.string('id').primary()
+      table.string('vip')
+      table.string('prefix').defaultTo(bot.config.DEFAULT.prefix)
+    })
+  })
+
+  const db2 = bot.dbm._knex.schema.hasTable('guild_toggles')
+  .then((exists) => {
+    if (exists) return
+    return bot.dbm._knex.schema.createTable('guild_toggles', (table) => {
+      table.charset('utf8')
+      table.string('id').primary()
+      // add toggleable values
+    })
+  })
+
+  const db3 = bot.dbm._knex.schema.hasTable('statuses')
+  .then((exists) => {
+    if (exists) return
+    return bot.dbm._knex.schema.createTable('statuses', (table) => {
+      table.charset('utf8')
+      table.string('name').primary()
+      table.integer('type').defaultTo(0)
+      table.boolean('default').defaultTo('false')
+    })
+    .then(() => {
+      bot.dbm._insert({ table: 'statuses', data: bot.config.DEFAULT.status })
+    })
+  })
+
+  await Promise.all([db1, db2, db3])
+
   /* require functions made to load modules */
   const loaders = await readdir(path.join(__dirname, './loaders/'))
   bot.logger.log(`Loading a total of ${loaders.length} loader functions`)
