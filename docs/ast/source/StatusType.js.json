@@ -850,7 +850,7 @@
                     "kind": "const"
                   },
                   {
-                    "type": "ForOfStatement",
+                    "type": "ForInStatement",
                     "start": 727,
                     "end": 815,
                     "loc": {
@@ -2075,7 +2075,7 @@
                       "kind": "const"
                     },
                     {
-                      "type": "ForOfStatement",
+                      "type": "ForInStatement",
                       "start": 727,
                       "end": 815,
                       "loc": {
@@ -4018,17 +4018,19 @@
     },
     {
       "type": {
-        "label": "name",
-        "beforeExpr": false,
-        "startsExpr": true,
+        "label": "in",
+        "keyword": "in",
+        "beforeExpr": true,
+        "startsExpr": false,
         "rightAssociative": false,
         "isLoop": false,
         "isAssign": false,
         "prefix": false,
         "postfix": false,
-        "binop": null
+        "binop": 7,
+        "updateContext": null
       },
-      "value": "of",
+      "value": "in",
       "start": 740,
       "end": 742,
       "loc": {
