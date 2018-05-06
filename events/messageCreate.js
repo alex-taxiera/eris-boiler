@@ -25,9 +25,9 @@ module.exports = async (bot, msg) => {
   command.run({ params, bot, msg })
   .then((response) => {
     if (!response) return
-    const { message, delay } = parseResponse(response)
-    return msg.channel.createMessage(message)
-    .then((m) => { if (delay) setTimeout(() => m.delete(), delay) })
+    const { content, delay } = parseResponse(response)
+    return msg.channel.createMessage(content)
+    .then((m) => { if (delay > 0) setTimeout(() => m.delete(), delay) })
     .catch(console.error)
   })
 }
@@ -46,18 +46,21 @@ async function allow (bot, perm, msg) {
 
 /**
  * Parse the response from a command.
- * @param  {(Object|String)} message The return value of the command.
- * @return {Object}                  A properly formatted response.
+ * @param    {(Object|String)}  response        The return value of the command.
+ * @return   {Object}                           A properly formatted response.
+ * @property {Number}           delay           The amount of time to wait before deleting the response.
+ * @property {Object}           content         The content to pass createMessage
+ * @property {String}           content.content The string content of the response.
+ * @property {Object|undefined} content.embed   The embed object of the response.
  */
-function parseResponse (message) {
-  let delay = message.delay || 10000
-  if (typeof message === 'object') {
-    const { content, embed } = message
-    if (embed) {
-      message = { content, embed }
-    } else {
-      message = content
+function parseResponse (response) {
+  const message = {
+    delay: response.delay || 10000,
+    content: {
+      content: response.content || '',
+      embed: response.embed || undefined
     }
   }
-  return { message, delay }
+  if (typeof response === 'string') message.content.content = response
+  return message
 }
