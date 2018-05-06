@@ -820,7 +820,7 @@
     "__docId__": 58,
     "kind": "file",
     "name": "classes/DatabaseManager.js",
-    "content": "/**\r\n * Class representing a database manager.\r\n */\r\nclass DatabaseManager {\r\n  /**\r\n   * Create a database manager.\r\n   * @param {Object} DB_CREDENTIALS          The credentials to create the db connection. This should be filled in the config file.\r\n   * @param {String} DB_CREDENTIALS.database The name of your database.\r\n   * @param {String} DB_CREDENTIALS.host     The address of your database.\r\n   * @param {String} DB_CREDENTIALS.user     The username to login with.\r\n   * @param {String} DB_CREDENTIALS.password The password associated with your user.\r\n   */\r\n  constructor (DB_CREDENTIALS) {\r\n    /**\r\n     * The knex query builder.\r\n     * @private\r\n     * @type    {Function}\r\n     */\r\n    this._knex = require('knex')({ client: 'mysql', connection: DB_CREDENTIALS })\r\n  }\r\n\r\n  /**\r\n   * Insert a guild into the guild_settings table.\r\n   * @param  {String}             id The ID of the guild\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  addClient (id) {\r\n    return this.insert({ table: 'guild_settings', data: { id } })\r\n  }\r\n\r\n  /**\r\n   * Insert a status into the statuses table.\r\n   * @param  {Object}             status      The status to make default.\r\n   * @param  {String}             status.name The name of the status.\r\n   * @param  {Number}             status.type The type of the status.\r\n   * @return {(Number|undefined)}             Returns 0 on success or undefined.\r\n   */\r\n  addStatus (status) {\r\n    return this.insert({ table: 'statuses', data: status })\r\n  }\r\n\r\n  /**\r\n   * Get data on a guild from the guild_settings table\r\n   * @param  {String} id The ID of the guild.\r\n   * @return {Object}    The guild data.\r\n   */\r\n  async getClient (id) {\r\n    return (await this.select({ table: 'guild_settings', where: { id } }))[0]\r\n  }\r\n\r\n  /**\r\n   * Get the statuses of the bot from the statuses table.\r\n   * @return {Object[]} Array of statuses, name and type.\r\n   */\r\n  async getStatuses () {\r\n    return this.select({ table: 'statuses' })\r\n  }\r\n\r\n  /**\r\n   * Check saved guild data against live guild data.\r\n   * @param {Collection<Guild>} guilds The bots collection of guilds at start up.\r\n   */\r\n  async initialize (guilds) {\r\n    let tmpGuilds = new Map(guilds)\r\n    const saved = await this.select({ table: 'guild_settings' })\r\n    if (saved) {\r\n      for (let i = 0; i < saved.length; i++) {\r\n        const id = saved[i].id\r\n        const guild = tmpGuilds.get(id)\r\n        if (guild) {\r\n          tmpGuilds.delete(id)\r\n          if (saved[i].vip && !guild.roles.get(saved[i].vip)) this.updateClient(id, { vip: null })\r\n          continue\r\n        }\r\n        await this.removeClient(saved[i].id)\r\n      }\r\n    }\r\n    for (const [id] of tmpGuilds) {\r\n      this.addClient(id)\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Remove a guild from the guild_settings table.\r\n   * @param  {String}             id The guild ID to remove.\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  removeClient (id) {\r\n    return this.del({ table: 'guild_settings', where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Update a guild entry in the guild_settings table.\r\n   * @param  {String}             id   The ID of the guild.\r\n   * @param  {Object}             data The data to update. Property names should match column names.\r\n   * @return {(Number|undefined)}      Returns 0 on success or undefined.\r\n   */\r\n  updateClient (id, data) {\r\n    return this.update({ table: 'guild_settings', data, where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Update the default status of the bot.\r\n   * @param  {Object}             status      The status to make default.\r\n   * @param  {String}             status.name The name of the status.\r\n   * @param  {Number}             status.type The type of the status.\r\n   * @return {(Number|undefined)}             Returns 0 on success or undefined.\r\n   */\r\n  updateDefaultStatus (status) {\r\n    return this.update({ table: 'games', data: status, where: { default: 1 } })\r\n  }\r\n\r\n  /**\r\n   * Update the default prefix in the guild_settings table. Not available with SQLite.\r\n   * @param {String} prefix The prefix to set as default.\r\n   */\r\n  updateDefaultPrefix (prefix) {\r\n    this._knex.schema.alterTable('guild_settings', (table) => {\r\n      table.string('prefix').defaultTo(prefix)\r\n    })\r\n  }\r\n\r\n  // private methods\r\n  /**\r\n   * Get the number of rows in a table.\r\n   * @private\r\n   * @param   {String}             table The name of the table.\r\n   * @return  {(Number|undefined)}       Returns the number of rows on success or undefined.\r\n   */\r\n  count (table) {\r\n    return this._knex(table).count('*')\r\n    .then((val) => val[0]['count(*)'])\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Delete an entry from a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to delete. Property name should match column name.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  del ({ table, where }) {\r\n    return this._knex(table).where(where).del()\r\n    .then((success) => 0)\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Insert an entry into a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.data  The data to insert. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  insert ({ table, data }) {\r\n    return this._knex(table).insert(data)\r\n    .then((success) => 0)\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Select entries from a table.\r\n   * @private\r\n   * @param   {Object}               data               The query data.\r\n   * @param   {String}               data.table         The name of the table.\r\n   * @param   {(String[]|String)}    [data.columns='*'] The column(s) to select.\r\n   * @param   {Number}               [data.offset=0]    The amount of rows to skip before selecting.\r\n   * @param   {Number}               [data.limit=null]  The amount of rows to select. Will be set to all columns if null.\r\n   * @param   {Object}               [data.where=true]  The condition to match your selection against. Property name should match column name.\r\n   * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.\r\n   */\r\n  async select ({ table, columns = '*', offset = 0, limit = null, where = true }) {\r\n    if (!limit) limit = await this.count(table)\r\n    return this._knex(table).select(columns).where(where).offset(offset).limit(limit)\r\n    .then((rows) => rows)\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Update entries in a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to update. Property name should match column name.\r\n   * @param   {Object}             data.data  The data to update. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  update ({ table, where, data }) {\r\n    return this._knex(table).where(where).update(data)\r\n    .then((success) => 0)\r\n    .catch((e) => undefined)\r\n  }\r\n}\r\n\r\nmodule.exports = DatabaseManager\r\n",
+    "content": "/**\r\n * Class representing a database manager.\r\n */\r\nclass DatabaseManager {\r\n  /**\r\n   * Create a database manager.\r\n   * @param {Object} DB_CREDENTIALS          The credentials to create the db connection. This should be filled in the config file.\r\n   * @param {String} DB_CREDENTIALS.database The name of your database.\r\n   * @param {String} DB_CREDENTIALS.host     The address of your database.\r\n   * @param {String} DB_CREDENTIALS.user     The username to login with.\r\n   * @param {String} DB_CREDENTIALS.password The password associated with your user.\r\n   */\r\n  constructor (DB_CREDENTIALS) {\r\n    /**\r\n     * The knex query builder.\r\n     * @private\r\n     * @type    {Function}\r\n     */\r\n    this._knex = require('knex')({ client: 'mysql', connection: DB_CREDENTIALS })\r\n  }\r\n\r\n  /**\r\n   * Insert a guild into the guild_settings table.\r\n   * @param  {String}             id The ID of the guild\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  addClient (id) {\r\n    return this._insert({ table: 'guild_settings', data: { id } })\r\n  }\r\n\r\n  /**\r\n   * Insert a status into the statuses table.\r\n   * @param  {Object}             status      The status to make default.\r\n   * @param  {String}             status.name The name of the status.\r\n   * @param  {Number}             status.type The type of the status.\r\n   * @return {(Number|undefined)}             Returns 0 on success or undefined.\r\n   */\r\n  addStatus (status) {\r\n    return this._insert({ table: 'statuses', data: status })\r\n  }\r\n\r\n  /**\r\n   * Get data on a guild from the guild_settings table\r\n   * @param  {String} id The ID of the guild.\r\n   * @return {Object}    The guild data.\r\n   */\r\n  async getClient (id) {\r\n    return (await this._select({ table: 'guild_settings', where: { id } }))[0]\r\n  }\r\n\r\n  /**\r\n   * Get the statuses of the bot from the statuses table.\r\n   * @return {Object[]} Array of statuses, name and type.\r\n   */\r\n  async getStatuses () {\r\n    return this._select({ table: 'statuses' })\r\n  }\r\n\r\n  /**\r\n   * Check saved guild data against live guild data.\r\n   * @param {Collection<Guild>} guilds The bots collection of guilds at start up.\r\n   */\r\n  async initialize (guilds) {\r\n    let tmpGuilds = new Map(guilds)\r\n    const saved = await this._select({ table: 'guild_settings' })\r\n    if (saved) {\r\n      for (let i = 0; i < saved.length; i++) {\r\n        const id = saved[i].id\r\n        const guild = tmpGuilds.get(id)\r\n        if (guild) {\r\n          tmpGuilds.delete(id)\r\n          if (saved[i].vip && !guild.roles.get(saved[i].vip)) this.updateClient(id, { vip: null })\r\n          continue\r\n        }\r\n        await this.removeClient(saved[i].id)\r\n      }\r\n    }\r\n    for (const [id] of tmpGuilds) {\r\n      this.addClient(id)\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Remove a guild from the guild_settings table.\r\n   * @param  {String}             id The guild ID to remove.\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  removeClient (id) {\r\n    return this._del({ table: 'guild_settings', where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Update a guild entry in the guild_settings table.\r\n   * @param  {String}             id   The ID of the guild.\r\n   * @param  {Object}             data The data to update. Property names should match column names.\r\n   * @return {(Number|undefined)}      Returns 0 on success or undefined.\r\n   */\r\n  updateClient (id, data) {\r\n    return this._update({ table: 'guild_settings', data, where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Update the default status of the bot.\r\n   * @param  {Object}             status      The status to make default.\r\n   * @param  {String}             status.name The name of the status.\r\n   * @param  {Number}             status.type The type of the status.\r\n   * @return {(Number|undefined)}             Returns 0 on success or undefined.\r\n   */\r\n  updateDefaultStatus (status) {\r\n    return this._update({ table: 'games', data: status, where: { default: 1 } })\r\n  }\r\n\r\n  /**\r\n   * Update the default prefix in the guild_settings table. Not available with SQLite.\r\n   * @param {String} prefix The prefix to set as default.\r\n   */\r\n  updateDefaultPrefix (prefix) {\r\n    this._knex.schema.alterTable('guild_settings', (table) => {\r\n      table.string('prefix').defaultTo(prefix)\r\n    })\r\n  }\r\n\r\n  // private methods\r\n  /**\r\n   * Get the number of rows in a table.\r\n   * @private\r\n   * @param   {String}             table The name of the table.\r\n   * @return  {(Number|undefined)}       Returns the number of rows on success or undefined.\r\n   */\r\n  _count (table) {\r\n    return this._knex(table).count('*')\r\n    .then((val) => val[0]['count(*)'])\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Delete an entry from a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to delete. Property name should match column name.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  _del ({ table, where }) {\r\n    return this._knex(table).where(where).del()\r\n    .then((success) => 0)\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Insert an entry into a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.data  The data to insert. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  _insert ({ table, data }) {\r\n    return this._knex(table).insert(data)\r\n    .then((success) => 0)\r\n    .catch((e) => e)\r\n  }\r\n\r\n  /**\r\n   * Select entries from a table.\r\n   * @private\r\n   * @param   {Object}               data               The query data.\r\n   * @param   {String}               data.table         The name of the table.\r\n   * @param   {(String[]|String)}    [data.columns='*'] The column(s) to select.\r\n   * @param   {Number}               [data.offset=0]    The amount of rows to skip before selecting.\r\n   * @param   {Number}               [data.limit=null]  The amount of rows to select. Will be set to all columns if null.\r\n   * @param   {Object}               [data.where=true]  The condition to match your selection against. Property name should match column name.\r\n   * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.\r\n   */\r\n  async _select ({ table, columns = '*', offset = 0, limit = null, where = true }) {\r\n    if (!limit) limit = (await this._count(table)) || 0\r\n    return this._knex(table).select(columns).where(where).offset(offset).limit(limit)\r\n    .then((rows) => rows)\r\n    .catch((e) => undefined)\r\n  }\r\n\r\n  /**\r\n   * Update entries in a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to update. Property name should match column name.\r\n   * @param   {Object}             data.data  The data to update. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  _update ({ table, where, data }) {\r\n    return this._knex(table).where(where).update(data)\r\n    .then((success) => 0)\r\n    .catch((e) => undefined)\r\n  }\r\n}\r\n\r\nmodule.exports = DatabaseManager\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/DatabaseManager.js",
     "access": "public",
@@ -1256,12 +1256,12 @@
   {
     "__docId__": 71,
     "kind": "method",
-    "name": "count",
+    "name": "_count",
     "memberof": "classes/DatabaseManager.js~DatabaseManager",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "classes/DatabaseManager.js~DatabaseManager#count",
+    "longname": "classes/DatabaseManager.js~DatabaseManager#_count",
     "access": "private",
     "description": "Get the number of rows in a table.",
     "lineNumber": 130,
@@ -1290,12 +1290,12 @@
   {
     "__docId__": 72,
     "kind": "method",
-    "name": "del",
+    "name": "_del",
     "memberof": "classes/DatabaseManager.js~DatabaseManager",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "classes/DatabaseManager.js~DatabaseManager#del",
+    "longname": "classes/DatabaseManager.js~DatabaseManager#_del",
     "access": "private",
     "description": "Delete an entry from a table.",
     "lineNumber": 144,
@@ -1344,12 +1344,12 @@
   {
     "__docId__": 73,
     "kind": "method",
-    "name": "insert",
+    "name": "_insert",
     "memberof": "classes/DatabaseManager.js~DatabaseManager",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "classes/DatabaseManager.js~DatabaseManager#insert",
+    "longname": "classes/DatabaseManager.js~DatabaseManager#_insert",
     "access": "private",
     "description": "Insert an entry into a table.",
     "lineNumber": 158,
@@ -1398,12 +1398,12 @@
   {
     "__docId__": 74,
     "kind": "method",
-    "name": "select",
+    "name": "_select",
     "memberof": "classes/DatabaseManager.js~DatabaseManager",
     "generator": false,
     "async": true,
     "static": false,
-    "longname": "classes/DatabaseManager.js~DatabaseManager#select",
+    "longname": "classes/DatabaseManager.js~DatabaseManager#_select",
     "access": "private",
     "description": "Select entries from a table.",
     "lineNumber": 175,
@@ -1491,12 +1491,12 @@
   {
     "__docId__": 75,
     "kind": "method",
-    "name": "update",
+    "name": "_update",
     "memberof": "classes/DatabaseManager.js~DatabaseManager",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "classes/DatabaseManager.js~DatabaseManager#update",
+    "longname": "classes/DatabaseManager.js~DatabaseManager#_update",
     "access": "private",
     "description": "Update entries in a table.",
     "lineNumber": 191,
@@ -2119,7 +2119,7 @@
     "__docId__": 102,
     "kind": "file",
     "name": "classes/Status.js",
-    "content": "const StatusType = require('./StatusType')\r\n/**\r\n * Class representing the bot status.\r\n */\r\nclass Status {\r\n  /**\r\n   * Create a status.\r\n   */\r\n  constructor () {\r\n    /**\r\n     * The current status.\r\n     * @type     {Object}\r\n     * @property {String} name The name of the current status.\r\n     * @property {Number} type The type of the current status.\r\n     */\r\n    this.current = { name: '', type: 1 }\r\n    /**\r\n     * StatusType data\r\n     * @type {StatusType}\r\n     */\r\n    this.type = new StatusType()\r\n    /**\r\n     * The interval for automatic status changes\r\n     * @type {Timeout}\r\n     */\r\n    this.interval = undefined\r\n  }\r\n  /**\r\n   * Set the status to the default.\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  default (bot) {\r\n    this.setStatus(bot, bot.config.DEFAULT.status)\r\n  }\r\n  /**\r\n   * Stop changing status automatically\r\n   */\r\n  endRotate () {\r\n    if (this.interval) this.interval = clearInterval(this.interval)\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot             The bot object.\r\n   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random\r\n   * @param {String} [status.name]   Name of status\r\n   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.\r\n   */\r\n  async setStatus (bot, { name, type = 0 }) {\r\n    let status\r\n    if (!name) {\r\n      const statuses = (await bot.dbm.getStatuses()).map((status) => {\r\n        return { name: status.name, type: status.type }\r\n      })\r\n      status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n      if (statuses.length > 1) {\r\n        while (status.name === this.current.name) {\r\n          status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n        }\r\n      }\r\n    }\r\n    status = { name, type }\r\n    bot.logger.log(`${this.type[status.type]} ${status.name}`, 'cyan')\r\n    bot.editStatus('online', status)\r\n    this.current = status\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  startRotate (bot) {\r\n    this.interval = setInterval(() => { this.setStatus(bot) }, 43200000)\r\n  }\r\n}\r\n\r\nmodule.exports = Status\r\n",
+    "content": "/**\r\n * Class representing the bot status.\r\n */\r\nclass Status {\r\n  /**\r\n   * Create a status.\r\n   */\r\n  constructor () {\r\n    /**\r\n     * The current status.\r\n     * @type     {Object}\r\n     * @property {String} name The name of the current status.\r\n     * @property {Number} type The type of the current status.\r\n     */\r\n    this.current = { name: '', type: 1 }\r\n    /**\r\n     * StatusType data\r\n     * @private\r\n     * @type {StatusType}\r\n     */\r\n    this._type = new (require('./StatusType'))()\r\n    /**\r\n     * The interval for automatic status changes\r\n     * @private\r\n     */\r\n    this._interval = undefined\r\n  }\r\n  /**\r\n   * Set the status to the default.\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  default (bot) {\r\n    this.setStatus(bot, bot.config.DEFAULT.status)\r\n  }\r\n  /**\r\n   * Stop changing status automatically\r\n   */\r\n  endRotate () {\r\n    if (this._interval) this._interval = clearInterval(this._interval)\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot             The bot object.\r\n   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random\r\n   * @param {String} [status.name]   Name of status\r\n   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.\r\n   */\r\n  async setStatus (bot, { name, type = 0 }) {\r\n    let status\r\n    if (!name) {\r\n      const statuses = (await bot.dbm.getStatuses()).map((status) => {\r\n        return { name: status.name, type: status.type }\r\n      })\r\n      status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n      if (statuses.length > 1) {\r\n        while (status.name === this.current.name) {\r\n          status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n        }\r\n      }\r\n    }\r\n    status = { name, type }\r\n    bot.logger.log(`${this._type.getStatusName(status.type)} ${status.name}`, 'cyan')\r\n    bot.editStatus('online', status)\r\n    this.current = status\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {Client} bot The bot object.\r\n   */\r\n  startRotate (bot) {\r\n    this._interval = setInterval(() => { this.setStatus(bot) }, 43200000)\r\n  }\r\n}\r\n\r\nmodule.exports = Status\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/Status.js",
     "access": "public",
@@ -2138,7 +2138,7 @@
     "importPath": "eris-boiler/classes/Status.js",
     "importStyle": "Status",
     "description": "Class representing the bot status.",
-    "lineNumber": 5,
+    "lineNumber": 4,
     "interface": false
   },
   {
@@ -2152,7 +2152,7 @@
     "longname": "classes/Status.js~Status#constructor",
     "access": "public",
     "description": "Create a status.",
-    "lineNumber": 9
+    "lineNumber": 8
   },
   {
     "__docId__": 105,
@@ -2163,7 +2163,7 @@
     "longname": "classes/Status.js~Status#current",
     "access": "public",
     "description": "The current status.",
-    "lineNumber": 16,
+    "lineNumber": 15,
     "properties": [
       {
         "nullable": null,
@@ -2198,11 +2198,11 @@
   {
     "__docId__": 106,
     "kind": "member",
-    "name": "type",
+    "name": "_type",
     "memberof": "classes/Status.js~Status",
     "static": false,
-    "longname": "classes/Status.js~Status#type",
-    "access": "public",
+    "longname": "classes/Status.js~Status#_type",
+    "access": "private",
     "description": null,
     "lineNumber": 21,
     "undocument": true,
@@ -2215,20 +2215,17 @@
   {
     "__docId__": 107,
     "kind": "member",
-    "name": "interval",
+    "name": "_interval",
     "memberof": "classes/Status.js~Status",
     "static": false,
-    "longname": "classes/Status.js~Status#interval",
-    "access": "public",
+    "longname": "classes/Status.js~Status#_interval",
+    "access": "private",
     "description": "The interval for automatic status changes",
     "lineNumber": 26,
     "type": {
-      "nullable": null,
       "types": [
-        "Timeout"
-      ],
-      "spread": false,
-      "description": null
+        "*"
+      ]
     }
   },
   {
@@ -2360,7 +2357,7 @@
     "__docId__": 115,
     "kind": "file",
     "name": "classes/StatusType.js",
-    "content": "class StatusType {\r\n  constructor () {\r\n    /**\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} PLAYING   1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     */\r\n    this.num = {\r\n      PLAYING: 0,\r\n      STREAMING: 1,\r\n      LISTENING: 2,\r\n      WATCHING: 3\r\n    }\r\n  }\r\n  /**\r\n   * Get a status type string by num.\r\n   * @param  {Number} num The number type to lookup.\r\n   * @return {String}     The nice string name.\r\n   */\r\n  getStatusName (num) {\r\n    const strings = {\r\n      PLAYING: 'Playing',\r\n      STREAMING: 'Streaming',\r\n      LISTENING: 'Listening',\r\n      WATCHING: 'Watching'\r\n    }\r\n    for (let key of this.num) {\r\n      if (this.num[key] === num) return strings[key]\r\n    }\r\n  }\r\n}\r\n\r\nmodule.exports = StatusType\r\n",
+    "content": "class StatusType {\r\n  constructor () {\r\n    /**\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} PLAYING   1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     */\r\n    this.num = {\r\n      PLAYING: 0,\r\n      STREAMING: 1,\r\n      LISTENING: 2,\r\n      WATCHING: 3\r\n    }\r\n  }\r\n  /**\r\n   * Get a status type string by num.\r\n   * @param  {Number} num The number type to lookup.\r\n   * @return {String}     The nice string name.\r\n   */\r\n  getStatusName (num) {\r\n    const strings = {\r\n      PLAYING: 'Playing',\r\n      STREAMING: 'Streaming',\r\n      LISTENING: 'Listening',\r\n      WATCHING: 'Watching'\r\n    }\r\n    for (let key in this.num) {\r\n      if (this.num[key] === num) return strings[key]\r\n    }\r\n  }\r\n}\r\n\r\nmodule.exports = StatusType\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/classes/StatusType.js",
     "access": "public",

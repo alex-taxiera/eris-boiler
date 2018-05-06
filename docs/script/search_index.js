@@ -390,10 +390,40 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "classes/databasemanager.js~databasemanager#_count",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_count",
+    "classes/DatabaseManager.js~DatabaseManager#_count",
+    "method"
+  ],
+  [
+    "classes/databasemanager.js~databasemanager#_del",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_del",
+    "classes/DatabaseManager.js~DatabaseManager#_del",
+    "method"
+  ],
+  [
+    "classes/databasemanager.js~databasemanager#_insert",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_insert",
+    "classes/DatabaseManager.js~DatabaseManager#_insert",
+    "method"
+  ],
+  [
     "classes/databasemanager.js~databasemanager#_knex",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-member-_knex",
     "classes/DatabaseManager.js~DatabaseManager#_knex",
     "member"
+  ],
+  [
+    "classes/databasemanager.js~databasemanager#_select",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_select",
+    "classes/DatabaseManager.js~DatabaseManager#_select",
+    "method"
+  ],
+  [
+    "classes/databasemanager.js~databasemanager#_update",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_update",
+    "classes/DatabaseManager.js~DatabaseManager#_update",
+    "method"
   ],
   [
     "classes/databasemanager.js~databasemanager#addclient",
@@ -411,18 +441,6 @@ window.esdocSearchIndex = [
     "classes/databasemanager.js~databasemanager#constructor",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-constructor-constructor",
     "classes/DatabaseManager.js~DatabaseManager#constructor",
-    "method"
-  ],
-  [
-    "classes/databasemanager.js~databasemanager#count",
-    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-count",
-    "classes/DatabaseManager.js~DatabaseManager#count",
-    "method"
-  ],
-  [
-    "classes/databasemanager.js~databasemanager#del",
-    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-del",
-    "classes/DatabaseManager.js~DatabaseManager#del",
     "method"
   ],
   [
@@ -444,27 +462,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "classes/databasemanager.js~databasemanager#insert",
-    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-insert",
-    "classes/DatabaseManager.js~DatabaseManager#insert",
-    "method"
-  ],
-  [
     "classes/databasemanager.js~databasemanager#removeclient",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-removeClient",
     "classes/DatabaseManager.js~DatabaseManager#removeClient",
-    "method"
-  ],
-  [
-    "classes/databasemanager.js~databasemanager#select",
-    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-select",
-    "classes/DatabaseManager.js~DatabaseManager#select",
-    "method"
-  ],
-  [
-    "classes/databasemanager.js~databasemanager#update",
-    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-update",
-    "classes/DatabaseManager.js~DatabaseManager#update",
     "method"
   ],
   [
@@ -606,6 +606,18 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "classes/status.js~status#_interval",
+    "class/classes/Status.js~Status.html#instance-member-_interval",
+    "classes/Status.js~Status#_interval",
+    "member"
+  ],
+  [
+    "classes/status.js~status#_type",
+    "class/classes/Status.js~Status.html#instance-member-_type",
+    "classes/Status.js~Status#_type",
+    "member"
+  ],
+  [
     "classes/status.js~status#constructor",
     "class/classes/Status.js~Status.html#instance-constructor-constructor",
     "classes/Status.js~Status#constructor",
@@ -630,12 +642,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "classes/status.js~status#interval",
-    "class/classes/Status.js~Status.html#instance-member-interval",
-    "classes/Status.js~Status#interval",
-    "member"
-  ],
-  [
     "classes/status.js~status#setstatus",
     "class/classes/Status.js~Status.html#instance-method-setStatus",
     "classes/Status.js~Status#setStatus",
@@ -646,12 +652,6 @@ window.esdocSearchIndex = [
     "class/classes/Status.js~Status.html#instance-method-startRotate",
     "classes/Status.js~Status#startRotate",
     "method"
-  ],
-  [
-    "classes/status.js~status#type",
-    "class/classes/Status.js~Status.html#instance-member-type",
-    "classes/Status.js~Status#type",
-    "member"
   ],
   [
     "classes/statustype.js",
