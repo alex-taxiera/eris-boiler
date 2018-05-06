@@ -173,7 +173,7 @@ class DatabaseManager {
    * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.
    */
   async _select ({ table, columns = '*', offset = 0, limit = null, where = true }) {
-    if (!limit) limit = await this._count(table)
+    if (!limit) limit = (await this._count(table)) || 0
     return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
     .then((rows) => rows)
     .catch((e) => undefined)
