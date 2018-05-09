@@ -86,7 +86,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
   removeClient (id) {
-    return this._del({ table: 'guild_settings', where: { id } })
+    return this._delete({ table: 'guild_settings', where: { id } })
   }
 
   /**
@@ -95,7 +95,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}      Returns 0 on success or undefined.
    */
   removeStatus (name) {
-    return this._del({ table: 'statuses', where: { name } })
+    return this._delete({ table: 'statuses', where: { name } })
   }
 
   /**
@@ -150,7 +150,7 @@ class DatabaseManager {
    * @param   {Object}             data.where The condition to be met to find what to delete. Property name should match column name.
    * @return  {(Number|undefined)}            Returns 0 on success or undefined.
    */
-  _del ({ table, where }) {
+  _delete ({ table, where }) {
     return this._knex(table).where(where).del()
     .then((success) => 0)
     .catch((e) => undefined)
