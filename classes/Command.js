@@ -44,6 +44,10 @@ class Command {
      * @type {String}
      */
     this.permission = permission || 'Anyone'
+    /**
+     * Whether or not the bot should delete the message that invoked this command.
+     * @type {Boolean}
+     */
     this.deleteInvoking = deleteInvoking === undefined ? true : deleteInvoking
     /**
      * How many miliseconds to wait before deleting the bots response.
