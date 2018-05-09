@@ -25,9 +25,9 @@ module.exports = async (bot, msg) => {
   command.run({ params, bot, msg })
   .then((response) => {
     if (!response) return
-    const { content, delay } = parseResponse(response)
+    const content = parseResponse(response)
     return msg.channel.createMessage(content)
-    .then((m) => { if (delay > 0) setTimeout(() => m.delete(), delay) })
+    .then((m) => { if (command.delay > 0) setTimeout(() => m.delete(), command.delay) })
     .catch(console.error)
   })
 }
@@ -54,13 +54,10 @@ async function allow (bot, perm, msg) {
  * @property {Object|undefined} content.embed   The embed object of the response.
  */
 function parseResponse (response) {
-  const message = {
-    delay: response.delay || 10000,
-    content: {
-      content: response.content || '',
-      embed: response.embed || undefined
-    }
+  const content = {
+    content: response.content || '',
+    embed: response.embed || undefined
   }
-  if (typeof response === 'string') message.content.content = response
-  return message
+  if (typeof response === 'string') content.content = response
+  return content
 }
