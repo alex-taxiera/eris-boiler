@@ -17,12 +17,11 @@ module.exports = new Command({
       case 'add':
       // TODO: maybe supply type with name? maybe too complicated
         if (statuses.includes(fullParam)) return `Statuses already includes "${fullParam}"`
-        bot.dbm.addStatus(fullParam)
+        await bot.dbm.addStatus(fullParam)
         return `${fullParam} added!`
       case 'del':
         if (!statuses.includes(fullParam)) return `Statuses does not include "${fullParam}"`
-        // TODO MAYBE YOU SHOULD ADD THIS YOU FUCK
-        bot.dbm.delStatus(fullParam)
+        await bot.dbm.removeStatus(fullParam)
         return `${fullParam} deleted!`
       // TODO: edit option, change name or type
       default:
