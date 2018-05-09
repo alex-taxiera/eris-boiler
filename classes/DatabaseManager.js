@@ -89,6 +89,11 @@ class DatabaseManager {
     return this._del({ table: 'guild_settings', where: { id } })
   }
 
+  /**
+   * Remove a status from the statuses table.
+   * @param  {String}             name The status to remove.
+   * @return {(Number|undefined)}      Returns 0 on success or undefined.
+   */
   removeStatus (name) {
     return this._del({ table: 'statuses', where: { name } })
   }
