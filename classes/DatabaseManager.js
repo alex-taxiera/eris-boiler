@@ -89,6 +89,10 @@ class DatabaseManager {
     return this._del({ table: 'guild_settings', where: { id } })
   }
 
+  removeStatus (name) {
+    return this._del({ table: 'statuses', where: { name } })
+  }
+
   /**
    * Update a guild entry in the guild_settings table.
    * @param  {String}             id   The ID of the guild.
