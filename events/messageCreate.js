@@ -9,9 +9,6 @@ module.exports = async (bot, msg) => {
   const command = bot.commands.get(cmd) || bot.commands.get(bot.aliases.get(cmd))
   if (!command) return
 
-  msg.delete()
-  .catch((e) => bot.logger.warn('cannot delete messages'))
-
   if (params.length < command.parameters.length) {
     return msg.channel.createMessage(msg.author.mention + ' insufficient parameters!')
     .then((m) => setTimeout(() => m.delete(), 15000))
@@ -24,6 +21,7 @@ module.exports = async (bot, msg) => {
   }
   command.run({ params, bot, msg })
   .then((response) => {
+    if (command.deleteInvoking) msg.delete().catch((e) => bot.logger.warn('cannot delete messages'))
     if (!response) return
     const content = parseResponse(response)
     return msg.channel.createMessage(content)
