@@ -30,7 +30,8 @@ class Status {
    * @param {Client} bot The bot object.
    */
   default (bot) {
-    this.setStatus(bot, bot.config.DEFAULT.status)
+    const { name, type } = bot.config.DEFAULT.status
+    this.setStatus(bot, { name, type })
   }
   /**
    * Stop changing status automatically
@@ -45,20 +46,18 @@ class Status {
    * @param {String} [status.name]   Name of status
    * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.
    */
-  async setStatus (bot, { name, type = 0 }) {
-    let status
-    if (!name) {
-      const statuses = (await bot.dbm.getStatuses()).map((status) => {
-        return { name: status.name, type: status.type }
-      })
-      status = statuses[Math.round(Math.random() * (statuses.length - 1))]
+  async setStatus (bot, status) {
+    if (!status.name) {
+      status = this.current
+      const statuses = await bot.dbm.getStatuses()
       if (statuses.length > 1) {
         while (status.name === this.current.name) {
           status = statuses[Math.round(Math.random() * (statuses.length - 1))]
         }
+      } else {
+        status = statuses[0]
       }
     }
-    status = { name, type }
     bot.logger.log(`${this._type.getStatusName(status.type)} ${status.name}`, 'cyan')
     bot.editStatus('online', status)
     this.current = status
