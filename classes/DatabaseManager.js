@@ -53,7 +53,7 @@ class DatabaseManager {
    * @return {Object[]} Array of statuses, name and type.
    */
   async getStatuses () {
-    return this._select({ table: 'statuses' })
+    return this._select({ table: 'statuses', columns: ['name', 'type'] })
   }
 
   /**
