@@ -1,4 +1,7 @@
 /**
+ * @external {Collection} https://abal.moe/Eris/docs/Collection
+ */
+/**
  * Class representing a database manager.
  */
 class DatabaseManager {
