@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <base data-ice="baseUrl" href="../../">
-  <title data-ice="title">classes/Status.js | eris-boiler</title>
+  <title data-ice="title">classes/DataClient.js | eris-boiler</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -44,84 +44,99 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">classes/Status.js</h1>
+<div class="content" data-ice="content"><h1 data-ice="title">classes/DataClient.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
- * Class representing the bot status.
+ * @external {Client}     https://abal.moe/Eris/docs/Client
  */
-const StatusType = require(&apos;./StatusType.js&apos;)
-class Status {
+const DatabaseManager = require(&apos;./DatabaseManager.js&apos;)
+const Logger = require(&apos;./Logger.js&apos;)
+const Status = require(&apos;./Status.js&apos;)
+/**
+ * Class representing a DataClient.
+ * @extends {Client}
+ */
+class DataClient extends require(&apos;eris&apos;) {
   /**
-   * Create a status.
+   * Create a client.
+   * @param {Object}  config                         The bot config data.
+   * @param {String}  config.TOKEN                   The bot token.
+   * @param {Object}  config.DB_CREDENTIALS          The database credentials.
+   * @param {String}  config.DB_CREDENTIALS.database The name of the database.
+   * @param {String}  config.DB_CREDENTIALS.host     The host address of the server.
+   * @param {String}  config.DB_CREDENTIALS.user     The username to login with.
+   * @param {String}  config.DB_CREDENTIALS.password The password to login with.
+   * @param {Object}  config.DEFAULT                 The bots default values.
+   * @param {String}  config.DEFAULT.prefix          The default prefix.
+   * @param {Boolean} config.DEFAULT.rotateStatus    The default for changing bot status.
+   * @param {Object}  config.DEFAULT.status          The default bot status.
+   * @param {String}  config.DEFAULT.status.name     The default bot status name.
+   * @param {Number}  config.DEFAULT.status.type     The default bot status type.
+   * @param {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.
    */
-  constructor () {
+  constructor (config) {
+    super(config.TOKEN)
     /**
-     * The current status.
+     * The bot config data.
      * @type     {Object}
-     * @property {String} name The name of the current status.
-     * @property {Number} type The type of the current status.
+     * @property {String}  config.TOKEN                   The bot token.
+     * @property {Object}  config.DB_CREDENTIALS          The database credentials.
+     * @property {String}  config.DB_CREDENTIALS.database The name of the database.
+     * @property {String}  config.DB_CREDENTIALS.host     The host address of the server.
+     * @property {String}  config.DB_CREDENTIALS.user     The username to login with.
+     * @property {String}  config.DB_CREDENTIALS.password The password to login with.
+     * @property {Object}  config.DEFAULT                 The bots default values.
+     * @property {String}  config.DEFAULT.prefix          The default prefix.
+     * @property {Boolean} config.DEFAULT.rotateStatus    The default for changing bot status.
+     * @property {Object}  config.DEFAULT.status          The default bot status.
+     * @property {String}  config.DEFAULT.status.name     The default bot status name.
+     * @property {Number}  config.DEFAULT.status.type     The default bot status type.
+     * @property {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.
      */
-    this.current = { name: &apos;&apos;, type: 1 }
+    this.config = config
     /**
-     * StatusType data
-     * @private
-     * @type {StatusType}
+     * The logger.
+     * @type {Logger}
      */
-    this._type = new StatusType()
+    this.logger = new Logger()
     /**
-     * The interval for automatic status changes
-     * @private
+     * The DatabaseManager.
+     * @type {DatabaseManager}
      */
-    this._interval = undefined
-  }
-  /**
-   * Set the status to the default.
-   * @param {DataClient} bot The bot object.
-   */
-  default (bot) {
-    bot.logger.log(&apos;to&apos;)
-    const { name, type } = bot.config.DEFAULT.status
-    this.setStatus(bot, { name, type })
-  }
-  /**
-   * Stop changing status automatically
-   */
-  endRotate () {
-    if (this._interval) this._interval = clearInterval(this._interval)
-  }
-  /**
-   * Set the status of the bot
-   * @param {DataClient} bot             The bot object.
-   * @param {Logger} bot.logger      The logger.
-   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random
-   * @param {String} [status.name]   Name of status
-   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.
-   */
-  async setStatus (bot, status) {
-    if (!status || !status.name) {
-      status = this.current
-      const statuses = await bot.dbm.getStatuses()
-      if (statuses.length &gt; 1) {
-        while (status.name === this.current.name) {
-          status = statuses[Math.round(Math.random() * (statuses.length - 1))]
-        }
-      } else {
-        status = statuses[0]
-      }
-    }
-    bot.logger.log(`${this._type.getStatusName(status.type)} ${status.name}`, &apos;cyan&apos;)
-    bot.editStatus(&apos;online&apos;, status)
-    this.current = status
-  }
-  /**
-   * Set the status of the bot
-   * @param {DataClient} bot The bot object.
-   */
-  startRotate (bot) {
-    this._interval = setInterval(() =&gt; { this.setStatus(bot) }, 43200000)
+    this.dbm = new DatabaseManager(config.DB_CREDENTIALS)
+    /**
+     * The Status handler.
+     * @type {Status}
+     */
+    this.status = new Status()
+    /**
+     * The command map.
+     * @type {Map}
+     */
+    this.commands = new Map()
+    /**
+     * The command alias map.
+     * @type {Map}
+     */
+    this.aliases = new Map()
+    /**
+     * The permission map.
+     * @type {Map}
+     */
+    this.permissions = new Map()
+    /**
+     * The setting map.
+     * @type {Map}
+     */
+    this.settings = new Map()
+    /**
+     * The toggle map.
+     * @type {Map}
+     */
+    this.toggles = new Map()
   }
 }
 
-module.exports = Status
+module.exports = DataClient
 </code></pre>
 
 </div>

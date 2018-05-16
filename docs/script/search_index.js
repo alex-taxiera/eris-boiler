@@ -6,6 +6,12 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "eris-boiler/classes/dataclient.js~dataclient",
+    "class/classes/DataClient.js~DataClient.html",
+    "<span>DataClient</span> <span class=\"search-result-import-path\">eris-boiler/classes/DataClient.js</span>",
+    "class"
+  ],
+  [
     "eris-boiler/classes/databasemanager.js~databasemanager",
     "class/classes/DatabaseManager.js~DatabaseManager.html",
     "<span>DatabaseManager</span> <span class=\"search-result-import-path\">eris-boiler/classes/DatabaseManager.js</span>",
@@ -348,6 +354,24 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "classes/command.js~command#deleteinvoking",
+    "class/classes/Command.js~Command.html#instance-member-deleteInvoking",
+    "classes/Command.js~Command#deleteInvoking",
+    "member"
+  ],
+  [
+    "classes/command.js~command#deleteresponse",
+    "class/classes/Command.js~Command.html#instance-member-deleteResponse",
+    "classes/Command.js~Command#deleteResponse",
+    "member"
+  ],
+  [
+    "classes/command.js~command#deleteresponsedelay",
+    "class/classes/Command.js~Command.html#instance-member-deleteResponseDelay",
+    "classes/Command.js~Command#deleteResponseDelay",
+    "member"
+  ],
+  [
     "classes/command.js~command#description",
     "class/classes/Command.js~Command.html#instance-member-description",
     "classes/Command.js~Command#description",
@@ -384,10 +408,88 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "classes/dataclient.js",
+    "file/classes/DataClient.js.html",
+    "classes/DataClient.js",
+    "file"
+  ],
+  [
+    "classes/dataclient.js~client",
+    "https://abal.moe/Eris/docs/Client",
+    "classes/DataClient.js~Client",
+    "external"
+  ],
+  [
+    "classes/dataclient.js~dataclient#aliases",
+    "class/classes/DataClient.js~DataClient.html#instance-member-aliases",
+    "classes/DataClient.js~DataClient#aliases",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#commands",
+    "class/classes/DataClient.js~DataClient.html#instance-member-commands",
+    "classes/DataClient.js~DataClient#commands",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#config",
+    "class/classes/DataClient.js~DataClient.html#instance-member-config",
+    "classes/DataClient.js~DataClient#config",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#constructor",
+    "class/classes/DataClient.js~DataClient.html#instance-constructor-constructor",
+    "classes/DataClient.js~DataClient#constructor",
+    "method"
+  ],
+  [
+    "classes/dataclient.js~dataclient#dbm",
+    "class/classes/DataClient.js~DataClient.html#instance-member-dbm",
+    "classes/DataClient.js~DataClient#dbm",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#logger",
+    "class/classes/DataClient.js~DataClient.html#instance-member-logger",
+    "classes/DataClient.js~DataClient#logger",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#permissions",
+    "class/classes/DataClient.js~DataClient.html#instance-member-permissions",
+    "classes/DataClient.js~DataClient#permissions",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#settings",
+    "class/classes/DataClient.js~DataClient.html#instance-member-settings",
+    "classes/DataClient.js~DataClient#settings",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#status",
+    "class/classes/DataClient.js~DataClient.html#instance-member-status",
+    "classes/DataClient.js~DataClient#status",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#toggles",
+    "class/classes/DataClient.js~DataClient.html#instance-member-toggles",
+    "classes/DataClient.js~DataClient#toggles",
+    "member"
+  ],
+  [
     "classes/databasemanager.js",
     "file/classes/DatabaseManager.js.html",
     "classes/DatabaseManager.js",
     "file"
+  ],
+  [
+    "classes/databasemanager.js~collection",
+    "https://abal.moe/Eris/docs/Collection",
+    "classes/DatabaseManager.js~Collection",
+    "external"
   ],
   [
     "classes/databasemanager.js~databasemanager#_count",
@@ -396,9 +498,9 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "classes/databasemanager.js~databasemanager#_del",
-    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_del",
-    "classes/DatabaseManager.js~DatabaseManager#_del",
+    "classes/databasemanager.js~databasemanager#_delete",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_delete",
+    "classes/DatabaseManager.js~DatabaseManager#_delete",
     "method"
   ],
   [
@@ -465,6 +567,12 @@ window.esdocSearchIndex = [
     "classes/databasemanager.js~databasemanager#removeclient",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-removeClient",
     "classes/DatabaseManager.js~DatabaseManager#removeClient",
+    "method"
+  ],
+  [
+    "classes/databasemanager.js~databasemanager#removestatus",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-removeStatus",
+    "classes/DatabaseManager.js~DatabaseManager#removeStatus",
     "method"
   ],
   [
@@ -694,23 +802,5 @@ window.esdocSearchIndex = [
     "class/classes/Toggle.js~Toggle.html#instance-method-enable",
     "classes/Toggle.js~Toggle#enable",
     "method"
-  ],
-  [
-    "classes/index.js",
-    "file/classes/index.js.html",
-    "classes/index.js",
-    "file"
-  ],
-  [
-    "classes/index.js~client",
-    "https://abal.moe/Eris/docs/Client",
-    "classes/index.js~Client",
-    "external"
-  ],
-  [
-    "classes/index.js~collection",
-    "https://abal.moe/Eris/docs/Collection",
-    "classes/index.js~Collection",
-    "external"
   ]
 ]

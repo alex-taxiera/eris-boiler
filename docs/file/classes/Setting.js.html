@@ -30,6 +30,7 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Command.js~Command.html">Command</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DataClient.js~DataClient.html">DataClient</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html">DatabaseManager</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Permission.js~Permission.html">Permission</a></span></span></li>
@@ -50,13 +51,14 @@
 class Setting {
   /**
    * Create a setting.
-   * @param {Object}   data          An object with data to assign to the Setting.
-   * @param {String}   data.name     The name of the Setting.
-   * @param {String}   data.code     The (camelCase) code of the setting.
-   * @param {Function} data.onChange A function that gets executed whenever the value of the setting is changed.
-   * @param {Client}   bot           The bot object.
+   * @param {DataClient} bot           The bot object.
+   * @param {Object}     data          An object with data to assign to the Setting.
+   * @param {String}     data.name     The name of the Setting.
+   * @param {String}     data.code     The (camelCase) code of the setting.
+   * @param {Function}   data.onChange A function that gets executed whenever the value of the setting is changed.
    */
-  constructor ({ name, code, onChange }, bot) {
+  constructor (bot, data) {
+    const { name, code, onChange } = data
     if (typeof name !== &apos;string&apos;) throw new Error(`setting cannot have name ${name}`)
     if (typeof code !== &apos;string&apos;) throw new Error(`setting cannot have code ${code}`)
     if (typeof onChange !== &apos;function&apos;) throw new Error(`setting cannot have onChange function ${onChange}`)
@@ -84,7 +86,7 @@ class Setting {
   /**
    * Sets the value of the setting.
    * @param  {*}      value The value to set.
-   * @param  {Client} bot   The bot object.
+   * @param  {DataClient} bot   The bot object.
    * @return {String}       Confirmation message.
    */
   setValue (value, bot) {
