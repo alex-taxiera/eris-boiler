@@ -7,6 +7,7 @@ const Logger = require('./Logger.js')
 const Status = require('./Status.js')
 /**
  * Class representing a Client.
+ * @extends {Client}
  */
 class DataClient extends Client {
   /**
