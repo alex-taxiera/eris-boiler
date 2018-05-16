@@ -1,7 +1,7 @@
 {
-  "coverage": "93.42%",
-  "expectCount": 76,
-  "actualCount": 71,
+  "coverage": "93.5%",
+  "expectCount": 77,
+  "actualCount": 72,
   "files": {
     "classes/Command.js": {
       "expectCount": 12,
@@ -11,8 +11,8 @@
       ]
     },
     "classes/DatabaseManager.js": {
-      "expectCount": 18,
-      "actualCount": 18,
+      "expectCount": 19,
+      "actualCount": 19,
       "undocumentLines": []
     },
     "classes/DataClient.js": {
