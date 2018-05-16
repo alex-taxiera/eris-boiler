@@ -4,7 +4,7 @@ class StatusType {
      * Enum for status types
      * @type     {Object}
      * @property {Number} PLAYING   0
-     * @property {Number} PLAYING   1 (Twitch only)
+     * @property {Number} STREAMING 1 (Twitch only)
      * @property {Number} LISTENING 2
      * @property {Number} WATCHING  3
      */
