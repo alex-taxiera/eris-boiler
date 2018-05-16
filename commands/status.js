@@ -20,7 +20,6 @@ module.exports = (bot) => {
           case 'view':
             return 'Current random statuses:\n' + names.join(',\n')
           case 'add':
-          // TODO: maybe supply type with name? maybe too complicated
             if (statuses.includes(fullParam)) return `Statuses already includes "${fullParam}"`
             await bot.dbm.addStatus(fullParam)
             return `${fullParam} added!`
@@ -28,7 +27,6 @@ module.exports = (bot) => {
             if (!statuses.includes(fullParam)) return `Statuses does not include "${fullParam}"`
             await bot.dbm.removeStatus(fullParam)
             return `${fullParam} deleted!`
-          // TODO: edit option, change name or type
           default:
             return 'Use "add" to add statuses and "del" to delete them!'
         }
