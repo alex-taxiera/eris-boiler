@@ -4,11 +4,13 @@
 class Permission {
   /**
    * Create a permission.
-   * @param {String}   name                                The name of the permission.
-   * @param {Number}   level                               The level of the permission (0 is the bottom).
-   * @param {Function} [check=function () { return true }] A test to see if a member has this permission.
+   * @param {Object}   data                                     The permission data.
+   * @param {String}   data.name                                The name of the permission.
+   * @param {Number}   data.level                               The level of the permission (0 is the bottom).
+   * @param {Function} [data.check=function () { return true }] A test to see if a member has this permission.
    */
-  constructor ({ name, level, check }) {
+  constructor (data) {
+    const { name, level, check } = data
     if (typeof name !== 'string') throw Error(`permission cannot have name ${name}`)
     if (isNaN(level)) throw Error(`permission cannot have level ${level}`)
     /**
@@ -25,7 +27,7 @@ class Permission {
      * A test to see if a member has this permission.
      * @type {Function}
      */
-    this.check = check || function () { return true }
+    this.check = typeof check === 'function' ? check : function () { return true }
   }
   /**
    * Denial message telling the user what level permission they need.
