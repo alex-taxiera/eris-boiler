@@ -30,6 +30,7 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Command.js~Command.html">Command</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DataClient.js~DataClient.html">DataClient</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html">DatabaseManager</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Permission.js~Permission.html">Permission</a></span></span></li>
@@ -50,15 +51,21 @@
 class Command {
   /**
    * Create a command.
-   * @param {Object}   data                       The command data.
-   * @param {String}   data.name                  The command name.
-   * @param {String[]} [data.aliases=[]]          List of alias names for the command.
-   * @param {String}   data.description           The command description.
-   * @param {String[]} [data.parameters=[]]       List of paremeters that the command takes.
-   * @param {String}   [data.permission=&apos;Anyone&apos;] The name of the permission required to use the command.
-   * @param {Function} data.run                   The command function.
+   * @param {DataClient} bot                                      The bot object.
+   * @param {Object}     data                                     The command data.
+   * @param {String}     data.name                                The command name.
+   * @param {String}     data.description                         The command description.
+   * @param {Function}   data.run                                 The command function.
+   * @param {Object}     [data.options={}]                        The command options.
+   * @param {String[]}   [data.options.aliases=[]]                List of alias names for the command.
+   * @param {String[]}   [data.options.parameters=[]]             List of paremeters that the command takes.
+   * @param {String}     [data.options.permission=&apos;Anyone&apos;]       The name of the permission required to use the command.
+   * @param {Boolean}    [data.options.deleteInvoking=true]       Whether or not the bot should delete the message that invoked this command.
+   * @param {Boolean}    [data.options.deleteResponse=true]       Whether or not the bot should delete the message that invoked this command.
+   * @param {Number}     [data.options.deleteResponseDelay=10000] How many miliseconds to wait before deleting the bots response.
    */
-  constructor ({ name, aliases, description, parameters, permission, run }) {
+  constructor (bot, data) {
+    const { name, description, run, options } = data
     if (typeof name !== &apos;string&apos;) throw Error(`command cannot have name &quot;${name}&quot;`)
     if (typeof description !== &apos;string&apos;) throw Error(`command cannot have description &quot;${description}&quot;`)
     if (typeof run !== &apos;function&apos;) throw Error(`command cannot have run function &quot;${run}&quot;`)
@@ -69,37 +76,71 @@ class Command {
      */
     this.name = name
     /**
-     * List of alias names for the command.
-     * @type {String[]}
-     */
-    this.aliases = aliases || []
-    /**
      * The command description.
      * @type {String}
      */
     this.description = description
     /**
-     * List of paremeters that the command takes.
-     * @type {String[]}
-     */
-    this.parameters = parameters || []
-    /**
-     * The name of the permission required to use the command.
-     * @type {String}
-     */
-    this.permission = permission || &apos;Anyone&apos;
-    /**
      * The command function.
      * @type {Function}
      */
     this.run = run
+
+    let aliases = false
+    if (Array.isArray(options.aliases)) {
+      aliases = true
+      for (let i = 0; i &lt; options.aliases.length; i++) {
+        if (typeof options.aliases[i] !== &apos;string&apos;) aliases = false; break
+      }
+    }
+    /**
+     * List of alias names for the command.
+     * @type {String[]}
+     */
+    this.aliases = aliases ? options.aliases : []
+    /**
+     * List of paremeters that the command takes.
+     * @type {String[]}
+     */
+    let parameters = false
+    if (Array.isArray(options.parameters)) {
+      parameters = true
+      for (let i = 0; i &lt; options.parameters.length; i++) {
+        if (typeof options.parameters[i] !== &apos;string&apos;) parameters = false; break
+      }
+    }
+    this.parameters = parameters ? options.parameters : []
+    /**
+     * The name of the permission required to use the command.
+     * @type {String}
+     */
+    this.permission = bot.permissions.get(options.permission) ? options.permission : &apos;Anyone&apos;
+    /**
+     * Whether or not the bot should delete the message that invoked this command.
+     * @type {Boolean}
+     */
+    this.deleteInvoking = typeof options.deleteInvoking === &apos;boolean&apos; ? options.deleteInvoking : true
+    /**
+     * Whether or not the bot should delete the bots response.
+     * @type {Boolean}
+     */
+    this.deleteResponse = typeof options.deleteResponse === &apos;boolean&apos; ? options.deleteResponse : true
+    /**
+     * How many miliseconds to wait before deleting the bots response.
+     * @type {Number}
+     */
+    this.deleteResponseDelay = typeof options.deleteResponseDelay === &apos;number&apos; ? options.deleteResponseDelay : 10000
   }
   /**
    * Get information about the command.
    * @return {String} Info string containing name and description.
    */
   help () {
-    return `Name: ${this.name}\nDescription: ${this.description}\nParameters:${this.parameters.join(&apos;, &apos;)}`
+    let str = `Name: ${this.name}\n`
+    if (this.aliases[0]) str += `Aliases: ${this.aliases.join(&apos;, &apos;)}\n`
+    str += `Description: ${this.description}`
+    if (this.parameters[0]) str += `\nParameters:${this.parameters.join(&apos;, &apos;)}`
+    return str
   }
 }
 

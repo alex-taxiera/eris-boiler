@@ -30,6 +30,7 @@
   <ul>
     
   <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Command.js~Command.html">Command</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DataClient.js~DataClient.html">DataClient</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html">DatabaseManager</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Permission.js~Permission.html">Permission</a></span></span></li>
@@ -50,11 +51,13 @@
 class Permission {
   /**
    * Create a permission.
-   * @param {String}   name                                The name of the permission.
-   * @param {Number}   level                               The level of the permission (0 is the bottom).
-   * @param {Function} [check=function () { return true }] A test to see if a member has this permission.
+   * @param {Object}   data                                     The permission data.
+   * @param {String}   data.name                                The name of the permission.
+   * @param {Number}   data.level                               The level of the permission (0 is the bottom).
+   * @param {Function} [data.check=function () { return true }] A test to see if a member has this permission.
    */
-  constructor ({ name, level, check }) {
+  constructor (data) {
+    const { name, level, check } = data
     if (typeof name !== &apos;string&apos;) throw Error(`permission cannot have name ${name}`)
     if (isNaN(level)) throw Error(`permission cannot have level ${level}`)
     /**
@@ -71,7 +74,7 @@ class Permission {
      * A test to see if a member has this permission.
      * @type {Function}
      */
-    this.check = check || function () { return true }
+    this.check = typeof check === &apos;function&apos; ? check : function () { return true }
   }
   /**
    * Denial message telling the user what level permission they need.
