@@ -149,6 +149,54 @@ class DatabaseManager {
   }
 
   /**
+   * Setup database tables.
+   * @param  {DataClient} bot The bot client.
+   * @return {Promise[]}      The results of the table creation.
+   */
+  async setup (bot) {
+    const tables = []
+    tables.push(this._knex.schema.hasTable(&apos;guild_settings&apos;)
+      .then((exists) =&gt; {
+        if (exists) return
+        return this._knex.schema.createTable(&apos;guild_settings&apos;, (table) =&gt; {
+          table.charset(&apos;utf8&apos;)
+          table.string(&apos;id&apos;).primary()
+          table.string(&apos;vip&apos;)
+          table.string(&apos;prefix&apos;).defaultTo(bot.config.DEFAULT.prefix)
+        })
+      })
+    )
+
+    tables.push(this._knex.schema.hasTable(&apos;guild_toggles&apos;)
+      .then((exists) =&gt; {
+        if (exists) return
+        return this._knex.schema.createTable(&apos;guild_toggles&apos;, (table) =&gt; {
+          table.charset(&apos;utf8&apos;)
+          table.string(&apos;id&apos;).primary()
+          // add toggleable values
+        })
+      })
+    )
+
+    tables.push(this._knex.schema.hasTable(&apos;statuses&apos;)
+      .then((exists) =&gt; {
+        if (exists) return
+        return this._knex.schema.createTable(&apos;statuses&apos;, (table) =&gt; {
+          table.charset(&apos;utf8&apos;)
+          table.string(&apos;name&apos;).primary()
+          table.integer(&apos;type&apos;).defaultTo(0)
+          table.boolean(&apos;default&apos;).defaultTo(&apos;false&apos;)
+        })
+        .then(() =&gt; {
+          this._insert({ table: &apos;statuses&apos;, data: bot.config.DEFAULT.status })
+        })
+      })
+    )
+
+    return Promise.all(tables)
+  }
+
+  /**
    * Update a guild entry in the guild_settings table.
    * @param  {String}             id   The ID of the guild.
    * @param  {Object}             data The data to update. Property names should match column names.

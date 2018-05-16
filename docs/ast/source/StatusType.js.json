@@ -450,7 +450,7 @@
                     "leadingComments": [
                       {
                         "type": "CommentBlock",
-                        "value": "*\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} PLAYING   1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     ",
+                        "value": "*\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} STREAMING 1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     ",
                         "start": 44,
                         "end": 283,
                         "loc": {
@@ -1675,7 +1675,7 @@
                       "leadingComments": [
                         {
                           "type": "CommentBlock",
-                          "value": "*\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} PLAYING   1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     ",
+                          "value": "*\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} STREAMING 1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     ",
                           "start": 44,
                           "end": 283,
                           "loc": {
@@ -2437,7 +2437,7 @@
   "comments": [
     {
       "type": "CommentBlock",
-      "value": "*\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} PLAYING   1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     ",
+      "value": "*\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} STREAMING 1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     ",
       "start": 44,
       "end": 283,
       "loc": {
@@ -2651,7 +2651,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} PLAYING   1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     ",
+      "value": "*\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} STREAMING 1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     ",
       "start": 44,
       "end": 283,
       "loc": {

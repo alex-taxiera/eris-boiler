@@ -576,6 +576,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "classes/databasemanager.js~databasemanager#setup",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-setup",
+    "classes/DatabaseManager.js~DatabaseManager#setup",
+    "method"
+  ],
+  [
     "classes/databasemanager.js~databasemanager#updateclient",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateClient",
     "classes/DatabaseManager.js~DatabaseManager#updateClient",
