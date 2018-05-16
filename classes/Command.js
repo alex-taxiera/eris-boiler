@@ -18,7 +18,7 @@ class Command {
    * @param {Number}     [data.options.deleteResponseDelay=10000] How many miliseconds to wait before deleting the bots response.
    */
   constructor (bot, data) {
-    const { name, description, run, options } = data
+    const { name, description, run, options = {} } = data
     if (typeof name !== 'string') throw Error(`command cannot have name "${name}"`)
     if (typeof description !== 'string') throw Error(`command cannot have description "${description}"`)
     if (typeof run !== 'function') throw Error(`command cannot have run function "${run}"`)
