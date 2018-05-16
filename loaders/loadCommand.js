@@ -1,7 +1,7 @@
 module.exports = (bot, commandFile) => {
   if (!commandFile.endsWith('.js')) return
   try {
-    const command = require(`../commands/${commandFile}`)
+    const command = require(`../commands/${commandFile}`)(bot)
     bot.commands.set(command.name, command)
     for (let i = 0; i < command.aliases.length; i++) {
       bot.aliases.set(command.aliases[i], command.name)
