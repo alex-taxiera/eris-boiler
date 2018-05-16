@@ -1,15 +1,14 @@
 /**
  * @external {Client}     https://abal.moe/Eris/docs/Client
  */
-const Client = require('eris')
 const DatabaseManager = require('./DatabaseManager.js')
 const Logger = require('./Logger.js')
 const Status = require('./Status.js')
 /**
- * Class representing a Client.
+ * Class representing a DataClient.
  * @extends {Client}
  */
-class DataClient extends Client {
+class DataClient extends require('eris') {
   /**
    * Create a client.
    * @param {Object}  config                         The bot config data.

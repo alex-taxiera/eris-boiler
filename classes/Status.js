@@ -1,6 +1,7 @@
 /**
  * Class representing the bot status.
  */
+const StatusType = require('./StatusType.js')
 class Status {
   /**
    * Create a status.
@@ -18,7 +19,7 @@ class Status {
      * @private
      * @type {StatusType}
      */
-    this._type = new (require('./StatusType'))()
+    this._type = new StatusType()
     /**
      * The interval for automatic status changes
      * @private
@@ -27,9 +28,10 @@ class Status {
   }
   /**
    * Set the status to the default.
-   * @param {Client} bot The bot object.
+   * @param {DataClient} bot The bot object.
    */
   default (bot) {
+    bot.logger.log('to')
     const { name, type } = bot.config.DEFAULT.status
     this.setStatus(bot, { name, type })
   }
@@ -41,13 +43,14 @@ class Status {
   }
   /**
    * Set the status of the bot
-   * @param {Client} bot             The bot object.
+   * @param {DataClient} bot             The bot object.
+   * @param {Logger} bot.logger      The logger.
    * @param {Object} [status]        Status to set to, if none is given it will be chosen at random
    * @param {String} [status.name]   Name of status
    * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.
    */
   async setStatus (bot, status) {
-    if (!status.name) {
+    if (!status || !status.name) {
       status = this.current
       const statuses = await bot.dbm.getStatuses()
       if (statuses.length > 1) {
@@ -64,7 +67,7 @@ class Status {
   }
   /**
    * Set the status of the bot
-   * @param {Client} bot The bot object.
+   * @param {DataClient} bot The bot object.
    */
   startRotate (bot) {
     this._interval = setInterval(() => { this.setStatus(bot) }, 43200000)

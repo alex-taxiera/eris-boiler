@@ -4,13 +4,14 @@
 class Setting {
   /**
    * Create a setting.
-   * @param {Object}   data          An object with data to assign to the Setting.
-   * @param {String}   data.name     The name of the Setting.
-   * @param {String}   data.code     The (camelCase) code of the setting.
-   * @param {Function} data.onChange A function that gets executed whenever the value of the setting is changed.
-   * @param {Client}   bot           The bot object.
+   * @param {DataClient} bot           The bot object.
+   * @param {Object}     data          An object with data to assign to the Setting.
+   * @param {String}     data.name     The name of the Setting.
+   * @param {String}     data.code     The (camelCase) code of the setting.
+   * @param {Function}   data.onChange A function that gets executed whenever the value of the setting is changed.
    */
-  constructor ({ name, code, onChange }, bot) {
+  constructor (bot, data) {
+    const { name, code, onChange } = data
     if (typeof name !== 'string') throw new Error(`setting cannot have name ${name}`)
     if (typeof code !== 'string') throw new Error(`setting cannot have code ${code}`)
     if (typeof onChange !== 'function') throw new Error(`setting cannot have onChange function ${onChange}`)
@@ -38,7 +39,7 @@ class Setting {
   /**
    * Sets the value of the setting.
    * @param  {*}      value The value to set.
-   * @param  {Client} bot   The bot object.
+   * @param  {DataClient} bot   The bot object.
    * @return {String}       Confirmation message.
    */
   setValue (value, bot) {
