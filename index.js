@@ -14,7 +14,7 @@ start()
 
 async function start () {
   /* set up database */
-  await bot.dbm.setup()
+  await bot.dbm.setup(bot)
   const promises = []
   /* require functions made to load modules */
   promises.push(readdir(path.join(__dirname, './loaders/'))
