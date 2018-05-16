@@ -1,23 +1,10 @@
-const Eris = require('eris')
+const DataClient = require('./classes/DataClient.js')
 const { promisify } = require('util')
 const readdir = promisify(require('fs').readdir)
 const config = require('./config.json')
 const path = require('path')
 
-let bot = new Eris(config.TOKEN)
-
-/* add modules to bot */
-bot = Object.assign(bot, {
-  config,
-  logger: new (require('./classes/Logger.js'))(),
-  dbm: new (require('./classes/DatabaseManager.js'))(config.DB_CREDENTIALS),
-  status: new (require('./classes/Status.js'))(),
-  commands: new Map(),
-  aliases: new Map(),
-  permissions: new Map(),
-  settings: new Map(),
-  toggles: new Map()
-})
+let bot = new DataClient(config)
 
 /* call start function for an async wrapper */
 start()
