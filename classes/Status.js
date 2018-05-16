@@ -13,7 +13,7 @@ class Status {
      * @property {String} name The name of the current status.
      * @property {Number} type The type of the current status.
      */
-    this.current = { name: '', type: 1 }
+    this.current = { name: '', type: 0 }
     /**
      * StatusType data
      * @private
@@ -31,7 +31,6 @@ class Status {
    * @param {DataClient} bot The bot object.
    */
   default (bot) {
-    bot.logger.log('to')
     const { name, type } = bot.config.DEFAULT.status
     this.setStatus(bot, { name, type })
   }
