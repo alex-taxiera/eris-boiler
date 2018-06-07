@@ -18,13 +18,15 @@ module.exports = (bot) => {
           let commands = []
           for (let [key, val] of bot.commands) {
             if (!await bot.permissions.get(val.permission).check(msg.member, bot)) continue
-            commands.push({ name: key + ':', desc: val.description })
+            commands.push({ name: key, desc: val.description, aliases: val.aliases })
           }
-          const long = commands.sort((a, b) => (a - b) * -1)[0].name.length + 2
+          const longName =
+            Math.max(...commands.map((val) => val.name.length + (val.aliases ? val.aliases.join('/').length : 0))) +
+            3
           commands = commands.map((val) => {
-            let { name, desc } = val
-            name += ' '.repeat(long - name.length)
-            return { name, desc }
+            if (val.aliases.length > 0) val.name += '/' + val.aliases.join('/')
+            val.name += ':' + ' '.repeat(longName - val.name.length)
+            return val
           })
           for (let i = 0; i < commands.length; i++) {
             const val = commands[i]
