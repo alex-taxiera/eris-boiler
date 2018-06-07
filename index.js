@@ -1,5 +1,5 @@
 const DataClient = require('./classes/DataClient.js')
-const readdir = require('fs/promises').readdir
+const { readdir } = require('fs').promises
 const config = require('./config.json')
 const path = require('path')
 
