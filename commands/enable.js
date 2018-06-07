@@ -8,7 +8,7 @@ module.exports = (bot) => {
       description: 'enable a guild-wide option',
       options: {
         parameters: ['toggleName'],
-        permission: 'Admin'
+        permission: 'VIP'
       },
       run: async ({ msg, params, bot }) => {
         const id = msg.channel.guild.id
