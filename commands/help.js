@@ -35,7 +35,7 @@ module.exports = (bot) => {
 
         try {
           const dm = await msg.author.getDMChannel()
-          dm.createMessage(content)
+          await dm.createMessage(content)
           return 'DM sent.'
         } catch (e) {
           return content
