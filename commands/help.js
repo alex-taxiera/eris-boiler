@@ -12,7 +12,7 @@ module.exports = (bot) => {
         if (params[0]) {
           command = bot.commands.get(params[0]) || bot.commands.get(bot.aliases.get(params[0]))
           if (!command) return `${params[0]} is not a command or alias!`
-          content = command.help()
+          content = command.info
         } else {
           content = 'Available commands:```'
           let commands = []

@@ -88,7 +88,7 @@ class Command {
    * Get information about the command.
    * @return {String} Info string containing name and description.
    */
-  help () {
+  get info () {
     let str = `Name: ${this.name}\n`
     if (this.aliases[0]) str += `Aliases: ${this.aliases.join(', ')}\n`
     str += `Description: ${this.description}`
