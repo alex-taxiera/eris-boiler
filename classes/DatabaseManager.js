@@ -12,14 +12,21 @@ class DatabaseManager {
    * @param {String} DB_CREDENTIALS.host     The address of your database.
    * @param {String} DB_CREDENTIALS.user     The username to login with.
    * @param {String} DB_CREDENTIALS.password The password associated with your user.
+   * @param {class}  Logger                  The Logger class
    */
-  constructor (DB_CREDENTIALS) {
+  constructor (DB_CREDENTIALS, Logger) {
     /**
      * The knex query builder.
      * @private
      * @type    {Function}
      */
     this._knex = require('knex')({ client: 'mysql', connection: DB_CREDENTIALS })
+    /**
+     * The logger.
+     * @private
+     * @type    {Logger}
+     */
+    this._logger = new Logger()
   }
 
   /**
@@ -118,6 +125,7 @@ class DatabaseManager {
           table.string('prefix').defaultTo(bot.config.DEFAULT.prefix)
         })
       })
+      .catch(this._logger.error)
     )
 
     tables.push(this._knex.schema.hasTable('guild_toggles')
@@ -129,6 +137,7 @@ class DatabaseManager {
           // add toggleable values
         })
       })
+      .catch(this._logger.error)
     )
 
     tables.push(this._knex.schema.hasTable('statuses')
@@ -143,7 +152,9 @@ class DatabaseManager {
         .then(() => {
           this._insert({ table: 'statuses', data: bot.config.DEFAULT.status })
         })
+        .catch(this._logger.error)
       })
+      .catch(this._logger.error)
     )
 
     return Promise.all(tables)
@@ -190,7 +201,7 @@ class DatabaseManager {
   _count (table) {
     return this._knex(table).count('*')
     .then((val) => val[0]['count(*)'])
-    .catch((e) => undefined)
+    .catch(this._logger.error)
   }
 
   /**
@@ -204,7 +215,8 @@ class DatabaseManager {
   _delete ({ table, where }) {
     return this._knex(table).where(where).del()
     .then((success) => 0)
-    .catch((e) => undefined)
+    .catch(this._logger.error)
+  }
   }
 
   /**
@@ -218,7 +230,7 @@ class DatabaseManager {
   _insert ({ table, data }) {
     return this._knex(table).insert(data)
     .then((success) => 0)
-    .catch((e) => undefined)
+    .catch(this._logger.error)
   }
 
   /**
@@ -236,7 +248,7 @@ class DatabaseManager {
     if (!limit) limit = (await this._count(table)) || 0
     return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
     .then((rows) => rows)
-    .catch((e) => undefined)
+    .catch(this._logger.error)
   }
 
   /**
@@ -251,7 +263,7 @@ class DatabaseManager {
   _update ({ table, where, data }) {
     return this._knex(table).where(where).update(data)
     .then((success) => 0)
-    .catch((e) => undefined)
+    .catch(this._logger.error)
   }
 }
 
