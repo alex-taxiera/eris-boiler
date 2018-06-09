@@ -55,7 +55,7 @@ class DataClient extends require('eris') {
      * The DatabaseManager.
      * @type {DatabaseManager}
      */
-    this.dbm = new DatabaseManager(config.DB_CREDENTIALS)
+    this.dbm = new DatabaseManager(config.DB_CREDENTIALS, Logger)
     /**
      * The Status handler.
      * @type {Status}
