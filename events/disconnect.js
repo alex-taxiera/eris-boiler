@@ -1,3 +1,1 @@
-module.exports = (bot) => {
-  bot.logger.error('disconnected')
-}
+module.exports = (bot) => bot.logger.error('disconnected')
