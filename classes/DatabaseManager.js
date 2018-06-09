@@ -54,8 +54,8 @@ class DatabaseManager {
    * @param  {String} id The ID of the guild.
    * @return {Object}    The guild data.
    */
-  async getClient (id) {
-    return (await this._select({ table: 'guild_settings', where: { id } }))[0]
+  getSettings (id) {
+    return this._get({ table: 'guild_settings', where: { id } })
   }
 
   /**
@@ -64,6 +64,10 @@ class DatabaseManager {
    */
   async getStatuses () {
     return this._select({ table: 'statuses', columns: ['name', 'type'] })
+  }
+
+  getToggles (id) {
+    return this._get({ table: 'guild_toggles', where: { id } })
   }
 
   /**
@@ -161,16 +165,6 @@ class DatabaseManager {
   }
 
   /**
-   * Update a guild entry in the guild_settings table.
-   * @param  {String}             id   The ID of the guild.
-   * @param  {Object}             data The data to update. Property names should match column names.
-   * @return {(Number|undefined)}      Returns 0 on success or undefined.
-   */
-  updateClient (id, data) {
-    return this._update({ table: 'guild_settings', data, where: { id } })
-  }
-
-  /**
    * Update the default status of the bot.
    * @param  {Object}             status      The status to make default.
    * @param  {String}             status.name The name of the status.
@@ -189,6 +183,26 @@ class DatabaseManager {
     this._knex.schema.alterTable('guild_settings', (table) => {
       table.string('prefix').defaultTo(prefix)
     })
+  }
+
+  /**
+   * Update a guild entry in the guild_settings table.
+   * @param  {String}             id       The ID of the guild.
+   * @param  {Object}             settings The data to update. Property names should match column names.
+   * @return {(Number|undefined)}          Returns 0 on success or undefined.
+   */
+  updateSettings (id, settings) {
+    return this._update({ table: 'guild_settings', data: settings, where: { id } })
+  }
+
+  /**
+   * Update a guild entry in the guild_toggles table.
+   * @param  {String}             id      The ID of the guild.
+   * @param  {Object}             toggles The data to update. Property names should match column names.
+   * @return {(Number|undefined)}         Returns 0 on success or undefined.
+   */
+  updateToggles (id, toggles) {
+    return this._update({ table: 'guild_toggles', data: toggles, where: { id } })
   }
 
   // private methods
@@ -217,6 +231,16 @@ class DatabaseManager {
     .then((success) => 0)
     .catch(this._logger.error)
   }
+
+  /**
+   * Get the first entry from a table matching a condition.
+   * @private
+   * @param  {String} table The name of the table to get from.
+   * @param  {Object} where The column names and values to match.
+   * @return {Object}       The first matching row.
+   */
+  async _get ({ table, columns = '*', where = true }) {
+    return (await this._select({ table, columns, limit: 1, where }))[0]
   }
 
   /**
