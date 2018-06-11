@@ -59,14 +59,21 @@ class DatabaseManager {
    * @param {String} DB_CREDENTIALS.host     The address of your database.
    * @param {String} DB_CREDENTIALS.user     The username to login with.
    * @param {String} DB_CREDENTIALS.password The password associated with your user.
+   * @param {Class}  Logger                  The Logger class
    */
-  constructor (DB_CREDENTIALS) {
+  constructor (DB_CREDENTIALS, Logger) {
     /**
      * The knex query builder.
      * @private
      * @type    {Function}
      */
     this._knex = require(&apos;knex&apos;)({ client: &apos;mysql&apos;, connection: DB_CREDENTIALS })
+    /**
+     * The logger.
+     * @private
+     * @type    {Logger}
+     */
+    this._logger = new Logger()
   }
 
   /**
@@ -74,8 +81,10 @@ class DatabaseManager {
    * @param  {String}             id The ID of the guild
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
-  addClient (id) {
+  async addClient (id) {
+    if (await this._select({ table: &apos;guild_settings&apos;, columns: &apos;id&apos;, where: { id } })) return
     return this._insert({ table: &apos;guild_settings&apos;, data: { id } })
+      .then(() =&gt; { this._insert({ table: &apos;guild_toggles&apos;, data: { id } }) })
   }
 
   /**
@@ -94,15 +103,24 @@ class DatabaseManager {
    * @param  {String} id The ID of the guild.
    * @return {Object}    The guild data.
    */
-  async getClient (id) {
-    return (await this._select({ table: &apos;guild_settings&apos;, where: { id } }))[0]
+  getSettings (id) {
+    return this._get({ table: &apos;guild_settings&apos;, where: { id } })
+  }
+
+  /**
+   * Get data on a guild from the guild_toggles table
+   * @param  {String} id The ID of the guild.
+   * @return {Object}    The guild data.
+   */
+  getToggles (id) {
+    return this._get({ table: &apos;guild_toggles&apos;, where: { id } })
   }
 
   /**
    * Get the statuses of the bot from the statuses table.
    * @return {Object[]} Array of statuses, name and type.
    */
-  async getStatuses () {
+  getStatuses () {
     return this._select({ table: &apos;statuses&apos;, columns: [&apos;name&apos;, &apos;type&apos;] })
   }
 
@@ -137,6 +155,7 @@ class DatabaseManager {
    */
   removeClient (id) {
     return this._delete({ table: &apos;guild_settings&apos;, where: { id } })
+      .then(() =&gt; this._delete({ table: &apos;guild_toggles&apos;, where: { id } }))
   }
 
   /**
@@ -163,8 +182,11 @@ class DatabaseManager {
           table.string(&apos;id&apos;).primary()
           table.string(&apos;vip&apos;)
           table.string(&apos;prefix&apos;).defaultTo(bot.config.DEFAULT.prefix)
+          /* role IDs */
+          table.text(&apos;trackedRoles&apos;, &apos;longtext&apos;)
         })
       })
+      .catch(this._logger.error)
     )
 
     tables.push(this._knex.schema.hasTable(&apos;guild_toggles&apos;)
@@ -173,11 +195,14 @@ class DatabaseManager {
         return this._knex.schema.createTable(&apos;guild_toggles&apos;, (table) =&gt; {
           table.charset(&apos;utf8&apos;)
           table.string(&apos;id&apos;).primary()
-          // add toggleable values
+          table.boolean(&apos;game&apos;).defaultTo(true)
+          table.boolean(&apos;watch&apos;).defaultTo(true)
+          table.boolean(&apos;listen&apos;).defaultTo(true)
+          table.boolean(&apos;stream&apos;).defaultTo(true)
         })
       })
+      .catch(this._logger.error)
     )
-
     tables.push(this._knex.schema.hasTable(&apos;statuses&apos;)
       .then((exists) =&gt; {
         if (exists) return
@@ -186,24 +211,14 @@ class DatabaseManager {
           table.string(&apos;name&apos;).primary()
           table.integer(&apos;type&apos;).defaultTo(0)
           table.boolean(&apos;default&apos;).defaultTo(&apos;false&apos;)
-        })
-        .then(() =&gt; {
+        }).then(() =&gt;
           this._insert({ table: &apos;statuses&apos;, data: bot.config.DEFAULT.status })
-        })
+        )
       })
+      .catch(this._logger.error)
     )
 
     return Promise.all(tables)
-  }
-
-  /**
-   * Update a guild entry in the guild_settings table.
-   * @param  {String}             id   The ID of the guild.
-   * @param  {Object}             data The data to update. Property names should match column names.
-   * @return {(Number|undefined)}      Returns 0 on success or undefined.
-   */
-  updateClient (id, data) {
-    return this._update({ table: &apos;guild_settings&apos;, data, where: { id } })
   }
 
   /**
@@ -213,8 +228,8 @@ class DatabaseManager {
    * @param  {Number}             status.type The type of the status.
    * @return {(Number|undefined)}             Returns 0 on success or undefined.
    */
-  updateDefaultStatus (status) {
-    return this._update({ table: &apos;games&apos;, data: status, where: { default: 1 } })
+  updateDefaultStatus (data) {
+    return this._update({ table: &apos;games&apos;, data, where: { default: 1 } })
   }
 
   /**
@@ -227,6 +242,26 @@ class DatabaseManager {
     })
   }
 
+  /**
+   * Update a guild entry in the guild_settings table.
+   * @param  {String}             id       The ID of the guild.
+   * @param  {Object}             settings The data to update. Property names should match column names.
+   * @return {(Number|undefined)}          Returns 0 on success or undefined.
+   */
+  updateSettings (id, settings) {
+    return this._update({ table: &apos;guild_settings&apos;, data: settings, where: { id } })
+  }
+
+  /**
+   * Update a guild entry in the guild_toggles table.
+   * @param  {String}             id      The ID of the guild.
+   * @param  {Object}             toggles The data to update. Property names should match column names.
+   * @return {(Number|undefined)}         Returns 0 on success or undefined.
+   */
+  updateToggles (id, toggles) {
+    return this._update({ table: &apos;guild_toggles&apos;, data: toggles, where: { id } })
+  }
+
   // private methods
   /**
    * Get the number of rows in a table.
@@ -236,8 +271,8 @@ class DatabaseManager {
    */
   _count (table) {
     return this._knex(table).count(&apos;*&apos;)
-    .then((val) =&gt; val[0][&apos;count(*)&apos;])
-    .catch((e) =&gt; undefined)
+      .then((val) =&gt; val[0][&apos;count(*)&apos;])
+      .catch(this._logger.error)
   }
 
   /**
@@ -250,8 +285,19 @@ class DatabaseManager {
    */
   _delete ({ table, where }) {
     return this._knex(table).where(where).del()
-    .then((success) =&gt; 0)
-    .catch((e) =&gt; undefined)
+      .then((success) =&gt; 0)
+      .catch(this._logger.error)
+  }
+
+  /**
+   * Get the first entry from a table matching a condition.
+   * @private
+   * @param  {String} table The name of the table to get from.
+   * @param  {Object} where The column names and values to match.
+   * @return {Object}       The first matching row.
+   */
+  async _get ({ table, columns = &apos;*&apos;, where = true }) {
+    return (await this._select({ table, columns, limit: 1, where }))[0]
   }
 
   /**
@@ -264,8 +310,8 @@ class DatabaseManager {
    */
   _insert ({ table, data }) {
     return this._knex(table).insert(data)
-    .then((success) =&gt; 0)
-    .catch((e) =&gt; undefined)
+      .then((success) =&gt; 0)
+      .catch(this._logger.error)
   }
 
   /**
@@ -282,8 +328,8 @@ class DatabaseManager {
   async _select ({ table, columns = &apos;*&apos;, offset = 0, limit = null, where = true }) {
     if (!limit) limit = (await this._count(table)) || 0
     return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
-    .then((rows) =&gt; rows)
-    .catch((e) =&gt; undefined)
+      .then((rows) =&gt; rows)
+      .catch(this._logger.error)
   }
 
   /**
@@ -297,8 +343,8 @@ class DatabaseManager {
    */
   _update ({ table, where, data }) {
     return this._knex(table).where(where).update(data)
-    .then((success) =&gt; 0)
-    .catch((e) =&gt; undefined)
+      .then((success) =&gt; 0)
+      .catch(this._logger.error)
   }
 }
 

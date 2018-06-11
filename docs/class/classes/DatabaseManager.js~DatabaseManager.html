@@ -104,7 +104,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(DB_CREDENTIALS: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-constructor-constructor">constructor</a></span></span><span class="code" data-ice="signature">(DB_CREDENTIALS: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, Logger: <span>Class</span>)</span>
         </p>
       </div>
       <div>
@@ -155,6 +155,35 @@
       
     </td>
   </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-member-_logger">_logger</a></span></span><span class="code" data-ice="signature">: <span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The logger.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
 </tbody>
 </table>
 </div>
@@ -174,7 +203,7 @@
       <div>
         <p>
           
-          
+          <span data-ice="async">async</span>
           
           <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-addClient">addClient</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
         </p>
@@ -232,9 +261,9 @@
       <div>
         <p>
           
-          <span data-ice="async">async</span>
           
-          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-getClient">getClient</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-getSettings">getSettings</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
         </p>
       </div>
       <div>
@@ -261,7 +290,7 @@
       <div>
         <p>
           
-          <span data-ice="async">async</span>
+          
           
           <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-getStatuses">getStatuses</a></span></span><span class="code" data-ice="signature">(): <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span><span>[]</span></span></span>
         </p>
@@ -270,6 +299,35 @@
         
         
         <div data-ice="description"><p>Get the statuses of the bot from the statuses table.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-getToggles">getToggles</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Get data on a guild from the guild_toggles table</p>
 </div>
       </div>
     </td>
@@ -408,35 +466,6 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateClient">updateClient</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>Update a guild entry in the guild_settings table.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
           <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateDefaultPrefix">updateDefaultPrefix</a></span></span><span class="code" data-ice="signature">(prefix: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>)</span>
         </p>
       </div>
@@ -473,6 +502,64 @@
         
         
         <div data-ice="description"><p>Update the default status of the bot.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateSettings">updateSettings</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, settings: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Update a guild entry in the guild_settings table.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">public</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateToggles">updateToggles</a></span></span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, toggles: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Update a guild entry in the guild_toggles table.</p>
 </div>
       </div>
     </td>
@@ -537,6 +624,35 @@
         
         
         <div data-ice="description"><p>Delete an entry from a table.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          <span data-ice="async">async</span>
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_get">_get</a></span></span><span class="code" data-ice="signature">(table: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, where: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Get the first entry from a table matching a condition.</p>
 </div>
       </div>
     </td>
@@ -650,11 +766,11 @@
     
     
     
-    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(DB_CREDENTIALS: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>)</span>
+    <span class="code" data-ice="name">constructor</span><span class="code" data-ice="signature">(DB_CREDENTIALS: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>, Logger: <span>Class</span>)</span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber16">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber17">source</a></span></span>
     </span>
   </h3>
 
@@ -709,6 +825,13 @@
       <td data-ice="description"><p>The password associated with your user.</p>
 </td>
     </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">Logger</td>
+      <td data-ice="type" class="code"><span>Class</span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The Logger class</p>
+</td>
+    </tr>
 </tbody>
   </table>
 </div>
@@ -746,7 +869,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber22">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber23">source</a></span></span>
     </span>
   </h3>
 
@@ -754,6 +877,50 @@
   
   
   <div data-ice="description"><p>The knex query builder.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-_logger">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_logger</span><span class="code" data-ice="signature">: <span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber29">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>The logger.</p>
 </div>
 
   
@@ -787,13 +954,13 @@
     
     
     
-    
+    <span data-ice="async">async</span>
     
     <span class="code" data-ice="name">addClient</span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber30">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber37">source</a></span></span>
     </span>
   </h3>
 
@@ -867,7 +1034,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber41">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber50">source</a></span></span>
     </span>
   </h3>
 
@@ -944,18 +1111,18 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-getClient">
+  <h3 data-ice="anchor" id="instance-method-getSettings">
     <span class="access" data-ice="access">public</span>
     
     
     
-    <span data-ice="async">async</span>
     
-    <span class="code" data-ice="name">getClient</span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+    
+    <span class="code" data-ice="name">getSettings</span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber50">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber59">source</a></span></span>
     </span>
   </h3>
 
@@ -1023,13 +1190,13 @@
     
     
     
-    <span data-ice="async">async</span>
+    
     
     <span class="code" data-ice="name">getStatuses</span><span class="code" data-ice="signature">(): <span><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span><span>[]</span></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber58">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber76">source</a></span></span>
     </span>
   </h3>
 
@@ -1075,6 +1242,80 @@
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-getToggles">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">getToggles</span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber68">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Get data on a guild from the guild_toggles table</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">id</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The ID of the guild.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The guild data.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-initialize">
     <span class="access" data-ice="access">public</span>
     
@@ -1086,7 +1327,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber66">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber84">source</a></span></span>
     </span>
   </h3>
 
@@ -1147,7 +1388,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber91">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber109">source</a></span></span>
     </span>
   </h3>
 
@@ -1221,7 +1462,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber100">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber119">source</a></span></span>
     </span>
   </h3>
 
@@ -1295,7 +1536,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber109">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber128">source</a></span></span>
     </span>
   </h3>
 
@@ -1358,87 +1599,6 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-method-updateClient">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">updateClient</span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, data: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber158">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>Update a guild entry in the guild_settings table.</p>
-</div>
-
-  
-
-  <div data-ice="properties"><div data-ice="properties">
-  <h4 data-ice="title">Params:</h4>
-  <table class="params">
-    <thead>
-    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
-    </thead>
-    <tbody>
-    
-    <tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">id</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The ID of the guild.</p>
-</td>
-    </tr>
-<tr data-ice="property" data-depth="0">
-      <td data-ice="name" class="code" data-depth="0">data</td>
-      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
-      <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The data to update. Property names should match column names.</p>
-</td>
-    </tr>
-</tbody>
-  </table>
-</div>
-</div>
-
-  <div class="return-params" data-ice="returnParams">
-    <h4>Return:</h4>
-    <table>
-      <tbody>
-        <tr>
-          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
-          <td class="return-desc" data-ice="returnDescription"><p>Returns 0 on success or undefined.</p>
-</td>
-        </tr>
-      </tbody>
-    </table>
-    <div data-ice="returnProperties">
-</div>
-  </div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-updateDefaultPrefix">
     <span class="access" data-ice="access">public</span>
     
@@ -1450,7 +1610,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber177">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber192">source</a></span></span>
     </span>
   </h3>
 
@@ -1511,7 +1671,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber169">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber184">source</a></span></span>
     </span>
   </h3>
 
@@ -1587,6 +1747,168 @@
   
   
 </div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-updateSettings">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">updateSettings</span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, settings: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber204">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Update a guild entry in the guild_settings table.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">id</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The ID of the guild.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">settings</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The data to update. Property names should match column names.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Returns 0 on success or undefined.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-updateToggles">
+    <span class="access" data-ice="access">public</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">updateToggles</span><span class="code" data-ice="signature">(id: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, toggles: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber214">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Update a guild entry in the guild_toggles table.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">id</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The ID of the guild.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">toggles</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The data to update. Property names should match column names.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span> | <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined">undefined</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>Returns 0 on success or undefined.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
 <h2 data-ice="title">Private Methods</h2>
 
 <div class="detail" data-ice="detail">
@@ -1601,7 +1923,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber190">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber225">source</a></span></span>
     </span>
   </h3>
 
@@ -1675,7 +1997,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber204">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber239">source</a></span></span>
     </span>
   </h3>
 
@@ -1752,6 +2074,87 @@
   
 </div>
 <div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-method-_get">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    <span data-ice="async">async</span>
+    
+    <span class="code" data-ice="name">_get</span><span class="code" data-ice="signature">(table: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, where: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber252">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>Get the first entry from a table matching a condition.</p>
+</div>
+
+  
+
+  <div data-ice="properties"><div data-ice="properties">
+  <h4 data-ice="title">Params:</h4>
+  <table class="params">
+    <thead>
+    <tr><td>Name</td><td>Type</td><td>Attribute</td><td>Description</td></tr>
+    </thead>
+    <tbody>
+    
+    <tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">table</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The name of the table to get from.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">where</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+      <td data-ice="appendix"></td>
+      <td data-ice="description"><p>The column names and values to match.</p>
+</td>
+    </tr>
+</tbody>
+  </table>
+</div>
+</div>
+
+  <div class="return-params" data-ice="returnParams">
+    <h4>Return:</h4>
+    <table>
+      <tbody>
+        <tr>
+          <td class="return-type code" data-ice="returnType"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></td>
+          <td class="return-desc" data-ice="returnDescription"><p>The first matching row.</p>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    <div data-ice="returnProperties">
+</div>
+  </div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-method-_insert">
     <span class="access" data-ice="access">private</span>
     
@@ -1763,7 +2166,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber218">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber264">source</a></span></span>
     </span>
   </h3>
 
@@ -1851,7 +2254,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber235">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber281">source</a></span></span>
     </span>
   </h3>
 
@@ -1964,7 +2367,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber251">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/DatabaseManager.js.html#lineNumber297">source</a></span></span>
     </span>
   </h3>
 
