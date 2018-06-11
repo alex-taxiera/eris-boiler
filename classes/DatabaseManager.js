@@ -60,6 +60,11 @@ class DatabaseManager {
     return this._get({ table: 'guild_settings', where: { id } })
   }
 
+  /**
+   * Get data on a guild from the guild_toggles table
+   * @param  {String} id The ID of the guild.
+   * @return {Object}    The guild data.
+   */
   getToggles (id) {
     return this._get({ table: 'guild_toggles', where: { id } })
   }
