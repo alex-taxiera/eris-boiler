@@ -378,10 +378,10 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "classes/command.js~command#help",
-    "class/classes/Command.js~Command.html#instance-method-help",
-    "classes/Command.js~Command#help",
-    "method"
+    "classes/command.js~command#info",
+    "class/classes/Command.js~Command.html#instance-get-info",
+    "classes/Command.js~Command#info",
+    "member"
   ],
   [
     "classes/command.js~command#name",
@@ -504,6 +504,12 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "classes/databasemanager.js~databasemanager#_get",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_get",
+    "classes/DatabaseManager.js~DatabaseManager#_get",
+    "method"
+  ],
+  [
     "classes/databasemanager.js~databasemanager#_insert",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-_insert",
     "classes/DatabaseManager.js~DatabaseManager#_insert",
@@ -513,6 +519,12 @@ window.esdocSearchIndex = [
     "classes/databasemanager.js~databasemanager#_knex",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-member-_knex",
     "classes/DatabaseManager.js~DatabaseManager#_knex",
+    "member"
+  ],
+  [
+    "classes/databasemanager.js~databasemanager#_logger",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-member-_logger",
+    "classes/DatabaseManager.js~DatabaseManager#_logger",
     "member"
   ],
   [
@@ -546,15 +558,21 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "classes/databasemanager.js~databasemanager#getclient",
-    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-getClient",
-    "classes/DatabaseManager.js~DatabaseManager#getClient",
+    "classes/databasemanager.js~databasemanager#getsettings",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-getSettings",
+    "classes/DatabaseManager.js~DatabaseManager#getSettings",
     "method"
   ],
   [
     "classes/databasemanager.js~databasemanager#getstatuses",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-getStatuses",
     "classes/DatabaseManager.js~DatabaseManager#getStatuses",
+    "method"
+  ],
+  [
+    "classes/databasemanager.js~databasemanager#gettoggles",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-getToggles",
+    "classes/DatabaseManager.js~DatabaseManager#getToggles",
     "method"
   ],
   [
@@ -582,12 +600,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "classes/databasemanager.js~databasemanager#updateclient",
-    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateClient",
-    "classes/DatabaseManager.js~DatabaseManager#updateClient",
-    "method"
-  ],
-  [
     "classes/databasemanager.js~databasemanager#updatedefaultprefix",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateDefaultPrefix",
     "classes/DatabaseManager.js~DatabaseManager#updateDefaultPrefix",
@@ -597,6 +609,18 @@ window.esdocSearchIndex = [
     "classes/databasemanager.js~databasemanager#updatedefaultstatus",
     "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateDefaultStatus",
     "classes/DatabaseManager.js~DatabaseManager#updateDefaultStatus",
+    "method"
+  ],
+  [
+    "classes/databasemanager.js~databasemanager#updatesettings",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateSettings",
+    "classes/DatabaseManager.js~DatabaseManager#updateSettings",
+    "method"
+  ],
+  [
+    "classes/databasemanager.js~databasemanager#updatetoggles",
+    "class/classes/DatabaseManager.js~DatabaseManager.html#instance-method-updateToggles",
+    "classes/DatabaseManager.js~DatabaseManager#updateToggles",
     "method"
   ],
   [

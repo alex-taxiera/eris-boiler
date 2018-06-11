@@ -57,31 +57,34 @@ class Logger {
    * @param {String} str             The string to log (can also be something with a toString method).
    * @param {String} [color=&apos;white&apos;] The color that the message should be in.
    */
-  log (str, color = &apos;white&apos;) {
-    if (typeof str !== &apos;string&apos;) str = str.toString()
-    console.log(colors.gray(`${moment().format(&apos;MM/DD HH:mm:ss&apos;)}`) + &apos; | &apos; +
-    colors[color](`BZZT ${str.toUpperCase()} BZZT`))
+  log (content, color = &apos;white&apos;) {
+    const time = moment().format(&apos;MM/DD HH:mm:ss&apos;)
+    console.log(colors.gray(time) + &apos; | &apos; + colors[color](content))
   }
   /**
    * Log something in green for success.
    * @param {String} str The string to log (can also be something with a toString method).
    */
-  success (str) {
-    this.log(str, &apos;green&apos;)
+  success (content) {
+    const time = moment().format(&apos;MM/DD HH:mm:ss&apos;)
+    console.log(colors.gray(time) + &apos; | &apos; + colors.green(content))
   }
   /**
    * Log something in yellow for warning.
    * @param {String} str The string to log (can also be something with a toString method).
    */
-  warn (str) {
-    this.log(str, &apos;yellow&apos;)
+  warn (content) {
+    const time = moment().format(&apos;MM/DD HH:mm:ss&apos;)
+    console.log(colors.gray(time) + &apos; | &apos; + colors.yellow(content))
   }
   /**
    * Log something in red for error.
    * @param {String} err The string to log (can also be something with a toString method).
    */
-  error (err) {
-    this.log(err, &apos;red&apos;)
+  error (error) {
+    if (error.stack) error = error.stack
+    const time = moment().format(&apos;MM/DD HH:mm:ss&apos;)
+    console.log(colors.gray(time) + &apos; | &apos; + colors.red(error))
   }
 }
 
