@@ -12,7 +12,7 @@ class DatabaseManager {
    * @param {String} DB_CREDENTIALS.host     The address of your database.
    * @param {String} DB_CREDENTIALS.user     The username to login with.
    * @param {String} DB_CREDENTIALS.password The password associated with your user.
-   * @param {class}  Logger                  The Logger class
+   * @param {Class}  Logger                  The Logger class
    */
   constructor (DB_CREDENTIALS, Logger) {
     /**
@@ -34,8 +34,10 @@ class DatabaseManager {
    * @param  {String}             id The ID of the guild
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
-  addClient (id) {
+  async addClient (id) {
+    if (await this._select({ table: 'guild_settings', columns: 'id', where: { id } })) return
     return this._insert({ table: 'guild_settings', data: { id } })
+      .then(() => { this._insert({ table: 'guild_toggles', data: { id } }) })
   }
 
   /**
@@ -58,16 +60,16 @@ class DatabaseManager {
     return this._get({ table: 'guild_settings', where: { id } })
   }
 
+  getToggles (id) {
+    return this._get({ table: 'guild_toggles', where: { id } })
+  }
+
   /**
    * Get the statuses of the bot from the statuses table.
    * @return {Object[]} Array of statuses, name and type.
    */
-  async getStatuses () {
+  getStatuses () {
     return this._select({ table: 'statuses', columns: ['name', 'type'] })
-  }
-
-  getToggles (id) {
-    return this._get({ table: 'guild_toggles', where: { id } })
   }
 
   /**
@@ -101,6 +103,7 @@ class DatabaseManager {
    */
   removeClient (id) {
     return this._delete({ table: 'guild_settings', where: { id } })
+      .then(() => this._delete({ table: 'guild_toggles', where: { id } }))
   }
 
   /**
@@ -127,6 +130,8 @@ class DatabaseManager {
           table.string('id').primary()
           table.string('vip')
           table.string('prefix').defaultTo(bot.config.DEFAULT.prefix)
+          /* role IDs */
+          table.text('trackedRoles', 'longtext')
         })
       })
       .catch(this._logger.error)
@@ -138,12 +143,14 @@ class DatabaseManager {
         return this._knex.schema.createTable('guild_toggles', (table) => {
           table.charset('utf8')
           table.string('id').primary()
-          // add toggleable values
+          table.boolean('game').defaultTo(true)
+          table.boolean('watch').defaultTo(true)
+          table.boolean('listen').defaultTo(true)
+          table.boolean('stream').defaultTo(true)
         })
       })
       .catch(this._logger.error)
     )
-
     tables.push(this._knex.schema.hasTable('statuses')
       .then((exists) => {
         if (exists) return
@@ -152,11 +159,9 @@ class DatabaseManager {
           table.string('name').primary()
           table.integer('type').defaultTo(0)
           table.boolean('default').defaultTo('false')
-        })
-        .then(() => {
+        }).then(() =>
           this._insert({ table: 'statuses', data: bot.config.DEFAULT.status })
-        })
-        .catch(this._logger.error)
+        )
       })
       .catch(this._logger.error)
     )
@@ -171,8 +176,8 @@ class DatabaseManager {
    * @param  {Number}             status.type The type of the status.
    * @return {(Number|undefined)}             Returns 0 on success or undefined.
    */
-  updateDefaultStatus (status) {
-    return this._update({ table: 'games', data: status, where: { default: 1 } })
+  updateDefaultStatus (data) {
+    return this._update({ table: 'games', data, where: { default: 1 } })
   }
 
   /**
@@ -214,8 +219,8 @@ class DatabaseManager {
    */
   _count (table) {
     return this._knex(table).count('*')
-    .then((val) => val[0]['count(*)'])
-    .catch(this._logger.error)
+      .then((val) => val[0]['count(*)'])
+      .catch(this._logger.error)
   }
 
   /**
@@ -228,8 +233,8 @@ class DatabaseManager {
    */
   _delete ({ table, where }) {
     return this._knex(table).where(where).del()
-    .then((success) => 0)
-    .catch(this._logger.error)
+      .then((success) => 0)
+      .catch(this._logger.error)
   }
 
   /**
@@ -253,8 +258,8 @@ class DatabaseManager {
    */
   _insert ({ table, data }) {
     return this._knex(table).insert(data)
-    .then((success) => 0)
-    .catch(this._logger.error)
+      .then((success) => 0)
+      .catch(this._logger.error)
   }
 
   /**
@@ -271,8 +276,8 @@ class DatabaseManager {
   async _select ({ table, columns = '*', offset = 0, limit = null, where = true }) {
     if (!limit) limit = (await this._count(table)) || 0
     return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
-    .then((rows) => rows)
-    .catch(this._logger.error)
+      .then((rows) => rows)
+      .catch(this._logger.error)
   }
 
   /**
@@ -286,8 +291,8 @@ class DatabaseManager {
    */
   _update ({ table, where, data }) {
     return this._knex(table).where(where).update(data)
-    .then((success) => 0)
-    .catch(this._logger.error)
+      .then((success) => 0)
+      .catch(this._logger.error)
   }
 }
 
