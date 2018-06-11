@@ -7,7 +7,7 @@ const colors = require('colors')
 class Logger {
   /**
    * Log something.
-   * @param {String} str             The string to log (can also be something with a toString method).
+   * @param {String} content         The string to log (can also be something with a toString method).
    * @param {String} [color='white'] The color that the message should be in.
    */
   log (content, color = 'white') {
@@ -16,7 +16,7 @@ class Logger {
   }
   /**
    * Log something in green for success.
-   * @param {String} str The string to log (can also be something with a toString method).
+   * @param {String} content The string to log (can also be something with a toString method).
    */
   success (content) {
     const time = moment().format('MM/DD HH:mm:ss')
@@ -24,7 +24,7 @@ class Logger {
   }
   /**
    * Log something in yellow for warning.
-   * @param {String} str The string to log (can also be something with a toString method).
+   * @param {String} content The string to log (can also be something with a toString method).
    */
   warn (content) {
     const time = moment().format('MM/DD HH:mm:ss')
@@ -32,7 +32,7 @@ class Logger {
   }
   /**
    * Log something in red for error.
-   * @param {String} err The string to log (can also be something with a toString method).
+   * @param {String} error The string to log (can also be something with a toString method).
    */
   error (error) {
     if (error.stack) error = error.stack
