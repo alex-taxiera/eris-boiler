@@ -3447,7 +3447,7 @@
   },
   {
     "kind": "index",
-    "content": "# eris-boiler\r\nA Discord Bot boilerplate using JavaScript and the Eris library\r\n# Startup\r\n1. Create a `config.json` file inside of `src` (use `sample.config.json` as a guide)\r\n2. Run `npm start`\r\n# Documentation\r\nClass documentation can be found [here](https://alex-taxiera.github.io/eris-boiler/)\r\n",
+    "content": "# eris-boiler\r\nA Discord Bot boilerplate using JavaScript and the Eris library\r\n# Startup\r\n1. Create a `config.json` file inside of `src` (use `sample.config.json` as a guide)\r\n2. Run `npm start`\r\n\r\n# Documentation\r\nClass documentation can be found [here](https://alex-taxiera.github.io/eris-boiler/)\r\n",
     "longname": "C:\\Users\\Alex\\Source\\Repos\\eris-boiler\\README.md",
     "name": "./README.md",
     "static": true,
