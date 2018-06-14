@@ -35,20 +35,18 @@ class DatabaseManager {
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
   async addClient (id) {
-    if (await this._select({ table: 'guild_settings', columns: 'id', where: { id } })) return
     return this._insert({ table: 'guild_settings', data: { id } })
       .then(() => { this._insert({ table: 'guild_toggles', data: { id } }) })
   }
 
   /**
    * Insert a status into the statuses table.
-   * @param  {Object}             status      The status to make default.
-   * @param  {String}             status.name The name of the status.
-   * @param  {Number}             status.type The type of the status.
-   * @return {(Number|undefined)}             Returns 0 on success or undefined.
+   * @param  {String}             name   The name of the status.
+   * @param  {Number}             [type] The type of the status.
+   * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
-  addStatus (status) {
-    return this._insert({ table: 'statuses', data: status })
+  addStatus (name, type) {
+    return this._insert({ table: 'statuses', data: { name, type } })
   }
 
   /**
@@ -84,7 +82,7 @@ class DatabaseManager {
   async initialize (guilds) {
     let tmpGuilds = new Map(guilds)
     const saved = await this._select({ table: 'guild_settings' })
-    if (saved) {
+    if (saved.length > 0) {
       for (let i = 0; i < saved.length; i++) {
         const id = saved[i].id
         const guild = tmpGuilds.get(id)
@@ -176,9 +174,9 @@ class DatabaseManager {
 
   /**
    * Update the default status of the bot.
-   * @param  {Object}             data      The status to make default.
-   * @param  {String}             data.name The name of the status.
-   * @param  {Number}             data.type The type of the status.
+   * @param  {Object}             status      The status to make default.
+   * @param  {String}             status.name The name of the status.
+   * @param  {Number}             status.type The type of the status.
    * @return {(Number|undefined)}             Returns 0 on success or undefined.
    */
   updateDefaultStatus (data) {
