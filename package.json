@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "node ./src/index.js",
-    "doc": "./src/node_modules/.bin/esdoc"
+    "doc": "./node_modules/.bin/esdoc"
   },
   "repository": {
     "type": "git",
