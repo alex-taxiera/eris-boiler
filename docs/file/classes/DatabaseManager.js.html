@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">classes/DatabaseManager.js | eris-boiler</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<link rel="stylesheet" href="./inject/css/0-custom-css.css"><meta name="description" content="A Discord Bot boilerplate using JavaScript and the Eris library"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="eris-boiler"><meta property="twitter:description" content="A Discord Bot boilerplate using JavaScript and the Eris library"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/alex-taxiera/eris-boiler"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Command.js~Command.html">Command</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DataClient.js~DataClient.html">DataClient</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html">DatabaseManager</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Permission.js~Permission.html">Permission</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Setting.js~Setting.html">Setting</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Status.js~Status.html">Status</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/StatusType.js~StatusType.html">StatusType</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Toggle.js~Toggle.html">Toggle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://abal.moe/Eris/docs/Client">Client</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-external">E</span><span data-ice="name"><span><a href="https://abal.moe/Eris/docs/Collection">Collection</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">classes/DatabaseManager.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
+ * @external {Collection} https://abal.moe/Eris/docs/Collection
+ */
+/**
+ * Class representing a database manager.
+ */
+class DatabaseManager {
+  /**
+   * Create a database manager.
+   * @param {Object} DB_CREDENTIALS          The credentials to create the db connection. This should be filled in the config file.
+   * @param {String} DB_CREDENTIALS.database The name of your database.
+   * @param {String} DB_CREDENTIALS.host     The address of your database.
+   * @param {String} DB_CREDENTIALS.user     The username to login with.
+   * @param {String} DB_CREDENTIALS.password The password associated with your user.
+   * @param {Class}  Logger                  The Logger class
+   */
+  constructor (DB_CREDENTIALS, Logger) {
+    /**
+     * The knex query builder.
+     * @private
+     * @type    {Function}
+     */
+    this._knex = require(&apos;knex&apos;)({ client: &apos;mysql&apos;, connection: DB_CREDENTIALS })
+    /**
+     * The logger.
+     * @private
+     * @type    {Logger}
+     */
+    this._logger = new Logger()
+  }
+
+  /**
+   * Insert a guild into the guild_settings table.
+   * @param  {String}             id The ID of the guild
+   * @return {(Number|undefined)}    Returns 0 on success or undefined.
+   */
+  async addClient (id) {
+    return this._insert({ table: &apos;guild_settings&apos;, data: { id } })
+      .then(() =&gt; { this._insert({ table: &apos;guild_toggles&apos;, data: { id } }) })
+  }
+
+  /**
+   * Insert a status into the statuses table.
+   * @param  {String}             name   The name of the status.
+   * @param  {Number}             [type] The type of the status.
+   * @return {(Number|undefined)}        Returns 0 on success or undefined.
+   */
+  addStatus (name, type) {
+    return this._insert({ table: &apos;statuses&apos;, data: { name, type } })
+  }
+
+  /**
+   * Get data on a guild from the guild_settings table
+   * @param  {String} id The ID of the guild.
+   * @return {Object}    The guild data.
+   */
+  getSettings (id) {
+    return this._get({ table: &apos;guild_settings&apos;, where: { id } })
+  }
+
+  /**
+   * Get data on a guild from the guild_toggles table
+   * @param  {String} id The ID of the guild.
+   * @return {Object}    The guild data.
+   */
+  getToggles (id) {
+    return this._get({ table: &apos;guild_toggles&apos;, where: { id } })
+  }
+
+  /**
+   * Get the statuses of the bot from the statuses table.
+   * @return {Object[]} Array of statuses, name and type.
+   */
+  getStatuses () {
+    return this._select({ table: &apos;statuses&apos;, columns: [&apos;name&apos;, &apos;type&apos;] })
+  }
+
+  /**
+   * Check saved guild data against live guild data.
+   * @param {Collection&lt;Guild&gt;} guilds The bots collection of guilds at start up.
+   */
+  async initialize (guilds) {
+    let tmpGuilds = new Map(guilds)
+    const saved = await this._select({ table: &apos;guild_settings&apos; })
+    if (saved.length &gt; 0) {
+      for (let i = 0; i &lt; saved.length; i++) {
+        const id = saved[i].id
+        const guild = tmpGuilds.get(id)
+        if (guild) {
+          tmpGuilds.delete(id)
+          if (saved[i].vip &amp;&amp; !guild.roles.get(saved[i].vip)) this.updateClient(id, { vip: null })
+          continue
+        }
+        await this.removeClient(saved[i].id)
+      }
+    }
+    for (const [id] of tmpGuilds) {
+      this.addClient(id)
+    }
+  }
+
+  /**
+   * Remove a guild from the guild_settings table.
+   * @param  {String}             id The guild ID to remove.
+   * @return {(Number|undefined)}    Returns 0 on success or undefined.
+   */
+  removeClient (id) {
+    return this._delete({ table: &apos;guild_settings&apos;, where: { id } })
+      .then(() =&gt; this._delete({ table: &apos;guild_toggles&apos;, where: { id } }))
+  }
+
+  /**
+   * Remove a status from the statuses table.
+   * @param  {String}             name The status to remove.
+   * @return {(Number|undefined)}      Returns 0 on success or undefined.
+   */
+  removeStatus (name) {
+    return this._delete({ table: &apos;statuses&apos;, where: { name } })
+  }
+
+  /**
+   * Setup database tables.
+   * @param  {DataClient} bot The bot client.
+   * @return {Promise[]}      The results of the table creation.
+   */
+  async setup (bot) {
+    const tables = []
+    tables.push(this._knex.schema.hasTable(&apos;guild_settings&apos;)
+      .then((exists) =&gt; {
+        if (exists) return
+        return this._knex.schema.createTable(&apos;guild_settings&apos;, (table) =&gt; {
+          table.charset(&apos;utf8&apos;)
+          table.string(&apos;id&apos;).primary()
+          table.string(&apos;vip&apos;)
+          table.string(&apos;prefix&apos;).defaultTo(bot.config.DEFAULT.prefix)
+          /* role IDs */
+          table.text(&apos;trackedRoles&apos;, &apos;longtext&apos;)
+        })
+      })
+      .catch(this._logger.error)
+    )
+
+    tables.push(this._knex.schema.hasTable(&apos;guild_toggles&apos;)
+      .then((exists) =&gt; {
+        if (exists) return
+        return this._knex.schema.createTable(&apos;guild_toggles&apos;, (table) =&gt; {
+          table.charset(&apos;utf8&apos;)
+          table.string(&apos;id&apos;).primary()
+          table.boolean(&apos;game&apos;).defaultTo(true)
+          table.boolean(&apos;watch&apos;).defaultTo(true)
+          table.boolean(&apos;listen&apos;).defaultTo(true)
+          table.boolean(&apos;stream&apos;).defaultTo(true)
+        })
+      })
+      .catch(this._logger.error)
+    )
+    tables.push(this._knex.schema.hasTable(&apos;statuses&apos;)
+      .then((exists) =&gt; {
+        if (exists) return
+        return this._knex.schema.createTable(&apos;statuses&apos;, (table) =&gt; {
+          table.charset(&apos;utf8&apos;)
+          table.string(&apos;name&apos;).primary()
+          table.integer(&apos;type&apos;).defaultTo(0)
+          table.boolean(&apos;default&apos;).defaultTo(&apos;false&apos;)
+        }).then(() =&gt;
+          this._insert({ table: &apos;statuses&apos;, data: bot.config.DEFAULT.status })
+        )
+      })
+      .catch(this._logger.error)
+    )
+
+    return Promise.all(tables)
+  }
+
+  /**
+   * Update the default status of the bot.
+   * @param  {Object}             data      The status to make default.
+   * @param  {String}             data.name The name of the status.
+   * @param  {Number}             data.type The type of the status.
+   * @return {(Number|undefined)}             Returns 0 on success or undefined.
+   */
+  updateDefaultStatus (data) {
+    return this._update({ table: &apos;games&apos;, data, where: { default: 1 } })
+  }
+
+  /**
+   * Update the default prefix in the guild_settings table. Not available with SQLite.
+   * @param {String} prefix The prefix to set as default.
+   */
+  updateDefaultPrefix (prefix) {
+    this._knex.schema.alterTable(&apos;guild_settings&apos;, (table) =&gt; {
+      table.string(&apos;prefix&apos;).defaultTo(prefix)
+    })
+  }
+
+  /**
+   * Update a guild entry in the guild_settings table.
+   * @param  {String}             id       The ID of the guild.
+   * @param  {Object}             settings The data to update. Property names should match column names.
+   * @return {(Number|undefined)}          Returns 0 on success or undefined.
+   */
+  updateSettings (id, settings) {
+    return this._update({ table: &apos;guild_settings&apos;, data: settings, where: { id } })
+  }
+
+  /**
+   * Update a guild entry in the guild_toggles table.
+   * @param  {String}             id      The ID of the guild.
+   * @param  {Object}             toggles The data to update. Property names should match column names.
+   * @return {(Number|undefined)}         Returns 0 on success or undefined.
+   */
+  updateToggles (id, toggles) {
+    return this._update({ table: &apos;guild_toggles&apos;, data: toggles, where: { id } })
+  }
+
+  // private methods
+  /**
+   * Get the number of rows in a table.
+   * @private
+   * @param   {String}             table The name of the table.
+   * @return  {(Number|undefined)}       Returns the number of rows on success or undefined.
+   */
+  _count (table) {
+    return this._knex(table).count(&apos;*&apos;)
+      .then((val) =&gt; val[0][&apos;count(*)&apos;])
+      .catch(this._logger.error)
+  }
+
+  /**
+   * Delete an entry from a table.
+   * @private
+   * @param   {Object}             data       The query data.
+   * @param   {String}             data.table The name of the table.
+   * @param   {Object}             data.where The condition to be met to find what to delete. Property name should match column name.
+   * @return  {(Number|undefined)}            Returns 0 on success or undefined.
+   */
+  _delete ({ table, where }) {
+    return this._knex(table).where(where).del()
+      .then((success) =&gt; 0)
+      .catch(this._logger.error)
+  }
+
+  /**
+   * Get the first entry from a table matching a condition.
+   * @private
+   * @param   {Object}            data               The query data.
+   * @param   {String}            data.table         The name of the table.
+   * @param   {(String[]|String)} [data.columns=&apos;*&apos;] The column(s) to select.
+   * @param   {Object}            [data.where=true]  The column names and values to match.
+   * @return  {Object}                               The first matching row.
+   */
+  async _get ({ table, columns = &apos;*&apos;, where = true }) {
+    return (await this._select({ table, columns, limit: 1, where }))[0]
+  }
+
+  /**
+   * Insert an entry into a table.
+   * @private
+   * @param   {Object}             data       The query data.
+   * @param   {String}             data.table The name of the table.
+   * @param   {Object}             data.data  The data to insert. Property names should match column names.
+   * @return  {(Number|undefined)}            Returns 0 on success or undefined.
+   */
+  _insert ({ table, data }) {
+    return this._knex(table).insert(data)
+      .then((success) =&gt; 0)
+      .catch(this._logger.error)
+  }
+
+  /**
+   * Select entries from a table.
+   * @private
+   * @param   {Object}               data               The query data.
+   * @param   {String}               data.table         The name of the table.
+   * @param   {(String[]|String)}    [data.columns=&apos;*&apos;] The column(s) to select.
+   * @param   {Number}               [data.offset=0]    The amount of rows to skip before selecting.
+   * @param   {Number}               [data.limit=null]  The amount of rows to select. Will be set to all columns if null.
+   * @param   {Object}               [data.where=true]  The condition to match your selection against. Property name should match column name.
+   * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.
+   */
+  async _select ({ table, columns = &apos;*&apos;, offset = 0, limit = null, where = true }) {
+    if (!limit) limit = (await this._count(table)) || 0
+    return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
+      .then((rows) =&gt; rows)
+      .catch(this._logger.error)
+  }
+
+  /**
+   * Update entries in a table.
+   * @private
+   * @param   {Object}             data       The query data.
+   * @param   {String}             data.table The name of the table.
+   * @param   {Object}             data.where The condition to be met to find what to update. Property name should match column name.
+   * @param   {Object}             data.data  The data to update. Property names should match column names.
+   * @return  {(Number|undefined)}            Returns 0 on success or undefined.
+   */
+  _update ({ table, where, data }) {
+    return this._knex(table).where(where).update(data)
+      .then((success) =&gt; 0)
+      .catch(this._logger.error)
+  }
+}
+
+module.exports = DatabaseManager
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

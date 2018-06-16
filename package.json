@@ -1,10 +1,11 @@
 {
   "name": "eris-boiler",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A Discord Bot boilerplate using JavaScript and the Eris library",
-  "main": "bot.js",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "mocha --recursive test & standard & nodemon"
+    "start": "node ./src/index.js",
+    "doc": "./node_modules/.bin/esdoc"
   },
   "repository": {
     "type": "git",
@@ -23,17 +24,20 @@
   },
   "homepage": "https://github.com/alex-taxiera/eris-boiler#readme",
   "dependencies": {
-    "colors": "^1.2.1",
-    "eris": "^0.8.5",
-    "knex": "^0.14.4",
-    "moment": "^2.21.0",
+    "colors": "^1.3.0",
+    "eris": "^0.8.6",
+    "knex": "^0.14.6",
+    "moment": "^2.22.2",
     "mysql": "^2.15.0",
-    "npm": "^5.7.1",
-    "seedrandom": "^2.4.3"
+    "npm": "^6.1.0"
   },
   "devDependencies": {
-    "mocha": "^5.0.5",
-    "nodemon": "^1.17.2",
-    "standard": "^10.0.3"
+    "esdoc": "^1.1.0",
+    "esdoc-custom-theme": "^1.4.2",
+    "esdoc-inject-style-plugin": "^1.0.0",
+    "esdoc-node": "^1.0.3",
+    "esdoc-publish-html-plugin": "^1.1.2",
+    "esdoc-standard-plugin": "^1.0.0",
+    "standard": "^11.0.1"
   }
 }

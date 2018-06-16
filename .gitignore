@@ -57,5 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
-# config
+# project
+.jsdoc.json
+.esdoc.json
+custom-css.css
 config.json
