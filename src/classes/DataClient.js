@@ -25,9 +25,10 @@ class DataClient extends require('eris') {
    * @param {String}  config.DEFAULT.status.name     The default bot status name.
    * @param {Number}  config.DEFAULT.status.type     The default bot status type.
    * @param {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.
+   * @param {Object}  options                        Same as Client.
    */
-  constructor (config) {
-    super(config.TOKEN)
+  constructor (config, options) {
+    super(config.TOKEN, options)
     /**
      * The bot config data.
      * @type     {Object}
