@@ -1,5 +1,5 @@
 const moment = require('moment')
-const colors = require('colors')
+const colors = require('colors/safe')
 
 /**
  * Class representing a logger.
