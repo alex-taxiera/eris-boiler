@@ -1,3 +1,4 @@
+const { writeFile } = require('fs').promises
 /**
  * Class representing a setting.
  */
@@ -45,18 +46,13 @@ class Setting {
   setValue (value, bot) {
     if (this.value === value) return `${this.name} is already ${this.value}!`
     this.value = bot.config.DEFAULT[this.code] = value
-    this.save(bot.config)
+
+    writeFile('./config.json', JSON.stringify(bot.config, undefined, 2))
+      .then((success) => bot.logger.success('wrote to config'))
+      .catch(bot.logger.error)
+
     this.onChange(bot, value)
     return `${this.name} set to ${this.value}!`
-  }
-  /**
-   * Save settings to file.
-   * @param {Object} config The client's config object.
-   */
-  save (config) {
-    require('fs').writeFile('./config.json', JSON.stringify(config, undefined, 2), (err) => {
-      if (err) throw err
-    })
   }
 }
 
