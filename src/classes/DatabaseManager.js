@@ -36,7 +36,7 @@ class DatabaseManager {
    */
   async addClient (id) {
     return this._insert({ table: 'guild_settings', data: { id } })
-      .then(() => { this._insert({ table: 'guild_toggles', data: { id } }) })
+      .then(() => this._insert({ table: 'guild_toggles', data: { id } }))
   }
 
   /**
@@ -125,48 +125,42 @@ class DatabaseManager {
    */
   async setup (bot) {
     const tables = []
-    tables.push(this._knex.schema.hasTable('guild_settings')
-      .then((exists) => {
-        if (exists) return
-        return this._knex.schema.createTable('guild_settings', (table) => {
-          table.charset('utf8')
-          table.string('id').primary()
-          table.string('vip')
-          table.string('prefix').defaultTo(bot.config.DEFAULT.prefix)
-          /* role IDs */
-          table.text('trackedRoles', 'longtext')
-        })
+    tables.push(this._knex.schema.hasTable('guild_settings').then((exists) => {
+      if (exists) return
+      return this._knex.schema.createTable('guild_settings', (table) => {
+        table.charset('utf8')
+        table.string('id').primary()
+        table.string('vip')
+        table.string('prefix').defaultTo(bot.config.DEFAULT.prefix)
+        /* role IDs */
+        table.text('trackedRoles', 'longtext')
       })
-      .catch(this._logger.error)
+    }).catch(this._logger.error)
     )
 
-    tables.push(this._knex.schema.hasTable('guild_toggles')
-      .then((exists) => {
-        if (exists) return
-        return this._knex.schema.createTable('guild_toggles', (table) => {
-          table.charset('utf8')
-          table.string('id').primary()
-          table.boolean('game').defaultTo(true)
-          table.boolean('watch').defaultTo(true)
-          table.boolean('listen').defaultTo(true)
-          table.boolean('stream').defaultTo(true)
-        })
+    tables.push(this._knex.schema.hasTable('guild_toggles').then((exists) => {
+      if (exists) return
+      return this._knex.schema.createTable('guild_toggles', (table) => {
+        table.charset('utf8')
+        table.string('id').primary()
+        table.boolean('game').defaultTo(true)
+        table.boolean('watch').defaultTo(true)
+        table.boolean('listen').defaultTo(true)
+        table.boolean('stream').defaultTo(true)
       })
-      .catch(this._logger.error)
+    }).catch(this._logger.error)
     )
-    tables.push(this._knex.schema.hasTable('statuses')
-      .then((exists) => {
-        if (exists) return
-        return this._knex.schema.createTable('statuses', (table) => {
-          table.charset('utf8')
-          table.string('name').primary()
-          table.integer('type').defaultTo(0)
-          table.boolean('default').defaultTo('false')
-        }).then(() =>
-          this._insert({ table: 'statuses', data: bot.config.DEFAULT.status })
-        )
-      })
-      .catch(this._logger.error)
+    tables.push(this._knex.schema.hasTable('statuses').then((exists) => {
+      if (exists) return
+      return this._knex.schema.createTable('statuses', (table) => {
+        table.charset('utf8')
+        table.string('name').primary()
+        table.integer('type').defaultTo(0)
+        table.boolean('default').defaultTo('false')
+      }).then(() =>
+        this._insert({ table: 'statuses', data: bot.config.DEFAULT.status })
+      )
+    }).catch(this._logger.error)
     )
 
     return Promise.all(tables)
