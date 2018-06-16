@@ -82,20 +82,18 @@ class DatabaseManager {
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
   async addClient (id) {
-    if (await this._select({ table: &apos;guild_settings&apos;, columns: &apos;id&apos;, where: { id } })) return
     return this._insert({ table: &apos;guild_settings&apos;, data: { id } })
       .then(() =&gt; { this._insert({ table: &apos;guild_toggles&apos;, data: { id } }) })
   }
 
   /**
    * Insert a status into the statuses table.
-   * @param  {Object}             status      The status to make default.
-   * @param  {String}             status.name The name of the status.
-   * @param  {Number}             status.type The type of the status.
-   * @return {(Number|undefined)}             Returns 0 on success or undefined.
+   * @param  {String}             name   The name of the status.
+   * @param  {Number}             [type] The type of the status.
+   * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
-  addStatus (status) {
-    return this._insert({ table: &apos;statuses&apos;, data: status })
+  addStatus (name, type) {
+    return this._insert({ table: &apos;statuses&apos;, data: { name, type } })
   }
 
   /**
@@ -131,7 +129,7 @@ class DatabaseManager {
   async initialize (guilds) {
     let tmpGuilds = new Map(guilds)
     const saved = await this._select({ table: &apos;guild_settings&apos; })
-    if (saved) {
+    if (saved.length &gt; 0) {
       for (let i = 0; i &lt; saved.length; i++) {
         const id = saved[i].id
         const guild = tmpGuilds.get(id)

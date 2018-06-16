@@ -174,9 +174,9 @@ class DatabaseManager {
 
   /**
    * Update the default status of the bot.
-   * @param  {Object}             status      The status to make default.
-   * @param  {String}             status.name The name of the status.
-   * @param  {Number}             status.type The type of the status.
+   * @param  {Object}             data      The status to make default.
+   * @param  {String}             data.name The name of the status.
+   * @param  {Number}             data.type The type of the status.
    * @return {(Number|undefined)}             Returns 0 on success or undefined.
    */
   updateDefaultStatus (data) {
