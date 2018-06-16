@@ -34,7 +34,10 @@ module.exports = async (bot, msg) => {
  * @return {Boolean} Whether the user is allowed.
  */
 async function allow (bot, perm, msg) {
-  for (let [key, val] of bot.permissions) {
+  const perms = bot.permissions.values()
+  let val = true
+  while (val) {
+    val = perms.next().value
     if (val.level < perm.level) continue
     if (await val.check(msg.member, bot)) return true
   }
