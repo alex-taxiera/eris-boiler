@@ -24,7 +24,7 @@ module.exports = async (bot, msg) => {
     if (!response) return
     const content = parseResponse(response)
     return msg.channel.createMessage(content)
-      .then((m) => { if (command.delay > 0) setTimeout(() => m.delete(), command.delay) })
+      .then((m) => { if (command.deleteResponse) setTimeout(() => m.delete(), command.deleteResponseDelay) })
       .catch(console.error)
   })
 }

@@ -1,6 +1,6 @@
 {
   "name": "eris-boiler",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A Discord Bot boilerplate using JavaScript and the Eris library",
   "main": "./src/index.js",
   "scripts": {
