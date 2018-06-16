@@ -21,12 +21,12 @@ module.exports = (bot) => new Command(
           const role = msg.channel.guild.roles.find((r) => r.name === fullParam)
           if (!role) return `Could not find role "${fullParam}"`
           if (role.id === vip) return 'VIP is already set to that role!'
-          bot.dbm.updateClient(id, { vip: role.id })
+          bot.dbm.updateSettings(id, { vip: role.id })
           return 'VIP set!'
         case 'prefix':
           const { prefix } = await bot.dbm.getSettings(id)
           if (fullParam === prefix) return `Prefix is already set to "${prefix}"`
-          bot.dbm.updateClient(id, { prefix: fullParam })
+          bot.dbm.updateSettings(id, { prefix: fullParam })
           return 'Prefix set!'
         default:
           return 'Specify option to set with first param!'
