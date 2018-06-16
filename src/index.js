@@ -6,8 +6,7 @@ const path = require('path')
 let bot = new DataClient(config)
 
 /* call start function for an async wrapper */
-start()
-.then(() => {
+start().then(() => {
   /* log bot into Discord */
   bot.connect()
 })
