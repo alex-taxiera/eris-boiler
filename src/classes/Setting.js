@@ -39,9 +39,9 @@ class Setting {
   }
   /**
    * Sets the value of the setting.
-   * @param  {*}      value The value to set.
+   * @param  {*}          value The value to set.
    * @param  {DataClient} bot   The bot object.
-   * @return {String}       Confirmation message.
+   * @return {String}           Confirmation message.
    */
   setValue (value, bot) {
     if (this.value === value) return `${this.name} is already ${this.value}!`
