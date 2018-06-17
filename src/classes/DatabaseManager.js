@@ -173,7 +173,8 @@ class DatabaseManager {
 
   /**
    * Update the default prefix in the guild_settings table. Not available with SQLite.
-   * @param {String} prefix The prefix to set as default.
+   * @param  {String}    prefix The prefix to set as default.
+   * @return {undefined}
    */
   updateDefaultPrefix (prefix) {
     this._knex.schema.alterTable('guild_settings', (table) => {
