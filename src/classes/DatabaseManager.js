@@ -132,8 +132,6 @@ class DatabaseManager {
         table.string('id').primary()
         table.string('vip')
         table.string('prefix').defaultTo(bot.config.DEFAULT.prefix)
-        /* role IDs */
-        table.text('trackedRoles', 'longtext')
       })
     }).catch(this._logger.error)
     )
@@ -143,10 +141,7 @@ class DatabaseManager {
       return this._knex.schema.createTable('guild_toggles', (table) => {
         table.charset('utf8')
         table.string('id').primary()
-        table.boolean('game').defaultTo(true)
-        table.boolean('watch').defaultTo(true)
-        table.boolean('listen').defaultTo(true)
-        table.boolean('stream').defaultTo(true)
+        // add toggleable guild settings here
       })
     }).catch(this._logger.error)
     )
