@@ -163,13 +163,12 @@ class DatabaseManager {
 
   /**
    * Update the default status of the bot.
-   * @param  {Object}             data      The status to make default.
-   * @param  {String}             data.name The name of the status.
-   * @param  {Number}             data.type The type of the status.
-   * @return {(Number|undefined)}             Returns 0 on success or undefined.
+   * @param  {String}             name   The name of the status.
+   * @param  {Number}             [type] The type of the status.
+   * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
-  updateDefaultStatus (data) {
-    return this._update({ table: 'games', data, where: { default: 1 } })
+  updateDefaultStatus (name, type) {
+    return this._update({ table: 'statuses', data: { name, type }, where: { default: 1 } })
   }
 
   /**
