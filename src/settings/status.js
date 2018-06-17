@@ -6,9 +6,10 @@ module.exports = (bot) => new Setting(
     code: 'status',
     name: 'Default Status',
     onChange: (bot, value) => {
+      value = { name: value, type: 0 }
       bot.dbm.updateDefaultStatus(value)
-      if (bot.settings.rotateStatus.value) return
-      bot.status.setGame(bot, value)
+      if (bot.toggles.get('rotateStatus').value) return
+      bot.status.setStatus(bot, value)
     }
   }
 )
