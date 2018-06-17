@@ -1,4 +1,7 @@
 # eris-boiler
+
+[![Join the chat at https://gitter.im/eris-boiler/Lobby](https://badges.gitter.im/eris-boiler/Lobby.svg)](https://gitter.im/eris-boiler/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A Discord Bot boilerplate using JavaScript and the Eris library
 # Startup
 1. Clone this repository
