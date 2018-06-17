@@ -34,13 +34,11 @@ module.exports = (bot) => new Command(
         content += '\n```\nTo get more information try: `help command`'
       }
 
-      try {
-        const dm = await msg.author.getDMChannel()
-        await dm.createMessage(content)
-        return 'DM sent.'
-      } catch (e) {
-        return content
-      }
+      msg.author.getDMChannel()
+        .then((dm) => dm.createMessage(content)
+          .then((success) => 'DM sent.')
+          .catch((e) => content))
+        .catch((e) => content)
     }
   }
 )
