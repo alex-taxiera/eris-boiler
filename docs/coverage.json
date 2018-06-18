@@ -1,14 +1,12 @@
 {
-  "coverage": "93.82%",
-  "expectCount": 81,
-  "actualCount": 76,
+  "coverage": "98.83%",
+  "expectCount": 86,
+  "actualCount": 85,
   "files": {
     "classes/Command.js": {
       "expectCount": 12,
-      "actualCount": 11,
-      "undocumentLines": [
-        65
-      ]
+      "actualCount": 12,
+      "undocumentLines": []
     },
     "classes/DatabaseManager.js": {
       "expectCount": 23,
@@ -16,8 +14,8 @@
       "undocumentLines": []
     },
     "classes/DataClient.js": {
-      "expectCount": 11,
-      "actualCount": 11,
+      "expectCount": 17,
+      "actualCount": 17,
       "undocumentLines": []
     },
     "classes/Logger.js": {
@@ -31,25 +29,21 @@
       "undocumentLines": []
     },
     "classes/Setting.js": {
-      "expectCount": 8,
-      "actualCount": 8,
+      "expectCount": 7,
+      "actualCount": 7,
       "undocumentLines": []
     },
     "classes/Status.js": {
       "expectCount": 9,
-      "actualCount": 7,
+      "actualCount": 8,
       "undocumentLines": [
-        5,
         22
       ]
     },
     "classes/StatusType.js": {
       "expectCount": 4,
-      "actualCount": 2,
-      "undocumentLines": [
-        1,
-        2
-      ]
+      "actualCount": 4,
+      "undocumentLines": []
     },
     "classes/Toggle.js": {
       "expectCount": 3,

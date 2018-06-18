@@ -1,4 +1,3 @@
-const { writeFile } = require('fs').promises
 /**
  * Class representing a setting.
  */
@@ -47,6 +46,7 @@ class Setting {
     if (this.value === value) return `${this.name} is already ${this.value}!`
     this.value = bot.config.DEFAULT[this.code] = value
 
+    const { writeFile } = require('fs').promises
     writeFile('./config.json', JSON.stringify(bot.config, undefined, 2))
       .then((success) => bot.logger.success('wrote to config'))
       .catch(bot.logger.error)

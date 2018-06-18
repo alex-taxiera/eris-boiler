@@ -67,7 +67,11 @@ class DatabaseManager {
      * @private
      * @type    {Function}
      */
-    this._knex = require(&apos;knex&apos;)({ client: &apos;mysql&apos;, connection: DB_CREDENTIALS })
+    this._knex = require(&apos;knex&apos;)({
+      client: &apos;mysql&apos;,
+      connection: DB_CREDENTIALS,
+      pool: { min: 0 }
+    })
     /**
      * The logger.
      * @private
@@ -83,7 +87,7 @@ class DatabaseManager {
    */
   async addClient (id) {
     return this._insert({ table: &apos;guild_settings&apos;, data: { id } })
-      .then(() =&gt; { this._insert({ table: &apos;guild_toggles&apos;, data: { id } }) })
+      .then(() =&gt; this._insert({ table: &apos;guild_toggles&apos;, data: { id } }))
   }
 
   /**
@@ -172,48 +176,37 @@ class DatabaseManager {
    */
   async setup (bot) {
     const tables = []
-    tables.push(this._knex.schema.hasTable(&apos;guild_settings&apos;)
-      .then((exists) =&gt; {
-        if (exists) return
-        return this._knex.schema.createTable(&apos;guild_settings&apos;, (table) =&gt; {
-          table.charset(&apos;utf8&apos;)
-          table.string(&apos;id&apos;).primary()
-          table.string(&apos;vip&apos;)
-          table.string(&apos;prefix&apos;).defaultTo(bot.config.DEFAULT.prefix)
-          /* role IDs */
-          table.text(&apos;trackedRoles&apos;, &apos;longtext&apos;)
-        })
+    tables.push(this._knex.schema.hasTable(&apos;guild_settings&apos;).then((exists) =&gt; {
+      if (exists) return
+      return this._knex.schema.createTable(&apos;guild_settings&apos;, (table) =&gt; {
+        table.charset(&apos;utf8&apos;)
+        table.string(&apos;id&apos;).primary()
+        table.string(&apos;vip&apos;)
+        table.string(&apos;prefix&apos;).defaultTo(bot.config.DEFAULT.prefix)
       })
-      .catch(this._logger.error)
+    }).catch(this._logger.error)
     )
 
-    tables.push(this._knex.schema.hasTable(&apos;guild_toggles&apos;)
-      .then((exists) =&gt; {
-        if (exists) return
-        return this._knex.schema.createTable(&apos;guild_toggles&apos;, (table) =&gt; {
-          table.charset(&apos;utf8&apos;)
-          table.string(&apos;id&apos;).primary()
-          table.boolean(&apos;game&apos;).defaultTo(true)
-          table.boolean(&apos;watch&apos;).defaultTo(true)
-          table.boolean(&apos;listen&apos;).defaultTo(true)
-          table.boolean(&apos;stream&apos;).defaultTo(true)
-        })
+    tables.push(this._knex.schema.hasTable(&apos;guild_toggles&apos;).then((exists) =&gt; {
+      if (exists) return
+      return this._knex.schema.createTable(&apos;guild_toggles&apos;, (table) =&gt; {
+        table.charset(&apos;utf8&apos;)
+        table.string(&apos;id&apos;).primary()
+        // add toggleable guild settings here
       })
-      .catch(this._logger.error)
+    }).catch(this._logger.error)
     )
-    tables.push(this._knex.schema.hasTable(&apos;statuses&apos;)
-      .then((exists) =&gt; {
-        if (exists) return
-        return this._knex.schema.createTable(&apos;statuses&apos;, (table) =&gt; {
-          table.charset(&apos;utf8&apos;)
-          table.string(&apos;name&apos;).primary()
-          table.integer(&apos;type&apos;).defaultTo(0)
-          table.boolean(&apos;default&apos;).defaultTo(&apos;false&apos;)
-        }).then(() =&gt;
-          this._insert({ table: &apos;statuses&apos;, data: bot.config.DEFAULT.status })
-        )
-      })
-      .catch(this._logger.error)
+    tables.push(this._knex.schema.hasTable(&apos;statuses&apos;).then((exists) =&gt; {
+      if (exists) return
+      return this._knex.schema.createTable(&apos;statuses&apos;, (table) =&gt; {
+        table.charset(&apos;utf8&apos;)
+        table.string(&apos;name&apos;).primary()
+        table.integer(&apos;type&apos;).defaultTo(0)
+        table.boolean(&apos;default&apos;).defaultTo(&apos;false&apos;)
+      }).then(() =&gt;
+        this._insert({ table: &apos;statuses&apos;, data: bot.config.DEFAULT.status })
+      )
+    }).catch(this._logger.error)
     )
 
     return Promise.all(tables)
@@ -221,18 +214,18 @@ class DatabaseManager {
 
   /**
    * Update the default status of the bot.
-   * @param  {Object}             data      The status to make default.
-   * @param  {String}             data.name The name of the status.
-   * @param  {Number}             data.type The type of the status.
-   * @return {(Number|undefined)}             Returns 0 on success or undefined.
+   * @param  {String}             name   The name of the status.
+   * @param  {Number}             [type] The type of the status.
+   * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
-  updateDefaultStatus (data) {
-    return this._update({ table: &apos;games&apos;, data, where: { default: 1 } })
+  updateDefaultStatus (name, type) {
+    return this._update({ table: &apos;statuses&apos;, data: { name, type }, where: { default: 1 } })
   }
 
   /**
    * Update the default prefix in the guild_settings table. Not available with SQLite.
-   * @param {String} prefix The prefix to set as default.
+   * @param  {String}    prefix The prefix to set as default.
+   * @return {undefined}
    */
   updateDefaultPrefix (prefix) {
     this._knex.schema.alterTable(&apos;guild_settings&apos;, (table) =&gt; {
@@ -354,7 +347,7 @@ module.exports = DatabaseManager
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

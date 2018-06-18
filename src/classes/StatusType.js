@@ -1,4 +1,10 @@
+/**
+ * Class representing the possible status types.
+ */
 class StatusType {
+  /**
+   * Create a status type object.
+   */
   constructor () {
     /**
      * Enum for status types

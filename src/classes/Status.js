@@ -1,7 +1,7 @@
+const StatusType = require('./StatusType.js')
 /**
  * Class representing the bot status.
  */
-const StatusType = require('./StatusType.js')
 class Status {
   /**
    * Create a status.
@@ -16,8 +16,8 @@ class Status {
     this.current = { name: '', type: 0 }
     /**
      * StatusType data
-     * @private
      * @type {StatusType}
+     * @private
      */
     this._type = new StatusType()
     /**
