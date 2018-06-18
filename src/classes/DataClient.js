@@ -4,7 +4,6 @@
 const DatabaseManager = require('./DatabaseManager.js')
 const Logger = require('./Logger.js')
 const Status = require('./Status.js')
-const { readdir } = require('fs').promises
 const path = require('path')
 /**
  * Class representing a DataClient.
@@ -93,7 +92,11 @@ class DataClient extends require('eris').Client {
     this._setup()
   }
 
+  /**
+   * Set up all data for DataClient.
+   */
   async _setup () {
+    const { readdir } = require('fs').promises
     /* set up database */
     this.dbm.setup(this)
 
@@ -138,6 +141,10 @@ class DataClient extends require('eris').Client {
     })
   }
 
+  /**
+   * Load a command.
+   * @param {String} commandFile Name of command file to load.
+   */
   _loadCommand (commandFile) {
     if (!commandFile.endsWith('.js')) return
     try {
@@ -151,6 +158,10 @@ class DataClient extends require('eris').Client {
     }
   }
 
+  /**
+   * Load an event.
+   * @param {String} eventFile Name of event file to load.
+   */
   _loadEvent (eventFile) {
     try {
       const eventName = eventFile.split('.')[0]
@@ -162,6 +173,10 @@ class DataClient extends require('eris').Client {
     }
   }
 
+  /**
+   * Load a permission.
+   * @param {String} permissionFile Name of permission file to load.
+   */
   _loadPermission (permissionFile) {
     try {
       const permission = require(path.join(__dirname, `../permissions/${permissionFile}`))
@@ -171,6 +186,10 @@ class DataClient extends require('eris').Client {
     }
   }
 
+  /**
+   * Load a setting.
+   * @param {String} settingFile Name of setting file to load.
+   */
   _loadSetting (settingFile) {
     try {
       const settingName = settingFile.split('.')[0]
@@ -180,6 +199,10 @@ class DataClient extends require('eris').Client {
     }
   }
 
+  /**
+   * Load a toggle.
+   * @param {String} toggleFile Name of toggle file to load.
+   */
   _loadToggle (toggleFile) {
     try {
       const toggleName = toggleFile.split('.')[0]

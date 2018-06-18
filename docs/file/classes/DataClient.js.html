@@ -51,15 +51,16 @@
 const DatabaseManager = require(&apos;./DatabaseManager.js&apos;)
 const Logger = require(&apos;./Logger.js&apos;)
 const Status = require(&apos;./Status.js&apos;)
+const path = require(&apos;path&apos;)
 /**
  * Class representing a DataClient.
  * @extends {Client}
  */
-class DataClient extends require(&apos;eris&apos;) {
+class DataClient extends require(&apos;eris&apos;).Client {
   /**
    * Create a client.
-   * @param {Object}  config                         The bot config data.
-   * @param {String}  config.TOKEN                   The bot token.
+   * @param {Object}  config                         The this config data.
+   * @param {String}  config.TOKEN                   The this token.
    * @param {Object}  config.DB_CREDENTIALS          The database credentials.
    * @param {String}  config.DB_CREDENTIALS.database The name of the database.
    * @param {String}  config.DB_CREDENTIALS.host     The host address of the server.
@@ -67,18 +68,19 @@ class DataClient extends require(&apos;eris&apos;) {
    * @param {String}  config.DB_CREDENTIALS.password The password to login with.
    * @param {Object}  config.DEFAULT                 The bots default values.
    * @param {String}  config.DEFAULT.prefix          The default prefix.
-   * @param {Boolean} config.DEFAULT.rotateStatus    The default for changing bot status.
-   * @param {Object}  config.DEFAULT.status          The default bot status.
-   * @param {String}  config.DEFAULT.status.name     The default bot status name.
-   * @param {Number}  config.DEFAULT.status.type     The default bot status type.
+   * @param {Boolean} config.DEFAULT.rotateStatus    The default for changing this status.
+   * @param {Object}  config.DEFAULT.status          The default this status.
+   * @param {String}  config.DEFAULT.status.name     The default this status name.
+   * @param {Number}  config.DEFAULT.status.type     The default this status type.
    * @param {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.
+   * @param {Object}  options                        Same as Client.
    */
-  constructor (config) {
-    super(config.TOKEN)
+  constructor (config, options) {
+    super(config.TOKEN, options)
     /**
-     * The bot config data.
+     * The this config data.
      * @type     {Object}
-     * @property {String}  config.TOKEN                   The bot token.
+     * @property {String}  config.TOKEN                   The this token.
      * @property {Object}  config.DB_CREDENTIALS          The database credentials.
      * @property {String}  config.DB_CREDENTIALS.database The name of the database.
      * @property {String}  config.DB_CREDENTIALS.host     The host address of the server.
@@ -86,10 +88,10 @@ class DataClient extends require(&apos;eris&apos;) {
      * @property {String}  config.DB_CREDENTIALS.password The password to login with.
      * @property {Object}  config.DEFAULT                 The bots default values.
      * @property {String}  config.DEFAULT.prefix          The default prefix.
-     * @property {Boolean} config.DEFAULT.rotateStatus    The default for changing bot status.
-     * @property {Object}  config.DEFAULT.status          The default bot status.
-     * @property {String}  config.DEFAULT.status.name     The default bot status name.
-     * @property {Number}  config.DEFAULT.status.type     The default bot status type.
+     * @property {Boolean} config.DEFAULT.rotateStatus    The default for changing this status.
+     * @property {Object}  config.DEFAULT.status          The default this status.
+     * @property {String}  config.DEFAULT.status.name     The default this status name.
+     * @property {Number}  config.DEFAULT.status.type     The default this status type.
      * @property {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.
      */
     this.config = config
@@ -133,6 +135,128 @@ class DataClient extends require(&apos;eris&apos;) {
      * @type {Map}
      */
     this.toggles = new Map()
+
+    this._setup()
+  }
+
+  /**
+   * Set up all data for DataClient.
+   */
+  async _setup () {
+    const { readdir } = require(&apos;fs&apos;).promises
+    /* set up database */
+    this.dbm.setup(this)
+
+    /* load permissions */
+    await readdir(path.join(__dirname, &apos;../permissions/&apos;)).then((permissions) =&gt; {
+      this.logger.log(`Loading a total of ${permissions.length} permissions`)
+      for (let i = 0; i &lt; permissions.length; i++) {
+        this._loadPermission(permissions[i])
+      }
+    })
+
+    /* load commands */
+    readdir(path.join(__dirname, &apos;../commands/&apos;)).then((commands) =&gt; {
+      this.logger.log(`Loading a total of ${commands.length} commands`)
+      for (let i = 0; i &lt; commands.length; i++) {
+        this._loadCommand(commands[i])
+      }
+    })
+
+    /* load events, bind this to each event function */
+    readdir(path.join(__dirname, &apos;../events/&apos;)).then((events) =&gt; {
+      this.logger.log(`Loading a total of ${events.length} events`)
+      for (let i = 0; i &lt; events.length; i++) {
+        this._loadEvent(events[i])
+      }
+    })
+
+    /* load settings */
+    readdir(path.join(__dirname, &apos;../settings/&apos;)).then((settings) =&gt; {
+      this.logger.log(`Loading a total of ${settings.length} settings`)
+      for (let i = 0; i &lt; settings.length; i++) {
+        this._loadSetting(settings[i])
+      }
+    })
+
+    /* load toggles */
+    readdir(path.join(__dirname, &apos;../toggles/&apos;)).then((toggles) =&gt; {
+      this.logger.log(`Loading a total of ${toggles.length} toggleable settings`)
+      for (let i = 0; i &lt; toggles.length; i++) {
+        this._loadToggle(toggles[i])
+      }
+    })
+  }
+
+  /**
+   * Load a command.
+   * @param {String} commandFile Name of command file to load.
+   */
+  _loadCommand (commandFile) {
+    if (!commandFile.endsWith(&apos;.js&apos;)) return
+    try {
+      const command = require(path.join(__dirname, `../commands/${commandFile}`))(this)
+      this.commands.set(command.name, command)
+      for (let i = 0; i &lt; command.aliases.length; i++) {
+        this.aliases.set(command.aliases[i], command.name)
+      }
+    } catch (e) {
+      this.logger.error(`Unable to load command ${commandFile}: ${e}`)
+    }
+  }
+
+  /**
+   * Load an event.
+   * @param {String} eventFile Name of event file to load.
+   */
+  _loadEvent (eventFile) {
+    try {
+      const eventName = eventFile.split(&apos;.&apos;)[0]
+      const event = require(path.join(__dirname, `../events/${eventFile}`))
+      this.on(eventName, event.bind(null, this))
+      delete require.cache[require.resolve(path.join(__dirname, `../events/${eventFile}`))]
+    } catch (e) {
+      this.logger.error(`Unable to load event ${eventFile}: ${e}`)
+    }
+  }
+
+  /**
+   * Load a permission.
+   * @param {String} permissionFile Name of permission file to load.
+   */
+  _loadPermission (permissionFile) {
+    try {
+      const permission = require(path.join(__dirname, `../permissions/${permissionFile}`))
+      this.permissions.set(permission.name, permission)
+    } catch (e) {
+      this.logger.error(`Unable to load permission ${permissionFile}: ${e}`)
+    }
+  }
+
+  /**
+   * Load a setting.
+   * @param {String} settingFile Name of setting file to load.
+   */
+  _loadSetting (settingFile) {
+    try {
+      const settingName = settingFile.split(&apos;.&apos;)[0]
+      this.settings.set(settingName, require(path.join(__dirname, `../settings/${settingFile}`))(this))
+    } catch (e) {
+      this.logger.error(`Unable to load setting ${settingFile}: ${e}`)
+    }
+  }
+
+  /**
+   * Load a toggle.
+   * @param {String} toggleFile Name of toggle file to load.
+   */
+  _loadToggle (toggleFile) {
+    try {
+      const toggleName = toggleFile.split(&apos;.&apos;)[0]
+      this.toggles.set(toggleName, require(path.join(__dirname, `../toggles/${toggleFile}`))(this))
+    } catch (e) {
+      this.logger.error(`Unable to load toggle ${toggleFile}: ${e}`)
+    }
   }
 }
 
@@ -142,7 +266,7 @@ module.exports = DataClient
 </div>
 
 <footer class="footer">
-  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.4)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
 </footer>
 
 <script src="script/search_index.js"></script>

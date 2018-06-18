@@ -51,10 +51,7 @@ class Command {
      * @type {String[]}
      */
     this.aliases = aliases ? options.aliases : []
-    /**
-     * List of paremeters that the command takes.
-     * @type {String[]}
-     */
+
     let parameters = false
     if (Array.isArray(options.parameters)) {
       parameters = true
@@ -62,6 +59,10 @@ class Command {
         if (typeof options.parameters[i] !== 'string') parameters = false; break
       }
     }
+    /**
+     * List of paremeters that the command takes.
+     * @type {String[]}
+     */
     this.parameters = parameters ? options.parameters : []
     /**
      * The name of the permission required to use the command.

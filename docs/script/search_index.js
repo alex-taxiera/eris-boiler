@@ -420,6 +420,42 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "classes/dataclient.js~dataclient#_loadcommand",
+    "class/classes/DataClient.js~DataClient.html#instance-method-_loadCommand",
+    "classes/DataClient.js~DataClient#_loadCommand",
+    "method"
+  ],
+  [
+    "classes/dataclient.js~dataclient#_loadevent",
+    "class/classes/DataClient.js~DataClient.html#instance-method-_loadEvent",
+    "classes/DataClient.js~DataClient#_loadEvent",
+    "method"
+  ],
+  [
+    "classes/dataclient.js~dataclient#_loadpermission",
+    "class/classes/DataClient.js~DataClient.html#instance-method-_loadPermission",
+    "classes/DataClient.js~DataClient#_loadPermission",
+    "method"
+  ],
+  [
+    "classes/dataclient.js~dataclient#_loadsetting",
+    "class/classes/DataClient.js~DataClient.html#instance-method-_loadSetting",
+    "classes/DataClient.js~DataClient#_loadSetting",
+    "method"
+  ],
+  [
+    "classes/dataclient.js~dataclient#_loadtoggle",
+    "class/classes/DataClient.js~DataClient.html#instance-method-_loadToggle",
+    "classes/DataClient.js~DataClient#_loadToggle",
+    "method"
+  ],
+  [
+    "classes/dataclient.js~dataclient#_setup",
+    "class/classes/DataClient.js~DataClient.html#instance-method-_setup",
+    "classes/DataClient.js~DataClient#_setup",
+    "method"
+  ],
+  [
     "classes/dataclient.js~dataclient#aliases",
     "class/classes/DataClient.js~DataClient.html#instance-member-aliases",
     "classes/DataClient.js~DataClient#aliases",
@@ -718,12 +754,6 @@ window.esdocSearchIndex = [
     "class/classes/Setting.js~Setting.html#instance-member-onChange",
     "classes/Setting.js~Setting#onChange",
     "member"
-  ],
-  [
-    "classes/setting.js~setting#save",
-    "class/classes/Setting.js~Setting.html#instance-method-save",
-    "classes/Setting.js~Setting#save",
-    "method"
   ],
   [
     "classes/setting.js~setting#setvalue",

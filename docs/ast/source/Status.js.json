@@ -30,65 +30,63 @@
     "body": [
       {
         "type": "ImportDeclaration",
-        "start": 49,
-        "end": 89,
+        "start": 0,
+        "end": 40,
         "loc": {
           "start": {
-            "line": 4,
+            "line": 1,
             "column": 0
           },
           "end": {
-            "line": 4,
+            "line": 1,
             "column": 40
           }
         },
         "specifiers": [
           {
             "type": "ImportDefaultSpecifier",
-            "start": 56,
-            "end": 66,
+            "start": 7,
+            "end": 17,
             "loc": {
               "start": {
-                "line": 4,
+                "line": 1,
                 "column": 7
               },
               "end": {
-                "line": 4,
+                "line": 1,
                 "column": 17
               }
             },
             "local": {
               "type": "Identifier",
-              "start": 56,
-              "end": 66,
+              "start": 7,
+              "end": 17,
               "loc": {
                 "start": {
-                  "line": 4,
+                  "line": 1,
                   "column": 7
                 },
                 "end": {
-                  "line": 4,
+                  "line": 1,
                   "column": 17
                 },
                 "identifierName": "StatusType"
               },
-              "name": "StatusType",
-              "leadingComments": null
-            },
-            "leadingComments": null
+              "name": "StatusType"
+            }
           }
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 72,
-          "end": 89,
+          "start": 23,
+          "end": 40,
           "loc": {
             "start": {
-              "line": 4,
+              "line": 1,
               "column": 23
             },
             "end": {
-              "line": 4,
+              "line": 1,
               "column": 40
             }
           },
@@ -96,21 +94,23 @@
             "rawValue": "./StatusType.js",
             "raw": "'./StatusType.js'"
           },
-          "value": "./StatusType.js"
+          "value": "./StatusType.js",
+          "leadingComments": null,
+          "trailingComments": null
         },
-        "leadingComments": [
+        "trailingComments": [
           {
             "type": "CommentBlock",
             "value": "*\r\n * Class representing the bot status.\r\n ",
-            "start": 0,
-            "end": 47,
+            "start": 42,
+            "end": 89,
             "loc": {
               "start": {
-                "line": 1,
+                "line": 2,
                 "column": 0
               },
               "end": {
-                "line": 3,
+                "line": 4,
                 "column": 3
               }
             }
@@ -146,7 +146,8 @@
             },
             "identifierName": "Status"
           },
-          "name": "Status"
+          "name": "Status",
+          "leadingComments": null
         },
         "superClass": null,
         "body": {
@@ -425,7 +426,7 @@
                             "trailingComments": [
                               {
                                 "type": "CommentBlock",
-                                "value": "*\r\n     * StatusType data\r\n     * @private\r\n     * @type {StatusType}\r\n     ",
+                                "value": "*\r\n     * StatusType data\r\n     * @type {StatusType}\r\n     * @private\r\n     ",
                                 "start": 411,
                                 "end": 491,
                                 "loc": {
@@ -468,7 +469,7 @@
                     "trailingComments": [
                       {
                         "type": "CommentBlock",
-                        "value": "*\r\n     * StatusType data\r\n     * @private\r\n     * @type {StatusType}\r\n     ",
+                        "value": "*\r\n     * StatusType data\r\n     * @type {StatusType}\r\n     * @private\r\n     ",
                         "start": 411,
                         "end": 491,
                         "loc": {
@@ -3986,8 +3987,8 @@
             }
           ]
         },
-        "name": "_",
         "leadingComments": [],
+        "name": "_",
         "trailingComments": []
       },
       {
@@ -4068,7 +4069,8 @@
               },
               "identifierName": "Status"
             },
-            "name": "Status"
+            "name": "Status",
+            "leadingComments": null
           },
           "superClass": null,
           "body": {
@@ -4347,7 +4349,7 @@
                               "trailingComments": [
                                 {
                                   "type": "CommentBlock",
-                                  "value": "*\r\n     * StatusType data\r\n     * @private\r\n     * @type {StatusType}\r\n     ",
+                                  "value": "*\r\n     * StatusType data\r\n     * @type {StatusType}\r\n     * @private\r\n     ",
                                   "start": 411,
                                   "end": 491,
                                   "loc": {
@@ -4390,7 +4392,7 @@
                       "trailingComments": [
                         {
                           "type": "CommentBlock",
-                          "value": "*\r\n     * StatusType data\r\n     * @private\r\n     * @type {StatusType}\r\n     ",
+                          "value": "*\r\n     * StatusType data\r\n     * @type {StatusType}\r\n     * @private\r\n     ",
                           "start": 411,
                           "end": 491,
                           "loc": {
@@ -7908,8 +7910,25 @@
               }
             ]
           },
+          "leadingComments": [
+            {
+              "type": "CommentBlock",
+              "value": "*\r\n * Class representing the bot status.\r\n ",
+              "start": 42,
+              "end": 89,
+              "loc": {
+                "start": {
+                  "line": 2,
+                  "column": 0
+                },
+                "end": {
+                  "line": 4,
+                  "column": 3
+                }
+              }
+            }
+          ],
           "__PseudoExport__": false,
-          "leadingComments": [],
           "trailingComments": []
         },
         "leadingComments": null
@@ -7921,15 +7940,15 @@
     {
       "type": "CommentBlock",
       "value": "*\r\n * Class representing the bot status.\r\n ",
-      "start": 0,
-      "end": 47,
+      "start": 42,
+      "end": 89,
       "loc": {
         "start": {
-          "line": 1,
+          "line": 2,
           "column": 0
         },
         "end": {
-          "line": 3,
+          "line": 4,
           "column": 3
         }
       }
@@ -7968,7 +7987,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n     * StatusType data\r\n     * @private\r\n     * @type {StatusType}\r\n     ",
+      "value": "*\r\n     * StatusType data\r\n     * @type {StatusType}\r\n     * @private\r\n     ",
       "start": 411,
       "end": 491,
       "loc": {
@@ -8065,22 +8084,6 @@
   ],
   "tokens": [
     {
-      "type": "CommentBlock",
-      "value": "*\r\n * Class representing the bot status.\r\n ",
-      "start": 0,
-      "end": 47,
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 0
-        },
-        "end": {
-          "line": 3,
-          "column": 3
-        }
-      }
-    },
-    {
       "type": {
         "label": "import",
         "keyword": "import",
@@ -8095,15 +8098,15 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 49,
-      "end": 55,
+      "start": 0,
+      "end": 6,
       "loc": {
         "start": {
-          "line": 4,
+          "line": 1,
           "column": 0
         },
         "end": {
-          "line": 4,
+          "line": 1,
           "column": 6
         }
       }
@@ -8121,15 +8124,15 @@
         "binop": null
       },
       "value": "StatusType",
-      "start": 56,
-      "end": 66,
+      "start": 7,
+      "end": 17,
       "loc": {
         "start": {
-          "line": 4,
+          "line": 1,
           "column": 7
         },
         "end": {
-          "line": 4,
+          "line": 1,
           "column": 17
         }
       }
@@ -8147,15 +8150,15 @@
         "binop": null
       },
       "value": "from",
-      "start": 67,
-      "end": 71,
+      "start": 18,
+      "end": 22,
       "loc": {
         "start": {
-          "line": 4,
+          "line": 1,
           "column": 18
         },
         "end": {
-          "line": 4,
+          "line": 1,
           "column": 22
         }
       }
@@ -8174,16 +8177,32 @@
         "updateContext": null
       },
       "value": "./StatusType.js",
-      "start": 72,
-      "end": 89,
+      "start": 23,
+      "end": 40,
       "loc": {
         "start": {
-          "line": 4,
+          "line": 1,
           "column": 23
         },
         "end": {
-          "line": 4,
+          "line": 1,
           "column": 40
+        }
+      }
+    },
+    {
+      "type": "CommentBlock",
+      "value": "*\r\n * Class representing the bot status.\r\n ",
+      "start": 42,
+      "end": 89,
+      "loc": {
+        "start": {
+          "line": 2,
+          "column": 0
+        },
+        "end": {
+          "line": 4,
+          "column": 3
         }
       }
     },
@@ -8742,7 +8761,7 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n     * StatusType data\r\n     * @private\r\n     * @type {StatusType}\r\n     ",
+      "value": "*\r\n     * StatusType data\r\n     * @type {StatusType}\r\n     * @private\r\n     ",
       "start": 411,
       "end": 491,
       "loc": {

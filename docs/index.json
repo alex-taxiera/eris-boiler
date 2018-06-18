@@ -567,7 +567,7 @@
     "__docId__": 48,
     "kind": "file",
     "name": "classes/Command.js",
-    "content": "/**\r\n * Class representing a command.\r\n */\r\nclass Command {\r\n  /**\r\n   * Create a command.\r\n   * @param {DataClient} bot                                      The bot object.\r\n   * @param {Object}     data                                     The command data.\r\n   * @param {String}     data.name                                The command name.\r\n   * @param {String}     data.description                         The command description.\r\n   * @param {Function}   data.run                                 The command function.\r\n   * @param {Object}     [data.options={}]                        The command options.\r\n   * @param {String[]}   [data.options.aliases=[]]                List of alias names for the command.\r\n   * @param {String[]}   [data.options.parameters=[]]             List of paremeters that the command takes.\r\n   * @param {String}     [data.options.permission='Anyone']       The name of the permission required to use the command.\r\n   * @param {Boolean}    [data.options.deleteInvoking=true]       Whether or not the bot should delete the message that invoked this command.\r\n   * @param {Boolean}    [data.options.deleteResponse=true]       Whether or not the bot should delete the message that invoked this command.\r\n   * @param {Number}     [data.options.deleteResponseDelay=10000] How many miliseconds to wait before deleting the bots response.\r\n   */\r\n  constructor (bot, data) {\r\n    const { name, description, run, options = {} } = data\r\n    if (typeof name !== 'string') throw Error(`command cannot have name \"${name}\"`)\r\n    if (typeof description !== 'string') throw Error(`command cannot have description \"${description}\"`)\r\n    if (typeof run !== 'function') throw Error(`command cannot have run function \"${run}\"`)\r\n\r\n    /**\r\n     * The command name.\r\n     * @type {String}\r\n     */\r\n    this.name = name\r\n    /**\r\n     * The command description.\r\n     * @type {String}\r\n     */\r\n    this.description = description\r\n    /**\r\n     * The command function.\r\n     * @type {Function}\r\n     */\r\n    this.run = run\r\n\r\n    let aliases = false\r\n    if (Array.isArray(options.aliases)) {\r\n      aliases = true\r\n      for (let i = 0; i < options.aliases.length; i++) {\r\n        if (typeof options.aliases[i] !== 'string') aliases = false; break\r\n      }\r\n    }\r\n    /**\r\n     * List of alias names for the command.\r\n     * @type {String[]}\r\n     */\r\n    this.aliases = aliases ? options.aliases : []\r\n    /**\r\n     * List of paremeters that the command takes.\r\n     * @type {String[]}\r\n     */\r\n    let parameters = false\r\n    if (Array.isArray(options.parameters)) {\r\n      parameters = true\r\n      for (let i = 0; i < options.parameters.length; i++) {\r\n        if (typeof options.parameters[i] !== 'string') parameters = false; break\r\n      }\r\n    }\r\n    this.parameters = parameters ? options.parameters : []\r\n    /**\r\n     * The name of the permission required to use the command.\r\n     * @type {String}\r\n     */\r\n    this.permission = bot.permissions.get(options.permission) ? options.permission : 'Anyone'\r\n    /**\r\n     * Whether or not the bot should delete the message that invoked this command.\r\n     * @type {Boolean}\r\n     */\r\n    this.deleteInvoking = typeof options.deleteInvoking === 'boolean' ? options.deleteInvoking : true\r\n    /**\r\n     * Whether or not the bot should delete the bots response.\r\n     * @type {Boolean}\r\n     */\r\n    this.deleteResponse = typeof options.deleteResponse === 'boolean' ? options.deleteResponse : true\r\n    /**\r\n     * How many miliseconds to wait before deleting the bots response.\r\n     * @type {Number}\r\n     */\r\n    this.deleteResponseDelay = typeof options.deleteResponseDelay === 'number' ? options.deleteResponseDelay : 10000\r\n  }\r\n  /**\r\n   * Get information about the command.\r\n   * @return {String} Info string containing name and description.\r\n   */\r\n  get info () {\r\n    let str = `Name: ${this.name}\\n`\r\n    if (this.aliases[0]) str += `Aliases: ${this.aliases.join(', ')}\\n`\r\n    str += `Description: ${this.description}`\r\n    if (this.parameters[0]) str += `\\nParameters:${this.parameters.join(', ')}`\r\n    return str\r\n  }\r\n}\r\n\r\nmodule.exports = Command\r\n",
+    "content": "/**\r\n * Class representing a command.\r\n */\r\nclass Command {\r\n  /**\r\n   * Create a command.\r\n   * @param {DataClient} bot                                      The bot object.\r\n   * @param {Object}     data                                     The command data.\r\n   * @param {String}     data.name                                The command name.\r\n   * @param {String}     data.description                         The command description.\r\n   * @param {Function}   data.run                                 The command function.\r\n   * @param {Object}     [data.options={}]                        The command options.\r\n   * @param {String[]}   [data.options.aliases=[]]                List of alias names for the command.\r\n   * @param {String[]}   [data.options.parameters=[]]             List of paremeters that the command takes.\r\n   * @param {String}     [data.options.permission='Anyone']       The name of the permission required to use the command.\r\n   * @param {Boolean}    [data.options.deleteInvoking=true]       Whether or not the bot should delete the message that invoked this command.\r\n   * @param {Boolean}    [data.options.deleteResponse=true]       Whether or not the bot should delete the message that invoked this command.\r\n   * @param {Number}     [data.options.deleteResponseDelay=10000] How many miliseconds to wait before deleting the bots response.\r\n   */\r\n  constructor (bot, data) {\r\n    const { name, description, run, options = {} } = data\r\n    if (typeof name !== 'string') throw Error(`command cannot have name \"${name}\"`)\r\n    if (typeof description !== 'string') throw Error(`command cannot have description \"${description}\"`)\r\n    if (typeof run !== 'function') throw Error(`command cannot have run function \"${run}\"`)\r\n\r\n    /**\r\n     * The command name.\r\n     * @type {String}\r\n     */\r\n    this.name = name\r\n    /**\r\n     * The command description.\r\n     * @type {String}\r\n     */\r\n    this.description = description\r\n    /**\r\n     * The command function.\r\n     * @type {Function}\r\n     */\r\n    this.run = run\r\n\r\n    let aliases = false\r\n    if (Array.isArray(options.aliases)) {\r\n      aliases = true\r\n      for (let i = 0; i < options.aliases.length; i++) {\r\n        if (typeof options.aliases[i] !== 'string') aliases = false; break\r\n      }\r\n    }\r\n    /**\r\n     * List of alias names for the command.\r\n     * @type {String[]}\r\n     */\r\n    this.aliases = aliases ? options.aliases : []\r\n\r\n    let parameters = false\r\n    if (Array.isArray(options.parameters)) {\r\n      parameters = true\r\n      for (let i = 0; i < options.parameters.length; i++) {\r\n        if (typeof options.parameters[i] !== 'string') parameters = false; break\r\n      }\r\n    }\r\n    /**\r\n     * List of paremeters that the command takes.\r\n     * @type {String[]}\r\n     */\r\n    this.parameters = parameters ? options.parameters : []\r\n    /**\r\n     * The name of the permission required to use the command.\r\n     * @type {String}\r\n     */\r\n    this.permission = bot.permissions.get(options.permission) ? options.permission : 'Anyone'\r\n    /**\r\n     * Whether or not the bot should delete the message that invoked this command.\r\n     * @type {Boolean}\r\n     */\r\n    this.deleteInvoking = typeof options.deleteInvoking === 'boolean' ? options.deleteInvoking : true\r\n    /**\r\n     * Whether or not the bot should delete the bots response.\r\n     * @type {Boolean}\r\n     */\r\n    this.deleteResponse = typeof options.deleteResponse === 'boolean' ? options.deleteResponse : true\r\n    /**\r\n     * How many miliseconds to wait before deleting the bots response.\r\n     * @type {Number}\r\n     */\r\n    this.deleteResponseDelay = typeof options.deleteResponseDelay === 'number' ? options.deleteResponseDelay : 10000\r\n  }\r\n  /**\r\n   * Get information about the command.\r\n   * @return {String} Info string containing name and description.\r\n   */\r\n  get info () {\r\n    let str = `Name: ${this.name}\\n`\r\n    if (this.aliases[0]) str += `Aliases: ${this.aliases.join(', ')}\\n`\r\n    str += `Description: ${this.description}`\r\n    if (this.parameters[0]) str += `\\nParameters:${this.parameters.join(', ')}`\r\n    return str\r\n  }\r\n}\r\n\r\nmodule.exports = Command\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/src/classes/Command.js",
     "access": "public",
@@ -822,13 +822,15 @@
     "static": false,
     "longname": "classes/Command.js~Command#parameters",
     "access": "public",
-    "description": null,
-    "lineNumber": 65,
-    "undocument": true,
+    "description": "List of paremeters that the command takes.",
+    "lineNumber": 66,
     "type": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
+        "String[]"
+      ],
+      "spread": false,
+      "description": null
     }
   },
   {
@@ -840,7 +842,7 @@
     "longname": "classes/Command.js~Command#permission",
     "access": "public",
     "description": "The name of the permission required to use the command.",
-    "lineNumber": 70,
+    "lineNumber": 71,
     "type": {
       "nullable": null,
       "types": [
@@ -859,7 +861,7 @@
     "longname": "classes/Command.js~Command#deleteInvoking",
     "access": "public",
     "description": "Whether or not the bot should delete the message that invoked this command.",
-    "lineNumber": 75,
+    "lineNumber": 76,
     "type": {
       "nullable": null,
       "types": [
@@ -878,7 +880,7 @@
     "longname": "classes/Command.js~Command#deleteResponse",
     "access": "public",
     "description": "Whether or not the bot should delete the bots response.",
-    "lineNumber": 80,
+    "lineNumber": 81,
     "type": {
       "nullable": null,
       "types": [
@@ -897,7 +899,7 @@
     "longname": "classes/Command.js~Command#deleteResponseDelay",
     "access": "public",
     "description": "How many miliseconds to wait before deleting the bots response.",
-    "lineNumber": 85,
+    "lineNumber": 86,
     "type": {
       "nullable": null,
       "types": [
@@ -918,7 +920,7 @@
     "longname": "classes/Command.js~Command#info",
     "access": "public",
     "description": "Get information about the command.",
-    "lineNumber": 91,
+    "lineNumber": 92,
     "return": {
       "nullable": null,
       "types": [
@@ -937,7 +939,7 @@
     "__docId__": 61,
     "kind": "file",
     "name": "classes/DatabaseManager.js",
-    "content": "/**\r\n * @external {Collection} https://abal.moe/Eris/docs/Collection\r\n */\r\n/**\r\n * Class representing a database manager.\r\n */\r\nclass DatabaseManager {\r\n  /**\r\n   * Create a database manager.\r\n   * @param {Object} DB_CREDENTIALS          The credentials to create the db connection. This should be filled in the config file.\r\n   * @param {String} DB_CREDENTIALS.database The name of your database.\r\n   * @param {String} DB_CREDENTIALS.host     The address of your database.\r\n   * @param {String} DB_CREDENTIALS.user     The username to login with.\r\n   * @param {String} DB_CREDENTIALS.password The password associated with your user.\r\n   * @param {Class}  Logger                  The Logger class\r\n   */\r\n  constructor (DB_CREDENTIALS, Logger) {\r\n    /**\r\n     * The knex query builder.\r\n     * @private\r\n     * @type    {Function}\r\n     */\r\n    this._knex = require('knex')({ client: 'mysql', connection: DB_CREDENTIALS })\r\n    /**\r\n     * The logger.\r\n     * @private\r\n     * @type    {Logger}\r\n     */\r\n    this._logger = new Logger()\r\n  }\r\n\r\n  /**\r\n   * Insert a guild into the guild_settings table.\r\n   * @param  {String}             id The ID of the guild\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  async addClient (id) {\r\n    return this._insert({ table: 'guild_settings', data: { id } })\r\n      .then(() => { this._insert({ table: 'guild_toggles', data: { id } }) })\r\n  }\r\n\r\n  /**\r\n   * Insert a status into the statuses table.\r\n   * @param  {String}             name   The name of the status.\r\n   * @param  {Number}             [type] The type of the status.\r\n   * @return {(Number|undefined)}        Returns 0 on success or undefined.\r\n   */\r\n  addStatus (name, type) {\r\n    return this._insert({ table: 'statuses', data: { name, type } })\r\n  }\r\n\r\n  /**\r\n   * Get data on a guild from the guild_settings table\r\n   * @param  {String} id The ID of the guild.\r\n   * @return {Object}    The guild data.\r\n   */\r\n  getSettings (id) {\r\n    return this._get({ table: 'guild_settings', where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Get data on a guild from the guild_toggles table\r\n   * @param  {String} id The ID of the guild.\r\n   * @return {Object}    The guild data.\r\n   */\r\n  getToggles (id) {\r\n    return this._get({ table: 'guild_toggles', where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Get the statuses of the bot from the statuses table.\r\n   * @return {Object[]} Array of statuses, name and type.\r\n   */\r\n  getStatuses () {\r\n    return this._select({ table: 'statuses', columns: ['name', 'type'] })\r\n  }\r\n\r\n  /**\r\n   * Check saved guild data against live guild data.\r\n   * @param {Collection<Guild>} guilds The bots collection of guilds at start up.\r\n   */\r\n  async initialize (guilds) {\r\n    let tmpGuilds = new Map(guilds)\r\n    const saved = await this._select({ table: 'guild_settings' })\r\n    if (saved.length > 0) {\r\n      for (let i = 0; i < saved.length; i++) {\r\n        const id = saved[i].id\r\n        const guild = tmpGuilds.get(id)\r\n        if (guild) {\r\n          tmpGuilds.delete(id)\r\n          if (saved[i].vip && !guild.roles.get(saved[i].vip)) this.updateClient(id, { vip: null })\r\n          continue\r\n        }\r\n        await this.removeClient(saved[i].id)\r\n      }\r\n    }\r\n    for (const [id] of tmpGuilds) {\r\n      this.addClient(id)\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Remove a guild from the guild_settings table.\r\n   * @param  {String}             id The guild ID to remove.\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  removeClient (id) {\r\n    return this._delete({ table: 'guild_settings', where: { id } })\r\n      .then(() => this._delete({ table: 'guild_toggles', where: { id } }))\r\n  }\r\n\r\n  /**\r\n   * Remove a status from the statuses table.\r\n   * @param  {String}             name The status to remove.\r\n   * @return {(Number|undefined)}      Returns 0 on success or undefined.\r\n   */\r\n  removeStatus (name) {\r\n    return this._delete({ table: 'statuses', where: { name } })\r\n  }\r\n\r\n  /**\r\n   * Setup database tables.\r\n   * @param  {DataClient} bot The bot client.\r\n   * @return {Promise[]}      The results of the table creation.\r\n   */\r\n  async setup (bot) {\r\n    const tables = []\r\n    tables.push(this._knex.schema.hasTable('guild_settings')\r\n      .then((exists) => {\r\n        if (exists) return\r\n        return this._knex.schema.createTable('guild_settings', (table) => {\r\n          table.charset('utf8')\r\n          table.string('id').primary()\r\n          table.string('vip')\r\n          table.string('prefix').defaultTo(bot.config.DEFAULT.prefix)\r\n          /* role IDs */\r\n          table.text('trackedRoles', 'longtext')\r\n        })\r\n      })\r\n      .catch(this._logger.error)\r\n    )\r\n\r\n    tables.push(this._knex.schema.hasTable('guild_toggles')\r\n      .then((exists) => {\r\n        if (exists) return\r\n        return this._knex.schema.createTable('guild_toggles', (table) => {\r\n          table.charset('utf8')\r\n          table.string('id').primary()\r\n          table.boolean('game').defaultTo(true)\r\n          table.boolean('watch').defaultTo(true)\r\n          table.boolean('listen').defaultTo(true)\r\n          table.boolean('stream').defaultTo(true)\r\n        })\r\n      })\r\n      .catch(this._logger.error)\r\n    )\r\n    tables.push(this._knex.schema.hasTable('statuses')\r\n      .then((exists) => {\r\n        if (exists) return\r\n        return this._knex.schema.createTable('statuses', (table) => {\r\n          table.charset('utf8')\r\n          table.string('name').primary()\r\n          table.integer('type').defaultTo(0)\r\n          table.boolean('default').defaultTo('false')\r\n        }).then(() =>\r\n          this._insert({ table: 'statuses', data: bot.config.DEFAULT.status })\r\n        )\r\n      })\r\n      .catch(this._logger.error)\r\n    )\r\n\r\n    return Promise.all(tables)\r\n  }\r\n\r\n  /**\r\n   * Update the default status of the bot.\r\n   * @param  {Object}             data      The status to make default.\r\n   * @param  {String}             data.name The name of the status.\r\n   * @param  {Number}             data.type The type of the status.\r\n   * @return {(Number|undefined)}             Returns 0 on success or undefined.\r\n   */\r\n  updateDefaultStatus (data) {\r\n    return this._update({ table: 'games', data, where: { default: 1 } })\r\n  }\r\n\r\n  /**\r\n   * Update the default prefix in the guild_settings table. Not available with SQLite.\r\n   * @param {String} prefix The prefix to set as default.\r\n   */\r\n  updateDefaultPrefix (prefix) {\r\n    this._knex.schema.alterTable('guild_settings', (table) => {\r\n      table.string('prefix').defaultTo(prefix)\r\n    })\r\n  }\r\n\r\n  /**\r\n   * Update a guild entry in the guild_settings table.\r\n   * @param  {String}             id       The ID of the guild.\r\n   * @param  {Object}             settings The data to update. Property names should match column names.\r\n   * @return {(Number|undefined)}          Returns 0 on success or undefined.\r\n   */\r\n  updateSettings (id, settings) {\r\n    return this._update({ table: 'guild_settings', data: settings, where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Update a guild entry in the guild_toggles table.\r\n   * @param  {String}             id      The ID of the guild.\r\n   * @param  {Object}             toggles The data to update. Property names should match column names.\r\n   * @return {(Number|undefined)}         Returns 0 on success or undefined.\r\n   */\r\n  updateToggles (id, toggles) {\r\n    return this._update({ table: 'guild_toggles', data: toggles, where: { id } })\r\n  }\r\n\r\n  // private methods\r\n  /**\r\n   * Get the number of rows in a table.\r\n   * @private\r\n   * @param   {String}             table The name of the table.\r\n   * @return  {(Number|undefined)}       Returns the number of rows on success or undefined.\r\n   */\r\n  _count (table) {\r\n    return this._knex(table).count('*')\r\n      .then((val) => val[0]['count(*)'])\r\n      .catch(this._logger.error)\r\n  }\r\n\r\n  /**\r\n   * Delete an entry from a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to delete. Property name should match column name.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  _delete ({ table, where }) {\r\n    return this._knex(table).where(where).del()\r\n      .then((success) => 0)\r\n      .catch(this._logger.error)\r\n  }\r\n\r\n  /**\r\n   * Get the first entry from a table matching a condition.\r\n   * @private\r\n   * @param   {Object}            data               The query data.\r\n   * @param   {String}            data.table         The name of the table.\r\n   * @param   {(String[]|String)} [data.columns='*'] The column(s) to select.\r\n   * @param   {Object}            [data.where=true]  The column names and values to match.\r\n   * @return  {Object}                               The first matching row.\r\n   */\r\n  async _get ({ table, columns = '*', where = true }) {\r\n    return (await this._select({ table, columns, limit: 1, where }))[0]\r\n  }\r\n\r\n  /**\r\n   * Insert an entry into a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.data  The data to insert. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  _insert ({ table, data }) {\r\n    return this._knex(table).insert(data)\r\n      .then((success) => 0)\r\n      .catch(this._logger.error)\r\n  }\r\n\r\n  /**\r\n   * Select entries from a table.\r\n   * @private\r\n   * @param   {Object}               data               The query data.\r\n   * @param   {String}               data.table         The name of the table.\r\n   * @param   {(String[]|String)}    [data.columns='*'] The column(s) to select.\r\n   * @param   {Number}               [data.offset=0]    The amount of rows to skip before selecting.\r\n   * @param   {Number}               [data.limit=null]  The amount of rows to select. Will be set to all columns if null.\r\n   * @param   {Object}               [data.where=true]  The condition to match your selection against. Property name should match column name.\r\n   * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.\r\n   */\r\n  async _select ({ table, columns = '*', offset = 0, limit = null, where = true }) {\r\n    if (!limit) limit = (await this._count(table)) || 0\r\n    return this._knex(table).select(columns).where(where).offset(offset).limit(limit)\r\n      .then((rows) => rows)\r\n      .catch(this._logger.error)\r\n  }\r\n\r\n  /**\r\n   * Update entries in a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to update. Property name should match column name.\r\n   * @param   {Object}             data.data  The data to update. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  _update ({ table, where, data }) {\r\n    return this._knex(table).where(where).update(data)\r\n      .then((success) => 0)\r\n      .catch(this._logger.error)\r\n  }\r\n}\r\n\r\nmodule.exports = DatabaseManager\r\n",
+    "content": "/**\r\n * @external {Collection} https://abal.moe/Eris/docs/Collection\r\n */\r\n/**\r\n * Class representing a database manager.\r\n */\r\nclass DatabaseManager {\r\n  /**\r\n   * Create a database manager.\r\n   * @param {Object} DB_CREDENTIALS          The credentials to create the db connection. This should be filled in the config file.\r\n   * @param {String} DB_CREDENTIALS.database The name of your database.\r\n   * @param {String} DB_CREDENTIALS.host     The address of your database.\r\n   * @param {String} DB_CREDENTIALS.user     The username to login with.\r\n   * @param {String} DB_CREDENTIALS.password The password associated with your user.\r\n   * @param {Class}  Logger                  The Logger class\r\n   */\r\n  constructor (DB_CREDENTIALS, Logger) {\r\n    /**\r\n     * The knex query builder.\r\n     * @private\r\n     * @type    {Function}\r\n     */\r\n    this._knex = require('knex')({\r\n      client: 'mysql',\r\n      connection: DB_CREDENTIALS,\r\n      pool: { min: 0 }\r\n    })\r\n    /**\r\n     * The logger.\r\n     * @private\r\n     * @type    {Logger}\r\n     */\r\n    this._logger = new Logger()\r\n  }\r\n\r\n  /**\r\n   * Insert a guild into the guild_settings table.\r\n   * @param  {String}             id The ID of the guild\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  async addClient (id) {\r\n    return this._insert({ table: 'guild_settings', data: { id } })\r\n      .then(() => this._insert({ table: 'guild_toggles', data: { id } }))\r\n  }\r\n\r\n  /**\r\n   * Insert a status into the statuses table.\r\n   * @param  {String}             name   The name of the status.\r\n   * @param  {Number}             [type] The type of the status.\r\n   * @return {(Number|undefined)}        Returns 0 on success or undefined.\r\n   */\r\n  addStatus (name, type) {\r\n    return this._insert({ table: 'statuses', data: { name, type } })\r\n  }\r\n\r\n  /**\r\n   * Get data on a guild from the guild_settings table\r\n   * @param  {String} id The ID of the guild.\r\n   * @return {Object}    The guild data.\r\n   */\r\n  getSettings (id) {\r\n    return this._get({ table: 'guild_settings', where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Get data on a guild from the guild_toggles table\r\n   * @param  {String} id The ID of the guild.\r\n   * @return {Object}    The guild data.\r\n   */\r\n  getToggles (id) {\r\n    return this._get({ table: 'guild_toggles', where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Get the statuses of the bot from the statuses table.\r\n   * @return {Object[]} Array of statuses, name and type.\r\n   */\r\n  getStatuses () {\r\n    return this._select({ table: 'statuses', columns: ['name', 'type'] })\r\n  }\r\n\r\n  /**\r\n   * Check saved guild data against live guild data.\r\n   * @param {Collection<Guild>} guilds The bots collection of guilds at start up.\r\n   */\r\n  async initialize (guilds) {\r\n    let tmpGuilds = new Map(guilds)\r\n    const saved = await this._select({ table: 'guild_settings' })\r\n    if (saved.length > 0) {\r\n      for (let i = 0; i < saved.length; i++) {\r\n        const id = saved[i].id\r\n        const guild = tmpGuilds.get(id)\r\n        if (guild) {\r\n          tmpGuilds.delete(id)\r\n          if (saved[i].vip && !guild.roles.get(saved[i].vip)) this.updateClient(id, { vip: null })\r\n          continue\r\n        }\r\n        await this.removeClient(saved[i].id)\r\n      }\r\n    }\r\n    for (const [id] of tmpGuilds) {\r\n      this.addClient(id)\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Remove a guild from the guild_settings table.\r\n   * @param  {String}             id The guild ID to remove.\r\n   * @return {(Number|undefined)}    Returns 0 on success or undefined.\r\n   */\r\n  removeClient (id) {\r\n    return this._delete({ table: 'guild_settings', where: { id } })\r\n      .then(() => this._delete({ table: 'guild_toggles', where: { id } }))\r\n  }\r\n\r\n  /**\r\n   * Remove a status from the statuses table.\r\n   * @param  {String}             name The status to remove.\r\n   * @return {(Number|undefined)}      Returns 0 on success or undefined.\r\n   */\r\n  removeStatus (name) {\r\n    return this._delete({ table: 'statuses', where: { name } })\r\n  }\r\n\r\n  /**\r\n   * Setup database tables.\r\n   * @param  {DataClient} bot The bot client.\r\n   * @return {Promise[]}      The results of the table creation.\r\n   */\r\n  async setup (bot) {\r\n    const tables = []\r\n    tables.push(this._knex.schema.hasTable('guild_settings').then((exists) => {\r\n      if (exists) return\r\n      return this._knex.schema.createTable('guild_settings', (table) => {\r\n        table.charset('utf8')\r\n        table.string('id').primary()\r\n        table.string('vip')\r\n        table.string('prefix').defaultTo(bot.config.DEFAULT.prefix)\r\n      })\r\n    }).catch(this._logger.error)\r\n    )\r\n\r\n    tables.push(this._knex.schema.hasTable('guild_toggles').then((exists) => {\r\n      if (exists) return\r\n      return this._knex.schema.createTable('guild_toggles', (table) => {\r\n        table.charset('utf8')\r\n        table.string('id').primary()\r\n        // add toggleable guild settings here\r\n      })\r\n    }).catch(this._logger.error)\r\n    )\r\n    tables.push(this._knex.schema.hasTable('statuses').then((exists) => {\r\n      if (exists) return\r\n      return this._knex.schema.createTable('statuses', (table) => {\r\n        table.charset('utf8')\r\n        table.string('name').primary()\r\n        table.integer('type').defaultTo(0)\r\n        table.boolean('default').defaultTo('false')\r\n      }).then(() =>\r\n        this._insert({ table: 'statuses', data: bot.config.DEFAULT.status })\r\n      )\r\n    }).catch(this._logger.error)\r\n    )\r\n\r\n    return Promise.all(tables)\r\n  }\r\n\r\n  /**\r\n   * Update the default status of the bot.\r\n   * @param  {String}             name   The name of the status.\r\n   * @param  {Number}             [type] The type of the status.\r\n   * @return {(Number|undefined)}        Returns 0 on success or undefined.\r\n   */\r\n  updateDefaultStatus (name, type) {\r\n    return this._update({ table: 'statuses', data: { name, type }, where: { default: 1 } })\r\n  }\r\n\r\n  /**\r\n   * Update the default prefix in the guild_settings table. Not available with SQLite.\r\n   * @param  {String}    prefix The prefix to set as default.\r\n   * @return {undefined}\r\n   */\r\n  updateDefaultPrefix (prefix) {\r\n    this._knex.schema.alterTable('guild_settings', (table) => {\r\n      table.string('prefix').defaultTo(prefix)\r\n    })\r\n  }\r\n\r\n  /**\r\n   * Update a guild entry in the guild_settings table.\r\n   * @param  {String}             id       The ID of the guild.\r\n   * @param  {Object}             settings The data to update. Property names should match column names.\r\n   * @return {(Number|undefined)}          Returns 0 on success or undefined.\r\n   */\r\n  updateSettings (id, settings) {\r\n    return this._update({ table: 'guild_settings', data: settings, where: { id } })\r\n  }\r\n\r\n  /**\r\n   * Update a guild entry in the guild_toggles table.\r\n   * @param  {String}             id      The ID of the guild.\r\n   * @param  {Object}             toggles The data to update. Property names should match column names.\r\n   * @return {(Number|undefined)}         Returns 0 on success or undefined.\r\n   */\r\n  updateToggles (id, toggles) {\r\n    return this._update({ table: 'guild_toggles', data: toggles, where: { id } })\r\n  }\r\n\r\n  // private methods\r\n  /**\r\n   * Get the number of rows in a table.\r\n   * @private\r\n   * @param   {String}             table The name of the table.\r\n   * @return  {(Number|undefined)}       Returns the number of rows on success or undefined.\r\n   */\r\n  _count (table) {\r\n    return this._knex(table).count('*')\r\n      .then((val) => val[0]['count(*)'])\r\n      .catch(this._logger.error)\r\n  }\r\n\r\n  /**\r\n   * Delete an entry from a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to delete. Property name should match column name.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  _delete ({ table, where }) {\r\n    return this._knex(table).where(where).del()\r\n      .then((success) => 0)\r\n      .catch(this._logger.error)\r\n  }\r\n\r\n  /**\r\n   * Get the first entry from a table matching a condition.\r\n   * @private\r\n   * @param   {Object}            data               The query data.\r\n   * @param   {String}            data.table         The name of the table.\r\n   * @param   {(String[]|String)} [data.columns='*'] The column(s) to select.\r\n   * @param   {Object}            [data.where=true]  The column names and values to match.\r\n   * @return  {Object}                               The first matching row.\r\n   */\r\n  async _get ({ table, columns = '*', where = true }) {\r\n    return (await this._select({ table, columns, limit: 1, where }))[0]\r\n  }\r\n\r\n  /**\r\n   * Insert an entry into a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.data  The data to insert. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  _insert ({ table, data }) {\r\n    return this._knex(table).insert(data)\r\n      .then((success) => 0)\r\n      .catch(this._logger.error)\r\n  }\r\n\r\n  /**\r\n   * Select entries from a table.\r\n   * @private\r\n   * @param   {Object}               data               The query data.\r\n   * @param   {String}               data.table         The name of the table.\r\n   * @param   {(String[]|String)}    [data.columns='*'] The column(s) to select.\r\n   * @param   {Number}               [data.offset=0]    The amount of rows to skip before selecting.\r\n   * @param   {Number}               [data.limit=null]  The amount of rows to select. Will be set to all columns if null.\r\n   * @param   {Object}               [data.where=true]  The condition to match your selection against. Property name should match column name.\r\n   * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.\r\n   */\r\n  async _select ({ table, columns = '*', offset = 0, limit = null, where = true }) {\r\n    if (!limit) limit = (await this._count(table)) || 0\r\n    return this._knex(table).select(columns).where(where).offset(offset).limit(limit)\r\n      .then((rows) => rows)\r\n      .catch(this._logger.error)\r\n  }\r\n\r\n  /**\r\n   * Update entries in a table.\r\n   * @private\r\n   * @param   {Object}             data       The query data.\r\n   * @param   {String}             data.table The name of the table.\r\n   * @param   {Object}             data.where The condition to be met to find what to update. Property name should match column name.\r\n   * @param   {Object}             data.data  The data to update. Property names should match column names.\r\n   * @return  {(Number|undefined)}            Returns 0 on success or undefined.\r\n   */\r\n  _update ({ table, where, data }) {\r\n    return this._knex(table).where(where).update(data)\r\n      .then((success) => 0)\r\n      .catch(this._logger.error)\r\n  }\r\n}\r\n\r\nmodule.exports = DatabaseManager\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/src/classes/DatabaseManager.js",
     "access": "public",
@@ -1073,7 +1075,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#_logger",
     "access": "private",
     "description": "The logger.",
-    "lineNumber": 29,
+    "lineNumber": 33,
     "type": {
       "nullable": null,
       "types": [
@@ -1094,7 +1096,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#addClient",
     "access": "public",
     "description": "Insert a guild into the guild_settings table.",
-    "lineNumber": 37,
+    "lineNumber": 41,
     "params": [
       {
         "nullable": null,
@@ -1128,7 +1130,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#addStatus",
     "access": "public",
     "description": "Insert a status into the statuses table.",
-    "lineNumber": 48,
+    "lineNumber": 52,
     "params": [
       {
         "nullable": null,
@@ -1172,7 +1174,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#getSettings",
     "access": "public",
     "description": "Get data on a guild from the guild_settings table",
-    "lineNumber": 57,
+    "lineNumber": 61,
     "params": [
       {
         "nullable": null,
@@ -1205,7 +1207,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#getToggles",
     "access": "public",
     "description": "Get data on a guild from the guild_toggles table",
-    "lineNumber": 66,
+    "lineNumber": 70,
     "params": [
       {
         "nullable": null,
@@ -1238,7 +1240,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#getStatuses",
     "access": "public",
     "description": "Get the statuses of the bot from the statuses table.",
-    "lineNumber": 74,
+    "lineNumber": 78,
     "return": {
       "nullable": null,
       "types": [
@@ -1260,7 +1262,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#initialize",
     "access": "public",
     "description": "Check saved guild data against live guild data.",
-    "lineNumber": 82,
+    "lineNumber": 86,
     "params": [
       {
         "nullable": null,
@@ -1286,7 +1288,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#removeClient",
     "access": "public",
     "description": "Remove a guild from the guild_settings table.",
-    "lineNumber": 107,
+    "lineNumber": 111,
     "params": [
       {
         "nullable": null,
@@ -1320,7 +1322,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#removeStatus",
     "access": "public",
     "description": "Remove a status from the statuses table.",
-    "lineNumber": 117,
+    "lineNumber": 121,
     "params": [
       {
         "nullable": null,
@@ -1354,7 +1356,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#setup",
     "access": "public",
     "description": "Setup database tables.",
-    "lineNumber": 126,
+    "lineNumber": 130,
     "params": [
       {
         "nullable": null,
@@ -1387,18 +1389,8 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#updateDefaultStatus",
     "access": "public",
     "description": "Update the default status of the bot.",
-    "lineNumber": 182,
+    "lineNumber": 174,
     "params": [
-      {
-        "nullable": null,
-        "types": [
-          "Object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "data",
-        "description": "The status to make default."
-      },
       {
         "nullable": null,
         "types": [
@@ -1406,7 +1398,7 @@
         ],
         "spread": false,
         "optional": false,
-        "name": "data.name",
+        "name": "name",
         "description": "The name of the status."
       },
       {
@@ -1415,8 +1407,8 @@
           "Number"
         ],
         "spread": false,
-        "optional": false,
-        "name": "data.type",
+        "optional": true,
+        "name": "type",
         "description": "The type of the status."
       }
     ],
@@ -1441,7 +1433,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#updateDefaultPrefix",
     "access": "public",
     "description": "Update the default prefix in the guild_settings table. Not available with SQLite.",
-    "lineNumber": 190,
+    "lineNumber": 183,
     "params": [
       {
         "nullable": null,
@@ -1454,7 +1446,14 @@
         "description": "The prefix to set as default."
       }
     ],
-    "return": null
+    "return": {
+      "nullable": null,
+      "types": [
+        "undefined"
+      ],
+      "spread": false,
+      "description": ""
+    }
   },
   {
     "__docId__": 78,
@@ -1467,7 +1466,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#updateSettings",
     "access": "public",
     "description": "Update a guild entry in the guild_settings table.",
-    "lineNumber": 202,
+    "lineNumber": 195,
     "params": [
       {
         "nullable": null,
@@ -1511,7 +1510,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#updateToggles",
     "access": "public",
     "description": "Update a guild entry in the guild_toggles table.",
-    "lineNumber": 212,
+    "lineNumber": 205,
     "params": [
       {
         "nullable": null,
@@ -1555,7 +1554,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#_count",
     "access": "private",
     "description": "Get the number of rows in a table.",
-    "lineNumber": 223,
+    "lineNumber": 216,
     "params": [
       {
         "nullable": null,
@@ -1589,7 +1588,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#_delete",
     "access": "private",
     "description": "Delete an entry from a table.",
-    "lineNumber": 237,
+    "lineNumber": 230,
     "params": [
       {
         "nullable": null,
@@ -1643,7 +1642,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#_get",
     "access": "private",
     "description": "Get the first entry from a table matching a condition.",
-    "lineNumber": 252,
+    "lineNumber": 245,
     "params": [
       {
         "nullable": null,
@@ -1711,7 +1710,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#_insert",
     "access": "private",
     "description": "Insert an entry into a table.",
-    "lineNumber": 264,
+    "lineNumber": 257,
     "params": [
       {
         "nullable": null,
@@ -1765,7 +1764,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#_select",
     "access": "private",
     "description": "Select entries from a table.",
-    "lineNumber": 281,
+    "lineNumber": 274,
     "params": [
       {
         "nullable": null,
@@ -1858,7 +1857,7 @@
     "longname": "classes/DatabaseManager.js~DatabaseManager#_update",
     "access": "private",
     "description": "Update entries in a table.",
-    "lineNumber": 297,
+    "lineNumber": 290,
     "params": [
       {
         "nullable": null,
@@ -1915,7 +1914,7 @@
     "__docId__": 86,
     "kind": "file",
     "name": "classes/DataClient.js",
-    "content": "/**\r\n * @external {Client}     https://abal.moe/Eris/docs/Client\r\n */\r\nconst DatabaseManager = require('./DatabaseManager.js')\r\nconst Logger = require('./Logger.js')\r\nconst Status = require('./Status.js')\r\n/**\r\n * Class representing a DataClient.\r\n * @extends {Client}\r\n */\r\nclass DataClient extends require('eris') {\r\n  /**\r\n   * Create a client.\r\n   * @param {Object}  config                         The bot config data.\r\n   * @param {String}  config.TOKEN                   The bot token.\r\n   * @param {Object}  config.DB_CREDENTIALS          The database credentials.\r\n   * @param {String}  config.DB_CREDENTIALS.database The name of the database.\r\n   * @param {String}  config.DB_CREDENTIALS.host     The host address of the server.\r\n   * @param {String}  config.DB_CREDENTIALS.user     The username to login with.\r\n   * @param {String}  config.DB_CREDENTIALS.password The password to login with.\r\n   * @param {Object}  config.DEFAULT                 The bots default values.\r\n   * @param {String}  config.DEFAULT.prefix          The default prefix.\r\n   * @param {Boolean} config.DEFAULT.rotateStatus    The default for changing bot status.\r\n   * @param {Object}  config.DEFAULT.status          The default bot status.\r\n   * @param {String}  config.DEFAULT.status.name     The default bot status name.\r\n   * @param {Number}  config.DEFAULT.status.type     The default bot status type.\r\n   * @param {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.\r\n   */\r\n  constructor (config) {\r\n    super(config.TOKEN)\r\n    /**\r\n     * The bot config data.\r\n     * @type     {Object}\r\n     * @property {String}  config.TOKEN                   The bot token.\r\n     * @property {Object}  config.DB_CREDENTIALS          The database credentials.\r\n     * @property {String}  config.DB_CREDENTIALS.database The name of the database.\r\n     * @property {String}  config.DB_CREDENTIALS.host     The host address of the server.\r\n     * @property {String}  config.DB_CREDENTIALS.user     The username to login with.\r\n     * @property {String}  config.DB_CREDENTIALS.password The password to login with.\r\n     * @property {Object}  config.DEFAULT                 The bots default values.\r\n     * @property {String}  config.DEFAULT.prefix          The default prefix.\r\n     * @property {Boolean} config.DEFAULT.rotateStatus    The default for changing bot status.\r\n     * @property {Object}  config.DEFAULT.status          The default bot status.\r\n     * @property {String}  config.DEFAULT.status.name     The default bot status name.\r\n     * @property {Number}  config.DEFAULT.status.type     The default bot status type.\r\n     * @property {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.\r\n     */\r\n    this.config = config\r\n    /**\r\n     * The logger.\r\n     * @type {Logger}\r\n     */\r\n    this.logger = new Logger()\r\n    /**\r\n     * The DatabaseManager.\r\n     * @type {DatabaseManager}\r\n     */\r\n    this.dbm = new DatabaseManager(config.DB_CREDENTIALS, Logger)\r\n    /**\r\n     * The Status handler.\r\n     * @type {Status}\r\n     */\r\n    this.status = new Status()\r\n    /**\r\n     * The command map.\r\n     * @type {Map}\r\n     */\r\n    this.commands = new Map()\r\n    /**\r\n     * The command alias map.\r\n     * @type {Map}\r\n     */\r\n    this.aliases = new Map()\r\n    /**\r\n     * The permission map.\r\n     * @type {Map}\r\n     */\r\n    this.permissions = new Map()\r\n    /**\r\n     * The setting map.\r\n     * @type {Map}\r\n     */\r\n    this.settings = new Map()\r\n    /**\r\n     * The toggle map.\r\n     * @type {Map}\r\n     */\r\n    this.toggles = new Map()\r\n  }\r\n}\r\n\r\nmodule.exports = DataClient\r\n",
+    "content": "/**\r\n * @external {Client}     https://abal.moe/Eris/docs/Client\r\n */\r\nconst DatabaseManager = require('./DatabaseManager.js')\r\nconst Logger = require('./Logger.js')\r\nconst Status = require('./Status.js')\r\nconst path = require('path')\r\n/**\r\n * Class representing a DataClient.\r\n * @extends {Client}\r\n */\r\nclass DataClient extends require('eris').Client {\r\n  /**\r\n   * Create a client.\r\n   * @param {Object}  config                         The this config data.\r\n   * @param {String}  config.TOKEN                   The this token.\r\n   * @param {Object}  config.DB_CREDENTIALS          The database credentials.\r\n   * @param {String}  config.DB_CREDENTIALS.database The name of the database.\r\n   * @param {String}  config.DB_CREDENTIALS.host     The host address of the server.\r\n   * @param {String}  config.DB_CREDENTIALS.user     The username to login with.\r\n   * @param {String}  config.DB_CREDENTIALS.password The password to login with.\r\n   * @param {Object}  config.DEFAULT                 The bots default values.\r\n   * @param {String}  config.DEFAULT.prefix          The default prefix.\r\n   * @param {Boolean} config.DEFAULT.rotateStatus    The default for changing this status.\r\n   * @param {Object}  config.DEFAULT.status          The default this status.\r\n   * @param {String}  config.DEFAULT.status.name     The default this status name.\r\n   * @param {Number}  config.DEFAULT.status.type     The default this status type.\r\n   * @param {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.\r\n   * @param {Object}  options                        Same as Client.\r\n   */\r\n  constructor (config, options) {\r\n    super(config.TOKEN, options)\r\n    /**\r\n     * The this config data.\r\n     * @type     {Object}\r\n     * @property {String}  config.TOKEN                   The this token.\r\n     * @property {Object}  config.DB_CREDENTIALS          The database credentials.\r\n     * @property {String}  config.DB_CREDENTIALS.database The name of the database.\r\n     * @property {String}  config.DB_CREDENTIALS.host     The host address of the server.\r\n     * @property {String}  config.DB_CREDENTIALS.user     The username to login with.\r\n     * @property {String}  config.DB_CREDENTIALS.password The password to login with.\r\n     * @property {Object}  config.DEFAULT                 The bots default values.\r\n     * @property {String}  config.DEFAULT.prefix          The default prefix.\r\n     * @property {Boolean} config.DEFAULT.rotateStatus    The default for changing this status.\r\n     * @property {Object}  config.DEFAULT.status          The default this status.\r\n     * @property {String}  config.DEFAULT.status.name     The default this status name.\r\n     * @property {Number}  config.DEFAULT.status.type     The default this status type.\r\n     * @property {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.\r\n     */\r\n    this.config = config\r\n    /**\r\n     * The logger.\r\n     * @type {Logger}\r\n     */\r\n    this.logger = new Logger()\r\n    /**\r\n     * The DatabaseManager.\r\n     * @type {DatabaseManager}\r\n     */\r\n    this.dbm = new DatabaseManager(config.DB_CREDENTIALS, Logger)\r\n    /**\r\n     * The Status handler.\r\n     * @type {Status}\r\n     */\r\n    this.status = new Status()\r\n    /**\r\n     * The command map.\r\n     * @type {Map}\r\n     */\r\n    this.commands = new Map()\r\n    /**\r\n     * The command alias map.\r\n     * @type {Map}\r\n     */\r\n    this.aliases = new Map()\r\n    /**\r\n     * The permission map.\r\n     * @type {Map}\r\n     */\r\n    this.permissions = new Map()\r\n    /**\r\n     * The setting map.\r\n     * @type {Map}\r\n     */\r\n    this.settings = new Map()\r\n    /**\r\n     * The toggle map.\r\n     * @type {Map}\r\n     */\r\n    this.toggles = new Map()\r\n\r\n    this._setup()\r\n  }\r\n\r\n  /**\r\n   * Set up all data for DataClient.\r\n   */\r\n  async _setup () {\r\n    const { readdir } = require('fs').promises\r\n    /* set up database */\r\n    this.dbm.setup(this)\r\n\r\n    /* load permissions */\r\n    await readdir(path.join(__dirname, '../permissions/')).then((permissions) => {\r\n      this.logger.log(`Loading a total of ${permissions.length} permissions`)\r\n      for (let i = 0; i < permissions.length; i++) {\r\n        this._loadPermission(permissions[i])\r\n      }\r\n    })\r\n\r\n    /* load commands */\r\n    readdir(path.join(__dirname, '../commands/')).then((commands) => {\r\n      this.logger.log(`Loading a total of ${commands.length} commands`)\r\n      for (let i = 0; i < commands.length; i++) {\r\n        this._loadCommand(commands[i])\r\n      }\r\n    })\r\n\r\n    /* load events, bind this to each event function */\r\n    readdir(path.join(__dirname, '../events/')).then((events) => {\r\n      this.logger.log(`Loading a total of ${events.length} events`)\r\n      for (let i = 0; i < events.length; i++) {\r\n        this._loadEvent(events[i])\r\n      }\r\n    })\r\n\r\n    /* load settings */\r\n    readdir(path.join(__dirname, '../settings/')).then((settings) => {\r\n      this.logger.log(`Loading a total of ${settings.length} settings`)\r\n      for (let i = 0; i < settings.length; i++) {\r\n        this._loadSetting(settings[i])\r\n      }\r\n    })\r\n\r\n    /* load toggles */\r\n    readdir(path.join(__dirname, '../toggles/')).then((toggles) => {\r\n      this.logger.log(`Loading a total of ${toggles.length} toggleable settings`)\r\n      for (let i = 0; i < toggles.length; i++) {\r\n        this._loadToggle(toggles[i])\r\n      }\r\n    })\r\n  }\r\n\r\n  /**\r\n   * Load a command.\r\n   * @param {String} commandFile Name of command file to load.\r\n   */\r\n  _loadCommand (commandFile) {\r\n    if (!commandFile.endsWith('.js')) return\r\n    try {\r\n      const command = require(path.join(__dirname, `../commands/${commandFile}`))(this)\r\n      this.commands.set(command.name, command)\r\n      for (let i = 0; i < command.aliases.length; i++) {\r\n        this.aliases.set(command.aliases[i], command.name)\r\n      }\r\n    } catch (e) {\r\n      this.logger.error(`Unable to load command ${commandFile}: ${e}`)\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Load an event.\r\n   * @param {String} eventFile Name of event file to load.\r\n   */\r\n  _loadEvent (eventFile) {\r\n    try {\r\n      const eventName = eventFile.split('.')[0]\r\n      const event = require(path.join(__dirname, `../events/${eventFile}`))\r\n      this.on(eventName, event.bind(null, this))\r\n      delete require.cache[require.resolve(path.join(__dirname, `../events/${eventFile}`))]\r\n    } catch (e) {\r\n      this.logger.error(`Unable to load event ${eventFile}: ${e}`)\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Load a permission.\r\n   * @param {String} permissionFile Name of permission file to load.\r\n   */\r\n  _loadPermission (permissionFile) {\r\n    try {\r\n      const permission = require(path.join(__dirname, `../permissions/${permissionFile}`))\r\n      this.permissions.set(permission.name, permission)\r\n    } catch (e) {\r\n      this.logger.error(`Unable to load permission ${permissionFile}: ${e}`)\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Load a setting.\r\n   * @param {String} settingFile Name of setting file to load.\r\n   */\r\n  _loadSetting (settingFile) {\r\n    try {\r\n      const settingName = settingFile.split('.')[0]\r\n      this.settings.set(settingName, require(path.join(__dirname, `../settings/${settingFile}`))(this))\r\n    } catch (e) {\r\n      this.logger.error(`Unable to load setting ${settingFile}: ${e}`)\r\n    }\r\n  }\r\n\r\n  /**\r\n   * Load a toggle.\r\n   * @param {String} toggleFile Name of toggle file to load.\r\n   */\r\n  _loadToggle (toggleFile) {\r\n    try {\r\n      const toggleName = toggleFile.split('.')[0]\r\n      this.toggles.set(toggleName, require(path.join(__dirname, `../toggles/${toggleFile}`))(this))\r\n    } catch (e) {\r\n      this.logger.error(`Unable to load toggle ${toggleFile}: ${e}`)\r\n    }\r\n  }\r\n}\r\n\r\nmodule.exports = DataClient\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/src/classes/DataClient.js",
     "access": "public",
@@ -1946,7 +1945,7 @@
     "importPath": "eris-boiler/classes/DataClient.js",
     "importStyle": "DataClient",
     "description": "Class representing a DataClient.",
-    "lineNumber": 11,
+    "lineNumber": 12,
     "interface": false,
     "extends": [
       "Client"
@@ -1963,7 +1962,7 @@
     "longname": "classes/DataClient.js~DataClient#constructor",
     "access": "public",
     "description": "Create a client.",
-    "lineNumber": 29,
+    "lineNumber": 31,
     "params": [
       {
         "nullable": null,
@@ -1973,7 +1972,7 @@
         "spread": false,
         "optional": false,
         "name": "config",
-        "description": "The bot config data."
+        "description": "The this config data."
       },
       {
         "nullable": null,
@@ -1983,7 +1982,7 @@
         "spread": false,
         "optional": false,
         "name": "config.TOKEN",
-        "description": "The bot token."
+        "description": "The this token."
       },
       {
         "nullable": null,
@@ -2063,7 +2062,7 @@
         "spread": false,
         "optional": false,
         "name": "config.DEFAULT.rotateStatus",
-        "description": "The default for changing bot status."
+        "description": "The default for changing this status."
       },
       {
         "nullable": null,
@@ -2073,7 +2072,7 @@
         "spread": false,
         "optional": false,
         "name": "config.DEFAULT.status",
-        "description": "The default bot status."
+        "description": "The default this status."
       },
       {
         "nullable": null,
@@ -2083,7 +2082,7 @@
         "spread": false,
         "optional": false,
         "name": "config.DEFAULT.status.name",
-        "description": "The default bot status name."
+        "description": "The default this status name."
       },
       {
         "nullable": null,
@@ -2093,7 +2092,7 @@
         "spread": false,
         "optional": false,
         "name": "config.DEFAULT.status.type",
-        "description": "The default bot status type."
+        "description": "The default this status type."
       },
       {
         "nullable": null,
@@ -2104,6 +2103,16 @@
         "optional": false,
         "name": "config.DEFAULT.status.default",
         "description": "The boolean indicating to the database that this is the default status."
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "options",
+        "description": "Same as Client."
       }
     ]
   },
@@ -2115,8 +2124,8 @@
     "static": false,
     "longname": "classes/DataClient.js~DataClient#config",
     "access": "public",
-    "description": "The bot config data.",
-    "lineNumber": 48,
+    "description": "The this config data.",
+    "lineNumber": 50,
     "properties": [
       {
         "nullable": null,
@@ -2126,7 +2135,7 @@
         "spread": false,
         "optional": false,
         "name": "config.TOKEN",
-        "description": "The bot token."
+        "description": "The this token."
       },
       {
         "nullable": null,
@@ -2206,7 +2215,7 @@
         "spread": false,
         "optional": false,
         "name": "config.DEFAULT.rotateStatus",
-        "description": "The default for changing bot status."
+        "description": "The default for changing this status."
       },
       {
         "nullable": null,
@@ -2216,7 +2225,7 @@
         "spread": false,
         "optional": false,
         "name": "config.DEFAULT.status",
-        "description": "The default bot status."
+        "description": "The default this status."
       },
       {
         "nullable": null,
@@ -2226,7 +2235,7 @@
         "spread": false,
         "optional": false,
         "name": "config.DEFAULT.status.name",
-        "description": "The default bot status name."
+        "description": "The default this status name."
       },
       {
         "nullable": null,
@@ -2236,7 +2245,7 @@
         "spread": false,
         "optional": false,
         "name": "config.DEFAULT.status.type",
-        "description": "The default bot status type."
+        "description": "The default this status type."
       },
       {
         "nullable": null,
@@ -2267,7 +2276,7 @@
     "longname": "classes/DataClient.js~DataClient#logger",
     "access": "public",
     "description": "The logger.",
-    "lineNumber": 53,
+    "lineNumber": 55,
     "type": {
       "nullable": null,
       "types": [
@@ -2286,7 +2295,7 @@
     "longname": "classes/DataClient.js~DataClient#dbm",
     "access": "public",
     "description": "The DatabaseManager.",
-    "lineNumber": 58,
+    "lineNumber": 60,
     "type": {
       "nullable": null,
       "types": [
@@ -2305,7 +2314,7 @@
     "longname": "classes/DataClient.js~DataClient#status",
     "access": "public",
     "description": "The Status handler.",
-    "lineNumber": 63,
+    "lineNumber": 65,
     "type": {
       "nullable": null,
       "types": [
@@ -2324,7 +2333,7 @@
     "longname": "classes/DataClient.js~DataClient#commands",
     "access": "public",
     "description": "The command map.",
-    "lineNumber": 68,
+    "lineNumber": 70,
     "type": {
       "nullable": null,
       "types": [
@@ -2343,7 +2352,7 @@
     "longname": "classes/DataClient.js~DataClient#aliases",
     "access": "public",
     "description": "The command alias map.",
-    "lineNumber": 73,
+    "lineNumber": 75,
     "type": {
       "nullable": null,
       "types": [
@@ -2362,7 +2371,7 @@
     "longname": "classes/DataClient.js~DataClient#permissions",
     "access": "public",
     "description": "The permission map.",
-    "lineNumber": 78,
+    "lineNumber": 80,
     "type": {
       "nullable": null,
       "types": [
@@ -2381,7 +2390,7 @@
     "longname": "classes/DataClient.js~DataClient#settings",
     "access": "public",
     "description": "The setting map.",
-    "lineNumber": 83,
+    "lineNumber": 85,
     "type": {
       "nullable": null,
       "types": [
@@ -2400,7 +2409,7 @@
     "longname": "classes/DataClient.js~DataClient#toggles",
     "access": "public",
     "description": "The toggle map.",
-    "lineNumber": 88,
+    "lineNumber": 90,
     "type": {
       "nullable": null,
       "types": [
@@ -2412,6 +2421,151 @@
   },
   {
     "__docId__": 99,
+    "kind": "method",
+    "name": "_setup",
+    "memberof": "classes/DataClient.js~DataClient",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "classes/DataClient.js~DataClient#_setup",
+    "access": "private",
+    "description": "Set up all data for DataClient.",
+    "lineNumber": 98,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 100,
+    "kind": "method",
+    "name": "_loadCommand",
+    "memberof": "classes/DataClient.js~DataClient",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DataClient.js~DataClient#_loadCommand",
+    "access": "private",
+    "description": "Load a command.",
+    "lineNumber": 148,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "commandFile",
+        "description": "Name of command file to load."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 101,
+    "kind": "method",
+    "name": "_loadEvent",
+    "memberof": "classes/DataClient.js~DataClient",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DataClient.js~DataClient#_loadEvent",
+    "access": "private",
+    "description": "Load an event.",
+    "lineNumber": 165,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "eventFile",
+        "description": "Name of event file to load."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 102,
+    "kind": "method",
+    "name": "_loadPermission",
+    "memberof": "classes/DataClient.js~DataClient",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DataClient.js~DataClient#_loadPermission",
+    "access": "private",
+    "description": "Load a permission.",
+    "lineNumber": 180,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "permissionFile",
+        "description": "Name of permission file to load."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 103,
+    "kind": "method",
+    "name": "_loadSetting",
+    "memberof": "classes/DataClient.js~DataClient",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DataClient.js~DataClient#_loadSetting",
+    "access": "private",
+    "description": "Load a setting.",
+    "lineNumber": 193,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "settingFile",
+        "description": "Name of setting file to load."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 104,
+    "kind": "method",
+    "name": "_loadToggle",
+    "memberof": "classes/DataClient.js~DataClient",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "classes/DataClient.js~DataClient#_loadToggle",
+    "access": "private",
+    "description": "Load a toggle.",
+    "lineNumber": 206,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "String"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "toggleFile",
+        "description": "Name of toggle file to load."
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 105,
     "kind": "file",
     "name": "classes/Logger.js",
     "content": "const moment = require('moment')\r\nconst colors = require('colors/safe')\r\n\r\n/**\r\n * Class representing a logger.\r\n */\r\nclass Logger {\r\n  /**\r\n   * Log something.\r\n   * @param {String} content         The string to log (can also be something with a toString method).\r\n   * @param {String} [color='white'] The color that the message should be in.\r\n   */\r\n  log (content, color = 'white') {\r\n    const time = moment().format('MM/DD HH:mm:ss')\r\n    console.log(colors.gray(time) + ' | ' + colors[color](content))\r\n  }\r\n  /**\r\n   * Log something in green for success.\r\n   * @param {String} content The string to log (can also be something with a toString method).\r\n   */\r\n  success (content) {\r\n    const time = moment().format('MM/DD HH:mm:ss')\r\n    console.log(colors.gray(time) + ' | ' + colors.green(content))\r\n  }\r\n  /**\r\n   * Log something in yellow for warning.\r\n   * @param {String} content The string to log (can also be something with a toString method).\r\n   */\r\n  warn (content) {\r\n    const time = moment().format('MM/DD HH:mm:ss')\r\n    console.log(colors.gray(time) + ' | ' + colors.yellow(content))\r\n  }\r\n  /**\r\n   * Log something in red for error.\r\n   * @param {String} error The string to log (can also be something with a toString method).\r\n   */\r\n  error (error) {\r\n    if (error.stack) error = error.stack\r\n    const time = moment().format('MM/DD HH:mm:ss')\r\n    console.log(colors.gray(time) + ' | ' + colors.red(error))\r\n  }\r\n}\r\n\r\nmodule.exports = Logger\r\n",
@@ -2422,7 +2576,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 100,
+    "__docId__": 106,
     "kind": "class",
     "name": "Logger",
     "memberof": "classes/Logger.js",
@@ -2437,7 +2591,7 @@
     "interface": false
   },
   {
-    "__docId__": 101,
+    "__docId__": 107,
     "kind": "method",
     "name": "log",
     "memberof": "classes/Logger.js~Logger",
@@ -2475,7 +2629,7 @@
     "return": null
   },
   {
-    "__docId__": 102,
+    "__docId__": 108,
     "kind": "method",
     "name": "success",
     "memberof": "classes/Logger.js~Logger",
@@ -2501,7 +2655,7 @@
     "return": null
   },
   {
-    "__docId__": 103,
+    "__docId__": 109,
     "kind": "method",
     "name": "warn",
     "memberof": "classes/Logger.js~Logger",
@@ -2527,7 +2681,7 @@
     "return": null
   },
   {
-    "__docId__": 104,
+    "__docId__": 110,
     "kind": "method",
     "name": "error",
     "memberof": "classes/Logger.js~Logger",
@@ -2553,7 +2707,7 @@
     "return": null
   },
   {
-    "__docId__": 105,
+    "__docId__": 111,
     "kind": "file",
     "name": "classes/Permission.js",
     "content": "/**\r\n * Class representing a permission.\r\n */\r\nclass Permission {\r\n  /**\r\n   * Create a permission.\r\n   * @param {Object}   data                                     The permission data.\r\n   * @param {String}   data.name                                The name of the permission.\r\n   * @param {Number}   data.level                               The level of the permission (0 is the bottom).\r\n   * @param {Function} [data.check=function () { return true }] A test to see if a member has this permission.\r\n   */\r\n  constructor (data) {\r\n    const { name, level, check } = data\r\n    if (typeof name !== 'string') throw Error(`permission cannot have name ${name}`)\r\n    if (isNaN(level)) throw Error(`permission cannot have level ${level}`)\r\n    /**\r\n     * The name of the permission.\r\n     * @type {String}\r\n     */\r\n    this.name = name\r\n    /**\r\n     * The level of the permission (0 is the bottom).\r\n     * @type {String}\r\n     */\r\n    this.level = level\r\n    /**\r\n     * A test to see if a member has this permission.\r\n     * @type {Function}\r\n     */\r\n    this.check = typeof check === 'function' ? check : function () { return true }\r\n  }\r\n  /**\r\n   * Denial message telling the user what level permission they need.\r\n   * @return {String} Denial message including permission name.\r\n   */\r\n  deny () {\r\n    return `Must be ${this.name}!`\r\n  }\r\n}\r\n\r\nmodule.exports = Permission\r\n",
@@ -2564,7 +2718,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 106,
+    "__docId__": 112,
     "kind": "class",
     "name": "Permission",
     "memberof": "classes/Permission.js",
@@ -2579,7 +2733,7 @@
     "interface": false
   },
   {
-    "__docId__": 107,
+    "__docId__": 113,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "classes/Permission.js~Permission",
@@ -2636,7 +2790,7 @@
     ]
   },
   {
-    "__docId__": 108,
+    "__docId__": 114,
     "kind": "member",
     "name": "name",
     "memberof": "classes/Permission.js~Permission",
@@ -2655,7 +2809,7 @@
     }
   },
   {
-    "__docId__": 109,
+    "__docId__": 115,
     "kind": "member",
     "name": "level",
     "memberof": "classes/Permission.js~Permission",
@@ -2674,7 +2828,7 @@
     }
   },
   {
-    "__docId__": 110,
+    "__docId__": 116,
     "kind": "member",
     "name": "check",
     "memberof": "classes/Permission.js~Permission",
@@ -2693,7 +2847,7 @@
     }
   },
   {
-    "__docId__": 111,
+    "__docId__": 117,
     "kind": "method",
     "name": "deny",
     "memberof": "classes/Permission.js~Permission",
@@ -2715,10 +2869,10 @@
     "params": []
   },
   {
-    "__docId__": 112,
+    "__docId__": 118,
     "kind": "file",
     "name": "classes/Setting.js",
-    "content": "/**\r\n * Class representing a setting.\r\n */\r\nclass Setting {\r\n  /**\r\n   * Create a setting.\r\n   * @param {DataClient} bot           The bot object.\r\n   * @param {Object}     data          An object with data to assign to the Setting.\r\n   * @param {String}     data.name     The name of the Setting.\r\n   * @param {String}     data.code     The (camelCase) code of the setting.\r\n   * @param {Function}   data.onChange A function that gets executed whenever the value of the setting is changed.\r\n   */\r\n  constructor (bot, data) {\r\n    const { name, code, onChange } = data\r\n    if (typeof name !== 'string') throw new Error(`setting cannot have name ${name}`)\r\n    if (typeof code !== 'string') throw new Error(`setting cannot have code ${code}`)\r\n    if (typeof onChange !== 'function') throw new Error(`setting cannot have onChange function ${onChange}`)\r\n    /**\r\n     * The name of the setting.\r\n     * @type {String}\r\n     */\r\n    this.name = name\r\n    /**\r\n     * The (camelCase) code of the setting.\r\n     * @type {String}\r\n     */\r\n    this.code = code\r\n    /**\r\n     * A function that gets executed whenever the value of the setting is changed.\r\n     * @type {Function}\r\n     */\r\n    this.onChange = onChange\r\n    /**\r\n     * The value of the setting.\r\n     * @type {*}\r\n     */\r\n    this.value = bot.config.DEFAULT[this.code]\r\n  }\r\n  /**\r\n   * Sets the value of the setting.\r\n   * @param  {*}      value The value to set.\r\n   * @param  {DataClient} bot   The bot object.\r\n   * @return {String}       Confirmation message.\r\n   */\r\n  setValue (value, bot) {\r\n    if (this.value === value) return `${this.name} is already ${this.value}!`\r\n    this.value = bot.config.DEFAULT[this.code] = value\r\n    this.save(bot.config)\r\n    this.onChange(bot, value)\r\n    return `${this.name} set to ${this.value}!`\r\n  }\r\n  /**\r\n   * Save settings to file.\r\n   * @param {Object} config The client's config object.\r\n   */\r\n  save (config) {\r\n    require('fs').writeFile('./config.json', JSON.stringify(config, undefined, 2), (err) => {\r\n      if (err) throw err\r\n    })\r\n  }\r\n}\r\n\r\nmodule.exports = Setting\r\n",
+    "content": "/**\r\n * Class representing a setting.\r\n */\r\nclass Setting {\r\n  /**\r\n   * Create a setting.\r\n   * @param {DataClient} bot           The bot object.\r\n   * @param {Object}     data          An object with data to assign to the Setting.\r\n   * @param {String}     data.name     The name of the Setting.\r\n   * @param {String}     data.code     The (camelCase) code of the setting.\r\n   * @param {Function}   data.onChange A function that gets executed whenever the value of the setting is changed.\r\n   */\r\n  constructor (bot, data) {\r\n    const { name, code, onChange } = data\r\n    if (typeof name !== 'string') throw new Error(`setting cannot have name ${name}`)\r\n    if (typeof code !== 'string') throw new Error(`setting cannot have code ${code}`)\r\n    if (typeof onChange !== 'function') throw new Error(`setting cannot have onChange function ${onChange}`)\r\n    /**\r\n     * The name of the setting.\r\n     * @type {String}\r\n     */\r\n    this.name = name\r\n    /**\r\n     * The (camelCase) code of the setting.\r\n     * @type {String}\r\n     */\r\n    this.code = code\r\n    /**\r\n     * A function that gets executed whenever the value of the setting is changed.\r\n     * @type {Function}\r\n     */\r\n    this.onChange = onChange\r\n    /**\r\n     * The value of the setting.\r\n     * @type {*}\r\n     */\r\n    this.value = bot.config.DEFAULT[this.code]\r\n  }\r\n  /**\r\n   * Sets the value of the setting.\r\n   * @param  {*}          value The value to set.\r\n   * @param  {DataClient} bot   The bot object.\r\n   * @return {String}           Confirmation message.\r\n   */\r\n  setValue (value, bot) {\r\n    if (this.value === value) return `${this.name} is already ${this.value}!`\r\n    this.value = bot.config.DEFAULT[this.code] = value\r\n\r\n    const { writeFile } = require('fs').promises\r\n    writeFile('./config.json', JSON.stringify(bot.config, undefined, 2))\r\n      .then((success) => bot.logger.success('wrote to config'))\r\n      .catch(bot.logger.error)\r\n\r\n    this.onChange(bot, value)\r\n    return `${this.name} set to ${this.value}!`\r\n  }\r\n}\r\n\r\nmodule.exports = Setting\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/src/classes/Setting.js",
     "access": "public",
@@ -2726,7 +2880,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 113,
+    "__docId__": 119,
     "kind": "class",
     "name": "Setting",
     "memberof": "classes/Setting.js",
@@ -2741,7 +2895,7 @@
     "interface": false
   },
   {
-    "__docId__": 114,
+    "__docId__": 120,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "classes/Setting.js~Setting",
@@ -2806,7 +2960,7 @@
     ]
   },
   {
-    "__docId__": 115,
+    "__docId__": 121,
     "kind": "member",
     "name": "name",
     "memberof": "classes/Setting.js~Setting",
@@ -2825,7 +2979,7 @@
     }
   },
   {
-    "__docId__": 116,
+    "__docId__": 122,
     "kind": "member",
     "name": "code",
     "memberof": "classes/Setting.js~Setting",
@@ -2844,7 +2998,7 @@
     }
   },
   {
-    "__docId__": 117,
+    "__docId__": 123,
     "kind": "member",
     "name": "onChange",
     "memberof": "classes/Setting.js~Setting",
@@ -2863,7 +3017,7 @@
     }
   },
   {
-    "__docId__": 118,
+    "__docId__": 124,
     "kind": "member",
     "name": "value",
     "memberof": "classes/Setting.js~Setting",
@@ -2882,7 +3036,7 @@
     }
   },
   {
-    "__docId__": 119,
+    "__docId__": 125,
     "kind": "method",
     "name": "setValue",
     "memberof": "classes/Setting.js~Setting",
@@ -2925,36 +3079,10 @@
     }
   },
   {
-    "__docId__": 121,
-    "kind": "method",
-    "name": "save",
-    "memberof": "classes/Setting.js~Setting",
-    "generator": false,
-    "async": false,
-    "static": false,
-    "longname": "classes/Setting.js~Setting#save",
-    "access": "public",
-    "description": "Save settings to file.",
-    "lineNumber": 56,
-    "params": [
-      {
-        "nullable": null,
-        "types": [
-          "Object"
-        ],
-        "spread": false,
-        "optional": false,
-        "name": "config",
-        "description": "The client's config object."
-      }
-    ],
-    "return": null
-  },
-  {
-    "__docId__": 122,
+    "__docId__": 127,
     "kind": "file",
     "name": "classes/Status.js",
-    "content": "/**\r\n * Class representing the bot status.\r\n */\r\nconst StatusType = require('./StatusType.js')\r\nclass Status {\r\n  /**\r\n   * Create a status.\r\n   */\r\n  constructor () {\r\n    /**\r\n     * The current status.\r\n     * @type     {Object}\r\n     * @property {String} name The name of the current status.\r\n     * @property {Number} type The type of the current status.\r\n     */\r\n    this.current = { name: '', type: 0 }\r\n    /**\r\n     * StatusType data\r\n     * @private\r\n     * @type {StatusType}\r\n     */\r\n    this._type = new StatusType()\r\n    /**\r\n     * The interval for automatic status changes\r\n     * @private\r\n     */\r\n    this._interval = undefined\r\n  }\r\n  /**\r\n   * Set the status to the default.\r\n   * @param {DataClient} bot The bot object.\r\n   */\r\n  default (bot) {\r\n    const { name, type } = bot.config.DEFAULT.status\r\n    this.setStatus(bot, { name, type })\r\n  }\r\n  /**\r\n   * Stop changing status automatically\r\n   */\r\n  endRotate () {\r\n    if (this._interval) this._interval = clearInterval(this._interval)\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {DataClient} bot             The bot object.\r\n   * @param {Logger} bot.logger      The logger.\r\n   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random\r\n   * @param {String} [status.name]   Name of status\r\n   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.\r\n   */\r\n  async setStatus (bot, status) {\r\n    if (!status || !status.name) {\r\n      status = this.current\r\n      const statuses = await bot.dbm.getStatuses()\r\n      if (statuses.length > 1) {\r\n        while (status.name === this.current.name) {\r\n          status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n        }\r\n      } else {\r\n        status = statuses[0]\r\n      }\r\n    }\r\n    bot.logger.log(`${this._type.getStatusName(status.type)} ${status.name}`, 'cyan')\r\n    bot.editStatus('online', status)\r\n    this.current = status\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {DataClient} bot The bot object.\r\n   */\r\n  startRotate (bot) {\r\n    this._interval = setInterval(() => { this.setStatus(bot) }, 43200000)\r\n  }\r\n}\r\n\r\nmodule.exports = Status\r\n",
+    "content": "const StatusType = require('./StatusType.js')\r\n/**\r\n * Class representing the bot status.\r\n */\r\nclass Status {\r\n  /**\r\n   * Create a status.\r\n   */\r\n  constructor () {\r\n    /**\r\n     * The current status.\r\n     * @type     {Object}\r\n     * @property {String} name The name of the current status.\r\n     * @property {Number} type The type of the current status.\r\n     */\r\n    this.current = { name: '', type: 0 }\r\n    /**\r\n     * StatusType data\r\n     * @type {StatusType}\r\n     * @private\r\n     */\r\n    this._type = new StatusType()\r\n    /**\r\n     * The interval for automatic status changes\r\n     * @private\r\n     */\r\n    this._interval = undefined\r\n  }\r\n  /**\r\n   * Set the status to the default.\r\n   * @param {DataClient} bot The bot object.\r\n   */\r\n  default (bot) {\r\n    const { name, type } = bot.config.DEFAULT.status\r\n    this.setStatus(bot, { name, type })\r\n  }\r\n  /**\r\n   * Stop changing status automatically\r\n   */\r\n  endRotate () {\r\n    if (this._interval) this._interval = clearInterval(this._interval)\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {DataClient} bot             The bot object.\r\n   * @param {Logger} bot.logger      The logger.\r\n   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random\r\n   * @param {String} [status.name]   Name of status\r\n   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.\r\n   */\r\n  async setStatus (bot, status) {\r\n    if (!status || !status.name) {\r\n      status = this.current\r\n      const statuses = await bot.dbm.getStatuses()\r\n      if (statuses.length > 1) {\r\n        while (status.name === this.current.name) {\r\n          status = statuses[Math.round(Math.random() * (statuses.length - 1))]\r\n        }\r\n      } else {\r\n        status = statuses[0]\r\n      }\r\n    }\r\n    bot.logger.log(`${this._type.getStatusName(status.type)} ${status.name}`, 'cyan')\r\n    bot.editStatus('online', status)\r\n    this.current = status\r\n  }\r\n  /**\r\n   * Set the status of the bot\r\n   * @param {DataClient} bot The bot object.\r\n   */\r\n  startRotate (bot) {\r\n    this._interval = setInterval(() => { this.setStatus(bot) }, 43200000)\r\n  }\r\n}\r\n\r\nmodule.exports = Status\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/src/classes/Status.js",
     "access": "public",
@@ -2962,7 +3090,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 123,
+    "__docId__": 128,
     "kind": "class",
     "name": "Status",
     "memberof": "classes/Status.js",
@@ -2972,13 +3100,12 @@
     "export": true,
     "importPath": "eris-boiler/classes/Status.js",
     "importStyle": "Status",
-    "description": null,
+    "description": "Class representing the bot status.",
     "lineNumber": 5,
-    "undocument": true,
     "interface": false
   },
   {
-    "__docId__": 124,
+    "__docId__": 129,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "classes/Status.js~Status",
@@ -2991,7 +3118,7 @@
     "lineNumber": 9
   },
   {
-    "__docId__": 125,
+    "__docId__": 130,
     "kind": "member",
     "name": "current",
     "memberof": "classes/Status.js~Status",
@@ -3032,7 +3159,7 @@
     }
   },
   {
-    "__docId__": 126,
+    "__docId__": 131,
     "kind": "member",
     "name": "_type",
     "memberof": "classes/Status.js~Status",
@@ -3049,7 +3176,7 @@
     }
   },
   {
-    "__docId__": 127,
+    "__docId__": 132,
     "kind": "member",
     "name": "_interval",
     "memberof": "classes/Status.js~Status",
@@ -3065,7 +3192,7 @@
     }
   },
   {
-    "__docId__": 128,
+    "__docId__": 133,
     "kind": "method",
     "name": "default",
     "memberof": "classes/Status.js~Status",
@@ -3091,7 +3218,7 @@
     "return": null
   },
   {
-    "__docId__": 129,
+    "__docId__": 134,
     "kind": "method",
     "name": "endRotate",
     "memberof": "classes/Status.js~Status",
@@ -3106,7 +3233,7 @@
     "return": null
   },
   {
-    "__docId__": 131,
+    "__docId__": 136,
     "kind": "method",
     "name": "setStatus",
     "memberof": "classes/Status.js~Status",
@@ -3174,7 +3301,7 @@
     "return": null
   },
   {
-    "__docId__": 133,
+    "__docId__": 138,
     "kind": "method",
     "name": "startRotate",
     "memberof": "classes/Status.js~Status",
@@ -3200,10 +3327,10 @@
     "return": null
   },
   {
-    "__docId__": 135,
+    "__docId__": 140,
     "kind": "file",
     "name": "classes/StatusType.js",
-    "content": "class StatusType {\r\n  constructor () {\r\n    /**\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} STREAMING 1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     */\r\n    this.num = {\r\n      PLAYING: 0,\r\n      STREAMING: 1,\r\n      LISTENING: 2,\r\n      WATCHING: 3\r\n    }\r\n  }\r\n  /**\r\n   * Get a status type string by num.\r\n   * @param  {Number} num The number type to lookup.\r\n   * @return {String}     The nice string name.\r\n   */\r\n  getStatusName (num) {\r\n    const strings = {\r\n      PLAYING: 'Playing',\r\n      STREAMING: 'Streaming',\r\n      LISTENING: 'Listening',\r\n      WATCHING: 'Watching'\r\n    }\r\n    for (let key in this.num) {\r\n      if (this.num[key] === num) return strings[key]\r\n    }\r\n  }\r\n}\r\n\r\nmodule.exports = StatusType\r\n",
+    "content": "/**\r\n * Class representing the possible status types.\r\n */\r\nclass StatusType {\r\n  /**\r\n   * Create a status type object.\r\n   */\r\n  constructor () {\r\n    /**\r\n     * Enum for status types\r\n     * @type     {Object}\r\n     * @property {Number} PLAYING   0\r\n     * @property {Number} STREAMING 1 (Twitch only)\r\n     * @property {Number} LISTENING 2\r\n     * @property {Number} WATCHING  3\r\n     */\r\n    this.num = {\r\n      PLAYING: 0,\r\n      STREAMING: 1,\r\n      LISTENING: 2,\r\n      WATCHING: 3\r\n    }\r\n  }\r\n  /**\r\n   * Get a status type string by num.\r\n   * @param  {Number} num The number type to lookup.\r\n   * @return {String}     The nice string name.\r\n   */\r\n  getStatusName (num) {\r\n    const strings = {\r\n      PLAYING: 'Playing',\r\n      STREAMING: 'Streaming',\r\n      LISTENING: 'Listening',\r\n      WATCHING: 'Watching'\r\n    }\r\n    for (let key in this.num) {\r\n      if (this.num[key] === num) return strings[key]\r\n    }\r\n  }\r\n}\r\n\r\nmodule.exports = StatusType\r\n",
     "static": true,
     "longname": "C:/Users/Alex/Source/Repos/eris-boiler/src/classes/StatusType.js",
     "access": "public",
@@ -3211,7 +3338,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 136,
+    "__docId__": 141,
     "kind": "class",
     "name": "StatusType",
     "memberof": "classes/StatusType.js",
@@ -3221,13 +3348,12 @@
     "export": true,
     "importPath": "eris-boiler/classes/StatusType.js",
     "importStyle": "StatusType",
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
+    "description": "Class representing the possible status types.",
+    "lineNumber": 4,
     "interface": false
   },
   {
-    "__docId__": 137,
+    "__docId__": 142,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "classes/StatusType.js~StatusType",
@@ -3236,12 +3362,11 @@
     "static": false,
     "longname": "classes/StatusType.js~StatusType#constructor",
     "access": "public",
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true
+    "description": "Create a status type object.",
+    "lineNumber": 8
   },
   {
-    "__docId__": 138,
+    "__docId__": 143,
     "kind": "member",
     "name": "num",
     "memberof": "classes/StatusType.js~StatusType",
@@ -3249,7 +3374,7 @@
     "longname": "classes/StatusType.js~StatusType#num",
     "access": "public",
     "description": "Enum for status types",
-    "lineNumber": 11,
+    "lineNumber": 17,
     "properties": [
       {
         "nullable": null,
@@ -3302,7 +3427,7 @@
     }
   },
   {
-    "__docId__": 139,
+    "__docId__": 144,
     "kind": "method",
     "name": "getStatusName",
     "memberof": "classes/StatusType.js~StatusType",
@@ -3312,7 +3437,7 @@
     "longname": "classes/StatusType.js~StatusType#getStatusName",
     "access": "public",
     "description": "Get a status type string by num.",
-    "lineNumber": 23,
+    "lineNumber": 29,
     "params": [
       {
         "nullable": null,
@@ -3335,7 +3460,7 @@
     }
   },
   {
-    "__docId__": 140,
+    "__docId__": 145,
     "kind": "file",
     "name": "classes/Toggle.js",
     "content": "/**\r\n * Class representing a Toggle.\r\n * @extends {Setting}\r\n * @prop    {Boolean} value The value of the Toggle.\r\n */\r\nclass Toggle extends require('./Setting.js') {\r\n  /**\r\n   * Set the value of the Toggle to true.\r\n   * @param  {DataClient} bot The bot object.\r\n   * @return {String}         Confirmation message.\r\n   */\r\n  enable (bot) {\r\n    return this.setValue(true, bot)\r\n  }\r\n  /**\r\n   * Set the value of the Toggle to false.\r\n   * @param  {DataClient} bot The bot object.\r\n   * @return {String}         Confirmation message.\r\n   */\r\n  disable (bot) {\r\n    return this.setValue(false, bot)\r\n  }\r\n}\r\n\r\nmodule.exports = Toggle\r\n",
@@ -3346,7 +3471,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 141,
+    "__docId__": 146,
     "kind": "class",
     "name": "Toggle",
     "memberof": "classes/Toggle.js",
@@ -3370,7 +3495,7 @@
     ]
   },
   {
-    "__docId__": 142,
+    "__docId__": 147,
     "kind": "method",
     "name": "enable",
     "memberof": "classes/Toggle.js~Toggle",
@@ -3403,7 +3528,7 @@
     }
   },
   {
-    "__docId__": 143,
+    "__docId__": 148,
     "kind": "method",
     "name": "disable",
     "memberof": "classes/Toggle.js~Toggle",
@@ -3437,7 +3562,7 @@
   },
   {
     "kind": "index",
-    "content": "# eris-boiler\r\nA Discord Bot boilerplate using JavaScript and the Eris library\r\n# Startup\r\n1. Clone this repository\r\n2. Create a `config.json` file inside of `src` (use `sample.config.json` as a guide)\r\n3. Run `npm install`\r\n4. Run `npm start`\r\n\r\n# Documentation\r\nClass documentation can be found [here](https://alex-taxiera.github.io/eris-boiler/)\r\n",
+    "content": "# eris-boiler\r\n\r\n[![Join the chat at https://gitter.im/eris-boiler/Lobby](https://badges.gitter.im/eris-boiler/Lobby.svg)](https://gitter.im/eris-boiler/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)\r\n\r\nA Discord Bot boilerplate using JavaScript and the Eris library\r\n# Startup\r\n1. Clone this repository\r\n2. Create a `config.json` file inside of `src` (use `sample.config.json` as a guide)\r\n3. Run `npm install`\r\n4. Run `npm start`\r\n\r\n# Documentation\r\nClass documentation can be found [here](https://alex-taxiera.github.io/eris-boiler/)\r\n",
     "longname": "C:\\Users\\Alex\\Source\\Repos\\eris-boiler\\README.md",
     "name": "./README.md",
     "static": true,
@@ -3445,7 +3570,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"eris-boiler\",\n  \"version\": \"2.0.0\",\n  \"description\": \"A Discord Bot boilerplate using JavaScript and the Eris library\",\n  \"main\": \"./src/index.js\",\n  \"scripts\": {\n    \"start\": \"node ./src/index.js\",\n    \"doc\": \"./node_modules/.bin/esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/alex-taxiera/eris-boiler.git\"\n  },\n  \"keywords\": [\n    \"discord\",\n    \"bot\",\n    \"boiler\",\n    \"help\"\n  ],\n  \"author\": \"Alex Taxiera\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/alex-taxiera/eris-boiler/issues\"\n  },\n  \"homepage\": \"https://github.com/alex-taxiera/eris-boiler#readme\",\n  \"dependencies\": {\n    \"colors\": \"^1.3.0\",\n    \"eris\": \"^0.8.6\",\n    \"knex\": \"^0.14.6\",\n    \"moment\": \"^2.22.2\",\n    \"mysql\": \"^2.15.0\",\n    \"npm\": \"^6.1.0\"\n  },\n  \"devDependencies\": {\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-custom-theme\": \"^1.4.2\",\n    \"esdoc-inject-style-plugin\": \"^1.0.0\",\n    \"esdoc-node\": \"^1.0.3\",\n    \"esdoc-publish-html-plugin\": \"^1.1.2\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"standard\": \"^11.0.1\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"eris-boiler\",\n  \"version\": \"2.1.4\",\n  \"description\": \"A Discord Bot boilerplate using JavaScript and the Eris library\",\n  \"main\": \"./src/index.js\",\n  \"scripts\": {\n    \"start\": \"node ./src/index.js\",\n    \"doc\": \"./node_modules/.bin/esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/alex-taxiera/eris-boiler.git\"\n  },\n  \"keywords\": [\n    \"discord\",\n    \"bot\",\n    \"boiler\",\n    \"help\"\n  ],\n  \"author\": \"Alex Taxiera\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/alex-taxiera/eris-boiler/issues\"\n  },\n  \"homepage\": \"https://github.com/alex-taxiera/eris-boiler#readme\",\n  \"dependencies\": {\n    \"colors\": \"^1.3.0\",\n    \"eris\": \"^0.8.6\",\n    \"knex\": \"^0.14.6\",\n    \"moment\": \"^2.22.2\",\n    \"mysql\": \"^2.15.0\",\n    \"npm\": \"^6.1.0\"\n  },\n  \"devDependencies\": {\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-custom-theme\": \"^1.4.2\",\n    \"esdoc-inject-style-plugin\": \"^1.0.0\",\n    \"esdoc-node\": \"^1.0.3\",\n    \"esdoc-publish-html-plugin\": \"^1.1.2\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"standard\": \"^11.0.1\"\n  }\n}\n",
     "longname": "C:\\Users\\Alex\\Source\\Repos\\eris-boiler\\package.json",
     "name": "package.json",
     "static": true,
