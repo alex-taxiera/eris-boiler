@@ -36,8 +36,7 @@ module.exports = (bot) => new Command(
 
       msg.author.getDMChannel()
         .then((dm) => dm.createMessage(content)
-          .then((success) => 'DM sent.')
-          .catch((e) => content))
+          .then((success) => 'DM sent.'))
         .catch((e) => content)
     }
   }
