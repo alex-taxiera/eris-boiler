@@ -20,7 +20,11 @@ class DatabaseManager {
      * @private
      * @type    {Function}
      */
-    this._knex = require('knex')({ client: 'mysql', connection: DB_CREDENTIALS })
+    this._knex = require('knex')({
+      client: 'mysql',
+      connection: DB_CREDENTIALS,
+      pool: { min: 0 }
+    })
     /**
      * The logger.
      * @private
