@@ -1,30 +1,41 @@
 module.exports = async (bot, msg) => {
   if (!msg.member || msg.member.id === bot.user.id) return
-
   const { prefix } = await bot.dbm.getSettings(msg.channel.guild.id)
   if (!msg.content.startsWith(prefix)) return
 
   const params = msg.content.substring(prefix.length).split(' ')
   const cmd = params.splice(0, 1)[0]
+
   const command = bot.commands.get(cmd) || bot.commands.get(bot.aliases.get(cmd))
   if (!command) return
+  const {
+    name,
+    parameters,
+    permission,
+    run,
+    deleteInvoking,
+    deleteResponse,
+    deleteResponseDelay
+  } = command
 
-  if (params.length < command.parameters.length) {
+  if (params.length < parameters.length) {
     return msg.channel.createMessage(msg.author.mention + ' insufficient parameters!')
       .then((m) => setTimeout(() => m.delete(), 15000))
   }
 
-  const perm = bot.permissions.get(command.permission)
+  const perm = bot.permissions.get(permission)
   if (!await allow(bot, perm, msg)) {
     return msg.channel.createMessage(msg.author.mention + ' ' + perm.deny())
       .then((m) => setTimeout(() => m.delete(), 25000))
   }
-  command.run({ params, bot, msg }).then((response) => {
-    if (command.deleteInvoking) msg.delete().catch((e) => bot.logger.warn('cannot delete messages'))
+  run({ params, bot, msg }).then(async (response) => {
+    if (deleteInvoking) msg.delete().catch((e) => bot.logger.warn('cannot delete messages'))
     if (!response) return
     const content = parseResponse(response)
     return msg.channel.createMessage(content)
-      .then((m) => { if (command.deleteResponse) setTimeout(() => m.delete(), command.deleteResponseDelay) })
+      .then((m) => {
+        if (deleteResponse) setTimeout(() => m.delete().catch(bot.logger.error), deleteResponseDelay)
+      })
       .catch(bot.logger.error)
   })
 }
