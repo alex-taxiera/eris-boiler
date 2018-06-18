@@ -93,9 +93,17 @@ class DataClient extends require('eris').Client {
     this._setup()
   }
 
-  _setup () {
+  async _setup () {
     /* set up database */
     this.dbm.setup(this)
+
+    /* load permissions */
+    await readdir(path.join(__dirname, '../permissions/')).then((permissions) => {
+      this.logger.log(`Loading a total of ${permissions.length} permissions`)
+      for (let i = 0; i < permissions.length; i++) {
+        this._loadPermission(permissions[i])
+      }
+    })
 
     /* load commands */
     readdir(path.join(__dirname, '../commands/')).then((commands) => {
@@ -110,14 +118,6 @@ class DataClient extends require('eris').Client {
       this.logger.log(`Loading a total of ${events.length} events`)
       for (let i = 0; i < events.length; i++) {
         this._loadEvent(events[i])
-      }
-    })
-
-    /* load permissions */
-    readdir(path.join(__dirname, '../permissions/')).then((permissions) => {
-      this.logger.log(`Loading a total of ${permissions.length} permissions`)
-      for (let i = 0; i < permissions.length; i++) {
-        this._loadPermission(permissions[i])
       }
     })
 
