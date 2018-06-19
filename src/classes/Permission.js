@@ -10,7 +10,11 @@ class Permission {
    * @param {Function} [data.check=function () { return true }] A test to see if a member has this permission.
    */
   constructor (data) {
-    const { name, level, check } = data
+    const {
+      name,
+      level,
+      check
+    } = data
     if (typeof name !== 'string') throw Error(`permission cannot have name ${name}`)
     if (isNaN(level)) throw Error(`permission cannot have level ${level}`)
     /**
