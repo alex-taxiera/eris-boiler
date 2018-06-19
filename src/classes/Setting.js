@@ -11,7 +11,11 @@ class Setting {
    * @param {Function}   data.onChange A function that gets executed whenever the value of the setting is changed.
    */
   constructor (bot, data) {
-    const { name, code, onChange } = data
+    const {
+      name,
+      code,
+      onChange
+    } = data
     if (typeof name !== 'string') throw new Error(`setting cannot have name ${name}`)
     if (typeof code !== 'string') throw new Error(`setting cannot have code ${code}`)
     if (typeof onChange !== 'function') throw new Error(`setting cannot have onChange function ${onChange}`)
