@@ -92,6 +92,17 @@ class DataClient extends require('eris').Client {
     this._setup()
   }
 
+  async permissionLevel (member) {
+    const perms = this.permissions.values()
+    let permLevel = 0
+    let val = perms.next().value
+    while (val) {
+      if (val.level > permLevel && await val.check(member, this)) permLevel = val.level
+      val = perms.next().value
+    }
+    return permLevel
+  }
+
   /**
    * Set up all data for DataClient.
    */

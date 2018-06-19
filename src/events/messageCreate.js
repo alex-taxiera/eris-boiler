@@ -24,7 +24,7 @@ module.exports = async (bot, msg) => {
   }
 
   const perm = bot.permissions.get(permission)
-  if (!await allow(bot, perm, msg)) {
+  if ((await bot.permissionLevel(msg.member)) < perm.level) {
     return msg.channel.createMessage(msg.author.mention + ' ' + perm.deny())
       .then((m) => setTimeout(() => m.delete(), 25000))
   }
@@ -38,21 +38,6 @@ module.exports = async (bot, msg) => {
       })
       .catch(bot.logger.error)
   })
-}
-
-/**
- * Determine whether a user is allowed to use a command.
- * @return {Boolean} Whether the user is allowed.
- */
-async function allow (bot, perm, msg) {
-  const perms = bot.permissions.values()
-  let val = true
-  while (val) {
-    val = perms.next().value
-    if (val.level < perm.level) continue
-    if (await val.check(msg.member, bot)) return true
-  }
-  return false
 }
 
 /**
