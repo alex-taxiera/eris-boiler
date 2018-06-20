@@ -6,8 +6,7 @@ module.exports = async (bot, msg) => {
   const params = msg.content.substring(prefix.length).split(' ')
   const cmd = params.splice(0, 1)[0]
 
-  const command = bot.commands.get(cmd) || bot.commands.get(bot.aliases.get(cmd))
-  if (!command) return
+  const command = bot.getCommand(cmd); if (!command) return
   const {
     name,
     parameters,
@@ -19,13 +18,13 @@ module.exports = async (bot, msg) => {
   } = command
 
   if (params.length < parameters.length) {
-    return msg.channel.createMessage(msg.author.mention + ' insufficient parameters!')
+    return msg.channel.createMessage(`${msg.author.mention} insufficient parameters!`)
       .then((m) => setTimeout(() => m.delete(), 15000))
   }
 
   const perm = bot.permissions.get(permission)
-  if ((await bot.permissionLevel(msg.member)) < perm.level) {
-    return msg.channel.createMessage(msg.author.mention + ' ' + perm.deny())
+  if (!bot.memberCan(msg.member, perm)) {
+    return msg.channel.createMessage(`${msg.author.mention} ${perm.deny}`)
       .then((m) => setTimeout(() => m.delete(), 25000))
   }
   run({ params, bot, msg }).then(async (response) => {
@@ -34,7 +33,7 @@ module.exports = async (bot, msg) => {
     const content = parseResponse(response)
     return msg.channel.createMessage(content)
       .then((m) => {
-        if (deleteResponse) setTimeout(() => m.delete().catch(bot.logger.error), deleteResponseDelay)
+        if (deleteResponse) setTimeout(() => m.delete(), deleteResponseDelay)
       })
       .catch(bot.logger.error)
   })
