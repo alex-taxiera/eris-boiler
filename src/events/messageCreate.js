@@ -30,8 +30,7 @@ module.exports = async (bot, msg) => {
   run({ params, bot, msg }).then(async (response) => {
     if (deleteInvoking) msg.delete().catch((e) => bot.logger.warn('cannot delete messages'))
     if (!response) return
-    const content = parseResponse(response)
-    return msg.channel.createMessage(content)
+    const { content, file } = parseResponse(response)
       .then((m) => {
         if (deleteResponse) setTimeout(() => m.delete(), deleteResponseDelay)
       })
@@ -41,18 +40,19 @@ module.exports = async (bot, msg) => {
 
 /**
  * Parse the response from a command.
- * @param    {(Object|String)}  response        The return value of the command.
- * @return   {Object}                           A properly formatted response.
- * @property {Number}           delay           The amount of time to wait before deleting the response.
- * @property {Object}           content         The content to pass createMessage
- * @property {String}           content.content The string content of the response.
- * @property {Object|undefined} content.embed   The embed object of the response.
+ * @param    {(Object|String)}    response                The return value of the command.
+ * @return   {Object}                                     The message data.
+ * @property {Object}             message.content         The content to pass createMessage.
+ * @property {String}             message.content.content The string content of the response.
+ * @property {(Object|undefined)} message.content.embed   The embed object of the response.
+ * @property {(Object|undefined)} message.file            The file object to pass createMessage.
  */
 function parseResponse (response) {
-  const content = {
-    content: response.content || '',
-    embed: response.embed || undefined
+  return {
+    content: {
+      content: typeof response === 'string' ? response : response.content || '',
+      embed: response.embed
+    },
+    file: response.file
   }
-  if (typeof response === 'string') content.content = response
-  return content
 }
