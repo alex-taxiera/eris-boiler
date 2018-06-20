@@ -92,6 +92,13 @@ class DataClient extends require('eris').Client {
     this._setup()
   }
 
+  getCommand (command) {
+    return this.commands.get(command) || this.commands.get(this.aliases.get(command))
+  }
+  async memberCan (member, permission) {
+    return (await this.permissionLevel(member) >= permission.level)
+  }
+
   async permissionLevel (member) {
     const perms = this.permissions.values()
     let permLevel = 0
