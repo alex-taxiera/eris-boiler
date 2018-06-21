@@ -37,7 +37,7 @@ class Permission {
    * Denial message telling the user what level permission they need.
    * @return {String} Denial message including permission name.
    */
-  deny () {
+  get deny () {
     return `Must be ${this.name}!`
   }
 }
