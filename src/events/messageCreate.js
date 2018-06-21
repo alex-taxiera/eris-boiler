@@ -31,6 +31,7 @@ module.exports = async (bot, msg) => {
     if (deleteInvoking) msg.delete().catch((e) => bot.logger.warn('cannot delete messages'))
     if (!response) return
     const { content, file } = parseResponse(response)
+    return msg.channel.createMessage(content, file)
       .then((m) => {
         if (deleteResponse) setTimeout(() => m.delete(), deleteResponseDelay)
       })
