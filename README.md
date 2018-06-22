@@ -1,6 +1,6 @@
 # eris-boiler
 
-[![Join the chat at https://gitter.im/eris-boiler/Lobby](https://badges.gitter.im/eris-boiler/Lobby.svg)](https://gitter.im/eris-boiler/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/eris-boiler/Lobby](https://badges.gitter.im/eris-boiler/Lobby.svg)](https://gitter.im/eris-boiler/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Maintainability](https://api.codeclimate.com/v1/badges/586014eefb135a4c51a1/maintainability)](https://codeclimate.com/github/alex-taxiera/eris-boiler/maintainability)
 
 A Discord Bot boilerplate using JavaScript and the Eris library
 # Startup
