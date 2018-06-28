@@ -1,7 +1,6 @@
 /**
  * Class representing a Toggle.
  * @extends {Setting}
- * @prop    {Boolean} value The value of the Toggle.
  */
 class Toggle extends require('./Setting.js') {
   /**
