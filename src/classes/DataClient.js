@@ -151,6 +151,45 @@ class DataClient extends require('eris').Client {
     return this[cache].get(id) != null
   }
 
+  _loadEvents (directory, name, files) {
+    for (let i = 0; i < files.length; i++) {
+      try {
+        const file = require(path.join(directory, files[i]))
+        this.on(files[i].split('.')[0], file.bind(null, this))
+        delete require.cache[require.resolve(path.join(directory, files[i]))]
+      } catch (e) {
+        this.logger.error(`Unable to load ${name} ${files[i]}:\n${e}`)
+      }
+    }
+  }
+
+  _loadPermissions (directory, name, files) {
+    for (let i = 0; i < files.length; i++) {
+      try {
+        const file = require(path.join(directory, files[i]))
+        this[name].set(file.name, file)
+      } catch (e) {
+        this.logger.error(`Unable to load ${name} ${files[i]}:\n${e}`)
+      }
+    }
+  }
+
+  _loadFileAsFunction (directory, name, files) {
+    for (let i = 0; i < files.length; i++) {
+      try {
+        const file = require(path.join(directory, files[i]))(this)
+        if (name === 'commands') {
+          for (let i = 0; i < file.aliases.length; i++) {
+            this.aliases.set(file.aliases[i], file.name)
+          }
+        }
+        this[name].set(file.name, file)
+      } catch (e) {
+        this.logger.error(`Unable to load ${name} ${files[i]}:\n${e}`)
+      }
+    }
+  }
+
   _updateCache (id, cache, data) {
     const old = this[cache].get(id)
     for (const key in old) {
@@ -167,32 +206,19 @@ class DataClient extends require('eris').Client {
     /* set up database */
     this.dbm.setup(this)
 
-    for (const dir in this._dirs) {
-      const directory = this._dirs[dir]
+    for (const name in this._dirs) {
+      const directory = this._dirs[name]
       await readdir(directory).then((files) => {
-        this.logger.log(`Loading a total of ${files.length} ${dir}`)
-        for (let i = 0; i < files.length; i++) {
-          try {
-            let file = require(path.join(directory, files[i]))
-            if (dir === 'permissions') {
-              this[dir].set(file.name, file)
-              continue
-            }
-            if (dir === 'events') {
-              this.on(files[i].split('.')[0], file.bind(null, this))
-              delete require.cache[require.resolve(path.join(directory, files[i]))]
-              continue
-            }
-            file = file(this)
-            if (dir === 'commands') {
-              for (let i = 0; i < file.aliases.length; i++) {
-                this.aliases.set(file.aliases[i], file.name)
-              }
-            }
-            this[dir].set(file.name, file)
-          } catch (e) {
-            this.logger.error(`Unable to load ${dir} ${files[i]}:\n${e}`)
-          }
+        this.logger.log(`Loading a total of ${files.length} ${name}`)
+        switch (name) {
+          case 'permissions':
+            this._loadPermissions(directory, name, files)
+            break
+          case 'events':
+            this._loadEvents(directory, name, files)
+            break
+          default:
+            this._loadFileAsFunction(directory, name, files)
         }
       }).catch(this.logger.error)
     }

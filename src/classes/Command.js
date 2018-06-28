@@ -32,28 +32,23 @@ class Command extends require('./SafeClass.js') {
     }, {
       permission: bot.permissions
     })
-    const {
-      name,
-      description,
-      run,
-      options = {}
-    } = data
+    const { options = {} } = data
 
     /**
      * The command name.
      * @type {String}
      */
-    this.name = name
+    this.name = data.name
     /**
      * The command description.
      * @type {String}
      */
-    this.description = description
+    this.description = data.description
     /**
      * The command function.
      * @type {Function}
      */
-    this.run = run
+    this.run = data.run
     /**
      * List of alias names for the command.
      * @type {String[]}
