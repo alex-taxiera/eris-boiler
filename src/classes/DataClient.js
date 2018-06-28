@@ -191,23 +191,6 @@ class DataClient extends require('eris').Client {
       }).catch(this.logger.error)
     }
   }
-
-  /**
-   * Load a command.
-   * @param {String} commandFile Name of command file to load.
-   */
-  _loadCommand (commandFile) {
-    if (!commandFile.endsWith('.js')) return
-    try {
-      const command = require(path.join(__dirname, `../commands/${commandFile}`))(this.permissions)
-      this.commands.set(command.name, command)
-      for (let i = 0; i < command.aliases.length; i++) {
-        this.aliases.set(command.aliases[i], command.name)
-      }
-    } catch (e) {
-      this.logger.error(`Unable to load command ${commandFile}:\n${e}`)
-    }
-  }
 }
 
 module.exports = DataClient
