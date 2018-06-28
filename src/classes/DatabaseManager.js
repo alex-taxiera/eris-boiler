@@ -127,42 +127,12 @@ class DatabaseManager {
    * @param  {DataClient} bot The bot client.
    * @return {Promise[]}      The results of the table creation.
    */
-  async setup (bot) {
-    const tables = []
-    tables.push(this._knex.schema.hasTable('guild_settings').then((exists) => {
-      if (exists) return
-      return this._knex.schema.createTable('guild_settings', (table) => {
-        table.charset('utf8')
-        table.string('id').primary()
-        table.string('vip')
-        table.string('prefix').defaultTo(bot.config.DEFAULT.prefix)
-      })
-    }).catch(this._logger.error)
-    )
-
-    tables.push(this._knex.schema.hasTable('guild_toggles').then((exists) => {
-      if (exists) return
-      return this._knex.schema.createTable('guild_toggles', (table) => {
-        table.charset('utf8')
-        table.string('id').primary()
-        // add toggleable guild settings here
-      })
-    }).catch(this._logger.error)
-    )
-    tables.push(this._knex.schema.hasTable('statuses').then((exists) => {
-      if (exists) return
-      return this._knex.schema.createTable('statuses', (table) => {
-        table.charset('utf8')
-        table.string('name').primary()
-        table.integer('type').defaultTo(0)
-        table.boolean('default').defaultTo('false')
-      }).then(() =>
-        this._insert({ table: 'statuses', data: bot.config.DEFAULT.status })
-      )
-    }).catch(this._logger.error)
-    )
-
-    return Promise.all(tables)
+  setup (bot) {
+    return Promise.all([
+      this._buildGuildSettings(bot.config.DEFAULT.prefix),
+      this._buildGuildToggles(),
+      this._buildStatuses(bot.config.DEFAULT.status)
+    ])
   }
 
   /**
@@ -206,7 +176,43 @@ class DatabaseManager {
     return this._update({ table: 'guild_toggles', data: toggles, where: { id } })
   }
 
-  // private methods
+  _buildGuildSettings (defaultPrefix) {
+    return this._knex.schema.hasTable('guild_settings').then((exists) => {
+      if (exists) return
+      return this._knex.schema.createTable('guild_settings', (table) => {
+        table.charset('utf8')
+        table.string('id').primary()
+        table.string('vip')
+        table.string('prefix').defaultTo(defaultPrefix)
+      })
+    }).catch(this._logger.error)
+  }
+
+  _buildGuildToggles () {
+    return this._knex.schema.hasTable('guild_toggles').then((exists) => {
+      if (exists) return
+      return this._knex.schema.createTable('guild_toggles', (table) => {
+        table.charset('utf8')
+        table.string('id').primary()
+        // add toggleable guild settings here
+      })
+    }).catch(this._logger.error)
+  }
+
+  _buildStatuses (defaultStatus) {
+    return this._knex.schema.hasTable('statuses').then((exists) => {
+      if (exists) return
+      return this._knex.schema.createTable('statuses', (table) => {
+        table.charset('utf8')
+        table.string('name').primary()
+        table.integer('type').defaultTo(0)
+        table.boolean('default').defaultTo('false')
+      }).then(() =>
+        this._insert({ table: 'statuses', data: defaultStatus })
+      )
+    }).catch(this._logger.error)
+  }
+
   /**
    * Get the number of rows in a table.
    * @private
