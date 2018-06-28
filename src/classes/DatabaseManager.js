@@ -14,7 +14,7 @@ class DatabaseManager {
    * @param {String} DB_CREDENTIALS.password The password associated with your user.
    * @param {Class}  Logger                  The Logger class
    */
-  constructor (DB_CREDENTIALS, Logger) {
+  constructor (bot, DB_CREDENTIALS, Logger) {
     /**
      * The knex query builder.
      * @private
@@ -31,6 +31,8 @@ class DatabaseManager {
      * @type    {Logger}
      */
     this._logger = new Logger()
+    /* set up database */
+    this.setup(bot)
   }
 
   /**
@@ -98,9 +100,7 @@ class DatabaseManager {
         await this.removeClient(saved[i].id)
       }
     }
-    for (const [id] of tmpGuilds) {
-      this.addClient(id)
-    }
+    for (const [id] of tmpGuilds) this.addClient(id)
   }
 
   /**

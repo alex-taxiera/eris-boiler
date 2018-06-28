@@ -58,7 +58,7 @@ class DataClient extends require('eris').Client {
      * The DatabaseManager.
      * @type {DatabaseManager}
      */
-    this.dbm = new DatabaseManager(config.DB_CREDENTIALS, Logger)
+    this.dbm = new DatabaseManager(this, config.DB_CREDENTIALS, Logger)
     /**
      * The Orator.
      * @type {Orator}
@@ -212,8 +212,6 @@ class DataClient extends require('eris').Client {
    */
   async _setup () {
     const { readdir } = require('fs').promises
-    /* set up database */
-    this.dbm.setup(this)
 
     for (const name in this._dirs) {
       const directory = this._dirs[name]
@@ -230,8 +228,6 @@ class DataClient extends require('eris').Client {
             this._loadCommand(directory, name, files)
             break
           case 'settings':
-            this._loadSetting(directory, name, files)
-            break
           case 'toggles':
             this._loadSetting(directory, name, files)
             break
