@@ -109,18 +109,12 @@ class DataClient extends require('eris').Client {
     this._setup()
   }
 
-  async getGuildSettings (id) {
-    if (this._guild_settings.get(id)) return this._guild_settings.get(id)
-    const dbData = await this.dbm.getSettings(id)
-    this._guild_settings.set(id, dbData)
-    return dbData
+  getGuildSettings (id) {
+    return this._getData(id, '_guild_settings', this.dbm.getSettings)
   }
 
-  async getGuildToggles (id) {
-    if (this._guild_toggles.get(id)) return this._guild_toggles.get(id)
-    const dbData = await this.dbm.getToggles(id)
-    this._guild_toggles.set(id, dbData)
-    return dbData
+  getGuildToggles (id) {
+    return this._getData(id, '_guild_toggles', this.dbm.getToggles)
   }
   async memberCan (member, permission) {
     return (await this.permissionLevel(member) >= permission.level)
@@ -138,20 +132,31 @@ class DataClient extends require('eris').Client {
 
   updateGuildSettings (id, settings) {
     this.dbm.updateSettings(id, settings)
-    const old = this._guild_toggles.get(id)
-    for (const key in old) {
-      if (!settings[key]) settings[key] = old[key]
-    }
-    this._guild_settings.set(id, settings)
+    this._updateCache(id, '_guild_settings', settings)
   }
 
   updateGuildToggles (id, toggles) {
     this.dbm.updateToggles(id, toggles)
-    const old = this._guild_toggles.get(id)
+    this._updateCache(id, '_guild_toggles', toggles)
+  }
+
+  async _getData (id, cache, dbGet) {
+    if (this._inCache(id, cache)) return this[cache].get(id)
+    const dbData = await dbGet(id)
+    this[cache].set(id, dbData)
+    return dbData
+  }
+
+  _inCache (id, cache) {
+    return this[cache].get(id) != null
+  }
+
+  _updateCache (id, cache, data) {
+    const old = this[cache].get(id)
     for (const key in old) {
-      if (!toggles[key]) toggles[key] = old[key]
+      if (!data[key]) data[key] = old[key]
     }
-    this._guild_toggles.set(id, toggles)
+    this[cache].set(id, data)
   }
 
   /**
