@@ -11,20 +11,23 @@ class Orator {
    */
   async processMessage (bot, msg) {
     this._start = Date.now() // NOTE: save in case of analytics
-    if (!this._isGuild(msg)) return
     const { prefix } = await bot.dbm.getSettings(msg.channel.guild.id)
-    if (!this._isCommandByUser(bot.user, msg, prefix)) return
+    console.log()
+    if (!this._isGuild(msg) || !this._isCommandByUser(bot.user, msg, prefix)) return
 
     const params = msg.content.substring(prefix.length).split(' ')
     const cmd = params.splice(0, 1)[0]
 
     const command = this._getCommand(bot, cmd); if (!command) return
-    const { parameters, permission } = command
 
-    if (params.length < parameters.length) return this._badCommand(msg, 'insufficient parameters!', 15000)
+    const perm = bot.permissions.get(command.permission)
+    const notAllowed = params.length < command.parameters.length
+      ? this._badCommand(msg, 'insufficient parameters!', 15000)
+      : !bot.memberCan(msg.member, perm)
+        ? this._badCommand(msg, perm.deny, 25000)
+        : false
 
-    const perm = bot.permissions.get(permission)
-    if (!bot._memberCan(msg.member, perm)) return this._badCommand(msg, perm.deny, 25000)
+    if (notAllowed) return notAllowed
     this._execute(command, bot, msg, params)
   }
   /**
