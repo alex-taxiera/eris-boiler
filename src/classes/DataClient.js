@@ -95,6 +95,14 @@ class DataClient extends require('eris').Client {
      */
     this.toggles = new Map()
 
+    this._dirs = {
+      permissions: path.join(__dirname, '../permissions/'),
+      commands: path.join(__dirname, '../commands/'),
+      events: path.join(__dirname, '../events/'),
+      settings: path.join(__dirname, '../settings/'),
+      toggles: path.join(__dirname, '../toggles/')
+    }
+
     this._guild_settings = new Map()
     this._guild_toggles = new Map()
 
@@ -153,16 +161,9 @@ class DataClient extends require('eris').Client {
     const { readdir } = require('fs').promises
     /* set up database */
     this.dbm.setup(this)
-    const dirs = {
-      permissions: path.join(__dirname, '../permissions/'),
-      commands: path.join(__dirname, '../commands/'),
-      events: path.join(__dirname, '../events/'),
-      settings: path.join(__dirname, '../settings/'),
-      toggles: path.join(__dirname, '../toggles/')
-    }
 
-    for (const dir in dirs) {
-      const directory = dirs[dir]
+    for (const dir in this._dirs) {
+      const directory = this._dirs[dir]
       await readdir(directory).then((files) => {
         this.logger.log(`Loading a total of ${files.length} ${dir}`)
         for (let i = 0; i < files.length; i++) {
