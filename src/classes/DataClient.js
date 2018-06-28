@@ -2,6 +2,7 @@
  * @external {Client}     https://abal.moe/Eris/docs/Client
  */
 const DatabaseManager = require('./DatabaseManager.js')
+const Orator = require('./Orator.js')
 const Logger = require('./Logger.js')
 const Status = require('./Status.js')
 const path = require('path')
@@ -59,6 +60,11 @@ class DataClient extends require('eris').Client {
      */
     this.dbm = new DatabaseManager(config.DB_CREDENTIALS, Logger)
     /**
+     * The Orator.
+     * @type {Orator}
+     */
+    this.ora = new Orator(Logger, { analytics: true })
+    /**
      * The Status handler.
      * @type {Status}
      */
@@ -89,16 +95,28 @@ class DataClient extends require('eris').Client {
      */
     this.toggles = new Map()
 
+    this._guild_settings = new Map()
+    this._guild_toggles = new Map()
+
     this._setup()
   }
 
-  getCommand (command) {
-    return this.commands.get(command) || this.commands.get(this.aliases.get(command))
+  async getGuildSettings (id) {
+    if (this._guild_settings.get(id)) return this._guild_settings.get(id)
+    const dbData = await this.dbm.getSettings(id)
+    this._guild_settings.set(id, dbData)
+    return dbData
+  }
+
+  async getGuildToggles (id) {
+    if (this._guild_toggles.get(id)) return this._guild_toggles.get(id)
+    const dbData = await this.dbm.getToggles(id)
+    this._guild_toggles.set(id, dbData)
+    return dbData
   }
   async memberCan (member, permission) {
     return (await this.permissionLevel(member) >= permission.level)
   }
-
   async permissionLevel (member) {
     const perms = this.permissions.values()
     let permLevel = 0
@@ -110,6 +128,24 @@ class DataClient extends require('eris').Client {
     return permLevel
   }
 
+  updateGuildSettings (id, settings) {
+    this.dbm.updateSettings(id, settings)
+    const old = this._guild_toggles.get(id)
+    for (const key in old) {
+      if (!settings[key]) settings[key] = old[key]
+    }
+    this._guild_settings.set(id, settings)
+  }
+
+  updateGuildToggles (id, toggles) {
+    this.dbm.updateToggles(id, toggles)
+    const old = this._guild_toggles.get(id)
+    for (const key in old) {
+      if (!toggles[key]) toggles[key] = old[key]
+    }
+    this._guild_toggles.set(id, toggles)
+  }
+
   /**
    * Set up all data for DataClient.
    */
@@ -117,46 +153,43 @@ class DataClient extends require('eris').Client {
     const { readdir } = require('fs').promises
     /* set up database */
     this.dbm.setup(this)
+    const dirs = {
+      permissions: path.join(__dirname, '../permissions/'),
+      commands: path.join(__dirname, '../commands/'),
+      events: path.join(__dirname, '../events/'),
+      settings: path.join(__dirname, '../settings/'),
+      toggles: path.join(__dirname, '../toggles/')
+    }
 
-    /* load permissions */
-    await readdir(path.join(__dirname, '../permissions/')).then((permissions) => {
-      this.logger.log(`Loading a total of ${permissions.length} permissions`)
-      for (let i = 0; i < permissions.length; i++) {
-        this._loadPermission(permissions[i])
-      }
-    })
-
-    /* load commands */
-    readdir(path.join(__dirname, '../commands/')).then((commands) => {
-      this.logger.log(`Loading a total of ${commands.length} commands`)
-      for (let i = 0; i < commands.length; i++) {
-        this._loadCommand(commands[i])
-      }
-    })
-
-    /* load events, bind this to each event function */
-    readdir(path.join(__dirname, '../events/')).then((events) => {
-      this.logger.log(`Loading a total of ${events.length} events`)
-      for (let i = 0; i < events.length; i++) {
-        this._loadEvent(events[i])
-      }
-    })
-
-    /* load settings */
-    readdir(path.join(__dirname, '../settings/')).then((settings) => {
-      this.logger.log(`Loading a total of ${settings.length} settings`)
-      for (let i = 0; i < settings.length; i++) {
-        this._loadSetting(settings[i])
-      }
-    })
-
-    /* load toggles */
-    readdir(path.join(__dirname, '../toggles/')).then((toggles) => {
-      this.logger.log(`Loading a total of ${toggles.length} toggleable settings`)
-      for (let i = 0; i < toggles.length; i++) {
-        this._loadToggle(toggles[i])
-      }
-    })
+    for (const dir in dirs) {
+      const directory = dirs[dir]
+      await readdir(directory).then((files) => {
+        this.logger.log(`Loading a total of ${files.length} ${dir}`)
+        for (let i = 0; i < files.length; i++) {
+          try {
+            let file = require(path.join(directory, files[i]))
+            if (dir === 'permissions') {
+              this[dir].set(file.name, file)
+              continue
+            }
+            if (dir === 'events') {
+              this.on(files[i].split('.')[0], file.bind(null, this))
+              delete require.cache[require.resolve(path.join(directory, files[i]))]
+              continue
+            }
+            file = file(this)
+            if (dir === 'commands') {
+              for (let i = 0; i < file.aliases.length; i++) {
+                this.aliases.set(file.aliases[i], file.name)
+              }
+            }
+            this[dir].set(file.name, file)
+          } catch (e) {
+            this.logger.error(`Unable to load ${dir} ${files[i]}:\n${e}`)
+          }
+        }
+      }).catch(this.logger.error)
+    }
   }
 
   /**
@@ -166,67 +199,13 @@ class DataClient extends require('eris').Client {
   _loadCommand (commandFile) {
     if (!commandFile.endsWith('.js')) return
     try {
-      const command = require(path.join(__dirname, `../commands/${commandFile}`))(this)
+      const command = require(path.join(__dirname, `../commands/${commandFile}`))(this.permissions)
       this.commands.set(command.name, command)
       for (let i = 0; i < command.aliases.length; i++) {
         this.aliases.set(command.aliases[i], command.name)
       }
     } catch (e) {
-      this.logger.error(`Unable to load command ${commandFile}: ${e}`)
-    }
-  }
-
-  /**
-   * Load an event.
-   * @param {String} eventFile Name of event file to load.
-   */
-  _loadEvent (eventFile) {
-    try {
-      const eventName = eventFile.split('.')[0]
-      const event = require(path.join(__dirname, `../events/${eventFile}`))
-      this.on(eventName, event.bind(null, this))
-      delete require.cache[require.resolve(path.join(__dirname, `../events/${eventFile}`))]
-    } catch (e) {
-      this.logger.error(`Unable to load event ${eventFile}: ${e}`)
-    }
-  }
-
-  /**
-   * Load a permission.
-   * @param {String} permissionFile Name of permission file to load.
-   */
-  _loadPermission (permissionFile) {
-    try {
-      const permission = require(path.join(__dirname, `../permissions/${permissionFile}`))
-      this.permissions.set(permission.name, permission)
-    } catch (e) {
-      this.logger.error(`Unable to load permission ${permissionFile}: ${e}`)
-    }
-  }
-
-  /**
-   * Load a setting.
-   * @param {String} settingFile Name of setting file to load.
-   */
-  _loadSetting (settingFile) {
-    try {
-      const settingName = settingFile.split('.')[0]
-      this.settings.set(settingName, require(path.join(__dirname, `../settings/${settingFile}`))(this))
-    } catch (e) {
-      this.logger.error(`Unable to load setting ${settingFile}: ${e}`)
-    }
-  }
-
-  /**
-   * Load a toggle.
-   * @param {String} toggleFile Name of toggle file to load.
-   */
-  _loadToggle (toggleFile) {
-    try {
-      const toggleName = toggleFile.split('.')[0]
-      this.toggles.set(toggleName, require(path.join(__dirname, `../toggles/${toggleFile}`))(this))
-    } catch (e) {
-      this.logger.error(`Unable to load toggle ${toggleFile}: ${e}`)
+      this.logger.error(`Unable to load command ${commandFile}:\n${e}`)
     }
   }
 }

@@ -1,7 +1,8 @@
 /**
  * Class representing a permission.
+ * @extends {SafeClass}
  */
-class Permission {
+class Permission extends require('./SafeClass.js') {
   /**
    * Create a permission.
    * @param {Object}   data                                     The permission data.
@@ -10,13 +11,17 @@ class Permission {
    * @param {Function} [data.check=function () { return true }] A test to see if a member has this permission.
    */
   constructor (data) {
+    const mandatoryTypes = {
+      name: 'string',
+      level: 'number',
+      check: 'function'
+    }
+    super(mandatoryTypes)
     const {
       name,
       level,
       check
     } = data
-    if (typeof name !== 'string') throw Error(`permission cannot have name ${name}`)
-    if (isNaN(level)) throw Error(`permission cannot have level ${level}`)
     /**
      * The name of the permission.
      * @type {String}
@@ -31,7 +36,9 @@ class Permission {
      * A test to see if a member has this permission.
      * @type {Function}
      */
-    this.check = typeof check === 'function' ? check : function () { return true }
+    this.check = check || function () { return true }
+
+    this._checkDataTypes()
   }
   /**
    * Denial message telling the user what level permission they need.
