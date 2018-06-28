@@ -1,24 +1,28 @@
 /**
  * Class representing a setting.
+ * @extends {SafeClass}
  */
-class Setting {
+class Setting extends require('./SafeClass.js') {
   /**
    * Create a setting.
-   * @param {DataClient} bot           The bot object.
-   * @param {Object}     data          An object with data to assign to the Setting.
-   * @param {String}     data.name     The name of the Setting.
-   * @param {String}     data.code     The (camelCase) code of the setting.
-   * @param {Function}   data.onChange A function that gets executed whenever the value of the setting is changed.
+   * @param {DataClient} bot             The bot object.
+   * @param {Object}     data            An object with data to assign to the Setting.
+   * @param {String}     data.name       The (camelCase) name of the setting.
+   * @param {String}     data.prettyName Pretty print name for setting.
+   * @param {Function}   data._onChange   A function that gets executed whenever the value of the setting is changed.
    */
   constructor (bot, data) {
+    const mandatoryTypes = {
+      name: 'string',
+      prettyName: 'string',
+      _onChange: 'function'
+    }
+    super(mandatoryTypes)
     const {
       name,
-      code,
-      onChange
+      prettyName,
+      _onChange
     } = data
-    if (typeof name !== 'string') throw new Error(`setting cannot have name ${name}`)
-    if (typeof code !== 'string') throw new Error(`setting cannot have code ${code}`)
-    if (typeof onChange !== 'function') throw new Error(`setting cannot have onChange function ${onChange}`)
     /**
      * The name of the setting.
      * @type {String}
@@ -28,7 +32,7 @@ class Setting {
      * The (camelCase) code of the setting.
      * @type {String}
      */
-    this.code = code
+    this.prettyName = prettyName
     /**
      * A function that gets executed whenever the value of the setting is changed.
      * @type {Function}
@@ -39,6 +43,8 @@ class Setting {
      * @type {*}
      */
     this.value = bot.config.DEFAULT[this.code]
+
+    this._checkDataTypes()
   }
   /**
    * Sets the value of the setting.

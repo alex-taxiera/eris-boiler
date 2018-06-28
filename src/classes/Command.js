@@ -1,7 +1,8 @@
 /**
  * Class representing a command.
+ * @extends {SafeClass}
  */
-class Command {
+class Command extends require('./SafeClass.js') {
   /**
    * Create a command.
    * @param {DataClient} bot                                      The bot object.
@@ -18,15 +19,25 @@ class Command {
    * @param {Number}     [data.options.deleteResponseDelay=10000] How many miliseconds to wait before deleting the bots response.
    */
   constructor (bot, data) {
+    super({
+      name: 'string',
+      description: 'string',
+      run: 'function',
+      aliases: 'string[]',
+      parameters: 'string[]',
+      permission: 'string',
+      deleteInvoking: 'boolean',
+      deleteResponse: 'boolean',
+      deleteResponseDelay: 'number'
+    }, {
+      permission: bot.permissions
+    })
     const {
       name,
       description,
       run,
       options = {}
     } = data
-    if (typeof name !== 'string') throw Error(`command cannot have name "${name}"`)
-    if (typeof description !== 'string') throw Error(`command cannot have description "${description}"`)
-    if (typeof run !== 'function') throw Error(`command cannot have run function "${run}"`)
 
     /**
      * The command name.
@@ -43,52 +54,39 @@ class Command {
      * @type {Function}
      */
     this.run = run
-
-    let aliases = false
-    if (Array.isArray(options.aliases)) {
-      aliases = true
-      for (let i = 0; i < options.aliases.length; i++) {
-        if (typeof options.aliases[i] !== 'string') aliases = false; break
-      }
-    }
     /**
      * List of alias names for the command.
      * @type {String[]}
      */
-    this.aliases = aliases ? options.aliases : []
-
-    let parameters = false
-    if (Array.isArray(options.parameters)) {
-      parameters = true
-      for (let i = 0; i < options.parameters.length; i++) {
-        if (typeof options.parameters[i] !== 'string') parameters = false; break
-      }
-    }
+    this.aliases = options.aliases || []
     /**
      * List of paremeters that the command takes.
      * @type {String[]}
      */
-    this.parameters = parameters ? options.parameters : []
+    this.parameters = options.parameters || []
     /**
      * The name of the permission required to use the command.
      * @type {String}
      */
-    this.permission = bot.permissions.get(options.permission) ? options.permission : 'Anyone'
+    this.permission = options.permission || 'Anyone'
     /**
      * Whether or not the bot should delete the message that invoked this command.
      * @type {Boolean}
      */
-    this.deleteInvoking = typeof options.deleteInvoking === 'boolean' ? options.deleteInvoking : true
+    this.deleteInvoking = options.deleteInvoking || true
     /**
      * Whether or not the bot should delete the bots response.
      * @type {Boolean}
      */
-    this.deleteResponse = typeof options.deleteResponse === 'boolean' ? options.deleteResponse : true
+    this.deleteResponse = options.deleteResponse || true
     /**
      * How many miliseconds to wait before deleting the bots response.
      * @type {Number}
      */
-    this.deleteResponseDelay = typeof options.deleteResponseDelay === 'number' ? options.deleteResponseDelay : 10000
+    this.deleteResponseDelay = options.deleteResponseDelay || 10000
+
+    // verify types of properties match those defined in mandatoryTypes
+    this._checkDataTypes()
   }
   /**
    * Get information about the command.
