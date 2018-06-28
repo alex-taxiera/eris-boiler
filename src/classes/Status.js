@@ -52,13 +52,9 @@ class Status {
     if (!status || !status.name) {
       status = this.current
       const statuses = await bot.dbm.getStatuses()
-      if (statuses.length > 1) {
-        while (status.name === this.current.name) {
-          status = statuses[Math.round(Math.random() * (statuses.length - 1))]
-        }
-      } else {
-        status = statuses[0]
-      }
+      do {
+        status = statuses[Math.round(Math.random() * (statuses.length - 1))]
+      } while (statuses.length > 1 && status.name === this.current.name)
     }
     bot.logger.log(`${this._type.getStatusName(status.type)} ${status.name}`, 'cyan')
     bot.editStatus('online', status)
