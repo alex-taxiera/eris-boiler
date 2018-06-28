@@ -19,7 +19,7 @@ class QueryBuilder {
   }
 
   async run (query, data) {
-    query = '-' + query
+    query = '_' + query
     if (this[query]) {
       const results = await this[query](data)
       return results
