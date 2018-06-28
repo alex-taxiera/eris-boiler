@@ -151,6 +151,20 @@ class DataClient extends require('eris').Client {
     return this[cache].get(id) != null
   }
 
+  _loadCommand (directory, name, files) {
+    for (let i = 0; i < files.length; i++) {
+      try {
+        const file = require(path.join(directory, files[i]))(this)
+        for (let i = 0; i < file.aliases.length; i++) {
+          this.aliases.set(file.aliases[i], file.name)
+        }
+        this[name].set(file.name, file)
+      } catch (e) {
+        this.logger.error(`Unable to load ${name} ${files[i]}:\n${e}`)
+      }
+    }
+  }
+
   _loadEvents (directory, name, files) {
     for (let i = 0; i < files.length; i++) {
       try {
@@ -174,15 +188,10 @@ class DataClient extends require('eris').Client {
     }
   }
 
-  _loadFileAsFunction (directory, name, files) {
+  _loadSetting (directory, name, files) {
     for (let i = 0; i < files.length; i++) {
       try {
         const file = require(path.join(directory, files[i]))(this)
-        if (name === 'commands') {
-          for (let i = 0; i < file.aliases.length; i++) {
-            this.aliases.set(file.aliases[i], file.name)
-          }
-        }
         this[name].set(file.name, file)
       } catch (e) {
         this.logger.error(`Unable to load ${name} ${files[i]}:\n${e}`)
@@ -217,8 +226,17 @@ class DataClient extends require('eris').Client {
           case 'events':
             this._loadEvents(directory, name, files)
             break
+          case 'commands':
+            this._loadCommand(directory, name, files)
+            break
+          case 'settings':
+            this._loadSetting(directory, name, files)
+            break
+          case 'toggles':
+            this._loadSetting(directory, name, files)
+            break
           default:
-            this._loadFileAsFunction(directory, name, files)
+            this.logger.error(`no "${name}" directory!`)
         }
       }).catch(this.logger.error)
     }
