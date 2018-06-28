@@ -33,7 +33,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DataClient.js~DataClient.html">DataClient</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html">DatabaseManager</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Orator.js~Orator.html">Orator</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Permission.js~Permission.html">Permission</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/SafeClass.js~SafeClass.html">SafeClass</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Setting.js~Setting.html">Setting</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Status.js~Status.html">Status</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/StatusType.js~StatusType.html">StatusType</a></span></span></li>
@@ -47,8 +49,9 @@
 <div class="content" data-ice="content"><h1 data-ice="title">classes/Permission.js</h1>
 <pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/**
  * Class representing a permission.
+ * @extends {SafeClass}
  */
-class Permission {
+class Permission extends require(&apos;./SafeClass.js&apos;) {
   /**
    * Create a permission.
    * @param {Object}   data                                     The permission data.
@@ -57,9 +60,17 @@ class Permission {
    * @param {Function} [data.check=function () { return true }] A test to see if a member has this permission.
    */
   constructor (data) {
-    const { name, level, check } = data
-    if (typeof name !== &apos;string&apos;) throw Error(`permission cannot have name ${name}`)
-    if (isNaN(level)) throw Error(`permission cannot have level ${level}`)
+    const mandatoryTypes = {
+      name: &apos;string&apos;,
+      level: &apos;number&apos;,
+      check: &apos;function&apos;
+    }
+    super(mandatoryTypes)
+    const {
+      name,
+      level,
+      check
+    } = data
     /**
      * The name of the permission.
      * @type {String}
@@ -74,13 +85,15 @@ class Permission {
      * A test to see if a member has this permission.
      * @type {Function}
      */
-    this.check = typeof check === &apos;function&apos; ? check : function () { return true }
+    this.check = check || function () { return true }
+
+    this._checkDataTypes()
   }
   /**
    * Denial message telling the user what level permission they need.
    * @return {String} Denial message including permission name.
    */
-  deny () {
+  get deny () {
     return `Must be ${this.name}!`
   }
 }

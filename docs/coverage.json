@@ -1,7 +1,7 @@
 {
-  "coverage": "98.83%",
-  "expectCount": 86,
-  "actualCount": 85,
+  "coverage": "86.6%",
+  "expectCount": 112,
+  "actualCount": 97,
   "files": {
     "classes/Command.js": {
       "expectCount": 12,
@@ -14,18 +14,44 @@
       "undocumentLines": []
     },
     "classes/DataClient.js": {
-      "expectCount": 17,
-      "actualCount": 17,
-      "undocumentLines": []
+      "expectCount": 22,
+      "actualCount": 14,
+      "undocumentLines": [
+        98,
+        99,
+        104,
+        111,
+        117,
+        120,
+        131,
+        140
+      ]
     },
     "classes/Logger.js": {
       "expectCount": 5,
       "actualCount": 5,
       "undocumentLines": []
     },
+    "classes/Orator.js": {
+      "expectCount": 14,
+      "actualCount": 8,
+      "undocumentLines": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        13
+      ]
+    },
     "classes/Permission.js": {
       "expectCount": 6,
       "actualCount": 6,
+      "undocumentLines": []
+    },
+    "classes/SafeClass.js": {
+      "expectCount": 7,
+      "actualCount": 7,
       "undocumentLines": []
     },
     "classes/Setting.js": {

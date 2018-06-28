@@ -24,9 +24,21 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "eris-boiler/classes/orator.js~orator",
+    "class/classes/Orator.js~Orator.html",
+    "<span>Orator</span> <span class=\"search-result-import-path\">eris-boiler/classes/Orator.js</span>",
+    "class"
+  ],
+  [
     "eris-boiler/classes/permission.js~permission",
     "class/classes/Permission.js~Permission.html",
     "<span>Permission</span> <span class=\"search-result-import-path\">eris-boiler/classes/Permission.js</span>",
+    "class"
+  ],
+  [
+    "eris-boiler/classes/safeclass.js~safeclass",
+    "class/classes/SafeClass.js~SafeClass.html",
+    "<span>SafeClass</span> <span class=\"search-result-import-path\">eris-boiler/classes/SafeClass.js</span>",
     "class"
   ],
   [
@@ -420,33 +432,21 @@ window.esdocSearchIndex = [
     "external"
   ],
   [
+    "classes/dataclient.js~dataclient#_guild_settings",
+    "class/classes/DataClient.js~DataClient.html#instance-member-_guild_settings",
+    "classes/DataClient.js~DataClient#_guild_settings",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#_guild_toggles",
+    "class/classes/DataClient.js~DataClient.html#instance-member-_guild_toggles",
+    "classes/DataClient.js~DataClient#_guild_toggles",
+    "member"
+  ],
+  [
     "classes/dataclient.js~dataclient#_loadcommand",
     "class/classes/DataClient.js~DataClient.html#instance-method-_loadCommand",
     "classes/DataClient.js~DataClient#_loadCommand",
-    "method"
-  ],
-  [
-    "classes/dataclient.js~dataclient#_loadevent",
-    "class/classes/DataClient.js~DataClient.html#instance-method-_loadEvent",
-    "classes/DataClient.js~DataClient#_loadEvent",
-    "method"
-  ],
-  [
-    "classes/dataclient.js~dataclient#_loadpermission",
-    "class/classes/DataClient.js~DataClient.html#instance-method-_loadPermission",
-    "classes/DataClient.js~DataClient#_loadPermission",
-    "method"
-  ],
-  [
-    "classes/dataclient.js~dataclient#_loadsetting",
-    "class/classes/DataClient.js~DataClient.html#instance-method-_loadSetting",
-    "classes/DataClient.js~DataClient#_loadSetting",
-    "method"
-  ],
-  [
-    "classes/dataclient.js~dataclient#_loadtoggle",
-    "class/classes/DataClient.js~DataClient.html#instance-method-_loadToggle",
-    "classes/DataClient.js~DataClient#_loadToggle",
     "method"
   ],
   [
@@ -486,10 +486,40 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "classes/dataclient.js~dataclient#getguildsettings",
+    "class/classes/DataClient.js~DataClient.html#instance-method-getGuildSettings",
+    "classes/DataClient.js~DataClient#getGuildSettings",
+    "method"
+  ],
+  [
+    "classes/dataclient.js~dataclient#getguildtoggles",
+    "class/classes/DataClient.js~DataClient.html#instance-method-getGuildToggles",
+    "classes/DataClient.js~DataClient#getGuildToggles",
+    "method"
+  ],
+  [
     "classes/dataclient.js~dataclient#logger",
     "class/classes/DataClient.js~DataClient.html#instance-member-logger",
     "classes/DataClient.js~DataClient#logger",
     "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#membercan",
+    "class/classes/DataClient.js~DataClient.html#instance-method-memberCan",
+    "classes/DataClient.js~DataClient#memberCan",
+    "method"
+  ],
+  [
+    "classes/dataclient.js~dataclient#ora",
+    "class/classes/DataClient.js~DataClient.html#instance-member-ora",
+    "classes/DataClient.js~DataClient#ora",
+    "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#permissionlevel",
+    "class/classes/DataClient.js~DataClient.html#instance-method-permissionLevel",
+    "classes/DataClient.js~DataClient#permissionLevel",
+    "method"
   ],
   [
     "classes/dataclient.js~dataclient#permissions",
@@ -514,6 +544,18 @@ window.esdocSearchIndex = [
     "class/classes/DataClient.js~DataClient.html#instance-member-toggles",
     "classes/DataClient.js~DataClient#toggles",
     "member"
+  ],
+  [
+    "classes/dataclient.js~dataclient#updateguildsettings",
+    "class/classes/DataClient.js~DataClient.html#instance-method-updateGuildSettings",
+    "classes/DataClient.js~DataClient#updateGuildSettings",
+    "method"
+  ],
+  [
+    "classes/dataclient.js~dataclient#updateguildtoggles",
+    "class/classes/DataClient.js~DataClient.html#instance-method-updateGuildToggles",
+    "classes/DataClient.js~DataClient#updateGuildToggles",
+    "method"
   ],
   [
     "classes/databasemanager.js",
@@ -690,6 +732,90 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
+    "classes/orator.js",
+    "file/classes/Orator.js.html",
+    "classes/Orator.js",
+    "file"
+  ],
+  [
+    "classes/orator.js~orator#_analytics",
+    "class/classes/Orator.js~Orator.html#instance-member-_analytics",
+    "classes/Orator.js~Orator#_analytics",
+    "member"
+  ],
+  [
+    "classes/orator.js~orator#_analyticsfile",
+    "class/classes/Orator.js~Orator.html#instance-member-_analyticsFile",
+    "classes/Orator.js~Orator#_analyticsFile",
+    "member"
+  ],
+  [
+    "classes/orator.js~orator#_badcommand",
+    "class/classes/Orator.js~Orator.html#instance-method-_badCommand",
+    "classes/Orator.js~Orator#_badCommand",
+    "method"
+  ],
+  [
+    "classes/orator.js~orator#_execute",
+    "class/classes/Orator.js~Orator.html#instance-method-_execute",
+    "classes/Orator.js~Orator#_execute",
+    "method"
+  ],
+  [
+    "classes/orator.js~orator#_getcommand",
+    "class/classes/Orator.js~Orator.html#instance-method-_getCommand",
+    "classes/Orator.js~Orator#_getCommand",
+    "method"
+  ],
+  [
+    "classes/orator.js~orator#_iscommandbyuser",
+    "class/classes/Orator.js~Orator.html#instance-method-_isCommandByUser",
+    "classes/Orator.js~Orator#_isCommandByUser",
+    "method"
+  ],
+  [
+    "classes/orator.js~orator#_isguild",
+    "class/classes/Orator.js~Orator.html#instance-method-_isGuild",
+    "classes/Orator.js~Orator#_isGuild",
+    "method"
+  ],
+  [
+    "classes/orator.js~orator#_logger",
+    "class/classes/Orator.js~Orator.html#instance-member-_logger",
+    "classes/Orator.js~Orator#_logger",
+    "member"
+  ],
+  [
+    "classes/orator.js~orator#_parseresponse",
+    "class/classes/Orator.js~Orator.html#instance-method-_parseResponse",
+    "classes/Orator.js~Orator#_parseResponse",
+    "method"
+  ],
+  [
+    "classes/orator.js~orator#_speedlog",
+    "class/classes/Orator.js~Orator.html#instance-method-_speedLog",
+    "classes/Orator.js~Orator#_speedLog",
+    "method"
+  ],
+  [
+    "classes/orator.js~orator#_start",
+    "class/classes/Orator.js~Orator.html#instance-member-_start",
+    "classes/Orator.js~Orator#_start",
+    "member"
+  ],
+  [
+    "classes/orator.js~orator#constructor",
+    "class/classes/Orator.js~Orator.html#instance-constructor-constructor",
+    "classes/Orator.js~Orator#constructor",
+    "method"
+  ],
+  [
+    "classes/orator.js~orator#processmessage",
+    "class/classes/Orator.js~Orator.html#instance-method-processMessage",
+    "classes/Orator.js~Orator#processMessage",
+    "method"
+  ],
+  [
     "classes/permission.js",
     "file/classes/Permission.js.html",
     "classes/Permission.js",
@@ -709,9 +835,9 @@ window.esdocSearchIndex = [
   ],
   [
     "classes/permission.js~permission#deny",
-    "class/classes/Permission.js~Permission.html#instance-method-deny",
+    "class/classes/Permission.js~Permission.html#instance-get-deny",
     "classes/Permission.js~Permission#deny",
-    "method"
+    "member"
   ],
   [
     "classes/permission.js~permission#level",
@@ -726,15 +852,57 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
+    "classes/safeclass.js",
+    "file/classes/SafeClass.js.html",
+    "classes/SafeClass.js",
+    "file"
+  ],
+  [
+    "classes/safeclass.js~safeclass#_checkdatatypes",
+    "class/classes/SafeClass.js~SafeClass.html#instance-method-_checkDataTypes",
+    "classes/SafeClass.js~SafeClass#_checkDataTypes",
+    "method"
+  ],
+  [
+    "classes/safeclass.js~safeclass#_mandatorytypes",
+    "class/classes/SafeClass.js~SafeClass.html#instance-member-_mandatoryTypes",
+    "classes/SafeClass.js~SafeClass#_mandatoryTypes",
+    "member"
+  ],
+  [
+    "classes/safeclass.js~safeclass#_restrainterror",
+    "class/classes/SafeClass.js~SafeClass.html#instance-method-_restraintError",
+    "classes/SafeClass.js~SafeClass#_restraintError",
+    "method"
+  ],
+  [
+    "classes/safeclass.js~safeclass#_restraints",
+    "class/classes/SafeClass.js~SafeClass.html#instance-member-_restraints",
+    "classes/SafeClass.js~SafeClass#_restraints",
+    "member"
+  ],
+  [
+    "classes/safeclass.js~safeclass#_typeerror",
+    "class/classes/SafeClass.js~SafeClass.html#instance-method-_typeError",
+    "classes/SafeClass.js~SafeClass#_typeError",
+    "method"
+  ],
+  [
+    "classes/safeclass.js~safeclass#constructor",
+    "class/classes/SafeClass.js~SafeClass.html#instance-constructor-constructor",
+    "classes/SafeClass.js~SafeClass#constructor",
+    "method"
+  ],
+  [
     "classes/setting.js",
     "file/classes/Setting.js.html",
     "classes/Setting.js",
     "file"
   ],
   [
-    "classes/setting.js~setting#code",
-    "class/classes/Setting.js~Setting.html#instance-member-code",
-    "classes/Setting.js~Setting#code",
+    "classes/setting.js~setting#_onchange",
+    "class/classes/Setting.js~Setting.html#instance-member-_onChange",
+    "classes/Setting.js~Setting#_onChange",
     "member"
   ],
   [
@@ -750,9 +918,9 @@ window.esdocSearchIndex = [
     "member"
   ],
   [
-    "classes/setting.js~setting#onchange",
-    "class/classes/Setting.js~Setting.html#instance-member-onChange",
-    "classes/Setting.js~Setting#onChange",
+    "classes/setting.js~setting#prettyname",
+    "class/classes/Setting.js~Setting.html#instance-member-prettyName",
+    "classes/Setting.js~Setting#prettyName",
     "member"
   ],
   [

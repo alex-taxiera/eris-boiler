@@ -33,7 +33,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DataClient.js~DataClient.html">DataClient</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html">DatabaseManager</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Orator.js~Orator.html">Orator</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Permission.js~Permission.html">Permission</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/SafeClass.js~SafeClass.html">SafeClass</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Setting.js~Setting.html">Setting</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Status.js~Status.html">Status</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/StatusType.js~StatusType.html">StatusType</a></span></span></li>
@@ -321,7 +323,14 @@ class DatabaseManager {
   async _select ({ table, columns = &apos;*&apos;, offset = 0, limit = null, where = true }) {
     if (!limit) limit = (await this._count(table)) || 0
     return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
-      .then((rows) =&gt; rows)
+      .then((rows) =&gt; rows.map((val) =&gt; {
+        // NOTE: untested form of selecting, should parse things like objects and arrays
+        try {
+          return JSON.parse(val)
+        } catch (e) {
+          return val
+        }
+      }))
       .catch(this._logger.error)
   }
 
