@@ -3,8 +3,8 @@ const Setting = require('../classes/Setting.js')
 module.exports = (bot) => new Setting(
   bot,
   {
-    code: 'prefix',
-    name: 'Default Prefix',
-    onChange: (bot, value) => bot.dbm.updateDefaultPrefix(value)
+    name: 'prefix',
+    prettyName: 'Default Prefix',
+    _onChange: (bot, value) => bot.dbm.updateDefaultPrefix(value)
   }
 )

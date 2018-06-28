@@ -33,7 +33,7 @@ class Setting {
      * A function that gets executed whenever the value of the setting is changed.
      * @type {Function}
      */
-    this.onChange = onChange
+    this._onChange = _onChange
     /**
      * The value of the setting.
      * @type {*}
@@ -55,7 +55,7 @@ class Setting {
       .then((success) => bot.logger.success('wrote to config'))
       .catch(bot.logger.error)
 
-    this.onChange(bot, value)
+    this._onChange(bot, value)
     return `${this.name} set to ${this.value}!`
   }
 }
