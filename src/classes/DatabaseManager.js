@@ -1,6 +1,7 @@
 /**
  * @external {Collection} https://abal.moe/Eris/docs/Collection
  */
+const QueryBuilder = require('./QueryBuilder.js')
 /**
  * Class representing a database manager.
  */
@@ -15,16 +16,7 @@ class DatabaseManager {
    * @param {Class}  Logger                  The Logger class
    */
   constructor (bot, DB_CREDENTIALS, Logger) {
-    /**
-     * The knex query builder.
-     * @private
-     * @type    {Function}
-     */
-    this._knex = require('knex')({
-      client: 'mysql',
-      connection: DB_CREDENTIALS,
-      pool: { min: 0 }
-    })
+    this._qb = new QueryBuilder(DB_CREDENTIALS, Logger)
     /**
      * The logger.
      * @private
@@ -32,7 +24,7 @@ class DatabaseManager {
      */
     this._logger = new Logger()
     /* set up database */
-    this.setup(bot)
+    this._setup(bot)
   }
 
   /**
@@ -41,8 +33,8 @@ class DatabaseManager {
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
   async addClient (id) {
-    return this._insert({ table: 'guild_settings', data: { id } })
-      .then(() => this._insert({ table: 'guild_toggles', data: { id } }))
+    return this._qb.run('insert', { table: 'guild_settings', data: { id } })
+      .then(() => this._qb.run('insert', { table: 'guild_toggles', data: { id } }))
   }
 
   /**
@@ -52,7 +44,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
   addStatus (name, type) {
-    return this._insert({ table: 'statuses', data: { name, type } })
+    return this._qb.run('insert', { table: 'statuses', data: { name, type } })
   }
 
   /**
@@ -61,7 +53,7 @@ class DatabaseManager {
    * @return {Object}    The guild data.
    */
   getSettings (id) {
-    return this._get({ table: 'guild_settings', where: { id } })
+    return this._qb.run('get', { table: 'guild_settings', where: { id } })
   }
 
   /**
@@ -70,7 +62,7 @@ class DatabaseManager {
    * @return {Object}    The guild data.
    */
   getToggles (id) {
-    return this._get({ table: 'guild_toggles', where: { id } })
+    return this._qb.run('get', { table: 'guild_toggles', where: { id } })
   }
 
   /**
@@ -78,7 +70,7 @@ class DatabaseManager {
    * @return {Object[]} Array of statuses, name and type.
    */
   getStatuses () {
-    return this._select({ table: 'statuses', columns: ['name', 'type'] })
+    return this._qb.run('get', { table: 'statuses', columns: ['name', 'type'] })
   }
 
   /**
@@ -87,7 +79,7 @@ class DatabaseManager {
    */
   async initialize (guilds) {
     let tmpGuilds = new Map(guilds)
-    const saved = await this._select({ table: 'guild_settings' })
+    const saved = await this._qb.run('select', { table: 'guild_settings' })
     if (saved.length > 0) {
       for (let i = 0; i < saved.length; i++) {
         const id = saved[i].id
@@ -109,8 +101,8 @@ class DatabaseManager {
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
   removeClient (id) {
-    return this._delete({ table: 'guild_settings', where: { id } })
-      .then(() => this._delete({ table: 'guild_toggles', where: { id } }))
+    return this._qb.run('delete', { table: 'guild_settings', where: { id } })
+      .then(() => this._qb.run('delete', { table: 'guild_toggles', where: { id } }))
   }
 
   /**
@@ -119,20 +111,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}      Returns 0 on success or undefined.
    */
   removeStatus (name) {
-    return this._delete({ table: 'statuses', where: { name } })
-  }
-
-  /**
-   * Setup database tables.
-   * @param  {DataClient} bot The bot client.
-   * @return {Promise[]}      The results of the table creation.
-   */
-  setup (bot) {
-    return Promise.all([
-      this._buildGuildSettings(bot.config.DEFAULT.prefix),
-      this._buildGuildToggles(),
-      this._buildStatuses(bot.config.DEFAULT.status)
-    ])
+    return this._qb.run('delete', { table: 'statuses', where: { name } })
   }
 
   /**
@@ -142,7 +121,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
   updateDefaultStatus (name, type) {
-    return this._update({ table: 'statuses', data: { name, type }, where: { default: 1 } })
+    return this._qb.run('update', { table: 'statuses', data: { name, type }, where: { default: 1 } })
   }
 
   /**
@@ -151,7 +130,7 @@ class DatabaseManager {
    * @return {undefined}
    */
   updateDefaultPrefix (prefix) {
-    this._knex.schema.alterTable('guild_settings', (table) => {
+    this._qb._knex.schema.alterTable('guild_settings', (table) => {
       table.string('prefix').defaultTo(prefix)
     })
   }
@@ -163,7 +142,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}          Returns 0 on success or undefined.
    */
   updateSettings (id, settings) {
-    return this._update({ table: 'guild_settings', data: settings, where: { id } })
+    return this._qb.run('update', { table: 'guild_settings', data: settings, where: { id } })
   }
 
   /**
@@ -173,13 +152,13 @@ class DatabaseManager {
    * @return {(Number|undefined)}         Returns 0 on success or undefined.
    */
   updateToggles (id, toggles) {
-    return this._update({ table: 'guild_toggles', data: toggles, where: { id } })
+    return this._qb.run('update', { table: 'guild_toggles', data: toggles, where: { id } })
   }
 
   _buildGuildSettings (defaultPrefix) {
-    return this._knex.schema.hasTable('guild_settings').then((exists) => {
+    return this._qb._knex.schema.hasTable('guild_settings').then((exists) => {
       if (exists) return
-      return this._knex.schema.createTable('guild_settings', (table) => {
+      return this._qb._knex.schema.createTable('guild_settings', (table) => {
         table.charset('utf8')
         table.string('id').primary()
         table.string('vip')
@@ -189,9 +168,9 @@ class DatabaseManager {
   }
 
   _buildGuildToggles () {
-    return this._knex.schema.hasTable('guild_toggles').then((exists) => {
+    return this._qb._knex.schema.hasTable('guild_toggles').then((exists) => {
       if (exists) return
-      return this._knex.schema.createTable('guild_toggles', (table) => {
+      return this._qb._knex.schema.createTable('guild_toggles', (table) => {
         table.charset('utf8')
         table.string('id').primary()
         // add toggleable guild settings here
@@ -200,9 +179,9 @@ class DatabaseManager {
   }
 
   _buildStatuses (defaultStatus) {
-    return this._knex.schema.hasTable('statuses').then((exists) => {
+    return this._qb._knex.schema.hasTable('statuses').then((exists) => {
       if (exists) return
-      return this._knex.schema.createTable('statuses', (table) => {
+      return this._qb._knex.schema.createTable('statuses', (table) => {
         table.charset('utf8')
         table.string('name').primary()
         table.integer('type').defaultTo(0)
@@ -214,96 +193,16 @@ class DatabaseManager {
   }
 
   /**
-   * Get the number of rows in a table.
-   * @private
-   * @param   {String}             table The name of the table.
-   * @return  {(Number|undefined)}       Returns the number of rows on success or undefined.
+   * Setup database tables.
+   * @param  {DataClient} bot The bot client.
+   * @return {Promise[]}      The results of the table creation.
    */
-  _count (table) {
-    return this._knex(table).count('*')
-      .then((val) => val[0]['count(*)'])
-      .catch(this._logger.error)
-  }
-
-  /**
-   * Delete an entry from a table.
-   * @private
-   * @param   {Object}             data       The query data.
-   * @param   {String}             data.table The name of the table.
-   * @param   {Object}             data.where The condition to be met to find what to delete. Property name should match column name.
-   * @return  {(Number|undefined)}            Returns 0 on success or undefined.
-   */
-  _delete ({ table, where }) {
-    return this._knex(table).where(where).del()
-      .then((success) => 0)
-      .catch(this._logger.error)
-  }
-
-  /**
-   * Get the first entry from a table matching a condition.
-   * @private
-   * @param   {Object}            data               The query data.
-   * @param   {String}            data.table         The name of the table.
-   * @param   {(String[]|String)} [data.columns='*'] The column(s) to select.
-   * @param   {Object}            [data.where=true]  The column names and values to match.
-   * @return  {Object}                               The first matching row.
-   */
-  async _get ({ table, columns = '*', where = true }) {
-    return (await this._select({ table, columns, limit: 1, where }))[0]
-  }
-
-  /**
-   * Insert an entry into a table.
-   * @private
-   * @param   {Object}             data       The query data.
-   * @param   {String}             data.table The name of the table.
-   * @param   {Object}             data.data  The data to insert. Property names should match column names.
-   * @return  {(Number|undefined)}            Returns 0 on success or undefined.
-   */
-  _insert ({ table, data }) {
-    return this._knex(table).insert(data)
-      .then((success) => 0)
-      .catch(this._logger.error)
-  }
-
-  /**
-   * Select entries from a table.
-   * @private
-   * @param   {Object}               data               The query data.
-   * @param   {String}               data.table         The name of the table.
-   * @param   {(String[]|String)}    [data.columns='*'] The column(s) to select.
-   * @param   {Number}               [data.offset=0]    The amount of rows to skip before selecting.
-   * @param   {Number}               [data.limit=null]  The amount of rows to select. Will be set to all columns if null.
-   * @param   {Object}               [data.where=true]  The condition to match your selection against. Property name should match column name.
-   * @return  {(Object[]|undefined)}                    Returns array of rows on success or undefined.
-   */
-  async _select ({ table, columns = '*', offset = 0, limit = null, where = true }) {
-    if (!limit) limit = (await this._count(table)) || 0
-    return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
-      .then((rows) => rows.map((val) => {
-        // NOTE: untested form of selecting, should parse things like objects and arrays
-        try {
-          return JSON.parse(val)
-        } catch (e) {
-          return val
-        }
-      }))
-      .catch(this._logger.error)
-  }
-
-  /**
-   * Update entries in a table.
-   * @private
-   * @param   {Object}             data       The query data.
-   * @param   {String}             data.table The name of the table.
-   * @param   {Object}             data.where The condition to be met to find what to update. Property name should match column name.
-   * @param   {Object}             data.data  The data to update. Property names should match column names.
-   * @return  {(Number|undefined)}            Returns 0 on success or undefined.
-   */
-  _update ({ table, where, data }) {
-    return this._knex(table).where(where).update(data)
-      .then((success) => 0)
-      .catch(this._logger.error)
+  _setup (bot) {
+    return Promise.all([
+      this._buildGuildSettings(bot.config.DEFAULT.prefix),
+      this._buildGuildToggles(),
+      this._buildStatuses(bot.config.DEFAULT.status)
+    ])
   }
 }
 
