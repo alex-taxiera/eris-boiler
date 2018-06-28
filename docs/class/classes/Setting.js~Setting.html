@@ -33,7 +33,9 @@
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DataClient.js~DataClient.html">DataClient</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/DatabaseManager.js~DatabaseManager.html">DatabaseManager</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Logger.js~Logger.html">Logger</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Orator.js~Orator.html">Orator</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Permission.js~Permission.html">Permission</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/SafeClass.js~SafeClass.html">SafeClass</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Setting.js~Setting.html">Setting</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/Status.js~Status.html">Status</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/classes/StatusType.js~StatusType.html">StatusType</a></span></span></li>
@@ -45,13 +47,13 @@
 </nav>
 
 <div class="content" data-ice="content"><div class="header-notice">
-  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Setting from &apos;<span><a href="file/classes/Setting.js.html#lineNumber4">eris-boiler/classes/Setting.js</a></span>&apos;</code></pre></div>
+  <div data-ice="importPath" class="import-path"><pre class="prettyprint"><code data-ice="importPathCode">import Setting from &apos;<span><a href="file/classes/Setting.js.html#lineNumber5">eris-boiler/classes/Setting.js</a></span>&apos;</code></pre></div>
   <span data-ice="access">public</span>
   <span data-ice="kind">class</span>
   
   
   
-  <span data-ice="source">| <span><a href="file/classes/Setting.js.html#lineNumber4">source</a></span></span>
+  <span data-ice="source">| <span><a href="file/classes/Setting.js.html#lineNumber5">source</a></span></span>
 </div>
 
 <div class="self-detail detail">
@@ -61,7 +63,7 @@
 
   
   
-  
+  <div class="flat-list" data-ice="extendsChain"><h4>Extends:</h4><div><span><a href="class/classes/SafeClass.js~SafeClass.html">SafeClass</a></span> &#x2192; Setting</div></div>
   <div class="flat-list" data-ice="directSubclass"><h4>Direct Subclass:</h4><div><span><a href="class/classes/Toggle.js~Toggle.html">Toggle</a></span></div></div>
   
   
@@ -140,35 +142,6 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/classes/Setting.js~Setting.html#instance-member-code">code</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
-        </p>
-      </div>
-      <div>
-        
-        
-        <div data-ice="description"><p>The (camelCase) code of the setting.</p>
-</div>
-      </div>
-    </td>
-    <td>
-      
-      
-    </td>
-  </tr>
-<tr data-ice="target">
-    <td>
-      <span class="access" data-ice="access">public</span>
-      
-      
-      
-      <span class="override" data-ice="override"></span>
-    </td>
-    <td>
-      <div>
-        <p>
-          
-          
-          
           <span class="code" data-ice="name"><span><a href="class/classes/Setting.js~Setting.html#instance-member-name">name</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
         </p>
       </div>
@@ -198,13 +171,13 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/classes/Setting.js~Setting.html#instance-member-onChange">onChange</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/classes/Setting.js~Setting.html#instance-member-prettyName">prettyName</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>A function that gets executed whenever the value of the setting is changed.</p>
+        <div data-ice="description"><p>The (camelCase) code of the setting.</p>
 </div>
       </div>
     </td>
@@ -234,6 +207,41 @@
         
         
         <div data-ice="description"><p>The value of the setting.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+<table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3">Private Members</td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/Setting.js~Setting.html#instance-member-_onChange">_onChange</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>A function that gets executed whenever the value of the setting is changed.</p>
 </div>
       </div>
     </td>
@@ -282,7 +290,158 @@
 </table>
 </div>
 
-
+<div class="inherited-summary" data-ice="inheritedSummary"><h2>Inherited Summary</h2><table class="summary" data-ice="summary">
+  <thead><tr><td data-ice="title" colspan="3"><span class="toggle closed"></span> From class <span><a href="class/classes/SafeClass.js~SafeClass.html">SafeClass</a></span></td></tr></thead>
+  <tbody>
+  
+  <tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/SafeClass.js~SafeClass.html#instance-member-_mandatoryTypes">_mandatoryTypes</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The types to conform to.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/SafeClass.js~SafeClass.html#instance-member-_restraints">_restraints</a></span></span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>The values to conform to.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/SafeClass.js~SafeClass.html#instance-method-_checkDataTypes">_checkDataTypes</a></span></span><span class="code" data-ice="signature">()</span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Verify data types and restraints.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/SafeClass.js~SafeClass.html#instance-method-_restraintError">_restraintError</a></span></span><span class="code" data-ice="signature">(key: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, expected: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a></span>, actual: <span>*</span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Build a restraint error message.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+<tr data-ice="target">
+    <td>
+      <span class="access" data-ice="access">private</span>
+      
+      
+      
+      <span class="override" data-ice="override"></span>
+    </td>
+    <td>
+      <div>
+        <p>
+          
+          
+          
+          <span class="code" data-ice="name"><span><a href="class/classes/SafeClass.js~SafeClass.html#instance-method-_typeError">_typeError</a></span></span><span class="code" data-ice="signature">(key: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, expected: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, actual: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+        </p>
+      </div>
+      <div>
+        
+        
+        <div data-ice="description"><p>Build a type error message.</p>
+</div>
+      </div>
+    </td>
+    <td>
+      
+      
+    </td>
+  </tr>
+</tbody>
+</table>
+</div>
 
 
 
@@ -300,7 +459,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber13">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber14">source</a></span></span>
     </span>
   </h3>
 
@@ -310,7 +469,7 @@
   <div data-ice="description"><p>Create a setting.</p>
 </div>
 
-  
+  <div data-ice="override"><h4>Override:</h4><span><a href="class/classes/SafeClass.js~SafeClass.html#instance-constructor-constructor">SafeClass#constructor</a></span></div>
 
   <div data-ice="properties"><div data-ice="properties">
   <h4 data-ice="title">Params:</h4>
@@ -338,18 +497,18 @@
       <td data-ice="name" class="code" data-depth="1">data.name</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The name of the Setting.</p>
+      <td data-ice="description"><p>The (camelCase) name of the setting.</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="1">
-      <td data-ice="name" class="code" data-depth="1">data.code</td>
+      <td data-ice="name" class="code" data-depth="1">data.prettyName</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>The (camelCase) code of the setting.</p>
+      <td data-ice="description"><p>Pretty print name for setting.</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="1">
-      <td data-ice="name" class="code" data-depth="1">data.onChange</td>
+      <td data-ice="name" class="code" data-depth="1">data._onChange</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>A function that gets executed whenever the value of the setting is changed.</p>
@@ -381,50 +540,6 @@
 <div data-ice="memberDetails"><h2 data-ice="title">Public Members</h2>
 
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-code">
-    <span class="access" data-ice="access">public</span>
-    
-    
-    
-    
-    
-    <span class="code" data-ice="name">code</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
-    <span class="right-info">
-      
-      
-      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber27">source</a></span></span>
-    </span>
-  </h3>
-
-  
-  
-  
-  <div data-ice="description"><p>The (camelCase) code of the setting.</p>
-</div>
-
-  
-
-  <div data-ice="properties">
-</div>
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-  
-</div>
-<div class="detail" data-ice="detail">
   <h3 data-ice="anchor" id="instance-member-name">
     <span class="access" data-ice="access">public</span>
     
@@ -436,7 +551,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber22">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber30">source</a></span></span>
     </span>
   </h3>
 
@@ -469,25 +584,25 @@
   
 </div>
 <div class="detail" data-ice="detail">
-  <h3 data-ice="anchor" id="instance-member-onChange">
+  <h3 data-ice="anchor" id="instance-member-prettyName">
     <span class="access" data-ice="access">public</span>
     
     
     
     
     
-    <span class="code" data-ice="name">onChange</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></span>
+    <span class="code" data-ice="name">prettyName</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber32">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber35">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>A function that gets executed whenever the value of the setting is changed.</p>
+  <div data-ice="description"><p>The (camelCase) code of the setting.</p>
 </div>
 
   
@@ -524,7 +639,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber37">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber45">source</a></span></span>
     </span>
   </h3>
 
@@ -532,6 +647,52 @@
   
   
   <div data-ice="description"><p>The value of the setting.</p>
+</div>
+
+  
+
+  <div data-ice="properties">
+</div>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+</div>
+<h2 data-ice="title">Private Members</h2>
+
+<div class="detail" data-ice="detail">
+  <h3 data-ice="anchor" id="instance-member-_onChange">
+    <span class="access" data-ice="access">private</span>
+    
+    
+    
+    
+    
+    <span class="code" data-ice="name">_onChange</span><span class="code" data-ice="signature">: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function</a></span></span>
+    <span class="right-info">
+      
+      
+      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber40">source</a></span></span>
+    </span>
+  </h3>
+
+  
+  
+  
+  <div data-ice="description"><p>A function that gets executed whenever the value of the setting is changed.</p>
 </div>
 
   
@@ -571,7 +732,7 @@
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber45">source</a></span></span>
+      <span data-ice="source"><span><a href="file/classes/Setting.js.html#lineNumber55">source</a></span></span>
     </span>
   </h3>
 
