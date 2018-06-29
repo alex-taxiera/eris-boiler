@@ -132,13 +132,11 @@ class DataClient extends require('eris').Client {
   }
 
   updateGuildSettings (id, settings) {
-    this.dbm.updateSettings(id, settings)
-    this._updateCache(id, '_guild_settings', settings)
+    this._updateCache(id, '_guild_settings', settings, this.dbm.updateSettings)
   }
 
   updateGuildToggles (id, toggles) {
-    this.dbm.updateToggles(id, toggles)
-    this._updateCache(id, '_guild_toggles', toggles)
+    this._updateCache(id, '_guild_toggles', toggles, this.dbm.updateToggles)
   }
 
   async _getData (id, cache, dbGet) {
@@ -200,7 +198,8 @@ class DataClient extends require('eris').Client {
     }
   }
 
-  _updateCache (id, cache, data) {
+  _updateCache (id, cache, data, dbUpdate) {
+    dbUpdate(id, data)
     const old = this[cache].get(id)
     for (const key in old) {
       if (!data[key]) data[key] = old[key]
