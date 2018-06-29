@@ -1,7 +1,6 @@
 /**
  * @external {Collection} https://abal.moe/Eris/docs/Collection
  */
-const QueryBuilder = require('./QueryBuilder.js')
 /**
  * Class representing a database manager.
  */
@@ -15,7 +14,11 @@ class DatabaseManager {
    * @param {String} DB_CREDENTIALS.password The password associated with your user.
    * @param {Class}  Logger                  The Logger class
    */
-  constructor (bot, DB_CREDENTIALS, Logger) {
+  constructor (bot, DB_CREDENTIALS, Logger, QueryBuilder) {
+    /**
+     * The QueryBuilder.
+     * @type {QueryBuilder}
+     */
     this._qb = new QueryBuilder(DB_CREDENTIALS, Logger)
     /**
      * The logger.
@@ -155,6 +158,10 @@ class DatabaseManager {
     return this._qb.run('update', { table: 'guild_toggles', data: toggles, where: { id } })
   }
 
+  /**
+   * Create guild_settings table if it does not exist.
+   * @param {String} defaultPrefix The default prefix value.
+   */
   _buildGuildSettings (defaultPrefix) {
     return this._qb._knex.schema.hasTable('guild_settings').then((exists) => {
       if (exists) return
@@ -166,7 +173,9 @@ class DatabaseManager {
       })
     }).catch(this._logger.error)
   }
-
+  /**
+   * Create guild_toggless table if it does not exist.
+   */
   _buildGuildToggles () {
     return this._qb._knex.schema.hasTable('guild_toggles').then((exists) => {
       if (exists) return
@@ -177,7 +186,13 @@ class DatabaseManager {
       })
     }).catch(this._logger.error)
   }
-
+  /**
+   * Create statuses table if it does not exist and insert the default status.
+   * @param    {Object}  defaultStatus The default status to insert.
+   * @property {String}  name          The name of the status.
+   * @property {Number}  type          The type of the status.
+   * @property {Boolean} default       Whether or not this status should be default (true).
+   */
   _buildStatuses (defaultStatus) {
     return this._qb._knex.schema.hasTable('statuses').then((exists) => {
       if (exists) return
@@ -186,9 +201,7 @@ class DatabaseManager {
         table.string('name').primary()
         table.integer('type').defaultTo(0)
         table.boolean('default').defaultTo('false')
-      }).then(() =>
-        this._insert({ table: 'statuses', data: defaultStatus })
-      )
+      }).then(() => this._insert({ table: 'statuses', data: defaultStatus }))
     }).catch(this._logger.error)
   }
 

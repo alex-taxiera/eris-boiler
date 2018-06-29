@@ -2,6 +2,7 @@
  * @external {Client}     https://abal.moe/Eris/docs/Client
  */
 const DatabaseManager = require('./DatabaseManager.js')
+const QueryBuilder = require('./QueryBuilder.js')
 const Orator = require('./Orator.js')
 const Logger = require('./Logger.js')
 const Status = require('./Status.js')
@@ -58,7 +59,7 @@ class DataClient extends require('eris').Client {
      * The DatabaseManager.
      * @type {DatabaseManager}
      */
-    this.dbm = new DatabaseManager(this, config.DB_CREDENTIALS, Logger)
+    this.dbm = new DatabaseManager(this, config.DB_CREDENTIALS, Logger, QueryBuilder)
     /**
      * The Orator.
      * @type {Orator}
