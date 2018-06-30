@@ -159,7 +159,7 @@ class DataClient extends require('eris').Client {
         }
         this[name].set(file.name, file)
       } catch (e) {
-        this.logger.error(`Unable to load ${name} ${files[i]}:\n${e}`)
+        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t${e}`)
       }
     }
   }
@@ -171,7 +171,7 @@ class DataClient extends require('eris').Client {
         this.on(files[i].split('.')[0], file.bind(null, this))
         delete require.cache[require.resolve(path.join(directory, files[i]))]
       } catch (e) {
-        this.logger.error(`Unable to load ${name} ${files[i]}:\n${e}`)
+        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t${e}`)
       }
     }
   }
@@ -182,7 +182,7 @@ class DataClient extends require('eris').Client {
         const file = require(path.join(directory, files[i]))
         this[name].set(file.name, file)
       } catch (e) {
-        this.logger.error(`Unable to load ${name} ${files[i]}:\n${e}`)
+        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t${e}`)
       }
     }
   }
@@ -193,7 +193,7 @@ class DataClient extends require('eris').Client {
         const file = require(path.join(directory, files[i]))(this)
         this[name].set(file.name, file)
       } catch (e) {
-        this.logger.error(`Unable to load ${name} ${files[i]}:\n${e}`)
+        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t${e}`)
       }
     }
   }
