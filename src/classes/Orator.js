@@ -31,9 +31,9 @@ class Orator {
    * @param {String}  issue A message describing the issue with the command.
    * @param {Number}  delay How many ms to wait before deleting the response.
    */
-  _badCommand (msg, issue, delay) {
+  _badCommand (msg, issue) {
     msg.channel.createMessage(`${msg.author.mention} ${issue}`)
-      .then((m) => setTimeout(() => m.delete(), delay))
+      .then((m) => setTimeout(() => m.delete(), 20000))
   }
   _cannotExecute (bot, command, params, perm, msg) {
     return params.length < command.parameters.length
