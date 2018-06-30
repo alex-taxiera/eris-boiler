@@ -117,6 +117,12 @@ class DataClient extends require('eris').Client {
   getGuildToggles (id) {
     return this._getData(id, '_guild_toggles', this.dbm.getToggles)
   }
+  /**
+   * Whether or not a member can has a certain permission.
+   * @param  {GuildMember} member     The member in question.
+   * @param  {Permission}  permission The permission in question.
+   * @return {Boolean}                True if they can and false if they cannot.
+   */
   async memberCan (member, permission) {
     return (await this.permissionLevel(member) >= permission.level)
   }
