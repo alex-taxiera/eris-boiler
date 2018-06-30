@@ -38,7 +38,7 @@ class SafeClass {
         if (!expected.has(actual)) errors.push(this._restraintError(key, expected, actual))
       }
     }
-    if (errors.length > 0) throw TypeError(errors.join('\n'))
+    if (errors.length > 0) throw TypeError('\n\t\t' + errors.join('\n\t\t'))
   }
   /**
    * Build a restraint error message.
