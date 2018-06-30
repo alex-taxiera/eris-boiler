@@ -61,7 +61,7 @@ class Orator {
     run({ bot, msg, params }).then(async (response) => {
       if (deleteInvoking) msg.delete().catch((e) => bot.logger.warn('cannot delete messages'))
       if (!response) return
-      if (this._analytics) this._speedLog(this._start, name)
+      if (this._analytics) this._speedLog(name)
       const { content, file } = this._parseResponse(response)
       msg.channel.createMessage(content, file)
         .then((m) => {
