@@ -11,9 +11,9 @@ class Orator {
    */
   async processMessage (bot, msg) {
     this._start = Date.now() // NOTE: save in case of analytics
+    if (!this._isGuild(msg)) return
     const { prefix } = await bot.dbm.getSettings(msg.channel.guild.id)
-    console.log()
-    if (!this._isGuild(msg) || !this._isCommandByUser(bot.user, msg, prefix)) return
+    if (!this._isCommandByUser(bot.user, msg, prefix)) return
 
     const params = msg.content.substring(prefix.length).split(' ')
     const cmd = params.splice(0, 1)[0]
