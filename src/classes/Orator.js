@@ -21,9 +21,9 @@ class Orator {
     const command = this._getCommand(bot, cmd); if (!command) return
 
     const perm = bot.permissions.get(command.permission)
-    const cannotExecute = this._cannotExecute(bot, command, params, perm, msg)
-
-    return cannotExecute || this._execute(command, bot, msg, params)
+    this._canExecute(bot, command, params, perm, msg)
+      .then((can) => this._execute(command, bot, msg, params))
+      .catch((error) => this._badCommand(msg, error.message))
   }
   /**
    * Create and delete a response message based on a bad command invocation.
@@ -35,12 +35,10 @@ class Orator {
     msg.channel.createMessage(`${msg.author.mention} ${issue}`)
       .then((m) => setTimeout(() => m.delete(), 20000))
   }
-  _cannotExecute (bot, command, params, perm, msg) {
-    return params.length < command.parameters.length
-      ? this._badCommand(msg, 'insufficient parameters!', 15000)
-      : !bot.memberCan(msg.member, perm)
-        ? this._badCommand(msg, perm.deny, 25000)
-        : false
+  async _canExecute (bot, command, params, perm, msg) {
+    if (params.length < command.parameters.length) throw Error('insufficient parameters!')
+    if (!bot.memberCan(msg.member, perm)) throw Error(perm.deny)
+    return true
   }
   /**
    * Execute a command.
