@@ -1,3 +1,10 @@
+/**
+ * @external {ExtendedUser} https://abal.moe/Eris/docs/ExtendedUser
+ * @external {Message}      https://abal.moe/Eris/docs/Message
+ */
+/**
+ * A class handling all message based communications.
+ */
 class Orator {
   constructor (Logger, options = {}) {
     this._logger = new Logger()
@@ -35,6 +42,14 @@ class Orator {
     msg.channel.createMessage(`${msg.author.mention} ${issue}`)
       .then((m) => setTimeout(() => m.delete(), 20000))
   }
+  /**
+   * @param  {DataClient}       bot     The bot object.
+   * @param  {Command}          command The command to check execution.
+   * @param  {String[]}         params  The params sent by the user.
+   * @param  {Permission}       perm    The permission data for the command.
+   * @param  {Message}          msg     The message invoking the command.
+   * @return {Promise<Boolean>}         Resolves true or will reject.
+   */
   async _canExecute (bot, command, params, perm, msg) {
     if (params.length < command.parameters.length) throw Error('insufficient parameters!')
     if (!bot.memberCan(msg.member, perm)) throw Error(perm.deny)
