@@ -96,6 +96,11 @@ class DataClient extends require('eris').Client {
      */
     this.toggles = new Map()
 
+    /**
+     * The directories to load files from.
+     * @private
+     * @type {Object}
+     */
     this._dirs = {
       permissions: path.join(__dirname, '../permissions/'),
       commands: path.join(__dirname, '../commands/'),
@@ -103,8 +108,15 @@ class DataClient extends require('eris').Client {
       settings: path.join(__dirname, '../settings/'),
       toggles: path.join(__dirname, '../toggles/')
     }
-
+    /**
+     * The guild settings cache.
+     * @type {Map}
+     */
     this._guild_settings = new Map()
+    /**
+     * The guild toggles cache.
+     * @type {Map}
+     */
     this._guild_toggles = new Map()
 
     this._setup()
@@ -126,6 +138,11 @@ class DataClient extends require('eris').Client {
   async memberCan (member, permission) {
     return (await this.permissionLevel(member) >= permission.level)
   }
+  /**
+   * Get the permission level of a member.
+   * @param {GuildMember} member The GuildMember in question.
+   * @return {Number}            The numerical value of the permission level.
+   */
   async permissionLevel (member) {
     const perms = this.permissions.values()
     let permLevel = 0
@@ -155,8 +172,14 @@ class DataClient extends require('eris').Client {
   _inCache (id, cache) {
     return this[cache].get(id) != null
   }
-
-  _loadCommand (directory, name, files) {
+  /**
+   * Load the command files.
+   * @private
+   * @param {String}   directory Path to command directory.
+   * @param {String}   name      Name of command directory.
+   * @param {String[]} files     List of command file names.
+   */
+  _loadCommands (directory, name, files) {
     for (let i = 0; i < files.length; i++) {
       try {
         const file = require(path.join(directory, files[i]))(this)
@@ -169,7 +192,13 @@ class DataClient extends require('eris').Client {
       }
     }
   }
-
+  /**
+   * Load the event files.
+   * @private
+   * @param {String}   directory Path to event directory.
+   * @param {String}   name      Name of event directory.
+   * @param {String[]} files     List of event file names.
+   */
   _loadEvents (directory, name, files) {
     for (let i = 0; i < files.length; i++) {
       try {
@@ -181,7 +210,13 @@ class DataClient extends require('eris').Client {
       }
     }
   }
-
+  /**
+   * Load the permission files.
+   * @private
+   * @param {String}   directory Path to permission directory.
+   * @param {String}   name      Name of permission directory.
+   * @param {String[]} files     List of permission file names.
+   */
   _loadPermissions (directory, name, files) {
     for (let i = 0; i < files.length; i++) {
       try {
@@ -192,8 +227,14 @@ class DataClient extends require('eris').Client {
       }
     }
   }
-
-  _loadSetting (directory, name, files) {
+  /**
+   * Load the setting files.
+   * @private
+   * @param {String}   directory Path to setting directory.
+   * @param {String}   name      Name of setting directory.
+   * @param {String[]} files     List of setting file names.
+   */
+  _loadSettings (directory, name, files) {
     for (let i = 0; i < files.length; i++) {
       try {
         const file = require(path.join(directory, files[i]))(this)
@@ -215,6 +256,7 @@ class DataClient extends require('eris').Client {
 
   /**
    * Set up all data for DataClient.
+   * @private
    */
   async _setup () {
     const { readdir } = require('fs').promises
@@ -231,11 +273,11 @@ class DataClient extends require('eris').Client {
             this._loadEvents(directory, name, files)
             break
           case 'commands':
-            this._loadCommand(directory, name, files)
+            this._loadCommands(directory, name, files)
             break
           case 'settings':
           case 'toggles':
-            this._loadSetting(directory, name, files)
+            this._loadSettings(directory, name, files)
             break
           default:
             this.logger.error(`no "${name}" directory!`)

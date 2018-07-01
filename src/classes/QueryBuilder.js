@@ -17,14 +17,20 @@ class QueryBuilder {
      */
     this._logger = new Logger()
   }
-
+  /**
+   * Run a query.
+   * @param  {String} query The type of query to run.
+   * @param  {Object} data  The data to use in the query
+   * @return {*}            Returns whatever the query called returns.
+   * @throws {Error}        Error if no query found matching query param.
+   */
   async run (query, data) {
     query = '_' + query
     if (this[query]) {
       const results = await this[query](data)
       return results
     }
-    return 'NO FUNCTION'
+    throw Error('NO FUNCTION')
   }
 
   /**
