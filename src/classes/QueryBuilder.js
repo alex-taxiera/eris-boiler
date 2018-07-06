@@ -46,7 +46,7 @@ class QueryBuilder {
   }
 
   _createTable ({ name, columns, insert }) {
-    return this._qb._knex.schema.hasTable(name).then((exists) => {
+    return this._knex.schema.hasTable(name).then((exists) => {
       if (exists) return
       return this._qb._knex.schema.createTable(name, (table) => {
         table.charset('utf8')
