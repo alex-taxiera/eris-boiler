@@ -8,11 +8,6 @@
   },
   "DEFAULT": {
     "prefix": "!",
-    "rotateStatus": false,
-    "status": {
-	    "name": "Overwatch",
-	    "type": 0,
-      "default": true
-	  }
+    "rotateStatus": false
   }
 }

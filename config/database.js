@@ -52,7 +52,11 @@ const buildDBConfig = (config) => [
       }
     ],
     insert: [
-      config.DEFAULT.status
+      {
+        name: 'Overwatch',
+        type: 0,
+        default: true
+      }
     ]
   }
 ]
