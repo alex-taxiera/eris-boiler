@@ -45,6 +45,32 @@ class QueryBuilder {
       .catch(this._logger.error)
   }
 
+  _createTable ({ name, columns, insert }) {
+    return this._qb._knex.schema.hasTable(name).then((exists) => {
+      if (exists) return
+      return this._qb._knex.schema.createTable(name, (table) => {
+        table.charset('utf8')
+        for (const column of columns) {
+          if (column.primary && column.default !== undefined) {
+            table[column.type](column.name).primary().defaultTo(column.default)
+          } else if (column.primary) {
+            table[column.type](column.name).primary()
+          } else if (column.default !== undefined) {
+            table[column.type](column.name).defaultTo(column.default)
+          } else {
+            table[column.type](column.name)
+          }
+        }
+      }).then(async () => {
+        if (insert !== undefined) {
+          for (const data of insert) {
+            await this._insert({ table: name, data })
+          }
+        }
+      })
+    }).catch(this._logger.error)
+  }
+
   /**
    * Delete an entry from a table.
    * @private
