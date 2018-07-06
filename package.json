@@ -4,8 +4,9 @@
   "description": "A Discord Bot boilerplate using JavaScript and the Eris library",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node src/index.js",
     "test": "ava **/test/*.js",
+    "dev": "node scripts/dev.js",
     "doc": "./node_modules/.bin/esdoc"
   },
   "repository": {
@@ -40,6 +41,7 @@
     "esdoc-node": "^1.0.3",
     "esdoc-publish-html-plugin": "^1.1.2",
     "esdoc-standard-plugin": "^1.0.0",
+    "nodemon": "^1.17.5",
     "standard": "^11.0.1"
   }
 }
