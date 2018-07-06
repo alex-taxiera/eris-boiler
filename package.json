@@ -30,7 +30,7 @@
     "eris": "^0.8.6",
     "knex": "^0.14.6",
     "moment": "^2.22.2",
-    "mysql": "^2.15.0",
+    "mysql": "github:mysqljs/mysql",
     "npm": "^6.1.0"
   },
   "devDependencies": {
