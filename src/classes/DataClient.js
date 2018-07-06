@@ -101,6 +101,7 @@ class DataClient extends require('eris').Client {
      * The directories to load files from.
      * @private
      * @type {Object}
+     * NOTE: Keep permissions before commands.
      */
     this._dirs = {
       permissions: path.join(__dirname, '../permissions/'),
@@ -174,72 +175,17 @@ class DataClient extends require('eris').Client {
     return this[cache].get(id) != null
   }
   /**
-   * Load the command files.
+   * Load data files.
    * @private
-   * @param {String}   directory Path to command directory.
-   * @param {String}   name      Name of command directory.
-   * @param {String[]} files     List of command file names.
+   * @param   {String}   directory Path to permission directory.
+   * @param   {String}   name      Name of permission directory.
+   * @param   {String[]} files     List of permission file names.
    */
-  _loadCommands (directory, name, files) {
+  _loadData (directory, name, files, loader) {
     for (let i = 0; i < files.length; i++) {
       try {
-        const file = require(path.join(directory, files[i]))(this)
-        for (let i = 0; i < file.aliases.length; i++) {
-          this.aliases.set(file.aliases[i], file.name)
-        }
-        this[name].set(file.name, file)
-      } catch (e) {
-        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t${e}`)
-      }
-    }
-  }
-  /**
-   * Load the event files.
-   * @private
-   * @param {String}   directory Path to event directory.
-   * @param {String}   name      Name of event directory.
-   * @param {String[]} files     List of event file names.
-   */
-  _loadEvents (directory, name, files) {
-    for (let i = 0; i < files.length; i++) {
-      try {
-        const file = require(path.join(directory, files[i]))
-        this.on(files[i].split('.')[0], file.bind(null, this))
-        delete require.cache[require.resolve(path.join(directory, files[i]))]
-      } catch (e) {
-        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t${e}`)
-      }
-    }
-  }
-  /**
-   * Load the permission files.
-   * @private
-   * @param {String}   directory Path to permission directory.
-   * @param {String}   name      Name of permission directory.
-   * @param {String[]} files     List of permission file names.
-   */
-  _loadPermissions (directory, name, files) {
-    for (let i = 0; i < files.length; i++) {
-      try {
-        const file = require(path.join(directory, files[i]))
-        this[name].set(file.name, file)
-      } catch (e) {
-        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t${e}`)
-      }
-    }
-  }
-  /**
-   * Load the setting files.
-   * @private
-   * @param {String}   directory Path to setting directory.
-   * @param {String}   name      Name of setting directory.
-   * @param {String[]} files     List of setting file names.
-   */
-  _loadSettings (directory, name, files) {
-    for (let i = 0; i < files.length; i++) {
-      try {
-        const file = require(path.join(directory, files[i]))(this)
-        this[name].set(file.name, file)
+        const data = require(path.join(directory, files[i]))
+        loader(directory, name, data, files[i])
       } catch (e) {
         this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t${e}`)
       }
@@ -255,6 +201,21 @@ class DataClient extends require('eris').Client {
     this[cache].set(id, data)
   }
 
+  _genericLoader (directory, name, data) {
+    this[name].set(data.name, data)
+  }
+  _commandLoader (directory, name, data) {
+    data = data(this)
+    for (let i = 0; i < data.aliases.length; i++) {
+      this.aliases.set(data.aliases[i], data.name)
+    }
+    this[name].set(data.name, data)
+  }
+  _eventLoader (directory, name, data, file) {
+    this.on(file.split('.')[0], data.bind(null, this))
+    delete require.cache[require.resolve(path.join(directory, file))]
+  }
+
   /**
    * Set up all data for DataClient.
    * @private
@@ -264,25 +225,25 @@ class DataClient extends require('eris').Client {
 
     for (const name in this._dirs) {
       const directory = this._dirs[name]
+      let loader
       await readdir(directory).then((files) => {
         this.logger.log(`Loading a total of ${files.length} ${name}`)
         switch (name) {
-          case 'permissions':
-            this._loadPermissions(directory, name, files)
+          case 'commands':
+            loader = this._commandLoader
             break
           case 'events':
-            this._loadEvents(directory, name, files)
+            loader = this._eventLoader
             break
-          case 'commands':
-            this._loadCommands(directory, name, files)
-            break
+          case 'permissions':
           case 'settings':
           case 'toggles':
-            this._loadSettings(directory, name, files)
+            loader = this._genericLoader
             break
           default:
             this.logger.error(`no "${name}" directory!`)
         }
+        if (loader) this._loadData(directory, name, files, loader.bind(this))
       }).catch(this.logger.error)
     }
   }
