@@ -14,7 +14,7 @@ class DatabaseManager {
    * @param {String} DB_CREDENTIALS.password The password associated with your user.
    * @param {Class}  Logger                  The Logger class
    */
-  constructor (bot, DB_CREDENTIALS, Logger, QueryBuilder) {
+  constructor (dbConfig, DB_CREDENTIALS, Logger, QueryBuilder) {
     /**
      * The QueryBuilder.
      * @type {QueryBuilder}
@@ -27,7 +27,7 @@ class DatabaseManager {
      */
     this._logger = new Logger()
     /* set up database */
-    this._setup(bot)
+    this._setup(dbConfig)
   }
 
   /**
@@ -159,63 +159,12 @@ class DatabaseManager {
   }
 
   /**
-   * Create guild_settings table if it does not exist.
-   * @param {String} defaultPrefix The default prefix value.
-   */
-  _buildGuildSettings (defaultPrefix) {
-    return this._qb._knex.schema.hasTable('guild_settings').then((exists) => {
-      if (exists) return
-      return this._qb._knex.schema.createTable('guild_settings', (table) => {
-        table.charset('utf8')
-        table.string('id').primary()
-        table.string('vip')
-        table.string('prefix').defaultTo(defaultPrefix)
-      })
-    }).catch(this._logger.error)
-  }
-  /**
-   * Create guild_toggless table if it does not exist.
-   */
-  _buildGuildToggles () {
-    return this._qb._knex.schema.hasTable('guild_toggles').then((exists) => {
-      if (exists) return
-      return this._qb._knex.schema.createTable('guild_toggles', (table) => {
-        table.charset('utf8')
-        table.string('id').primary()
-        // add toggleable guild settings here
-      })
-    }).catch(this._logger.error)
-  }
-  /**
-   * Create statuses table if it does not exist and insert the default status.
-   * @param    {Object}  defaultStatus The default status to insert.
-   * @property {String}  name          The name of the status.
-   * @property {Number}  type          The type of the status.
-   * @property {Boolean} default       Whether or not this status should be default (true).
-   */
-  _buildStatuses (defaultStatus) {
-    return this._qb._knex.schema.hasTable('statuses').then((exists) => {
-      if (exists) return
-      return this._qb._knex.schema.createTable('statuses', (table) => {
-        table.charset('utf8')
-        table.string('name').primary()
-        table.integer('type').defaultTo(0)
-        table.boolean('default').defaultTo('false')
-      }).then(() => this._insert({ table: 'statuses', data: defaultStatus }))
-    }).catch(this._logger.error)
-  }
-
-  /**
    * Setup database tables.
-   * @param  {DataClient} bot The bot client.
-   * @return {Promise[]}      The results of the table creation.
+   * @param  {Object[]}   config The DB schema.
+   * @return {Promise[]}         The results of the table creation.
    */
-  _setup (bot) {
-    return Promise.all([
-      this._buildGuildSettings(bot.config.DEFAULT.prefix),
-      this._buildGuildToggles(),
-      this._buildStatuses(bot.config.DEFAULT.status)
-    ])
+  _setup (config) {
+    return Promise.all(config.map((table) => this._qb.run('createTable', table)))
   }
 }
 
