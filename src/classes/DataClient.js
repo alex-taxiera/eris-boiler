@@ -6,6 +6,7 @@ const QueryBuilder = require('./QueryBuilder.js')
 const Orator = require('./Orator.js')
 const Logger = require('./Logger.js')
 const Status = require('./Status.js')
+const buildDBConfig = require('../../config/database.js')
 const path = require('path')
 /**
  * Class representing a DataClient.
@@ -59,7 +60,7 @@ class DataClient extends require('eris').Client {
      * The DatabaseManager.
      * @type {DatabaseManager}
      */
-    this.dbm = new DatabaseManager(this, config.DB_CREDENTIALS, Logger, QueryBuilder)
+    this.dbm = new DatabaseManager(buildDBConfig(config), config.DB_CREDENTIALS, Logger, QueryBuilder)
     /**
      * The Orator.
      * @type {Orator}
