@@ -8,13 +8,14 @@ class StatusType {
   constructor () {
     /**
      * Enum for status types
+     * @private
      * @type     {Object}
      * @property {Number} PLAYING   0
      * @property {Number} STREAMING 1 (Twitch only)
      * @property {Number} LISTENING 2
      * @property {Number} WATCHING  3
      */
-    this.num = {
+    this._num = {
       PLAYING: 0,
       STREAMING: 1,
       LISTENING: 2,
@@ -33,8 +34,8 @@ class StatusType {
       LISTENING: 'Listening',
       WATCHING: 'Watching'
     }
-    for (let key in this.num) {
-      if (this.num[key] === num) return strings[key]
+    for (let key in this._num) {
+      if (this._num[key] === num) return strings[key]
     }
   }
 }
