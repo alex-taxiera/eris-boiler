@@ -73,7 +73,7 @@ class DatabaseManager {
    * @return {Object[]} Array of statuses, name and type.
    */
   getStatuses () {
-    return this._qb.run('get', { table: 'statuses', columns: ['name', 'type'] })
+    return this._qb.run('select', { table: 'statuses', columns: ['name', 'type'] })
   }
 
   /**
