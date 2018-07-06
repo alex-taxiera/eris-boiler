@@ -5,13 +5,12 @@
 class Setting extends require('./SafeClass.js') {
   /**
    * Create a setting.
-   * @param {DataClient} bot             The bot object.
    * @param {Object}     data            An object with data to assign to the Setting.
    * @param {String}     data.name       The (camelCase) name of the setting.
    * @param {String}     data.prettyName Pretty print name for setting.
    * @param {Function}   data._onChange   A function that gets executed whenever the value of the setting is changed.
    */
-  constructor (bot, data) {
+  constructor (data) {
     const mandatoryTypes = {
       name: 'string',
       prettyName: 'string',
@@ -40,9 +39,10 @@ class Setting extends require('./SafeClass.js') {
     this._onChange = _onChange
     /**
      * The value of the setting.
+     * Default values are applied in DataClient constructor.
      * @type {*}
      */
-    this.value = bot.config.DEFAULT[this.code]
+    this.value = undefined
 
     this._checkDataTypes()
   }
