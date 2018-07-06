@@ -187,7 +187,7 @@ class DataClient extends require('eris').Client {
         const data = require(path.join(directory, files[i]))
         loader(directory, name, data, files[i])
       } catch (e) {
-        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t${e}`)
+        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t\u0020${e}`)
       }
     }
   }
