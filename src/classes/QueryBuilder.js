@@ -100,14 +100,18 @@ class QueryBuilder {
   async _select ({ table, columns = '*', offset = 0, limit = null, where = true }) {
     if (!limit) limit = (await this._count(table)) || 0
     return this._knex(table).select(columns).where(where).offset(offset).limit(limit)
-      .then((rows) => rows.map((val) => {
-        // NOTE: untested form of selecting, should parse things like objects and arrays
-        try {
-          return JSON.parse(val)
-        } catch (e) {
-          return val
+      .then((rows) => {
+        for (let i = 0; i < rows.length; i++) {
+          for (const key in rows[i]) {
+            try {
+              rows[i][key] = JSON.parse(rows[i][key])
+            } catch (e) {
+              continue
+            }
+          }
         }
-      }))
+        return rows[0] ? rows : undefined
+      })
       .catch(this._logger.error)
   }
 
