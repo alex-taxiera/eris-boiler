@@ -58,7 +58,4 @@ typings/
 .env
 
 # project
-.jsdoc.json
-.esdoc.json
-custom-css.css
 config.json
