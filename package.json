@@ -7,7 +7,7 @@
     "start": "node src/index.js",
     "test": "ava **/test/*.js",
     "dev": "node scripts/dev.js",
-    "doc": "./node_modules/.bin/esdoc"
+    "doc": "jsdoc -c config/.jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -35,13 +35,8 @@
   },
   "devDependencies": {
     "ava": "1.0.0-beta.6",
-    "esdoc": "^1.1.0",
-    "esdoc-custom-theme": "^1.4.2",
-    "esdoc-inject-style-plugin": "^1.0.0",
-    "esdoc-node": "^1.0.3",
-    "esdoc-publish-html-plugin": "^1.1.2",
-    "esdoc-standard-plugin": "^1.0.0",
     "nodemon": "^1.17.5",
-    "standard": "^11.0.1"
+    "standard": "^11.0.1",
+    "tui-jsdoc-template": "^1.2.2"
   }
 }
