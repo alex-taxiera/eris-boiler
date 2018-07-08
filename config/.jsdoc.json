@@ -14,7 +14,7 @@
   },
   "templates": {
     "name": "eris-boiler",
-    "github": "https://github.com/alex-taxiera/jsdoc-theme",
+    "github": "https://github.com/alex-taxiera/eris-boiler",
     "cleverLinks": true,
     "monospaceLinks": false,
     "default": {
