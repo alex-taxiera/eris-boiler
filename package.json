@@ -7,7 +7,7 @@
     "start": "node src/index.js",
     "test": "ava **/test/*.js",
     "dev": "node scripts/dev.js",
-    "doc": "jsdoc -c config/.jsdoc.json"
+    "doc": "jsdoc -c .jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -35,8 +35,8 @@
   },
   "devDependencies": {
     "ava": "1.0.0-beta.6",
+    "jsdoc": "^3.5.3",
     "nodemon": "^1.17.5",
-    "standard": "^11.0.1",
-    "tui-jsdoc-template": "^1.2.2"
+    "standard": "^11.0.1"
   }
 }
