@@ -7,7 +7,7 @@
     "start": "node src/index.js",
     "test": "ava **/test/*.js",
     "dev": "node scripts/dev.js",
-    "doc": "jsdoc -c .jsdoc.json"
+    "doc": "jsdoc -c config/.jsdoc.json"
   },
   "repository": {
     "type": "git",
