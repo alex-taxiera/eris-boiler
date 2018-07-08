@@ -57,5 +57,10 @@ typings/
 # dotenv environment variables file
 .env
 
+# docs
+docs
+.jsdoc.json
+site
+
 # project
 config.json

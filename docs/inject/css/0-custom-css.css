@@ -1,5 +1,0 @@
-/* Add a light header for dark mode */
-:root.dark {
-  --main-background: #23272A;
-  --main-header-background: #2d3038;
-}
