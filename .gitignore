@@ -64,3 +64,8 @@ site
 
 # project
 config.json
+
+# project files
+scripts
+config
+src
