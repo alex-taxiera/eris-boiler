@@ -1,0 +1,2396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Class: DataClient | eris-boiler</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/base.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Sans+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/tonsky/FiraCode/1.205/distr/fira_code.css">
+
+    
+        
+            <link type="text/css" rel="stylesheet" href="site/styles/docs.css">
+        
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="">
+        
+        
+            <a href="https://github.com/alex-taxiera/eris-boiler" rel="noopener noreferrer" target="_blank">
+                <img src="img/github-white.png" width="35%" height="35%">
+            </a>
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">eris-boiler</a></h1>
+        
+            <span class="version">v2.2.0</span>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Externals</h3><ul><li><a href="external-Client.html">Client</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="external:Client_sub"></div></li><li><a href="external-Collection.html">Collection</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="external:Collection_sub"></div></li><li><a href="external-ExtendedUser.html">ExtendedUser</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="external:ExtendedUser_sub"></div></li></ul></div><div class="lnb-api hidden"><h3>Classes</h3><ul><li><a href="Command.html">Command</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Command_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Command.html#aliases">aliases</a></li><li><a href="Command.html#deleteInvoking">deleteInvoking</a></li><li><a href="Command.html#deleteResponse">deleteResponse</a></li><li><a href="Command.html#deleteResponseDelay">deleteResponseDelay</a></li><li><a href="Command.html#description">description</a></li><li><a href="Command.html#info">info</a></li><li><a href="Command.html#name">name</a></li><li><a href="Command.html#parameters">parameters</a></li><li><a href="Command.html#permission">permission</a></li><li><a href="Command.html#run">run</a></li></ul></div></li><li><a href="DatabaseManager.html">DatabaseManager</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="DatabaseManager_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="DatabaseManager.html#_qb">_qb</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="DatabaseManager.html#_setup">_setup</a></li><li><a href="DatabaseManager.html#addClient">addClient</a></li><li><a href="DatabaseManager.html#addStatus">addStatus</a></li><li><a href="DatabaseManager.html#getSettings">getSettings</a></li><li><a href="DatabaseManager.html#getStatuses">getStatuses</a></li><li><a href="DatabaseManager.html#getToggles">getToggles</a></li><li><a href="DatabaseManager.html#initialize">initialize</a></li><li><a href="DatabaseManager.html#removeClient">removeClient</a></li><li><a href="DatabaseManager.html#removeStatus">removeStatus</a></li><li><a href="DatabaseManager.html#updateDefaultPrefix">updateDefaultPrefix</a></li><li><a href="DatabaseManager.html#updateDefaultStatus">updateDefaultStatus</a></li><li><a href="DatabaseManager.html#updateSettings">updateSettings</a></li><li><a href="DatabaseManager.html#updateToggles">updateToggles</a></li></ul></div></li><li><a href="DataClient.html">DataClient</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="DataClient_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="DataClient.html#_guild_settings">_guild_settings</a></li><li><a href="DataClient.html#_guild_toggles">_guild_toggles</a></li><li><a href="DataClient.html#aliases">aliases</a></li><li><a href="DataClient.html#commands">commands</a></li><li><a href="DataClient.html#config">config</a></li><li><a href="DataClient.html#dbm">dbm</a></li><li><a href="DataClient.html#logger">logger</a></li><li><a href="DataClient.html#ora">ora</a></li><li><a href="DataClient.html#permissions">permissions</a></li><li><a href="DataClient.html#settings">settings</a></li><li><a href="DataClient.html#status">status</a></li><li><a href="DataClient.html#toggles">toggles</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="DataClient.html#memberCan">memberCan</a></li><li><a href="DataClient.html#permissionLevel">permissionLevel</a></li></ul></div></li><li><a href="Logger.html">Logger</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Logger_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="Logger.html#error">error</a></li><li><a href="Logger.html#log">log</a></li><li><a href="Logger.html#success">success</a></li><li><a href="Logger.html#warn">warn</a></li></ul></div></li><li><a href="Orator.html">Orator</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Orator_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="Orator.html#_badCommand">_badCommand</a></li><li><a href="Orator.html#_canExecute">_canExecute</a></li><li><a href="Orator.html#_execute">_execute</a></li><li><a href="Orator.html#_getCommand">_getCommand</a></li><li><a href="Orator.html#_isCommandByUser">_isCommandByUser</a></li><li><a href="Orator.html#_isGuild">_isGuild</a></li><li><a href="Orator.html#_parseResponse">_parseResponse</a></li><li><a href="Orator.html#_speedLog">_speedLog</a></li><li><a href="Orator.html#processMessage">processMessage</a></li></ul></div></li><li><a href="Permission.html">Permission</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Permission_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Permission.html#check">check</a></li><li><a href="Permission.html#deny">deny</a></li><li><a href="Permission.html#level">level</a></li><li><a href="Permission.html#name">name</a></li></ul></div></li><li><a href="SafeClass.html">SafeClass</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="SafeClass_sub"></div></li><li><a href="Setting.html">Setting</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Setting_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Setting.html#_onChange">_onChange</a></li><li><a href="Setting.html#name">name</a></li><li><a href="Setting.html#prettyName">prettyName</a></li><li><a href="Setting.html#value">value</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Setting.html#setValue">setValue</a></li></ul></div></li><li><a href="Status.html">Status</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Status_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Status.html#current">current</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Status.html#default">default</a></li><li><a href="Status.html#endRotate">endRotate</a></li><li><a href="Status.html#setStatus">setStatus</a></li><li><a href="Status.html#startRotate">startRotate</a></li></ul></div></li><li><a href="StatusType.html">StatusType</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="StatusType_sub"><div class="member-type">Methods</div><ul class="inner"><li><a href="StatusType.html#getStatusName">getStatusName</a></li></ul></div></li><li><a href="Toggle.html">Toggle</a><button type="button" class="hidden toggle-subnav btn btn-link">  <span class="glyphicon glyphicon-plus"></span></button><div class="hidden" id="Toggle_sub"><div class="member-type">Members</div><ul class="inner"><li><a href="Toggle.html#_onChange">_onChange</a></li><li><a href="Toggle.html#name">name</a></li><li><a href="Toggle.html#prettyName">prettyName</a></li><li><a href="Toggle.html#value">value</a></li></ul><div class="member-type">Methods</div><ul class="inner"><li><a href="Toggle.html#disable">disable</a></li><li><a href="Toggle.html#enable">enable</a></li><li><a href="Toggle.html#setValue">setValue</a></li></ul></div></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>DataClient<span class="signature">(config, options)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description"><p>Class representing a DataClient.</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dt>
+    
+        <h4 class="name" id="DataClient">
+            
+                new <span class="type-signature"></span>DataClient<span class="signature">(config, options)</span><span class="type-signature"></span>
+            
+            
+            <div class="container-source members">
+                <code><a href="DataClient.js.html">DataClient.js</a></code>
+                <code><a href="DataClient.js.html#line15">line 15</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Create a client.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>config</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The this config data.</p>
+                <h6>Properties</h6>
+                
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>TOKEN</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The this token.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>DB_CREDENTIALS</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The database credentials.</p>
+                <h6>Properties</h6>
+                
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>database</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The name of the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>host</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The host address of the server.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The username to login with.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The password to login with.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>DEFAULT</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The bots default values.</p>
+                <h6>Properties</h6>
+                
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>prefix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default prefix.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rotateStatus</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default for changing this status.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default this status.</p>
+                <h6>Properties</h6>
+                
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default this status name.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default this status type.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>default</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The boolean indicating to the database that this is the default status.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Same as Client.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+        
+        </div>
+    
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li>Client</li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+
+<dt>
+<h4 class="name" id="_guild_settings">
+    <span class="type-signature"></span>_guild_settings<span class="type-signature"> :Map</span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line117">line 117</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The guild settings cache.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Map</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="_guild_toggles">
+    <span class="type-signature"></span>_guild_toggles<span class="type-signature"> :Map</span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line122">line 122</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The guild toggles cache.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Map</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="aliases">
+    <span class="type-signature"></span>aliases<span class="type-signature"> :Map</span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line83">line 83</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The command alias map.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Map</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="commands">
+    <span class="type-signature"></span>commands<span class="type-signature"> :Map</span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line78">line 78</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The command map.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Map</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="config">
+    <span class="type-signature"></span>config<span class="type-signature"> :Object</span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line53">line 53</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The this config data.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>config.TOKEN</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The this token.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>config.DB_CREDENTIALS</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The database credentials.</p>
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>database</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The name of the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>host</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The host address of the server.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The username to login with.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The password to login with.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>config.DEFAULT</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The bots default values.</p>
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>prefix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default prefix.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>rotateStatus</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default for changing this status.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default this status.</p>
+                <h6>Properties</h6>
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default this status name.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The default this status type.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>default</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The boolean indicating to the database that this is the default status.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="dbm">
+    <span class="type-signature"></span>dbm<span class="type-signature"> :<a href="DatabaseManager.html">DatabaseManager</a></span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line63">line 63</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The DatabaseManager.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="DatabaseManager.html">DatabaseManager</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="logger">
+    <span class="type-signature"></span>logger<span class="type-signature"> :<a href="Logger.html">Logger</a></span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line58">line 58</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The logger.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="Logger.html">Logger</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="ora">
+    <span class="type-signature"></span>ora<span class="type-signature"> :<a href="Orator.html">Orator</a></span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line68">line 68</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The Orator.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="Orator.html">Orator</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="permissions">
+    <span class="type-signature"></span>permissions<span class="type-signature"> :Map</span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line88">line 88</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The permission map.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Map</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="settings">
+    <span class="type-signature"></span>settings<span class="type-signature"> :Map</span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line93">line 93</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The setting map.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Map</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="status">
+    <span class="type-signature"></span>status<span class="type-signature"> :<a href="Status.html">Status</a></span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line73">line 73</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The Status handler.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type"><a href="Status.html">Status</a></span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        
+            
+
+<dt>
+<h4 class="name" id="toggles">
+    <span class="type-signature"></span>toggles<span class="type-signature"> :Map</span>
+    
+    <div class="container-source members">
+        <code><a href="DataClient.js.html">DataClient.js</a></code>
+        <code><a href="DataClient.js.html#line98">line 98</a></code>
+    </div>
+    
+</h4>
+
+
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>The toggle map.</p>
+    </div>
+    
+
+    <!--
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Map</span>
+
+
+            </li>
+        </ul>
+    
+    -->
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+                
+
+<dt>
+    
+        <h4 class="name" id="memberCan">
+            
+                <span class="type-signature"><span class="icon black">async</span> </span>memberCan<span class="signature">(member, permission)</span><span class="type-signature"> &rarr; {Boolean}</span>
+            
+            
+            <div class="container-source members">
+                <code><a href="DataClient.js.html">DataClient.js</a></code>
+                <code><a href="DataClient.js.html#line140">line 140</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Whether or not a member can has a certain permission.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>member</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">GuildMember</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The member in question.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>permission</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Permission.html">Permission</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The permission in question.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Boolean</span>
+
+
+
+
+
+- <p>True if they can and false if they cannot.</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            
+                
+
+<dt>
+    
+        <h4 class="name" id="permissionLevel">
+            
+                <span class="type-signature"><span class="icon black">async</span> </span>permissionLevel<span class="signature">(member)</span><span class="type-signature"> &rarr; {Number}</span>
+            
+            
+            <div class="container-source members">
+                <code><a href="DataClient.js.html">DataClient.js</a></code>
+                <code><a href="DataClient.js.html#line148">line 148</a></code>
+            </div>
+            
+        </h4>
+
+        
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        <p>Get the permission level of a member.</p>
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-params">
+        <h5>Parameters:</h5>
+        
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>member</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">GuildMember</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The GuildMember in question.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+    </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="container-returns">
+        <h5>Returns:</h5>
+        
+                
+
+
+
+<span class="param-type">Number</span>
+
+
+
+
+
+- <p>The numerical value of the permission level.</p>
+
+
+
+
+            
+    </div>
+    
+
+    
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+    
+
+</dd>
+
+            </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<!-- <footer>
+    <img class="logo" src="img/toast-ui.png" style="">
+    <div class="footer-text">Alex Taxiera</div>
+</footer> -->
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = 'DataClient_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>
