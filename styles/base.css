@@ -31,7 +31,7 @@ a:hover {
     padding: 0 0 15px;
 }
 .lnb .title .link {
-    color: #fff;
+    color: #F5F5F5;
     font-style: italic;
 }
 .lnb h3 {
@@ -304,11 +304,13 @@ a:hover {
 /* README*/
 .readme {
     font-size: 1.16em;
+    color: #F5F5F5
 }
 .readme p,
 .readme ul,
 .readme ol {
     padding: 3px 0 3px 5px;
+    font-size: 0.85em;
 }
 .readme li {
     list-style: initial;
@@ -318,9 +320,9 @@ a:hover {
 }
 .readme h1 {
     font-size: 2em;
-    font-weight: normal;
+    font-style: italic;
     padding: 10px 0 5px 0;
-    border-bottom: 1px solid #428bca;
+    border-bottom: 5px solid;
 }
 .readme pre {
     margin: 15px 3px;
@@ -330,7 +332,10 @@ a:hover {
     color: #333;
 }
 .readme p a {
-    color:#c7254e;
+  color:#A4A4A4;
+}
+.readme p a:hover {
+  color: #BDBDBD;
 }
 .readme h2 {
     padding-bottom: 3px;
@@ -399,14 +404,14 @@ a:hover {
     color: #fff;
 }
 .search-container strong {
-    color: pink;
+    color: #BDBDBD;
     font-weight: normal;
 }
 .search-container ul {
     font-size: 1.083em;
     position: absolute;
     width: 100%;
-    background-color: #456e82;
+    background-color: #292929;
     border: 1px solid #1f292e;
     border-radius: 0 0 2px 2px;
     opacity: 0.9;
@@ -422,7 +427,7 @@ a:hover {
 }
 .search-container ul li:hover,
 .search-container ul li.highlight{
-    background-color: #fff;
+    background-color: #F5F5F5;
 }
 .search-container ul li:hover a,
 .search-container ul li.highlight a {
@@ -431,7 +436,7 @@ a:hover {
 }
 .search-container ul li:hover strong,
 .search-container ul li.highlight strong {
-    color: #ff4141;
+    color: #A4A4A4;
 }
 .search-container ul li .group {
     font-size: 0.916em;
