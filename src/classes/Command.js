@@ -10,7 +10,7 @@ class Command extends require('./SafeClass.js') {
    * @param {String}     data.name                                The command name.
    * @param {String}     data.description                         The command description.
    * @param {Function}   data.run                                 The command function.
-   * @param {Object}     [data.options={}]                        The command options.
+   * @param {Object}     data.options                             The command options.
    * @param {String[]}   [data.options.aliases=[]]                List of alias names for the command.
    * @param {String[]}   [data.options.parameters=[]]             List of paremeters that the command takes.
    * @param {String}     [data.options.permission='Anyone']       The name of the permission required to use the command.

@@ -4,24 +4,27 @@
 class SafeClass {
   /**
    * Create a SafeClass
-   * @param {Object} [mandatoryTypes] Object mapping property name to type string.
-   * @param {Object} [restraints]     Object mapping property name to a Map of allowed values.
+   * @param {Object} [mandatoryTypes={}] Object mapping property name to type string.
+   * @param {Object} [restraints={}]     Object mapping property name to a Map of allowed values.
    */
   constructor (mandatoryTypes = {}, restraints = {}) {
     /**
      * The types to conform to.
-     * @type {Object}
+     * @private
+     * @type    {Object}
      */
     this._mandatoryTypes = mandatoryTypes
     /**
      * The values to conform to.
-     * @type {Object}
+     * @private
+     * @type    {Object}
      */
     this._restraints = restraints
   }
   /**
    * Verify data types and restraints.
-   * @throws {TypeError} Error message is all exceptions raised with types or restraints.
+   * @private
+   * @throws  {TypeError} Error message is all exceptions raised with types or restraints.
    */
   _checkDataTypes () {
     const errors = []
@@ -42,10 +45,11 @@ class SafeClass {
   }
   /**
    * Build a restraint error message.
-   * @param  {String} key      Property name which has an invalid value.
-   * @param  {Map}    expected Map of allowed values.
-   * @param  {*}      actual   Whatever the invalid value is.
-   * @return {String}          Error message.
+   * @private
+   * @param   {String} key      Property name which has an invalid value.
+   * @param   {Map}    expected Map of allowed values.
+   * @param   {*}      actual   Whatever the invalid value is.
+   * @return  {String}          Error message.
    */
   _restraintError (key, expected, actual) {
     const keys = []
@@ -59,10 +63,11 @@ class SafeClass {
   }
   /**
    * Build a type error message.
-   * @param  {String} key      Property name which has an invalid type.
-   * @param  {String} expected Type that was expected.
-   * @param  {String} actual   Whatever the invalid type is.
-   * @return {String}          Error message.
+   * @private
+   * @param   {String} key      Property name which has an invalid type.
+   * @param   {String} expected Type that was expected.
+   * @param   {String} actual   Whatever the invalid type is.
+   * @return  {String}          Error message.
    */
   _typeError (key, expected, actual) {
     return `"${key}" expects type "${expected}" but was given type "${actual}"`
