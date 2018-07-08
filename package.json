@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "ava **/test/*.js",
-    "dev": "node scripts/dev.js",
+    "dev": "node bin/dev.js",
     "doc": "jsdoc -c .jsdoc.json"
   },
   "repository": {

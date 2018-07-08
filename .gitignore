@@ -68,3 +68,4 @@ config.json
 # project files
 config
 src
+bin
