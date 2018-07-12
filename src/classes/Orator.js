@@ -34,21 +34,24 @@ class Orator {
   }
   /**
    * Create and delete a response message based on a bad command invocation.
-   * @param {Message} msg   The message that was a bad command invocation.
-   * @param {String}  issue A message describing the issue with the command.
-   * @param {Number}  delay How many ms to wait before deleting the response.
+   * @private
+   * @param   {Message} msg   The message that was a bad command invocation.
+   * @param   {String}  issue A message describing the issue with the command.
+   * @param   {Number}  delay How many ms to wait before deleting the response.
    */
   _badCommand (msg, issue) {
     msg.channel.createMessage(`${msg.author.mention} ${issue}`)
       .then((m) => setTimeout(() => m.delete(), 20000))
   }
   /**
-   * @param  {DataClient}       bot     The bot object.
-   * @param  {Command}          command The command to check execution.
-   * @param  {String[]}         params  The params sent by the user.
-   * @param  {Permission}       perm    The permission data for the command.
-   * @param  {Message}          msg     The message invoking the command.
-   * @return {Promise<Boolean>}         Resolves true or will reject.
+   * Whether a member can execute a command.
+   * @private
+   * @param   {DataClient}       bot     The bot object.
+   * @param   {Command}          command The command to check execution.
+   * @param   {String[]}         params  The params sent by the user.
+   * @param   {Permission}       perm    The permission data for the command.
+   * @param   {Message}          msg     The message invoking the command.
+   * @return  {Promise<Boolean>}         Resolves true or will reject.
    */
   async _canExecute (bot, command, params, perm, msg) {
     if (params.length < command.parameters.length) throw Error('insufficient parameters!')
@@ -57,10 +60,11 @@ class Orator {
   }
   /**
    * Execute a command.
-   * @param {Command}    command The command to execute.
-   * @param {DataClient} bot     The bot object.
-   * @param {Message}    msg     The message that invoked the command.
-   * @param {String[]}   params  The parameters specified in the message.
+   * @private
+   * @param   {Command}    command The command to execute.
+   * @param   {DataClient} bot     The bot object.
+   * @param   {Message}    msg     The message that invoked the command.
+   * @param   {String[]}   params  The parameters specified in the message.
    */
   _execute (command, bot, msg, params) {
     const {
@@ -85,27 +89,30 @@ class Orator {
   }
   /**
    * Get a command based on a string query.
-   * @param  {DataClient}          bot     The bot object.
-   * @param  {String}              command The string to look for in the data stores.
-   * @return {(Command|undefined)}
+   * @private
+   * @param   {DataClient}          bot     The bot object.
+   * @param   {String}              command The string to look for in the data stores.
+   * @return  {(Command|undefined)}
    */
   _getCommand (bot, command) {
     return bot.commands.get(command) || bot.commands.get(bot.aliases.get(command))
   }
   /**
    * Check a message to see if it invokes a command.
-   * @param  {ExtendedUser} me     The bot user.
-   * @param  {Message}      msg    The message to check for a command.
-   * @param  {String}       prefix The designated command prefix for the given guild.
-   * @return {Boolean}             Whether or not this message is invoking a command.
+   * @private
+   * @param   {ExtendedUser} me     The bot user.
+   * @param   {Message}      msg    The message to check for a command.
+   * @param   {String}       prefix The designated command prefix for the given guild.
+   * @return  {Boolean}             Whether or not this message is invoking a command.
    */
   _isCommandByUser (me, msg, prefix) {
     return msg.content.startsWith(prefix) && msg.member.id !== me.id
   }
   /**
    * Check if a message was sent in a guild.
-   * @param  {Message} msg The message to check.
-   * @return {Boolean}     Whether or not the message was sent in a guild.
+   * @private
+   * @param   {Message} msg The message to check.
+   * @return  {Boolean}     Whether or not the message was sent in a guild.
    */
   _isGuild (msg) {
     return msg.channel.guild
