@@ -1,7 +1,0 @@
-linters:
-  standardjs:
-files:
-  ignore:
-    - 'docs/*'
-    - 'bower_components/*'
-    - 'node_modules/*'
