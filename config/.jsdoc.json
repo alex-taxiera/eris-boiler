@@ -24,8 +24,8 @@
   "opts": {
     "encoding": "utf8",
     "package": "package.json",
-    "template": "site/",
-    "destination": "./",
+    "template": "jsdoc-theme",
+    "destination": "docs",
     "private": false,
     "recurse": true
   }
