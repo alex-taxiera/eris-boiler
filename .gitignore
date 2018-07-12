@@ -59,7 +59,7 @@ typings/
 
 # docs
 docs
-site
+jsdoc-theme
 
 # project
 config.json
