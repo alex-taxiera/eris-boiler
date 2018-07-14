@@ -1,19 +1,26 @@
 import test from 'ava'
 import Toggle from '../Toggle'
+
 import Client from '../DataClient'
-import config from '../../../config/config.json'
+const config = require('../../../config/config.json')
+
+const client = new Client(config)
+
+const clientTest = {
+    name: 'Super-Bot',
+    prettyName: 'superBot',
+    _onChange: () => console.log('something changed...')
+}
 
 test.before(t => {
-    t.context.Toggle = new Toggle()
-    t.context.client = new Client(config)
+    t.context.Toggle = new Toggle(clientTest)
+    client.toggles.set(clientTest.name, clientTest)
 })
 
 test('enable', t => {
-    const { client } = t.context
-    t.is(t.context.Toggle.enable(), `${client.name} set to true`)
+    t.is(t.context.Toggle.enable(client), `${clientTest.name} set to true!`)
 })
 
 test('disable', t => {
-    const { client } = t.context
-    t.is(t.context.Toggle.disable(), `${client.name} set to false`)
+    t.is(t.context.Toggle.disable(client), `${clientTest.name} set to false!`)
 })
