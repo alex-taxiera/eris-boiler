@@ -8,7 +8,7 @@ node_js:
 
 services:
   - mysql
-  
+
 addons:
   apt:
     packages:
@@ -20,11 +20,12 @@ before_install:
   - npm install -g npm
 
 before_script:
-  - mysql -u root -e 'CREATE DATABASE travis_test_db'
-  - mysql -u root -e "CREATE USER 'travis_test_usr'@'localhost' INDENTIFIED BY 'travis_test_pass'"
-  - mysql -u root -e "GRANT ALL ON travis_test_db.* TO 'travis_test_usr'@'localhost';"
-  - DB_USER=travis_test_usr
-  - DB_NAME=travis_test_db
-  - DB_PASS=travis_test_pass
+  - mysql -u root -e 'CREATE DATABASE test_db'
+  - mysql -u root -e "CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'test_pass'";
+  - mysql -u root -e "GRANT ALL ON *.* TO 'test_user'@'localhost';"
+  - mysql -u root -e 'FLUSH PRIVILEGES;'
+  - DB_USER=test_user
+  - DB_NAME=test_db
+  - DB_PASS=test_pass
 
 script: npm run test
