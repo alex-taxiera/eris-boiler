@@ -1,5 +1,5 @@
 require('dotenv').load({ path: '../config/.env' })
-const DataClient = require('./classes/DataClient.js')
+const DataClient = require('../src/classes/DataClient.js')
 const config = process.env
 
 let bot = new DataClient(config)
