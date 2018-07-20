@@ -172,7 +172,7 @@ class DataClient extends require('eris').Client {
   }
 
   _inCache (id, cache) {
-    return this[cache].get(id) != null
+    return this[cache].get(id) !== null
   }
   /**
    * Load data files.
