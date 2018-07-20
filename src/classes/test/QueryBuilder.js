@@ -11,7 +11,6 @@ test.before(async (t) => {
   }
   for (const key in t.context.tables) {
     await t.context.QueryBuilder._knex.schema.createTable(t.context.tables[key], (table) => {
-      console.log('hi')
       table.charset('utf8')
       table.string('key').primary()
       table.string('string').defaultTo('string')
