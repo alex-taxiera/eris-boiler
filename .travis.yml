@@ -6,6 +6,7 @@ services:
   - mysql
 
 before_script:
+  - npm install
   - npm install -g npm
   - mysql -u root -e 'CREATE DATABASE boiler'
   - mysql -u root -e "CREATE USER 'test'@'127.0.0.1' IDENTIFIED BY 'test'"
