@@ -8,6 +8,10 @@ services:
 before_install:
   - npm install -g npm
 
+env:
+  - DB_NAME=test_db
+  - DB_USER=travis
+
 before_script:
   - npm install
   - mysql -e 'CREATE DATABASE IF NOT EXISTS test_db;'

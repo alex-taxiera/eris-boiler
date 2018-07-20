@@ -2,7 +2,6 @@ import test from 'ava'
 const QueryBuilder = require('../QueryBuilder.js')
 const Logger = require('../Logger.js')
 
-
 test.before(async (t) => {
   t.context.QueryBuilder = new QueryBuilder(process.env, Logger)
   t.context.tables = {
