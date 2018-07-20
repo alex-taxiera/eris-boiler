@@ -1,14 +1,9 @@
+services:
+  - mysql
+
 langauge: node_js
 node_js:
   - "node"
-
-addons:
-  apt:
-    sources:
-      - mysql-5.7-trusty
-    packages:
-      - mysql-server
-      - mysql-client
 
 env:
   - DB_NAME=test
