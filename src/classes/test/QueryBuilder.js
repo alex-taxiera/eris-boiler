@@ -1,15 +1,10 @@
 import test from 'ava'
 const QueryBuilder = require('../QueryBuilder.js')
 const Logger = require('../Logger.js')
-const DB_CREDENTIALS = {
-  database: process.env.DB_NAME,
-  host: '127.0.0.1',
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS
-}
+
 
 test.before(async (t) => {
-  t.context.QueryBuilder = new QueryBuilder(DB_CREDENTIALS, Logger)
+  t.context.QueryBuilder = new QueryBuilder(process.env, Logger)
   t.context.tables = {
     general: 'QueryBuilderTest',
     empty: 'QueryBuilderTestEmpty',
