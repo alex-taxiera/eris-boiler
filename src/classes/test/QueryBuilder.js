@@ -10,13 +10,13 @@ const DB_CREDENTIALS = {
 
 test.before(async (t) => {
   t.context.QueryBuilder = new QueryBuilder(DB_CREDENTIALS, Logger)
-  console.log('hi')
   t.context.tables = {
     general: 'QueryBuilderTest',
     empty: 'QueryBuilderTestEmpty',
     one: 'QueryBuilderTestOne'
   }
   for (const key in t.context.tables) {
+    console.log('hi')
     await t.context.QueryBuilder._knex.schema.createTable(t.context.tables[key], (table) => {
       table.charset('utf8')
       table.string('key').primary()
