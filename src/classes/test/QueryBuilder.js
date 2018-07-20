@@ -10,6 +10,7 @@ const DB_CREDENTIALS = {
 
 test.before(async (t) => {
   t.context.QueryBuilder = new QueryBuilder(DB_CREDENTIALS, Logger)
+  console.log('hi')
   t.context.tables = {
     general: 'QueryBuilderTest',
     empty: 'QueryBuilderTestEmpty',
