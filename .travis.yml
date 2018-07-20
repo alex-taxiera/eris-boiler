@@ -1,19 +1,17 @@
-services:
-  - mysql
-
 langauge: node_js
 node_js:
   - "10"
 
-env:
-  - DB_NAME=boiler
-  - DB_USER=test
-  - DB_PASS=
+services:
+  - mysql
 
 before_script:
-  - npm install
+  - npm install -g npm
   - mysql -u root -e 'CREATE DATABASE boiler'
   - mysql -u root -e "CREATE USER 'test'@'127.0.0.1' IDENTIFIED BY 'test'"
   - mysql -u root -e "GRANT ALL ON boiler.* TO 'test'@'127.0.01'"
+  - DB_NAME=boiler
+  - DB_USER=test
+
 
 script: npm run test
