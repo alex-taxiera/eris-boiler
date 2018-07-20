@@ -27,32 +27,32 @@ const command = new Command(client, {
   }
 })
 
-test.before(t => {
+test.before((t) => {
   t.context.Orator = new Orator(Logger)
 })
 
-test.beforeEach(t => {
+test.beforeEach((t) => {
   t.context.log = sinon.spy(console, 'log')
   client.commands.set(command.name, command)
 })
 
-test.afterEach(t => {
+test.afterEach((t) => {
   t.context.log.restore()
   client.permissions.delete(permission.name)
   client.commands.delete(command.name)
 })
 
-test.serial('canExecute', async t => {
+test.serial('canExecute', async (t) => {
   t.is(await t.context.Orator._canExecute(client, command, ['test'], permission, {
     member: null
   }), true)
 })
 
-test.serial('getCommand', t => {
+test.serial('getCommand', (t) => {
   t.is(t.context.Orator._getCommand(client, 'test'), command)
 })
 
-test.serial('Command by user', t => {
+test.serial('Command by user', (t) => {
   const msg = {
     content: '!test',
     member: {
@@ -67,7 +67,7 @@ test.serial('Command by user', t => {
   t.is(t.context.Orator._isCommandByUser(mockClient, msg, '!'), true)
 })
 
-test.serial('Is guild', t => {
+test.serial('Is guild', (t) => {
   const msg = {
     channel: {
       guild: true
@@ -76,7 +76,7 @@ test.serial('Is guild', t => {
   t.is(t.context.Orator._isGuild(msg), true)
 })
 
-test.serial('Parse response', t => {
+test.serial('Parse response', (t) => {
   const resp = {
     content: null,
     embed: null,
@@ -91,7 +91,7 @@ test.serial('Parse response', t => {
   })
 })
 
-test.serial('Speed logs', async t => {
+test.serial('Speed logs', async (t) => {
   t.context.Orator._start = 0
   t.context.Orator._speedLog('test')
   t.true(t.context.log.calledOnce)
