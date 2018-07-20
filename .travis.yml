@@ -1,21 +1,9 @@
 services:
   - mysql
 
-dist: trusty
-
 langauge: node_js
 node_js:
   - "10"
-
-sudo: required
-
-addons:
-  apt:
-    sources:
-      - mysql-5.7-trusty
-    packages:
-      - mysql-sever
-      - mysql-client
 
 env:
   - DB_NAME=boiler
