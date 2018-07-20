@@ -1,5 +1,5 @@
 class QueryBuilder {
-  constructor (DB_CREDENTIALS, Logger) {
+  constructor (config, Logger) {
     /**
      * The knex query builder.
      * @private
@@ -7,7 +7,12 @@ class QueryBuilder {
      */
     this._knex = require('knex')({
       client: 'mysql',
-      connection: DB_CREDENTIALS,
+      connection: {
+        user: config.DB_USER,
+        database: config.DB_NAME,
+        password: config.DB_PASS,
+        host: '127.0.0.1'
+      },
       pool: { min: 0 }
     })
     /**
