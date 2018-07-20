@@ -1,6 +1,7 @@
 import test from 'ava'
 import sinon from 'sinon'
 import Logger from '../Logger'
+console.log(process.env);
 
 test.before(t => {
     t.context.Logger = new Logger()
