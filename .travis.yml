@@ -1,18 +1,16 @@
+sudo: required
+
+dist: trusty
+
 langauge: node_js
 node_js:
-  - "10"
+  - "lts/*"
 
-services:
-  - mysql
+before_install:
+  - npm install -g npm
+  - sudo apt-get upgrade
 
 before_script:
-  - npm install
-  - npm install -g npm
-  - mysql -u root -e 'CREATE DATABASE boiler'
-  - mysql -u root -e "CREATE USER 'test'@'127.0.0.1' IDENTIFIED BY 'test'"
-  - mysql -u root -e "GRANT ALL ON boiler.* TO 'test'@'127.0.01'"
-  - DB_NAME=boiler
-  - DB_USER=test
-
+  - sudo mysql
 
 script: npm run test
