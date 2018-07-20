@@ -19,7 +19,7 @@ class DatabaseManager {
      * The QueryBuilder.
      * @type {QueryBuilder}
      */
-    this._qb = new QueryBuilder(process.env, Logger)
+    this._qb = new QueryBuilder(Logger)
     /**
      * The logger.
      * @private
