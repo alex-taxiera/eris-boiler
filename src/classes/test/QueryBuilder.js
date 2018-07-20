@@ -2,10 +2,10 @@ import test from 'ava'
 const QueryBuilder = require('../QueryBuilder.js')
 const Logger = require('../Logger.js')
 const DB_CREDENTIALS = {
-  database: 'eris-boiler-test',
+  database: process.env.DB_NAME,
   host: '127.0.0.1',
-  user: 'test',
-  password: 'test123'
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS
 }
 
 test.before(async (t) => {
