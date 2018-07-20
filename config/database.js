@@ -16,7 +16,7 @@ const buildDBConfig = (config) => [
         name: 'prefix',
         type: 'string',
         primary: false,
-        default: config.DEFAULT.prefix
+        default: config.PREFIX
       }
     ],
     insert: undefined

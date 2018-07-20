@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "10.5"
+
+services:
+  - mysql
+
+before_install:
+  - npm install -g npm
+
+before_script:
+  - npm install
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test_db;'
+
+script: npm run test

@@ -22,6 +22,6 @@ Check out our guidelines [here.](/CONTRIBUTING.md)
 
 ## Startup
 1. Clone this repository
-2. Create a `config.json` file inside of `src` (use `sample.config.json` as a guide)
+2. Create a `.env` file inside of `src` (use `sample.env` as a guide)
 3. Run `npm install`
 4. Run `npm start`
