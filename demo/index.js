@@ -1,4 +1,4 @@
-const DataClient = require('./classes/DataClient.js')
+const DataClient = require('../src/classes/DataClient.js')
 const config = require('../config/config.json')
 
 let bot = new DataClient(config)
