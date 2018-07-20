@@ -4,7 +4,7 @@ dist: trusty
 
 langauge: node_js
 node_js:
-  - "lts/*"
+  - "10.5"
 
 services:
   - mysql
