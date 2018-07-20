@@ -60,7 +60,7 @@ class DataClient extends require('eris').Client {
      * The DatabaseManager.
      * @type {DatabaseManager}
      */
-    this.dbm = new DatabaseManager(buildDBConfig(config), config.DB_CREDENTIALS, Logger, QueryBuilder)
+    this.dbm = new DatabaseManager(buildDBConfig(config), Logger, QueryBuilder)
     /**
      * The Orator.
      * @type {Orator}

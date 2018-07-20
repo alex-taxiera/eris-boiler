@@ -2,7 +2,7 @@ import test from 'ava'
 import Toggle from '../Toggle'
 
 import Client from '../DataClient'
-const config = require('../../../config/config.json')
+const config = process.env
 
 const client = new Client(config)
 
