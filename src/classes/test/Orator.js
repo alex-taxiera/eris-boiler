@@ -6,7 +6,7 @@ import Client from '../DataClient'
 import Command from '../Command'
 import Permission from '../Permission'
 import Logger from '../Logger'
-const clientConf = require('../../../config/sample.config.json')
+const clientConf = process.env
 
 const client = new Client(clientConf);
 
@@ -96,3 +96,21 @@ test.serial('Speed logs', async t => {
     t.context.Orator._speedLog('test')
     t.true(t.context.log.calledOnce)
 })
+
+/* Process Message thingy(That stonic didn't want to do)...
+ test.serial('', async t => {
+     const message = {
+         content: 'test',
+         member: null,
+         channel: {
+             createMessage: (...params) => new Promise((resolve, reject) => {
+                if (!params) {
+                     reject(new Error('No params'))
+                } else {
+                  resolve(message)
+                }
+             })
+        }
+    }
+})
+*/
