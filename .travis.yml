@@ -5,14 +5,4 @@ langauge: node_js
 node_js:
   - "node"
 
-env:
-  - DB_NAME=test
-  - DB_USER=root
-  - DB_PASS=test_pass
-
-before_script:
-  - cp config/database.travis.yml config/database.yml
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS test;
-  - npm install
-
 script: npm run test
