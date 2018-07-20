@@ -6,11 +6,18 @@ langauge: node_js
 node_js:
   - "lts/*"
 
+services:
+  - mysql
+
 before_install:
   - npm install -g npm
-  - sudo apt-get upgrade
 
 before_script:
-  - sudo mysql
+  - mysql -u root -e 'CREATE DATABASE travis_test_db'
+  - mysql -u root -e "CREATE USER 'travis_test_usr'@'localhost' INDENTIFIED BY 'travis_test_pass'"
+  - mysql -u root -e "GRANT ALL ON travis_test_db.* TO 'travis_test_usr'@'localhost';"
+  - DB_USER=travis_test_usr
+  - DB_NAME=travis_test_db
+  - DB_PASS=travis_test_pass
 
 script: npm run test
