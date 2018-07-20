@@ -3,7 +3,12 @@ services:
 
 langauge: node_js
 node_js:
-  - "node"
+  - "10"
+
+env:
+  - DB_NAME=travis
+  - DB_USER=root
+  - DB_PASS=
 
 before_script:
   - npm install
