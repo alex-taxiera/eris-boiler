@@ -1,16 +1,31 @@
 services:
   - mysql
 
+dist: trusty
+
 langauge: node_js
 node_js:
   - "10"
 
+sudo: required
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-sever
+      - mysql-client
+
 env:
-  - DB_NAME=travis
-  - DB_USER=root
+  - DB_NAME=boiler
+  - DB_USER=test
   - DB_PASS=
 
 before_script:
   - npm install
+  - mysql -u root -e 'CREATE DATABASE boiler'
+  - mysql -u root -e "CREATE USER 'test'@'127.0.0.1' IDENTIFIED BY 'test'"
+  - mysql -u root -e "GRANT ALL ON boiler.* TO 'test'@'127.0.01'"
 
 script: npm run test
