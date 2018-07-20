@@ -55,7 +55,7 @@ class Setting extends require('./SafeClass.js') {
   setValue (value, bot) {
     if (this.value === value) return `${this.name} is already ${this.value}!`
     this.value = bot.config[this.code] = value
-    
+
     this._onChange(bot, value)
     return `${this.name} set to ${this.value}!`
   }
