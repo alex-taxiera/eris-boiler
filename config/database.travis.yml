@@ -1,0 +1,5 @@
+mysql: &mysql
+  adapter: mysql2
+  username: root
+  password: test_pass
+  database: test
