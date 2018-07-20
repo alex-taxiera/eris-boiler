@@ -103,7 +103,7 @@ class DataClient extends require('eris').Client {
      * @type {Object}
      * NOTE: Keep permissions before commands.
      */
-    this._dirs = {
+    this._defaultDirectories = {
       permissions: path.join(__dirname, '../permissions/'),
       commands: path.join(__dirname, '../commands/'),
       events: path.join(__dirname, '../events/'),
