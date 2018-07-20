@@ -8,7 +8,10 @@ class QueryBuilder {
     this._knex = require('knex')({
       client: 'mysql',
       connection: {
-        user: config.DB_USER
+        user: config.DB_USER,
+        database: config.DB_NAME,
+        password: config.DB_PASS,
+        host: '127.0.0.1'
       },
       pool: { min: 0 }
     })
