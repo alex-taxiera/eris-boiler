@@ -10,8 +10,8 @@ before_install:
 
 before_script:
   - npm install
-  - mysql -u root -e 'CREATE DATABASE test_db'
-  - DB_USER=root
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS test_db;'
+  - DB_USER=travis
   - DB_NAME=test_db
 
 script: npm run test
