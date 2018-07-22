@@ -4,7 +4,6 @@
   "description": "A Discord Bot boilerplate using JavaScript and the Eris library",
   "main": "./src/index.js",
   "scripts": {
-    "start": "node src/index.js",
     "test": "ava **/test/*.js",
     "dev": "node bin/dev.js",
     "doc": "jsdoc -c config/.jsdoc.json"
