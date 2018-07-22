@@ -14,12 +14,12 @@ class DatabaseManager {
    * @param {String} DB_CREDENTIALS.password The password associated with your user.
    * @param {Class}  Logger                  The Logger class
    */
-  constructor (dbConfig, DB_CREDENTIALS, Logger, QueryBuilder) {
+  constructor (dbConfig, Logger, QueryBuilder) {
     /**
      * The QueryBuilder.
      * @type {QueryBuilder}
      */
-    this._qb = new QueryBuilder(DB_CREDENTIALS, Logger)
+    this._qb = new QueryBuilder(Logger)
     /**
      * The logger.
      * @private

@@ -1,15 +1,9 @@
 import test from 'ava'
 const QueryBuilder = require('../QueryBuilder.js')
 const Logger = require('../Logger.js')
-const DB_CREDENTIALS = {
-  database: 'eris-boiler-test',
-  host: '127.0.0.1',
-  user: 'test',
-  password: 'test123'
-}
 
 test.before(async (t) => {
-  t.context.QueryBuilder = new QueryBuilder(DB_CREDENTIALS, Logger)
+  t.context.QueryBuilder = new QueryBuilder(Logger)
   t.context.tables = {
     general: 'QueryBuilderTest',
     empty: 'QueryBuilderTestEmpty',
