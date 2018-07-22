@@ -30,8 +30,8 @@ class Status {
    * Set the status to the default.
    * @param {DataClient} bot The bot object.
    */
-  default (bot) {
-    const { name, type } = bot.config.DEFAULT.status
+  async default (bot) {
+    const { name, type } = await bot.dbm.getDefaultStatus()
     this.setStatus(bot, { name, type })
   }
   /**

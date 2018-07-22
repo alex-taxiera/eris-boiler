@@ -49,7 +49,9 @@ class DatabaseManager {
   addStatus (name, type) {
     return this._qb.run('insert', { table: 'statuses', data: { name, type } })
   }
-
+  getDefaultStatus () {
+    return this._qb.run('get', { table: 'statuses', columns: ['name', 'type'], where: {default: true} })
+  }
   /**
    * Get data on a guild from the guild_settings table
    * @param  {String} id The ID of the guild.
@@ -58,7 +60,13 @@ class DatabaseManager {
   getSettings (id) {
     return this._qb.run('get', { table: 'guild_settings', where: { id } })
   }
-
+  /**
+   * Get the statuses of the bot from the statuses table.
+   * @return {Object[]} Array of statuses, name and type.
+   */
+  getStatuses () {
+    return this._qb.run('select', { table: 'statuses', columns: ['name', 'type'] })
+  }
   /**
    * Get data on a guild from the guild_toggles table
    * @param  {String} id The ID of the guild.
@@ -67,15 +75,6 @@ class DatabaseManager {
   getToggles (id) {
     return this._qb.run('get', { table: 'guild_toggles', where: { id } })
   }
-
-  /**
-   * Get the statuses of the bot from the statuses table.
-   * @return {Object[]} Array of statuses, name and type.
-   */
-  getStatuses () {
-    return this._qb.run('select', { table: 'statuses', columns: ['name', 'type'] })
-  }
-
   /**
    * Check saved guild data against live guild data.
    * @param {Collection<Guild>} guilds The bots collection of guilds at start up.
