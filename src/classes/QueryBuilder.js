@@ -50,7 +50,9 @@ class QueryBuilder {
       .then((val) => val[0]['count(*)'])
       .catch(this._logger.error)
   }
-
+  /**
+   * @private
+   */
   _createTable ({ name, columns, insert }) {
     return this._knex.schema.hasTable(name).then((exists) => {
       if (exists) return

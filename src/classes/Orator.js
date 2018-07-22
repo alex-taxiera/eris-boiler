@@ -119,6 +119,7 @@ class Orator {
   }
   /**
    * Parse the response from a command.
+   * @private
    * @param    {(Object|String)}    response                The return value of the command.
    * @return   {Object}                                     The message data.
    * @property {Object}             message.content         The content to pass createMessage.
@@ -137,7 +138,8 @@ class Orator {
   }
   /**
    * Log speed of command execution to file.
-   * @param {String} name The name of the command that was executed.
+   * @private
+   * @param   {String} name The name of the command that was executed.
    */
   async _speedLog (name) {
     const { writeFile, readFile } = require('fs').promises
