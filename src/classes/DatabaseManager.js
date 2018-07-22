@@ -159,8 +159,9 @@ class DatabaseManager {
 
   /**
    * Setup database tables.
-   * @param  {Object[]}   config The DB schema.
-   * @return {Promise[]}         The results of the table creation.
+   * @private
+   * @param   {Object[]}   config The DB schema.
+   * @return  {Promise[]}         The results of the table creation.
    */
   _setup (config) {
     return Promise.all(config.map((table) => this._qb.run('createTable', table)))

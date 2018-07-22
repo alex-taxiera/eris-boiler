@@ -163,14 +163,18 @@ class DataClient extends require('eris').Client {
   updateGuildToggles (id, toggles) {
     this._updateCache(id, '_guild_toggles', toggles, this.dbm.updateToggles)
   }
-
+  /**
+   * @private
+   */
   async _getData (id, cache, dbGet) {
     if (this._inCache(id, cache)) return this[cache].get(id)
     const dbData = await dbGet(id)
     this[cache].set(id, dbData)
     return dbData
   }
-
+  /**
+   * @private
+   */
   _inCache (id, cache) {
     return this[cache].get(id) !== undefined
   }
@@ -191,7 +195,9 @@ class DataClient extends require('eris').Client {
       }
     }
   }
-
+  /**
+   * @private
+   */
   _updateCache (id, cache, data, dbUpdate) {
     dbUpdate(id, data)
     const old = this[cache].get(id)
@@ -200,10 +206,15 @@ class DataClient extends require('eris').Client {
     }
     this[cache].set(id, data)
   }
-
+  /**
+   * @private
+   */
   _genericLoader (directory, name, data) {
     this[name].set(data.name, data)
   }
+  /**
+   * @private
+   */
   _commandLoader (directory, name, data) {
     data = data(this)
     for (let i = 0; i < data.aliases.length; i++) {
@@ -211,6 +222,9 @@ class DataClient extends require('eris').Client {
     }
     this[name].set(data.name, data)
   }
+  /**
+   * @private
+   */
   _eventLoader (directory, name, data, file) {
     this.on(file.split('.')[0], data.bind(null, this))
     delete require.cache[require.resolve(path.join(directory, file))]
