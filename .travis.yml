@@ -3,15 +3,14 @@ node_js:
   - "10.5"
 services:
   - mysql
-before_install:
-  - npm install -g npm
+before_script:
+  - npm i -g npm
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
-before_script:
-  - npm install
+  - npm i
   - mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
 script:
-  - npm run test
+  - npm test
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
