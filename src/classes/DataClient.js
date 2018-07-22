@@ -223,8 +223,8 @@ class DataClient extends require('eris').Client {
   async _setup () {
     const { readdir } = require('fs').promises
 
-    for (const name in this._dirs) {
-      const directory = this._dirs[name]
+    for (const name in this._defaultDirectories) {
+      const directory = this._defaultDirectories[name]
       let loader
       await readdir(directory).then((files) => {
         this.logger.log(`Loading a total of ${files.length} ${name}`)
