@@ -1,14 +1,13 @@
 import test from 'ava'
 import sinon from 'sinon'
-import Orator from '../Orator'
 
+import Orator from '../Orator'
 import Client from '../DataClient'
 import Command from '../Command'
 import Permission from '../Permission'
 import Logger from '../Logger'
-const clientConf = process.env
 
-const client = new Client(clientConf)
+const client = new Client(process.env)
 
 const permission = new Permission({
   name: 'Guild Owner',

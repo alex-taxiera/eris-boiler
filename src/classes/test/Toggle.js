@@ -1,10 +1,9 @@
 import test from 'ava'
+
 import Toggle from '../Toggle'
-
 import Client from '../DataClient'
-const config = process.env
 
-const client = new Client(config)
+const client = new Client(process.env)
 
 const clientTest = {
   name: 'Super-Bot',
