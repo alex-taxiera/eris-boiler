@@ -1,13 +1,19 @@
 class QueryBuilder {
-  constructor (DB_CREDENTIALS, Logger) {
+  constructor (Logger) {
     /**
      * The knex query builder.
      * @private
      * @type    {Function}
      */
+    const { DB_USER, DB_NAME, DB_PASS } = process.env
     this._knex = require('knex')({
       client: 'mysql',
-      connection: DB_CREDENTIALS,
+      connection: {
+        user: DB_USER,
+        database: DB_NAME,
+        password: DB_PASS,
+        host: '127.0.0.1'
+      },
       pool: { min: 0 }
     })
     /**
