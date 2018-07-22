@@ -10,6 +10,6 @@ before_install:
 
 before_script:
   - npm install
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS eris-boiler-test;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
 
 script: npm run test
