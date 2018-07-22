@@ -2,7 +2,7 @@ const nodemon = require('nodemon')
 
 try {
   nodemon({
-    script: 'src/index.js',
+    script: 'demo/index.js',
     ext: 'js',
     watch: 'src'
   })

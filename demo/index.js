@@ -1,7 +1,6 @@
-require('dotenv').load({ path: '../config/.env' })
+require('dotenv').load()
 const DataClient = require('../src/classes/DataClient.js')
-const config = process.env
 
-let bot = new DataClient(config)
+const bot = new DataClient(process.env)
 /* log bot into Discord */
 bot.connect()

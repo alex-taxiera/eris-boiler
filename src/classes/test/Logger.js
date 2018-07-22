@@ -1,5 +1,6 @@
 import test from 'ava'
 import sinon from 'sinon'
+
 import Logger from '../Logger'
 
 test.before((t) => {

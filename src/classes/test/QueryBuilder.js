@@ -1,4 +1,5 @@
 import test from 'ava'
+require('dotenv').load()
 const QueryBuilder = require('../QueryBuilder.js')
 const Logger = require('../Logger.js')
 
