@@ -7,17 +7,14 @@
 class DatabaseManager {
   /**
    * Create a database manager.
-   * @param {Object} DB_CREDENTIALS          The credentials to create the db connection. This should be filled in the config file.
-   * @param {String} DB_CREDENTIALS.database The name of your database.
-   * @param {String} DB_CREDENTIALS.host     The address of your database.
-   * @param {String} DB_CREDENTIALS.user     The username to login with.
-   * @param {String} DB_CREDENTIALS.password The password associated with your user.
-   * @param {Class}  Logger                  The Logger class
+   * @param {Object} tables The tables to add to the database.
+   * @param {Class}  Logger The Logger class
    */
-  constructor (dbConfig, Logger, QueryBuilder) {
+  constructor (tables, Logger, QueryBuilder) {
     /**
      * The QueryBuilder.
-     * @type {QueryBuilder}
+     * @private
+     * @type    {QueryBuilder}
      */
     this._qb = new QueryBuilder(Logger)
     /**
@@ -27,7 +24,7 @@ class DatabaseManager {
      */
     this._logger = new Logger()
     /* set up database */
-    this._setup(dbConfig)
+    this._setup(tables)
   }
 
   /**
