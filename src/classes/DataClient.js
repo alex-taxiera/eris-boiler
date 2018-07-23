@@ -6,7 +6,8 @@ const QueryBuilder = require('./QueryBuilder.js')
 const Orator = require('./Orator.js')
 const Logger = require('./Logger.js')
 const Status = require('./Status.js')
-const buildDBConfig = require('../../config/database.js')
+const settingDefaults = require('../../config/settings.json')
+const dbDefaults = require('../../config/database.json')
 const path = require('path')
 /**
  * Class representing a DataClient.
@@ -15,42 +16,17 @@ const path = require('path')
 class DataClient extends require('eris').Client {
   /**
    * Create a client.
-   * @param {Object}  config                         The this config data.
-   * @param {String}  config.TOKEN                   The this token.
-   * @param {Object}  config.DB_CREDENTIALS          The database credentials.
-   * @param {String}  config.DB_CREDENTIALS.database The name of the database.
-   * @param {String}  config.DB_CREDENTIALS.host     The host address of the server.
-   * @param {String}  config.DB_CREDENTIALS.user     The username to login with.
-   * @param {String}  config.DB_CREDENTIALS.password The password to login with.
-   * @param {Object}  config.DEFAULT                 The bots default values.
-   * @param {String}  config.DEFAULT.prefix          The default prefix.
-   * @param {Boolean} config.DEFAULT.rotateStatus    The default for changing this status.
-   * @param {Object}  config.DEFAULT.status          The default this status.
-   * @param {String}  config.DEFAULT.status.name     The default this status name.
-   * @param {Number}  config.DEFAULT.status.type     The default this status type.
-   * @param {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.
-   * @param {Object}  options                        Same as Client.
+   * @param {Object} options                 Same as Client.
+   * @param {Object} options.defaultSettings Default values for settings.
+   * @param {Object} options.tables          Additional database tables to create.
    */
-  constructor (config, options) {
-    super(config.TOKEN, options)
+  constructor (options) {
+    super(process.env.TOKEN, options)
     /**
-     * The this config data.
-     * @type     {Object}
-     * @property {String}  config.TOKEN                   The this token.
-     * @property {Object}  config.DB_CREDENTIALS          The database credentials.
-     * @property {String}  config.DB_CREDENTIALS.database The name of the database.
-     * @property {String}  config.DB_CREDENTIALS.host     The host address of the server.
-     * @property {String}  config.DB_CREDENTIALS.user     The username to login with.
-     * @property {String}  config.DB_CREDENTIALS.password The password to login with.
-     * @property {Object}  config.DEFAULT                 The bots default values.
-     * @property {String}  config.DEFAULT.prefix          The default prefix.
-     * @property {Boolean} config.DEFAULT.rotateStatus    The default for changing this status.
-     * @property {Object}  config.DEFAULT.status          The default this status.
-     * @property {String}  config.DEFAULT.status.name     The default this status name.
-     * @property {Number}  config.DEFAULT.status.type     The default this status type.
-     * @property {Boolean} config.DEFAULT.status.default  The boolean indicating to the database that this is the default status.
+     * The default settings.
+     * @type {Object}
      */
-    this.config = config
+    this.defaultSettings = { ...settingDefaults, ...options.defaultSettings }
     /**
      * The logger.
      * @type {Logger}
