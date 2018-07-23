@@ -209,8 +209,17 @@ class DataClient extends require('eris').Client {
   /**
    * @private
    */
-  _genericLoader (directory, name, data) {
+  _permissionLoader (directory, name, data) {
     this[name].set(data.name, data)
+  }
+  /**
+   * @private
+   */
+  _settingLoader (directory, name, data) {
+    this[name].set(data.name, data)
+    if (this.defaultSettings[data.name]) {
+      this[name][data.name].setValue(this.defaultSettings[data.name], this)
+    }
   }
   /**
    * @private
@@ -250,9 +259,11 @@ class DataClient extends require('eris').Client {
             loader = this._eventLoader
             break
           case 'permissions':
+            loader = this._permissionLoader
+            break
           case 'settings':
           case 'toggles':
-            loader = this._genericLoader
+            loader = this._settingLoader
             break
           default:
             this.logger.error(`no "${name}" directory!`)
