@@ -36,7 +36,7 @@ class DataClient extends require('eris').Client {
      * The DatabaseManager.
      * @type {DatabaseManager}
      */
-    this.dbm = new DatabaseManager(buildDBConfig(config), Logger, QueryBuilder)
+    this.dbm = new DatabaseManager(dbDefaults.concat(options.tables), Logger, QueryBuilder)
     /**
      * The Orator.
      * @type {Orator}
@@ -138,6 +138,22 @@ class DataClient extends require('eris').Client {
 
   updateGuildToggles (id, toggles) {
     this._updateCache(id, '_guild_toggles', toggles, this.dbm.updateToggles)
+  }
+  /**
+   * @private
+   */
+  _combineTables (defaultTables, newTables) {
+    const results = {}
+    for (const table in newTables) {
+      if (defaultTables[table]) {
+        results[table] = {}
+        for (const column in defaultTables[table]) {
+          results[table][column] = { ...defaultTables[table][column], ...newTables[table][column] }
+        }
+      } else {
+        results[table] = newTables[table]
+      }
+    }
   }
   /**
    * @private
