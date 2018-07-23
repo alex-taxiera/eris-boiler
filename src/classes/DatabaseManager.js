@@ -129,11 +129,11 @@ class DatabaseManager {
    * @param  {String}    prefix The prefix to set as default.
    * @return {undefined}
    */
-  updateDefaultPrefix (prefix) {
-    this._qb._knex.schema.alterTable('guild_settings', (table) => {
-      table.string('prefix').defaultTo(prefix)
-    })
-  }
+  // updateDefaultPrefix (prefix) {
+  //   this._qb._knex.schema.alterTable('guild_settings', (table) => {
+  //     table.string('prefix').defaultTo(prefix)
+  //   })
+  // }
 
   /**
    * Update a guild entry in the guild_settings table.
