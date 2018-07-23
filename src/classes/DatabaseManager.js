@@ -29,11 +29,12 @@ class DatabaseManager {
 
   /**
    * Insert a guild into the guild_settings table.
-   * @param  {String}             id The ID of the guild
-   * @return {(Number|undefined)}    Returns 0 on success or undefined.
+   * @param  {String}             id     The ID of the guild.
+   * @param  {String}             prefix The default prefix
+   * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
-  async addClient (id) {
-    return this._qb.run('insert', { table: 'guild_settings', data: { id } })
+  async addClient (id, prefix) {
+    return this._qb.run('insert', { table: 'guild_settings', data: { id, prefix } })
       .then(() => this._qb.run('insert', { table: 'guild_toggles', data: { id } }))
   }
 
