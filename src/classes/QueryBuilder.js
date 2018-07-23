@@ -53,7 +53,7 @@ class QueryBuilder {
   /**
    * @private
    */
-  _createTable ({ name, columns, insert }) {
+  _createTable ({ name, columns }) {
     return this._knex.schema.hasTable(name).then((exists) => {
       if (exists) return
       return this._qb._knex.schema.createTable(name, (table) => {
@@ -67,12 +67,6 @@ class QueryBuilder {
             table[column.type](column.name).defaultTo(column.default)
           } else {
             table[column.type](column.name)
-          }
-        }
-      }).then(async () => {
-        if (insert !== undefined) {
-          for (const data of insert) {
-            await this._insert({ table: name, data })
           }
         }
       })
