@@ -161,8 +161,12 @@ class DatabaseManager {
    * @param   {Object[]}   config The DB schema.
    * @return  {Promise[]}         The results of the table creation.
    */
-  _setup (config) {
-    return Promise.all(config.map((table) => this._qb.run('createTable', table)))
+  _setup (tables) {
+    const promises = []
+    for (const name in tables) {
+      promises.push(this._qb.run('createTable', { name, columns: tables[name] }))
+    }
+    return Promise.all(promises)
   }
 }
 
