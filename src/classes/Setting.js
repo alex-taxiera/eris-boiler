@@ -57,7 +57,7 @@ class Setting extends require('./SafeClass.js') {
     this.value = bot.defaultSettings[this.name] = value
 
     const { writeFile } = require('fs').promises
-    writeFile('../../config/settings.json', JSON.stringify(bot.defaultSettings, undefined, 2))
+    writeFile('config/settings.json', JSON.stringify(bot.defaultSettings, undefined, 2))
       .then((success) => bot.logger.success('wrote to config'))
       .catch(bot.logger.error)
 
