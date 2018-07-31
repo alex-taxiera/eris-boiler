@@ -19,7 +19,11 @@ class Orator {
   async processMessage (bot, msg) {
     this._start = Date.now() // NOTE: save in case of analytics
     if (!this._isGuild(msg)) return
-    const { prefix } = await bot.dbm.getSettings(msg.channel.guild.id)
+    let { prefix } = await bot.dbm.getSettings(msg.channel.guild.id)
+    if (!prefix) {
+      prefix = bot.defaultSettings.prefix
+      await bot.dbm.updateSettings(msg.channel.guild.id, { prefix })
+    }
     if (!this._isCommandByUser(bot.user, msg, prefix)) return
 
     const params = msg.content.substring(prefix.length).split(' ')
