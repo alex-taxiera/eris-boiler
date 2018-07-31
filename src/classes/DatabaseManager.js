@@ -23,8 +23,12 @@ class DatabaseManager {
      * @type    {Logger}
      */
     this._logger = new Logger()
-    /* set up database */
-    this._setup(tables)
+    /**
+     * The table data to create our database with.
+     * @private
+     * @type    {Object}
+     */
+    this._tables = tables
   }
 
   /**
@@ -78,6 +82,7 @@ class DatabaseManager {
    * @param {Collection<Guild>} guilds The bots collection of guilds at start up.
    */
   async initialize (guilds) {
+    await this._createTables(this._tables)
     let tmpGuilds = new Map(guilds)
     const saved = await this._qb.run('select', { table: 'guild_settings' })
     if (saved.length > 0) {
@@ -156,17 +161,15 @@ class DatabaseManager {
   }
 
   /**
-   * Setup database tables.
+   * Create database tables.
    * @private
    * @param   {Object[]}   config The DB schema.
    * @return  {Promise[]}         The results of the table creation.
    */
-  _setup (tables) {
-    const promises = []
+  async _createTables (tables) {
     for (const name in tables) {
-      promises.push(this._qb.run('createTable', { name, columns: tables[name] }))
+      await this._qb.run('createTable', { name, columns: tables[name] })
     }
-    return Promise.all(promises)
   }
 }
 
