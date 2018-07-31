@@ -1,5 +1,8 @@
 {
   "prefix": "!",
-  "status": "Rocket League",
-  "rotateStatus": true,
+  "status": {
+    "name": "Rocket League",
+    "type": 0
+  },
+  "rotateStatus": true
 }
