@@ -219,16 +219,22 @@ class DataClient extends require('eris').Client {
     const { readdir } = require('fs').promises
 
     for (const name in this._defaultDirectories) {
-      const defaultFiles = await readdir(this._defaultDirectories[name])
+      let defaultFiles = await readdir(this._defaultDirectories[name])
         .catch(this.logger.error)
       const userFiles = await readdir(this._userDirectories[name])
         .catch(() => this.logger.warn(`You don't have the ${name} folder in your source folder!`))
-      const files = userFiles
-        ? userFiles.concat(defaultFiles.map((file) => !userFiles.includes(file)))
+      defaultFiles = userFiles
+        ? defaultFiles.filter((file) => !userFiles.includes(file))
         : defaultFiles
-      this.logger.log(`Loading a total of ${files.length} ${name}`)
+      const total = userFiles
+        ? defaultFiles.length + userFiles.length
+        : defaultFiles.length
+      this.logger.log(`Loading a total of ${total} ${name}`)
       const loader = this._selectLoader(name)
-      if (loader) this._loadData(this._defaultDirectories[name], name, files, loader.bind(this))
+      if (loader) {
+        this._loadData(this._defaultDirectories[name], name, defaultFiles, loader.bind(this))
+        if (userFiles) this._loadData(this._userDirectories[name], name, userFiles, loader.bind(this))
+      }
     }
   }
 }
