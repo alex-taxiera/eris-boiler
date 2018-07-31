@@ -48,8 +48,8 @@ class DatabaseManager {
    * @param  {Number}             [type] The type of the status.
    * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
-  addStatus (name, type) {
-    return this._qb.run('insert', { table: 'statuses', data: { name, type } })
+  addStatus (name, type, def) {
+    return this._qb.run('insert', { table: 'statuses', data: { name, type, default: def } })
   }
   getDefaultStatus () {
     return this._qb.run('get', { table: 'statuses', columns: ['name', 'type'], where: {default: true} })
