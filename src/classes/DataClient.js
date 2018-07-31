@@ -21,6 +21,7 @@ class DataClient extends require('eris').Client {
    * @param {Object} options.tables          Additional database tables to create.
    */
   constructor (options) {
+    if (!options) options = {}
     super(process.env.TOKEN, options)
     /**
      * The default settings.
@@ -36,7 +37,7 @@ class DataClient extends require('eris').Client {
      * The DatabaseManager.
      * @type {DatabaseManager}
      */
-    this.dbm = new DatabaseManager(dbDefaults.concat(options.tables), Logger, QueryBuilder)
+    this.dbm = new DatabaseManager(this._combineTables(dbDefaults, options.tables), Logger, QueryBuilder)
     /**
      * The Orator.
      * @type {Orator}
