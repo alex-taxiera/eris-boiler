@@ -121,6 +121,24 @@ class DataClient extends require('eris').Client {
     }
     return results
   }
+  _getDirectories () {
+    return {
+      defaultDirectories: {
+        permissions: path.join(__dirname, '../permissions/'),
+        commands: path.join(__dirname, '../commands/'),
+        events: path.join(__dirname, '../events/'),
+        settings: path.join(__dirname, '../settings/'),
+        toggles: path.join(__dirname, '../toggles/')
+      },
+      userDirectories: {
+        permissions: path.join(process.cwd(), `${this._sourceFolder}/permissions/`),
+        commands: path.join(process.cwd(), `${this._sourceFolder}/commands/`),
+        events: path.join(process.cwd(), `${this._sourceFolder}/events/`),
+        settings: path.join(process.cwd(), `${this._sourceFolder}/settings/`),
+        toggles: path.join(process.cwd(), `${this._sourceFolder}/toggles/`)
+      }
+    }
+  }
   /**
    * Load data files.
    * @private
@@ -195,20 +213,7 @@ class DataClient extends require('eris').Client {
    */
   async _setup () {
     const { readdir } = require('fs').promises
-    const defaultDirectories = {
-      permissions: path.join(__dirname, '../permissions/'),
-      commands: path.join(__dirname, '../commands/'),
-      events: path.join(__dirname, '../events/'),
-      settings: path.join(__dirname, '../settings/'),
-      toggles: path.join(__dirname, '../toggles/')
-    }
-    const userDirectories = {
-      permissions: path.join(process.cwd(), `${this._sourceFolder}/permissions/`),
-      commands: path.join(process.cwd(), `${this._sourceFolder}/commands/`),
-      events: path.join(process.cwd(), `${this._sourceFolder}/events/`),
-      settings: path.join(process.cwd(), `${this._sourceFolder}/settings/`),
-      toggles: path.join(process.cwd(), `${this._sourceFolder}/toggles/`)
-    }
+    const { defaultDirectories, userDirectories } = this._getDirectories()
     for (const name in defaultDirectories) {
       let defaultFiles = await readdir(defaultDirectories[name])
         .catch(this.logger.error)
