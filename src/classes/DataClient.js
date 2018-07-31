@@ -143,17 +143,17 @@ class DataClient extends require('eris').Client {
    * @private
    */
   _combineTables (defaultTables, newTables) {
-    const results = {}
+    const results = defaultTables
     for (const table in newTables) {
-      if (defaultTables[table]) {
-        results[table] = {}
-        for (const column in defaultTables[table]) {
+      if (results[table]) {
+        for (const column in results[table]) {
           results[table][column] = { ...defaultTables[table][column], ...newTables[table][column] }
         }
       } else {
         results[table] = newTables[table]
       }
     }
+    return results
   }
   /**
    * @private
