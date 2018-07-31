@@ -87,26 +87,7 @@ class DataClient extends require('eris').Client {
       settings: path.join(__dirname, '../settings/'),
       toggles: path.join(__dirname, '../toggles/')
     }
-    /**
-     * The guild settings cache.
-     * @type {Map}
-     */
-    this._guild_settings = new Map()
-    /**
-     * The guild toggles cache.
-     * @type {Map}
-     */
-    this._guild_toggles = new Map()
-
     this._setup()
-  }
-
-  getGuildSettings (id) {
-    return this._getData(id, '_guild_settings', this.dbm.getSettings)
-  }
-
-  getGuildToggles (id) {
-    return this._getData(id, '_guild_toggles', this.dbm.getToggles)
   }
   /**
    * Whether or not a member can has a certain permission.
@@ -132,14 +113,6 @@ class DataClient extends require('eris').Client {
     }
     return permLevel
   }
-
-  updateGuildSettings (id, settings) {
-    this._updateCache(id, '_guild_settings', settings, this.dbm.updateSettings)
-  }
-
-  updateGuildToggles (id, toggles) {
-    this._updateCache(id, '_guild_toggles', toggles, this.dbm.updateToggles)
-  }
   /**
    * @private
    */
@@ -157,21 +130,6 @@ class DataClient extends require('eris').Client {
     return results
   }
   /**
-   * @private
-   */
-  async _getData (id, cache, dbGet) {
-    if (this._inCache(id, cache)) return this[cache].get(id)
-    const dbData = await dbGet(id)
-    this[cache].set(id, dbData)
-    return dbData
-  }
-  /**
-   * @private
-   */
-  _inCache (id, cache) {
-    return this[cache].get(id) !== undefined
-  }
-  /**
    * Load data files.
    * @private
    * @param   {String}   directory Path to permission directory.
@@ -187,17 +145,6 @@ class DataClient extends require('eris').Client {
         this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t\u0020${e}`)
       }
     }
-  }
-  /**
-   * @private
-   */
-  _updateCache (id, cache, data, dbUpdate) {
-    dbUpdate(id, data)
-    const old = this[cache].get(id)
-    for (const key in old) {
-      if (!data[key]) data[key] = old[key]
-    }
-    this[cache].set(id, data)
   }
   /**
    * @private
