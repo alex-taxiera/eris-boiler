@@ -1,5 +1,5 @@
 require('dotenv').load()
-const DataClient = require('../src/classes/DataClient.js')
+const { DataClient } = require('../')
 
 const bot = new DataClient()
 /* log bot into Discord */
