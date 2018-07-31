@@ -174,9 +174,8 @@ class DataClient extends require('eris').Client {
   /**
    * @private
    */
-  _eventLoader (directory, name, data, file) {
-    this.on(file.split('.')[0], data.bind(null, this))
-    delete require.cache[require.resolve(path.join(directory, file))]
+  _eventLoader (name, data) {
+    this.on(data.name, data.run.bind(null, this))
   }
   /**
    * Select a loader based on type
