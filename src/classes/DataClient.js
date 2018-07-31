@@ -17,6 +17,7 @@ class DataClient extends require('eris').Client {
   /**
    * Create a client.
    * @param {Object} options                 Same as Client.
+   * @param {String} options.sourceFolder    Source folder to check for data folders such as commands (path from root).
    * @param {Object} options.defaultSettings Default values for settings.
    * @param {Object} options.tables          Additional database tables to create.
    */
@@ -75,10 +76,10 @@ class DataClient extends require('eris').Client {
     this.toggles = new Map()
 
     /**
-     * The directories to load files from.
+     * The directories to load default files from.
      * @private
-     * @type {Object}
-     * NOTE: Keep permissions before commands.
+     * @type    {Object}
+     * NOTE              Keep permissions before commands.
      */
     this._defaultDirectories = {
       permissions: path.join(__dirname, '../permissions/'),
@@ -86,6 +87,19 @@ class DataClient extends require('eris').Client {
       events: path.join(__dirname, '../events/'),
       settings: path.join(__dirname, '../settings/'),
       toggles: path.join(__dirname, '../toggles/')
+    }
+    /**
+     * The directories to load user files from.
+     * @private
+     * @type    {Object}
+     * NOTE              Keep permissions before commands.
+     */
+    this._userDirectories = {
+      permissions: path.join(process.cwd(), `${options.sourceFolder}/permissions/`),
+      commands: path.join(process.cwd(), `${options.sourceFolder}/commands/`),
+      events: path.join(process.cwd(), `${options.sourceFolder}/events/`),
+      settings: path.join(process.cwd(), `${options.sourceFolder}/settings/`),
+      toggles: path.join(process.cwd(), `${options.sourceFolder}/toggles/`)
     }
     this._setup()
   }
@@ -139,8 +153,7 @@ class DataClient extends require('eris').Client {
   _loadData (directory, name, files, loader) {
     for (let i = 0; i < files.length; i++) {
       try {
-        const data = require(path.join(directory, files[i]))
-        loader(directory, name, data, files[i])
+        loader(name, require(path.join(directory, files[i])))
       } catch (e) {
         this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t\u0020${e}`)
       }
@@ -149,13 +162,13 @@ class DataClient extends require('eris').Client {
   /**
    * @private
    */
-  _permissionLoader (directory, name, data) {
+  _permissionLoader (name, data) {
     this[name].set(data.name, data)
   }
   /**
    * @private
    */
-  _settingLoader (directory, name, data) {
+  _settingLoader (name, data) {
     this[name].set(data.name, data)
     if (this.defaultSettings[data.name]) {
       this[name].get(data.name).value = this.defaultSettings[data.name]
@@ -164,7 +177,7 @@ class DataClient extends require('eris').Client {
   /**
    * @private
    */
-  _commandLoader (directory, name, data) {
+  _commandLoader (name, data) {
     data = data(this)
     for (let i = 0; i < data.aliases.length; i++) {
       this.aliases.set(data.aliases[i], data.name)
@@ -181,7 +194,7 @@ class DataClient extends require('eris').Client {
    * Select a loader based on type
    * @private
    * @param   {String}   name The directory name/file type.
-   * @return  {Function} The proper loader function.
+   * @return  {Function}      The proper loader function.
    */
   _selectLoader (name) {
     switch (name) {
@@ -206,11 +219,16 @@ class DataClient extends require('eris').Client {
     const { readdir } = require('fs').promises
 
     for (const name in this._defaultDirectories) {
-      await readdir(this._defaultDirectories[name]).then((files) => {
-        this.logger.log(`Loading a total of ${files.length} ${name}`)
-        const loader = this._selectLoader(name)
-        if (loader) this._loadData(this._defaultDirectories[name], name, files, loader.bind(this))
-      }).catch(this.logger.error)
+      const defaultFiles = await readdir(this._defaultDirectories[name])
+        .catch(this.logger.error)
+      const userFiles = await readdir(this._userDirectories[name])
+        .catch(() => this.logger.warn(`You don't have the ${name} folder in your source folder!`))
+      const files = userFiles
+        ? userFiles.concat(defaultFiles.map((file) => !userFiles.includes(file)))
+        : defaultFiles
+      this.logger.log(`Loading a total of ${files.length} ${name}`)
+      const loader = this._selectLoader(name)
+      if (loader) this._loadData(this._defaultDirectories[name], name, files, loader.bind(this))
     }
   }
 }
