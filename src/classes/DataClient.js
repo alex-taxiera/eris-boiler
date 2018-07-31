@@ -210,7 +210,7 @@ class DataClient extends require('eris').Client {
   _settingLoader (directory, name, data) {
     this[name].set(data.name, data)
     if (this.defaultSettings[data.name]) {
-      this[name][data.name].setValue(this.defaultSettings[data.name], this)
+      this[name].get(data.name).value = this.defaultSettings[data.name]
     }
   }
   /**
