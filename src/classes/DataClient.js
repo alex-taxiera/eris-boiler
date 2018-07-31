@@ -178,7 +178,27 @@ class DataClient extends require('eris').Client {
     this.on(file.split('.')[0], data.bind(null, this))
     delete require.cache[require.resolve(path.join(directory, file))]
   }
-
+  /**
+   * Select a loader based on type
+   * @private
+   * @param   {String}   name The directory name/file type.
+   * @return  {Function} The proper loader function.
+   */
+  _selectLoader (name) {
+    switch (name) {
+      case 'commands':
+        return this._commandLoader
+      case 'events':
+        return this._eventLoader
+      case 'permissions':
+        return this._permissionLoader
+      case 'settings':
+      case 'toggles':
+        return this._settingLoader
+      default:
+        this.logger.error(`no "${name}" directory!`)
+    }
+  }
   /**
    * Set up all data for DataClient.
    * @private
@@ -187,28 +207,10 @@ class DataClient extends require('eris').Client {
     const { readdir } = require('fs').promises
 
     for (const name in this._defaultDirectories) {
-      const directory = this._defaultDirectories[name]
-      let loader
-      await readdir(directory).then((files) => {
+      await readdir(this._defaultDirectories[name]).then((files) => {
         this.logger.log(`Loading a total of ${files.length} ${name}`)
-        switch (name) {
-          case 'commands':
-            loader = this._commandLoader
-            break
-          case 'events':
-            loader = this._eventLoader
-            break
-          case 'permissions':
-            loader = this._permissionLoader
-            break
-          case 'settings':
-          case 'toggles':
-            loader = this._settingLoader
-            break
-          default:
-            this.logger.error(`no "${name}" directory!`)
-        }
-        if (loader) this._loadData(directory, name, files, loader.bind(this))
+        const loader = this._selectLoader(name)
+        if (loader) this._loadData(this._defaultDirectories[name], name, files, loader.bind(this))
       }).catch(this.logger.error)
     }
   }
