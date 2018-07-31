@@ -85,7 +85,7 @@ class DatabaseManager {
     await this._createTables(this._tables)
     let tmpGuilds = new Map(guilds)
     const saved = await this._qb.run('select', { table: 'guild_settings' })
-    if (saved.length > 0) {
+    if (saved && saved.length > 0) {
       for (let i = 0; i < saved.length; i++) {
         const id = saved[i].id
         const guild = tmpGuilds.get(id)
