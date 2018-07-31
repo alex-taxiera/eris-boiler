@@ -58,10 +58,11 @@ class QueryBuilder {
       if (exists) return
       return this._knex.schema.createTable(name, (table) => {
         table.charset('utf8')
-        for (const column of columns) {
-          if (column.primary && column.default !== undefined) {
+        for (let column in columns) {
+          column = columns[column]
+          if (column.primary === true && column.default !== undefined) {
             table[column.type](column.name).primary().defaultTo(column.default)
-          } else if (column.primary) {
+          } else if (column.primary === true) {
             table[column.type](column.name).primary()
           } else if (column.default !== undefined) {
             table[column.type](column.name).defaultTo(column.default)
