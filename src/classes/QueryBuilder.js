@@ -97,7 +97,8 @@ class QueryBuilder {
    * @return  {Object}                               The first matching row.
    */
   async _get ({ table, columns = '*', where = true }) {
-    return (await this._select({ table, columns, limit: 1, where }))[0]
+    const results = await this._select({ table, columns, limit: 1, where })
+    return results ? results[0] : undefined
   }
 
   /**
