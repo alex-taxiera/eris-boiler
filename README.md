@@ -54,7 +54,7 @@ module.exports = (bot) => new Command(
 ```js
 // src/events/presenceUpdate.js
 // event files should be named by event name
-const Event = require('../classes/Event.js')
+const { Event } = require('eris-boiler')
 
 module.exports = new Event({
   name: 'presenceUpdate', // name should match event name
