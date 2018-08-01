@@ -1,6 +1,13 @@
 /**
- * @external {ExtendedUser} https://abal.moe/Eris/docs/ExtendedUser
+ * The Eris ExtendedUser
+ * @external ExtendedUser
+ * @see {@link https://abal.moe/Eris/docs/ExtendedUser|ExtendedUser}
  * @external {Message}      https://abal.moe/Eris/docs/Message
+ */
+/**
+ * The Eris Message
+ * @external Message
+ * @see {@link https://abal.moe/Eris/docs/Message|Message}
  */
 /**
  * A class handling all message based communications.
