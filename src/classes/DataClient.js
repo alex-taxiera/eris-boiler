@@ -75,7 +75,8 @@ class DataClient extends require('eris').Client {
     this.toggles = new Map()
     /**
      * Source folder to check for data folders such as commands (path from root).
-     * @type {String}
+     * @private
+     * @type    {String}
      */
     this._sourceFolder = options.sourceFolder
     // load everything
