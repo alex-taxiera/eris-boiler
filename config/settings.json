@@ -4,5 +4,7 @@
     "name": "Rocket League",
     "type": 0
   },
-  "rotateStatus": true
+  "rotateStatus": true,
+  "Super-Bot": false,
+  "setting-test-name": "setting-test-value"
 }

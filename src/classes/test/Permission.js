@@ -11,5 +11,5 @@ test.before((t) => {
 })
 
 test('Deny permission', (t) => {
-    t.is(t.context.Permission.deny, 'Must be test-perm')
+    t.is(t.context.Permission.deny, 'Must be test-perm!')
 })
