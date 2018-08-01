@@ -134,7 +134,9 @@ class QueryBuilder {
         for (let i = 0; i < rows.length; i++) {
           for (const key in rows[i]) {
             try {
-              rows[i][key] = JSON.parse(rows[i][key])
+              const old = rows[i][key]
+              rows[i][key] = JSON.parse(old)
+              if (typeof rows[i][key] === 'number') rows[i][key] = old
             } catch (e) {
               continue
             }
