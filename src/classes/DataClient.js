@@ -186,7 +186,7 @@ class DataClient extends require('eris').Client {
   _loadFiles (dirMap, dirName, files, loader) {
     for (let i = 0; i < files.length; i++) {
       try {
-        loader(dirName, require(path.join(dirMap[dirName], files[i])))
+        loader(require(path.join(dirMap[dirName], files[i])))
       } catch (e) {
         this.logger.error(`Unable to load ${dirName} ${files[i]}:\n\t\t\u0020${e}`)
       }
@@ -197,32 +197,32 @@ class DataClient extends require('eris').Client {
    * @private
    * @param   {String} name The name of the map to load to.
    */
-  _permissionLoader (name, data) {
-    this[name].set(data.name, data)
+  _permissionLoader (data) {
+    this.permissions.set(data.name, data)
   }
   /**
    * @private
    */
-  _settingLoader (name, data) {
-    this[name].set(data.name, data)
+  _settingLoader (data) {
+    this.settings.set(data.name, data)
     if (this.defaultSettings[data.name]) {
-      this[name].get(data.name).value = this.defaultSettings[data.name]
+      this.settings.get(data.name).value = this.defaultSettings[data.name]
     }
   }
   /**
    * @private
    */
-  _commandLoader (name, data) {
+  _commandLoader (data) {
     data = data(this)
     for (let i = 0; i < data.aliases.length; i++) {
       this.aliases.set(data.aliases[i], data.name)
     }
-    this[name].set(data.name, data)
+    this.commands.set(data.name, data)
   }
   /**
    * @private
    */
-  _eventLoader (name, data) {
+  _eventLoader (data) {
     this.on(data.name, data.run.bind(null, this))
   }
   /**
