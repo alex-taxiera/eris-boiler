@@ -3,7 +3,7 @@ import test from 'ava'
 import Toggle from '../Toggle'
 import Client from '../DataClient'
 
-const client = new Client(process.env)
+const client = new Client()
 
 const clientTest = {
   name: 'Super-Bot',
