@@ -112,7 +112,7 @@ class DataClient extends require('eris').Client {
     const results = defaultTables
     for (const table in newTables) {
       if (results[table]) {
-        for (const column in results[table]) {
+        for (const column in newTables[table]) {
           results[table][column] = { ...defaultTables[table][column], ...newTables[table][column] }
         }
       } else {

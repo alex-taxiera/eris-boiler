@@ -44,7 +44,7 @@
   "files": [
     "index.js",
     "src/",
-    "config/database.js",
+    "config/",
     "!src/**/test/"
   ]
 }
