@@ -1,5 +1,12 @@
 /**
- * @external {Client}     https://abal.moe/Eris/docs/Client
+ * The Eris Client.
+ * @external Client
+ * @see {@link https://abal.moe/Eris/docs/Client|Client}
+ */
+/**
+ * The Eris GuildMember.
+ * @external GuildMember
+ * @see {@link https://abal.moe/Eris/docs/GuildMember|GuildMember}
  */
 const DatabaseManager = require('./DatabaseManager.js')
 const QueryBuilder = require('./QueryBuilder.js')
@@ -93,8 +100,8 @@ class DataClient extends require('eris').Client {
   }
   /**
    * Get the permission level of a member.
-   * @param {GuildMember} member The GuildMember in question.
-   * @return {Number}            The numerical value of the permission level.
+   * @param  {GuildMember} member The GuildMember in question.
+   * @return {Number}             The numerical value of the permission level.
    */
   async permissionLevel (member) {
     const perms = this.permissions.values()
