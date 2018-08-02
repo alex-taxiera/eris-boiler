@@ -201,12 +201,15 @@ class DataClient extends require('eris').Client {
     this.permissions.set(data.name, data)
   }
   /**
+   * Load a setting or toggle.
    * @private
+   * @param   {Setting|Toggle} data The setting or toggle to load.
    */
   _settingLoader (data) {
-    this.settings.set(data.name, data)
+    const settingType = data.constructor.name.toLowerCase() + 's'
+    this[settingType].set(data.name, data)
     if (this.defaultSettings[data.name]) {
-      this.settings.get(data.name).value = this.defaultSettings[data.name]
+      this[settingType].get(data.name).value = this.defaultSettings[data.name]
     }
   }
   /**
