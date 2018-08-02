@@ -195,22 +195,27 @@ class DataClient extends require('eris').Client {
   /**
    * Load a permission.
    * @private
-   * @param   {String} name The name of the map to load to.
+   * @param   {Permission} data The permission to load.
    */
   _permissionLoader (data) {
     this.permissions.set(data.name, data)
   }
   /**
+   * Load a setting or toggle.
    * @private
+   * @param   {Setting|Toggle} data The setting or toggle to load.
    */
   _settingLoader (data) {
-    this.settings.set(data.name, data)
+    const settingType = data.constructor.name.toLowerCase() + 's'
+    this[settingType].set(data.name, data)
     if (this.defaultSettings[data.name]) {
-      this.settings.get(data.name).value = this.defaultSettings[data.name]
+      this[settingType].get(data.name).value = this.defaultSettings[data.name]
     }
   }
   /**
+   * Load a command.
    * @private
+   * @param   {Function} data Function with parameter DataClient returning Command.
    */
   _commandLoader (data) {
     data = data(this)
@@ -220,7 +225,9 @@ class DataClient extends require('eris').Client {
     this.commands.set(data.name, data)
   }
   /**
+   * Load an event.
    * @private
+   * @param   {Event} data The event to load.
    */
   _eventLoader (data) {
     this.on(data.name, data.run.bind(null, this))
