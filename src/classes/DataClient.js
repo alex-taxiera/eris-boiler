@@ -195,7 +195,7 @@ class DataClient extends require('eris').Client {
   /**
    * Load a permission.
    * @private
-   * @param   {String} name The name of the map to load to.
+   * @param   {Permission} data The permission to load.
    */
   _permissionLoader (data) {
     this.permissions.set(data.name, data)
@@ -213,7 +213,9 @@ class DataClient extends require('eris').Client {
     }
   }
   /**
+   * Load a command.
    * @private
+   * @param   {Function} data Function with parameter DataClient returning Command.
    */
   _commandLoader (data) {
     data = data(this)
@@ -223,7 +225,9 @@ class DataClient extends require('eris').Client {
     this.commands.set(data.name, data)
   }
   /**
+   * Load an event.
    * @private
+   * @param   {Event} data The event to load.
    */
   _eventLoader (data) {
     this.on(data.name, data.run.bind(null, this))
