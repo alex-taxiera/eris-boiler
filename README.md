@@ -71,6 +71,6 @@ Check out our guidelines [here.](/CONTRIBUTING.md)
 
 ## Development
 1. Clone this repository
-2. Create a `.env` in the root folder (use `config/sample.env` as a guide)
+2. Create a `.env` in the root folder (use `sample.env` as a guide)
 3. Run `npm install`
 4. Run `npm run dev`
