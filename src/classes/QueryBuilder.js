@@ -58,7 +58,7 @@ class QueryBuilder {
    */
   _count (table) {
     return this._knex(table).count('*')
-      .then((val) => val[0]['count(*)'])
+      .then((val) => val[0]['count'])
       .catch(this._logger.error)
   }
   /**

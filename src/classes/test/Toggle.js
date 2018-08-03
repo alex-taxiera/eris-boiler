@@ -1,4 +1,5 @@
 import test from 'ava'
+require('dotenv').load()
 
 import Toggle from '../Toggle'
 import Client from '../DataClient'

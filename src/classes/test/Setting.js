@@ -1,4 +1,5 @@
 import test from 'ava';
+require('dotenv').load()
 
 import Setting from '../Setting'
 import Client from '../DataClient'
