@@ -1,4 +1,5 @@
 import test from 'ava';
+require('dotenv').load()
 
 import Client from '../DataClient';
 import Command from '../Command';

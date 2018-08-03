@@ -1,5 +1,6 @@
 import test from 'ava'
 import sinon from 'sinon'
+require('dotenv').load()
 
 import Orator from '../Orator'
 import Client from '../DataClient'
