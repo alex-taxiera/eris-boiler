@@ -5,6 +5,20 @@ const colors = require('colors/safe')
  * Class representing a logger.
  */
 class Logger {
+  constructor () {
+    // binding to ensure the this context is always correct
+    this.success = this.success.bind(this)
+    this.warn = this.warn.bind(this)
+    this.error = this.error.bind(this)
+  }
+  /**
+   * Log something in red for error.
+   * @param {String} error The string to log (can also be something with a toString method).
+   */
+  error (error) {
+    error = error.stack || error
+    this.log(error, 'red')
+  }
   /**
    * Log something.
    * @param {String} content         The string to log (can also be something with a toString method).
@@ -19,25 +33,14 @@ class Logger {
    * @param {String} content The string to log (can also be something with a toString method).
    */
   success (content) {
-    const time = moment().format('MM/DD HH:mm:ss')
-    console.log(colors.gray(time) + ' | ' + colors.green(content))
+    this.log(content, 'green')
   }
   /**
    * Log something in yellow for warning.
    * @param {String} content The string to log (can also be something with a toString method).
    */
   warn (content) {
-    const time = moment().format('MM/DD HH:mm:ss')
-    console.log(colors.gray(time) + ' | ' + colors.yellow(content))
-  }
-  /**
-   * Log something in red for error.
-   * @param {String} error The string to log (can also be something with a toString method).
-   */
-  error (error) {
-    if (error.stack) error = error.stack
-    const time = moment().format('MM/DD HH:mm:ss')
-    console.log(colors.gray(time) + ' | ' + colors.red(error))
+    this.log(content, 'yellow')
   }
 }
 
