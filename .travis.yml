@@ -2,14 +2,14 @@ language: node_js
 node_js:
   - "10.5"
 services:
-  - postgresql
+  - mysql
 before_script:
   - npm i -g npm
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
   - npm i
-  - psql -c 'create database erisboilertest;' -U postgres
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
 script:
   - npm test
 after_script:
