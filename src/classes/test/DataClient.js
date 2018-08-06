@@ -119,12 +119,12 @@ test.serial('load data', async (t) => {
     const dir = path.join(process.cwd(), `src/permissions/`)
     const files = await fs.readdir(dir)
 
-    t.context.Client._loadData(dir, files, null, t.context.Client._permissionLoader)
+    t.context.Client._loadData('permissions', files, null, t.context.Client._permissionLoader)
     t.true(t.context.loadData.calledOnce)
 })
 
 test.serial('load files', async (t) => {
-    let map = {
+    const map = {
         permissions: path.join(process.cwd(), `src/permissions/`),
         commands: path.join(process.cwd(), `src/commands/`),
         events: path.join(process.cwd(), `src/events/`),
@@ -134,7 +134,7 @@ test.serial('load files', async (t) => {
 
     const files = await fs.readdir(map.permissions)
 
-    t.context.Client._loadFiles(map, 'throw', files, t.context.Client._permissionLoader)
+    t.context.Client._loadFiles(map, 'permissions', files, t.context.Client._permissionLoader)
     t.true(t.context.log.called)
 })
 
