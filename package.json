@@ -1,6 +1,6 @@
 {
   "name": "eris-boiler",
-  "version": "2.2.0",
+  "version": "3.0.0-beta.2",
   "description": "A Discord Bot boilerplate using JavaScript and the Eris library",
   "main": "./src/index.js",
   "scripts": {
@@ -31,7 +31,8 @@
     "knex": "^0.14.6",
     "moment": "^2.22.2",
     "mysql": "github:mysqljs/mysql",
-    "npm": "^6.1.0"
+    "npm": "^6.1.0",
+    "pg": "^7.4.3"
   },
   "devDependencies": {
     "ava": "1.0.0-beta.6",
@@ -44,7 +45,7 @@
   "files": [
     "index.js",
     "src/",
-    "config/database.js",
+    "config/",
     "!src/**/test/"
   ]
 }
