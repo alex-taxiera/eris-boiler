@@ -28,7 +28,6 @@ test.after.always(async (t) => {
 
 test('count: empty table', async (t) => {
   const table = t.context.tables.empty
-  const output = await t.context.QueryBuilder._count(table)
   t.is(Number(await t.context.QueryBuilder._count(table)), 0)
 })
 
