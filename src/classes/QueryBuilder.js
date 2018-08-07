@@ -1,3 +1,15 @@
+/**
+ * An SQL column.
+ * @typedef  {Object}  Column
+ * @property {String}  name      The name of the column.
+ * @property {String}  type      The type of data to store.
+ * @property {Boolean} [primary] If truthy, sets column as PK for the table.
+ * @property {*}       [default] If exists, this is the default column value.
+ */
+
+/**
+ * Knexjs wrapper for running SQL queries.
+ */
 class QueryBuilder {
   constructor (Logger) {
     /**
@@ -5,16 +17,15 @@ class QueryBuilder {
      * @private
      * @type    {Function}
      */
-    const { DB_USER, DB_NAME, DB_PASS } = process.env
+    const connection = process.env.CON_STRING || {
+      user: process.env.DB_USER,
+      database: process.env.DB_NAME,
+      password: process.env.DB_PASS,
+      host: process.env.DB_HOST
+    }
     this._knex = require('knex')({
-      client: 'mysql',
-      connection: {
-        user: DB_USER,
-        database: DB_NAME,
-        password: DB_PASS,
-        host: '127.0.0.1'
-      },
-      pool: { min: 0 }
+      client: process.env.DB_CLIENT,
+      connection
     })
     /**
      * The logger.
@@ -47,19 +58,27 @@ class QueryBuilder {
    */
   _count (table) {
     return this._knex(table).count('*')
-      .then((val) => val[0]['count(*)'])
+      .then((val) => {
+        val = val[0][Object.keys(val[0])[0]]
+        return typeof val === 'string'
+          ? parseInt(val)
+          : val
+      })
       .catch(this._logger.error)
   }
   /**
+   * Create a table given a schema.
    * @private
+   * @param    {Object}   data         The table schema.
+   * @property {String}   data.name    The table name.
+   * @property {Column[]} data.columns A list of column properties.
    */
   _createTable ({ name, columns }) {
     return this._knex.schema.hasTable(name).then((exists) => {
       if (exists) return
       return this._knex.schema.createTable(name, (table) => {
-        table.charset('utf8')
-        for (let column in columns) {
-          column = columns[column]
+        if (this._knex.client.config.client === 'mysql') table.charset('utf8')
+        for (const column of columns) {
           if (column.primary === true && column.default !== undefined) {
             table[column.type](column.name).primary().defaultTo(column.default)
           } else if (column.primary === true) {
@@ -134,7 +153,9 @@ class QueryBuilder {
         for (let i = 0; i < rows.length; i++) {
           for (const key in rows[i]) {
             try {
-              rows[i][key] = JSON.parse(rows[i][key])
+              const old = rows[i][key]
+              rows[i][key] = JSON.parse(old)
+              if (typeof rows[i][key] === 'number') rows[i][key] = old
             } catch (e) {
               continue
             }

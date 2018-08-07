@@ -34,7 +34,8 @@ class Setting extends require('./SafeClass.js') {
     this.prettyName = prettyName
     /**
      * A function that gets executed whenever the value of the setting is changed.
-     * @type {Function}
+     * @private
+     * @type    {Function}
      */
     this._onChange = _onChange
     /**

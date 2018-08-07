@@ -1,5 +1,12 @@
 /**
- * @external {Client}     https://abal.moe/Eris/docs/Client
+ * The Eris Client.
+ * @external Client
+ * @see {@link https://abal.moe/Eris/docs/Client|Client}
+ */
+/**
+ * The Eris GuildMember.
+ * @external GuildMember
+ * @see {@link https://abal.moe/Eris/docs/GuildMember|GuildMember}
  */
 const DatabaseManager = require('./DatabaseManager.js')
 const QueryBuilder = require('./QueryBuilder.js')
@@ -16,13 +23,12 @@ const path = require('path')
 class DataClient extends require('eris').Client {
   /**
    * Create a client.
-   * @param {Object} options                 Same as Client.
-   * @param {String} options.sourceFolder    Source folder to check for data folders such as commands (path from root).
-   * @param {Object} options.defaultSettings Default values for settings.
-   * @param {Object} options.tables          Additional database tables to create.
+   * @param {Object} [options]                 Same as Client.
+   * @param {String} [options.sourceFolder]    Source folder to check for data folders such as commands (path from root).
+   * @param {Object} [options.defaultSettings] Default values for settings.
+   * @param {Object} [options.tables]          Additional database tables to create.
    */
-  constructor (options) {
-    if (!options) options = {}
+  constructor (options = {}) {
     super(process.env.TOKEN, options)
     /**
      * The default settings.
@@ -74,33 +80,13 @@ class DataClient extends require('eris').Client {
      * @type {Map}
      */
     this.toggles = new Map()
-
     /**
-     * The directories to load default files from.
+     * Directories to load files from.
      * @private
      * @type    {Object}
-     * NOTE              Keep permissions before commands.
      */
-    this._defaultDirectories = {
-      permissions: path.join(__dirname, '../permissions/'),
-      commands: path.join(__dirname, '../commands/'),
-      events: path.join(__dirname, '../events/'),
-      settings: path.join(__dirname, '../settings/'),
-      toggles: path.join(__dirname, '../toggles/')
-    }
-    /**
-     * The directories to load user files from.
-     * @private
-     * @type    {Object}
-     * NOTE              Keep permissions before commands.
-     */
-    this._userDirectories = {
-      permissions: path.join(process.cwd(), `${options.sourceFolder}/permissions/`),
-      commands: path.join(process.cwd(), `${options.sourceFolder}/commands/`),
-      events: path.join(process.cwd(), `${options.sourceFolder}/events/`),
-      settings: path.join(process.cwd(), `${options.sourceFolder}/settings/`),
-      toggles: path.join(process.cwd(), `${options.sourceFolder}/toggles/`)
-    }
+    this._directories = this._getDirectories(options.sourceFolder)
+    // load everything
     this._setup()
   }
   /**
@@ -114,8 +100,8 @@ class DataClient extends require('eris').Client {
   }
   /**
    * Get the permission level of a member.
-   * @param {GuildMember} member The GuildMember in question.
-   * @return {Number}            The numerical value of the permission level.
+   * @param  {GuildMember} member The GuildMember in question.
+   * @return {Number}             The numerical value of the permission level.
    */
   async permissionLevel (member) {
     const perms = this.permissions.values()
@@ -128,13 +114,17 @@ class DataClient extends require('eris').Client {
     return permLevel
   }
   /**
+   * Combines the default db config with the user supplied config.
    * @private
+   * @param   {Object} defaultTables The default database configuration.
+   * @param   {Object} newTables     The user supplied database configuration.
+   * @return  {Object}               The combined product.
    */
   _combineTables (defaultTables, newTables) {
     const results = defaultTables
     for (const table in newTables) {
       if (results[table]) {
-        for (const column in results[table]) {
+        for (const column in newTables[table]) {
           results[table][column] = { ...defaultTables[table][column], ...newTables[table][column] }
         }
       } else {
@@ -144,50 +134,102 @@ class DataClient extends require('eris').Client {
     return results
   }
   /**
-   * Load data files.
+   * Get the map of default and user directories.
    * @private
-   * @param   {String}   directory Path to permission directory.
-   * @param   {String}   name      Name of permission directory.
-   * @param   {String[]} files     List of permission file names.
+   * @return  {Object} defaultDirectories and userDirectories.
    */
-  _loadData (directory, name, files, loader) {
-    for (let i = 0; i < files.length; i++) {
-      try {
-        loader(name, require(path.join(directory, files[i])))
-      } catch (e) {
-        this.logger.error(`Unable to load ${name} ${files[i]}:\n\t\t\u0020${e}`)
+  _getDirectories (sourceFolder) {
+    return {
+      default: {
+        permissions: path.join(__dirname, '../permissions/'),
+        commands: path.join(__dirname, '../commands/'),
+        events: path.join(__dirname, '../events/'),
+        settings: path.join(__dirname, '../settings/'),
+        toggles: path.join(__dirname, '../toggles/')
+      },
+      user: {
+        permissions: path.join(process.cwd(), `${sourceFolder}/permissions/`),
+        commands: path.join(process.cwd(), `${sourceFolder}/commands/`),
+        events: path.join(process.cwd(), `${sourceFolder}/events/`),
+        settings: path.join(process.cwd(), `${sourceFolder}/settings/`),
+        toggles: path.join(process.cwd(), `${sourceFolder}/toggles/`)
       }
     }
   }
   /**
+   * Load data files.
    * @private
+   * @param   {String}   dirName      Name of the data directory.
+   * @param   {String[]} defaultFiles List of default files in default directory.
+   * @param   {String[]} userFiles    List of user files in user directory.
+   * @param   {Function} loader       Loader function for specific file type.
    */
-  _permissionLoader (name, data) {
-    this[name].set(data.name, data)
+  _loadData (dirName, defaultFiles, userFiles, loader) {
+    let total = 0
+    if (userFiles) {
+      defaultFiles = defaultFiles.filter((file) => !userFiles.includes(file))
+      total += userFiles.length
+      this._loadFiles(this._directories.user, dirName, userFiles, loader)
+    }
+    total += defaultFiles.length
+    this.logger.log(`Loading a total of ${total} ${dirName}`)
+    this._loadFiles(this._directories.default, dirName, defaultFiles, loader)
   }
   /**
+   * Load data files.
    * @private
+   * @param   {Object}   dirMap  Either default or user directory map.
+   * @param   {String}   dirName Name of the data directory.
+   * @param   {String[]} files   List of default files in default directory.
+   * @param   {Function} loader  Loader function for specific file type.
    */
-  _settingLoader (name, data) {
-    this[name].set(data.name, data)
-    if (this.defaultSettings[data.name]) {
-      this[name].get(data.name).value = this.defaultSettings[data.name]
+  _loadFiles (dirMap, dirName, files, loader) {
+    for (let i = 0; i < files.length; i++) {
+      try {
+        loader(require(path.join(dirMap[dirName], files[i])))
+      } catch (e) {
+        this.logger.error(`Unable to load ${dirName} ${files[i]}:\n\t\t\u0020${e}`)
+      }
     }
   }
   /**
+   * Load a permission.
    * @private
+   * @param   {Permission} data The permission to load.
    */
-  _commandLoader (name, data) {
+  _permissionLoader (data) {
+    this.permissions.set(data.name, data)
+  }
+  /**
+   * Load a setting or toggle.
+   * @private
+   * @param   {Setting|Toggle} data The setting or toggle to load.
+   */
+  _settingLoader (data) {
+    const settingType = data.constructor.name.toLowerCase() + 's'
+    this[settingType].set(data.name, data)
+    if (this.defaultSettings[data.name]) {
+      this[settingType].get(data.name).value = this.defaultSettings[data.name]
+    }
+  }
+  /**
+   * Load a command.
+   * @private
+   * @param   {Function} data Function with parameter DataClient returning Command.
+   */
+  _commandLoader (data) {
     data = data(this)
     for (let i = 0; i < data.aliases.length; i++) {
       this.aliases.set(data.aliases[i], data.name)
     }
-    this[name].set(data.name, data)
+    this.commands.set(data.name, data)
   }
   /**
+   * Load an event.
    * @private
+   * @param   {Event} data The event to load.
    */
-  _eventLoader (name, data) {
+  _eventLoader (data) {
     this.on(data.name, data.run.bind(null, this))
   }
   /**
@@ -217,18 +259,13 @@ class DataClient extends require('eris').Client {
    */
   async _setup () {
     const { readdir } = require('fs').promises
-
-    for (const name in this._defaultDirectories) {
-      const defaultFiles = await readdir(this._defaultDirectories[name])
+    for (const dirName in this._directories.default) {
+      const defaultFiles = await readdir(this._directories.default[dirName])
         .catch(this.logger.error)
-      const userFiles = await readdir(this._userDirectories[name])
-        .catch(() => this.logger.warn(`You don't have the ${name} folder in your source folder!`))
-      const files = userFiles
-        ? userFiles.concat(defaultFiles.map((file) => !userFiles.includes(file)))
-        : defaultFiles
-      this.logger.log(`Loading a total of ${files.length} ${name}`)
-      const loader = this._selectLoader(name)
-      if (loader) this._loadData(this._defaultDirectories[name], name, files, loader.bind(this))
+      const userFiles = await readdir(this._directories.user[dirName])
+        .catch(() => this.logger.warn(`You don't have the ${dirName} folder in your source folder!`))
+      const loader = this._selectLoader(dirName)
+      if (loader) this._loadData(dirName, defaultFiles, userFiles, loader.bind(this))
     }
   }
 }

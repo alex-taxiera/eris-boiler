@@ -46,6 +46,7 @@ class DatabaseManager {
    * Insert a status into the statuses table.
    * @param  {String}             name   The name of the status.
    * @param  {Number}             [type] The type of the status.
+   * @param  {Boolean}            [def]  Whether or not this is the default status.
    * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
   addStatus (name, type, def) {
