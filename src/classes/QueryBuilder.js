@@ -58,7 +58,12 @@ class QueryBuilder {
    */
   _count (table) {
     return this._knex(table).count('*')
-      .then((val) => val[0]['count(*)'])
+      .then((val) => {
+        val = val[0][Object.keys(val[0])[0]]
+        return typeof val === 'string'
+          ? parseInt(val)
+          : val
+      })
       .catch(this._logger.error)
   }
   /**
