@@ -48,26 +48,22 @@ test.before((t) => {
 })
 
 test.beforeEach((t) => {
-  const {
-    Client
-  } = t.context
-  t.context.log = sinon.spy(console, 'log')
-  t.context.loadData = sinon.spy(Client, '_loadData')
+  const { Client } = t.context
   t.context.permLoad = sinon.spy(Client, '_permissionLoader')
-  t.context.cmdLoad = sinon.spy(Client, '_commandLoader')
-  t.context.eventLoad = sinon.spy(Client, '_eventLoader')
-  t.context.settingLoad = sinon.spy(Client, '_settingLoader')
-  t.context.setup = sinon.spy(Client, '_setup')
+  t.context.readdir = sinon.spy(fs, 'readdir')
+  t.context.selectLoader = sinon.spy(Client, '_selectLoader')
+  t.context.loadData = sinon.spy(Client, '_loadData')
+  t.context.loadFiles = sinon.spy(Client, '_loadFiles')
+  t.context.eventCalled = sinon.spy(Client, 'on')
 })
 
 test.afterEach((t) => {
-  t.context.log.restore()
-  t.context.loadData.restore()
   t.context.permLoad.restore()
-  t.context.cmdLoad.restore()
-  t.context.eventLoad.restore()
-  t.context.settingLoad.restore()
-  t.context.setup.restore()
+  t.context.readdir.restore()
+  t.context.selectLoader.restore()
+  t.context.loadData.restore()
+  t.context.loadFiles.restore()
+  t.context.eventCalled.restore()
 })
 
 test.serial('member can', async (t) => {
@@ -97,7 +93,7 @@ test.serial('combine tables', (t) => {
 })
 
 test.serial('get dirs', (t) => {
-  t.deepEqual(t.context.Client._getDirectories('src'), {
+  const dirs = {
     default: {
       permissions: path.join(process.cwd(), `src/permissions/`),
       commands: path.join(process.cwd(), `src/commands/`),
@@ -112,7 +108,9 @@ test.serial('get dirs', (t) => {
       settings: path.join(process.cwd(), `src/settings/`),
       toggles: path.join(process.cwd(), `src/toggles/`)
     }
-  })
+  }
+
+  t.deepEqual(t.context.Client._getDirectories('src'), dirs)
 })
 
 test.serial('load data', async (t) => {
@@ -120,7 +118,7 @@ test.serial('load data', async (t) => {
   const files = await fs.readdir(dir)
 
   t.context.Client._loadData('permissions', files, null, t.context.Client._permissionLoader)
-  t.true(t.context.loadData.calledOnce)
+  t.true(t.context.loadFiles.calledOnce)
 })
 
 test.serial('load files', async (t) => {
@@ -135,12 +133,12 @@ test.serial('load files', async (t) => {
   const files = await fs.readdir(map.permissions)
 
   t.context.Client._loadFiles(map, 'permissions', files, t.context.Client._permissionLoader)
-  t.true(t.context.log.called)
+  t.true(t.context.permLoad.called)
 })
 
 test.serial('load perm', (t) => {
   t.context.Client._permissionLoader(permission)
-  t.true(t.context.permLoad.calledOnce)
+  t.is(t.context.Client.permissions.get(permission.name), permission)
 })
 
 test.serial('load command', (t) => {
@@ -156,25 +154,33 @@ test.serial('load command', (t) => {
   })
 
   t.context.Client._commandLoader(() => command)
-  t.true(t.context.cmdLoad.calledOnce)
+  t.is(t.context.Client.commands.get(command.name), command)
 })
 
 test.serial('load event', (t) => {
   t.context.Client._eventLoader(eventData)
-  t.true(t.context.eventLoad.calledOnce)
+  t.true(t.context.eventCalled.calledOnce)
 })
 
 test.serial('load setting', (t) => {
   t.context.Client._settingLoader(setting)
-  t.true(t.context.settingLoad.calledOnce)
+  t.is(t.context.Client['settings'], t.context.Client['settings'])
 })
 
 test.serial('select loader', (t) => {
-  let perm = t.context.Client._permissionLoader
-  t.is(t.context.Client._selectLoader('permissions'), perm)
+  const loaders = {
+    permissions: t.context.Client._permissionLoader,
+    commands: t.context.Client._commandLoader,
+    events: t.context.Client._eventLoader,
+    settings: t.context.Client._settingLoader,
+    toggles: t.context.Client._settingLoader
+  }
+  for (const loader in loaders) {
+    t.is(t.context.Client._selectLoader(loader), loaders[loader])
+  }
 })
 
-test.serial('setup', (t) => {
-  t.context.Client._setup()
-  t.true(t.context.setup.calledOnce)
+test.serial('setup', async (t) => {
+  await t.context.Client._setup()
+  t.true(t.context.loadData.callCount === 5)
 })

@@ -23,6 +23,6 @@ test.before((t) => {
 })
 
 test('Command info', (t) => {
-  const expected = `Name: test-command-name\nDescription: test-command-desc`
+  const expected = 'Name: test-command-name\nDescription: test-command-desc'
   t.is(t.context.Command.info, expected)
 })
