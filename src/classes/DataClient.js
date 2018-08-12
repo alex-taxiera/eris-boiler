@@ -165,6 +165,7 @@ class DataClient extends require('eris').Client {
    * @param   {Function} loader       Loader function for specific file type.
    */
   _loadData (dirName, defaultFiles, userFiles, loader) {
+    console.log('Ran')
     let total = 0
     if (userFiles) {
       defaultFiles = defaultFiles.filter((file) => !userFiles.includes(file))

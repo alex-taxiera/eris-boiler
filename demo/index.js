@@ -3,4 +3,4 @@ const { DataClient } = require('../')
 
 const bot = new DataClient('./')
 /* log bot into Discord */
-bot.connect()
+// bot.connect()
