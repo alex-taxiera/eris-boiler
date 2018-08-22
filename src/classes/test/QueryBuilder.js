@@ -28,14 +28,14 @@ test.after.always(async (t) => {
 
 test('count: empty table', async (t) => {
   const table = t.context.tables.empty
-  t.is(Number(await t.context.QueryBuilder._count(table)), 0)
+  t.is(await t.context.QueryBuilder._count(table), 0)
 })
 
 test('count: table with one entry', (t) => {
   const table = t.context.tables.one
   return t.context.QueryBuilder._insert({table, data: {key: 'count one'}})
     .then(async (success) => t.is(success, 0))
-    .then(async () => t.is(Number(await t.context.QueryBuilder._count(table)), 1))
+    .then(async () => t.is(await t.context.QueryBuilder._count(table), 1))
 })
 
 test('delete', (t) => {
