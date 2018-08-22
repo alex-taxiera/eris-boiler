@@ -1,7 +1,7 @@
 import test from 'ava'
 
 import SafeClass from '../SafeClass'
-import { Map } from 'core-js';
+import { Map } from 'core-js'
 
 const types = ['Another', 'Steins Gate', 'Boku no Hero']
 
@@ -32,11 +32,11 @@ test('happy path', (t) => {
   const animes = new Map().set('anime', 'Another')
   const shows = new Map().set('shows', 'My little pony')
   const HappyPath = class HappyPath extends SafeClass {
-    constructor() {
+    constructor () {
       super(animes, shows)
     }
   }
-  
+
   const hp = new HappyPath()
   t.is(hp._checkDataTypes(), undefined)
 })
