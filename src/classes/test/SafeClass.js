@@ -1,7 +1,6 @@
 import test from 'ava'
 
 import SafeClass from '../SafeClass'
-import { Map } from 'core-js'
 
 const types = ['Another', 'Steins Gate', 'Boku no Hero']
 
