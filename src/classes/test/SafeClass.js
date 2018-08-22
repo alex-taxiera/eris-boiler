@@ -2,16 +2,12 @@ import test from 'ava'
 
 import SafeClass from '../SafeClass'
 
-const types = ['Another', 'Steins Gate', 'Boku no Hero']
-
-const restraints = ['My little pony', 'Doctor Who!']
-
 test.before((t) => {
-  t.context.SafeClass = new SafeClass(types, restraints)
+  t.context.SafeClass = new SafeClass({ name: 'Another' }, { name: 'My little pony' })
 })
 
 test('check data types', (t) => {
-  const errors = [...types, ...restraints]
+  const errors = ['Another is not an anime', 'My little pony is not a show']
   t.throws(() => {
     t.context.SafeClass._checkDataTypes()
   }, null, `'\n\t\t\u0020'${errors.join('\n\t\t\u0020')}`)
@@ -28,11 +24,10 @@ test('type error', (t) => {
 })
 
 test('happy path', (t) => {
-  const animes = new Map().set('anime', 'Another')
-  const shows = new Map().set('shows', 'My little pony')
+  const shows = { show: new Map().set('shows', 'My little pony') }
   const HappyPath = class HappyPath extends SafeClass {
     constructor () {
-      super(animes, shows)
+      super({}, shows)
     }
   }
 
