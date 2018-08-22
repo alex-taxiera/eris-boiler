@@ -179,8 +179,3 @@ test.serial('select loader', (t) => {
     t.is(t.context.Client._selectLoader(loader), loaders[loader])
   }
 })
-
-test.serial('setup', async (t) => {
-  await t.context.Client._setup()
-  t.true(t.context.loadData.callCount === 5)
-})

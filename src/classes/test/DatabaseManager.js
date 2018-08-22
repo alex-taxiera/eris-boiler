@@ -37,6 +37,7 @@ test.afterEach((t) => {
 
 test.serial('add client', async (t) => {
   t.is(await t.context.DatabaseManager.addClient('1', '!'), 0)
+  t.true(t.context.qbRun.calledTwice)
 })
 
 test.serial('add status', async (t) => {
@@ -52,47 +53,52 @@ test.serial('add status', async (t) => {
     })
   }
   t.is(await t.context.DatabaseManager.addStatus('add-stats-name', 1, true), 0)
+  t.true(t.context.qbRun.calledOnce)
 })
 
 test.serial('get default settings', async (t) => {
-  await t.context.DatabaseManager.getDefaultStatus()
+  const value = await t.context.DatabaseManager.getDefaultStatus()
+  t.deepEqual(value, { name: 'add-stats-name', type: 1 })
   t.true(t.context.qbRun.calledOnce)
 })
 
 test.serial('get settings', async (t) => {
-  await t.context.DatabaseManager.getSettings('1')
+  const value = await t.context.DatabaseManager.getSettings('1')
+  t.deepEqual(value, { id: '1', prefix: '!' })
   t.true(t.context.qbRun.calledOnce)
 })
 
-test.serial('get statuses', async (t) => {
+test.serial('get stats', async (t) => {
   await t.context.DatabaseManager.getStatuses()
   t.true(t.context.qbRun.calledOnce)
 })
 
 test.serial('get toggles', async (t) => {
-  await t.context.DatabaseManager.getToggles('1')
+  const value = await t.context.DatabaseManager.getToggles('1')
+  t.deepEqual(value, { id: '1', prefix: '!' })
   t.true(t.context.qbRun.calledOnce)
 })
 
 test.serial('remove client', async (t) => {
   t.is(await t.context.DatabaseManager.removeClient('1'), 0)
+  t.true(t.context.qbRun.calledTwice)
 })
 
 test.serial('remove status', async (t) => {
-  await t.context.DatabaseManager.removeStatus('add-stats-name')
+  t.is(await t.context.DatabaseManager.removeStatus('add-stats-name'), 0)
   t.true(t.context.qbRun.calledOnce)
 })
 
 test.serial('update default status', async (t) => {
-  await t.context.DatabaseManager.updateDefaultStatus('a-new-status', 0)
+  t.is(await t.context.DatabaseManager.updateDefaultStatus('a-new-status', 0), 0)
   t.true(t.context.qbRun.calledOnce)
 })
 
 test.serial('update settings', async (t) => {
-  await t.context.DatabaseManager.updateSettings('1', {
+  t.is(await t.context.DatabaseManager.updateSettings('1', {
     id: '2',
     prefix: '.'
-  })
+  }), 0)
   t.true(t.context.qbRun.calledOnce)
 })
 
