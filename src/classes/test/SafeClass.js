@@ -1,7 +1,6 @@
 import test from 'ava'
 
 import SafeClass from '../SafeClass'
-import { Map } from 'core-js'
 
 const types = ['Another', 'Steins Gate', 'Boku no Hero']
 
@@ -18,10 +17,12 @@ test('check data types', (t) => {
   }, null, `'\n\t\t\u0020'${errors.join('\n\t\t\u0020')}`)
 })
 
-test('restaraint error', (t) => {
+test('restraint error', (t) => {
   t.is(t.context.SafeClass._restraintError('test-setting', new Map().set('setting-test', 'lol'), 'test-setting-class'), '"test-setting" expects one of [setting-test] but was given "test-setting-class"')
 })
 
 test('type error', (t) => {
-  t.is(t.context.SafeClass._typeError('test-setting', 'test-setting-data', 'test-setting-form'), '"test-setting" expects type "test-setting-data" but was given type "test-setting-form"')
+  const params = ['test-setting', 'test-setting-data', 'test-setting-form']
+  const expects = '"test-setting" expects type "test-setting-data" but was given type "test-setting-form"'
+  t.is(t.context.SafeClass._typeError(...params), expects)
 })
