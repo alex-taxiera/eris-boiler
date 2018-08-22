@@ -1,6 +1,7 @@
 import test from 'ava'
 
 import SafeClass from '../SafeClass'
+import { Map } from 'core-js';
 
 const types = ['Another', 'Steins Gate', 'Boku no Hero']
 
@@ -25,4 +26,17 @@ test('type error', (t) => {
   const params = ['test-setting', 'test-setting-data', 'test-setting-form']
   const expects = '"test-setting" expects type "test-setting-data" but was given type "test-setting-form"'
   t.is(t.context.SafeClass._typeError(...params), expects)
+})
+
+test('happy path', (t) => {
+  const animes = new Map().set('anime', 'Another')
+  const shows = new Map().set('shows', 'My little pony')
+  const HappyPath = class HappyPath extends SafeClass {
+    constructor() {
+      super(animes, shows)
+    }
+  }
+  
+  const hp = new HappyPath()
+  t.is(hp._checkDataTypes(), undefined)
 })
