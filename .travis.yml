@@ -3,20 +3,8 @@ node_js:
   - "10.5"
 services:
   - mysql
-jobs:
-  include:
-    - stage: setup_coverage
-      if: branch = master
-      script:
-        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        - chmod +x ./cc-test-reporter
-        - ./cc-test-reporter before-build
-    - stage: test
-      script:
-        - npm i -S mysql
-        - npm i
-        - mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
-        - npm test
-    - stage: send_coverage
-      if: branch = master
-      script: ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+install:
+  - npm i -S mysql
+  - npm i
+before_script: mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
+script: ./bin/travis.sh
