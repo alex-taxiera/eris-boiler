@@ -31,7 +31,8 @@
     "knex": "^0.14.6",
     "moment": "^2.22.2",
     "mysql": "github:mysqljs/mysql",
-    "npm": "^6.1.0"
+    "npm": "^6.1.0",
+    "simple-knex": "^1.0.0-beta.1"
   },
   "devDependencies": {
     "ava": "1.0.0-beta.6",
