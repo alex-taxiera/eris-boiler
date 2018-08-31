@@ -35,11 +35,11 @@ class DatabaseManager {
    * Insert a guild into the guild_settings table.
    * @param  {String}             id     The ID of the guild.
    * @param  {String}             prefix The default prefix
-   * @return {(Number|undefined)}        Returns 0 on success or undefined.
+   * @return {(Array|undefined)}        Returns 0 on success or undefined.
    */
   async addClient (id, prefix) {
-    return this._qb.run('insert', { table: 'guild_settings', data: { id, prefix } })
-      .then(() => this._qb.run('insert', { table: 'guild_toggles', data: { id } }))
+    return this._qb.insert({ table: 'guild_settings', data: { id, prefix } })
+      .then(() => this._qb.insert({ table: 'guild_toggles', data: { id } }))
   }
 
   /**
@@ -50,10 +50,10 @@ class DatabaseManager {
    * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
   addStatus (name, type, def) {
-    return this._qb.run('insert', { table: 'statuses', data: { name, type, default: def } })
+    return this._qb.insert({ table: 'statuses', data: { name, type, default: def } })
   }
   getDefaultStatus () {
-    return this._qb.run('get', { table: 'statuses', columns: ['name', 'type'], where: {default: true} })
+    return this._qb.get({ table: 'statuses', columns: ['name', 'type'], where: { default: true } })
   }
   /**
    * Get data on a guild from the guild_settings table
@@ -61,14 +61,14 @@ class DatabaseManager {
    * @return {Object}    The guild data.
    */
   getSettings (id) {
-    return this._qb.run('get', { table: 'guild_settings', where: { id } })
+    return this._qb.get({ table: 'guild_settings', where: { id } })
   }
   /**
    * Get the statuses of the bot from the statuses table.
    * @return {Object[]} Array of statuses, name and type.
    */
   getStatuses () {
-    return this._qb.run('select', { table: 'statuses', columns: ['name', 'type'] })
+    return this._qb.select({ table: 'statuses', coloumns: ['name', 'type'] })
   }
   /**
    * Get data on a guild from the guild_toggles table
@@ -76,7 +76,7 @@ class DatabaseManager {
    * @return {Object}    The guild data.
    */
   getToggles (id) {
-    return this._qb.run('get', { table: 'guild_toggles', where: { id } })
+    return this._qb.get({ table: 'guild_toggles', where: { id } })
   }
   /**
    * Check saved guild data against live guild data.
@@ -85,7 +85,7 @@ class DatabaseManager {
   async initialize (guilds) {
     await this._createTables(this._tables)
     let tmpGuilds = new Map(guilds)
-    const saved = await this._qb.run('select', { table: 'guild_settings' })
+    const saved = await this._qb.select({ table: 'guild_settings' })
     if (saved && saved.length > 0) {
       for (let i = 0; i < saved.length; i++) {
         const id = saved[i].id
@@ -107,8 +107,8 @@ class DatabaseManager {
    * @return {(Number|undefined)}    Returns 0 on success or undefined.
    */
   removeClient (id) {
-    return this._qb.run('delete', { table: 'guild_settings', where: { id } })
-      .then(() => this._qb.run('delete', { table: 'guild_toggles', where: { id } }))
+    return this._qb.delete({ table: 'guild_settings', where: { id } })
+      .then(() => this._qb.delete({ table: 'guild_toggles', where: { id } }))
   }
 
   /**
@@ -117,7 +117,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}      Returns 0 on success or undefined.
    */
   removeStatus (name) {
-    return this._qb.run('delete', { table: 'statuses', where: { name } })
+    return this._qb.delete({ table: 'statuses', where: { name } })
   }
 
   /**
@@ -127,7 +127,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}        Returns 0 on success or undefined.
    */
   updateDefaultStatus (name, type) {
-    return this._qb.run('update', { table: 'statuses', data: { name, type }, where: { default: 1 } })
+    return this._qb.update({ table: 'statuses', data: { name, type }, where: { default: 1 } })
   }
 
   /**
@@ -148,7 +148,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}          Returns 0 on success or undefined.
    */
   updateSettings (id, settings) {
-    return this._qb.run('update', { table: 'guild_settings', data: settings, where: { id } })
+    return this._qb.update({ table: 'guild_settings', data: settings, where: { id } })
   }
 
   /**
@@ -158,7 +158,7 @@ class DatabaseManager {
    * @return {(Number|undefined)}         Returns 0 on success or undefined.
    */
   updateToggles (id, toggles) {
-    return this._qb.run('update', { table: 'guild_toggles', data: toggles, where: { id } })
+    return this._qb.update({ table: 'guild_toggles', data: toggles, where: { id } })
   }
 
   /**
@@ -169,7 +169,7 @@ class DatabaseManager {
    */
   async _createTables (tables) {
     for (const name in tables) {
-      await this._qb.run('createTable', { name, columns: tables[name] })
+      await this._qb.createTable({ name, columns: tables[name] })
     }
   }
 }
