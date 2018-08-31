@@ -7,4 +7,4 @@ install:
   - npm i -S mysql
   - npm i
 before_script: mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
-script: ./bin/travis.sh
+script: bash ./bin/travis.sh
