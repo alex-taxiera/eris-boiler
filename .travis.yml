@@ -5,21 +5,18 @@ services:
   - mysql
 jobs:
   include:
-    - stage: install
-      script:
-        - npm i -S mysql
-        - npm i
     - stage: setup_coverage
       if: branch = master
       script:
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         - chmod +x ./cc-test-reporter
         - ./cc-test-reporter before-build
-    - stage: setup_db
-      script:
-        - mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
     - stage: test
-      script: npm test
+      script:
+        - npm i -S mysql
+        - npm i
+        - mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
+        - npm test
     - stage: send_coverage
       if: branch = master
       script: ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
