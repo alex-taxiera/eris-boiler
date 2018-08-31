@@ -23,14 +23,28 @@ test('type error', (t) => {
   t.is(t.context.SafeClass._typeError(...params), expects)
 })
 
-test('happy path', (t) => {
-  const shows = { show: new Map().set('shows', 'My little pony') }
-  const HappyPath = class HappyPath extends SafeClass {
-    constructor () {
-      super({}, shows)
-    }
-  }
+const HappyPath = class HappyPath extends SafeClass {
+  constructor () {
+    super({
+      name: 'string',
+      episodes: 'number',
+      wasManga: 'boolean',
+      producer: 'string'
+    }, {
+      producer: new Map().set('titmouse', true)
+    })
 
+    this.name = 'Another'
+
+    this.episodes = 24
+
+    this.wasManga = true
+
+    this.producer = 'titmouse'
+  }
+}
+
+test('happy path', (t) => {
   const hp = new HappyPath()
   t.is(hp._checkDataTypes(), undefined)
 })
