@@ -9,7 +9,7 @@
  * @see {@link https://abal.moe/Eris/docs/GuildMember|GuildMember}
  */
 const DatabaseManager = require('./DatabaseManager.js')
-const QueryBuilder = require('./QueryBuilder.js')
+const QueryBuilder = require('simple-knex')
 const Orator = require('./Orator.js')
 const Logger = require('./Logger.js')
 const Status = require('./Status.js')

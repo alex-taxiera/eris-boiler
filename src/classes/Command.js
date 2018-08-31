@@ -68,12 +68,12 @@ class Command extends require('./SafeClass.js') {
      * Whether or not the bot should delete the message that invoked this command.
      * @type {Boolean}
      */
-    this.deleteInvoking = options.deleteInvoking || true
+    this.deleteInvoking = options.deleteInvoking !== undefined ? options.deleteInvoking : true
     /**
      * Whether or not the bot should delete the bots response.
      * @type {Boolean}
      */
-    this.deleteResponse = options.deleteResponse || true
+    this.deleteResponse = options.deleteResponse !== undefined ? options.deleteResponse : true
     /**
      * How many miliseconds to wait before deleting the bots response.
      * @type {Number}

@@ -6,7 +6,6 @@ module.exports = {
   Logger: require('./Logger.js'),
   Orator: require('./Orator.js'),
   Permission: require('./Permission.js'),
-  QueryBuilder: require('./QueryBuilder.js'),
   SafeClass: require('./SafeClass.js'),
   Setting: require('./Setting.js'),
   Status: require('./Status.js'),
