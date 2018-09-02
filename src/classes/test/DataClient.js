@@ -1,6 +1,5 @@
 import test from 'ava'
 import sinon from 'sinon'
-require('dotenv').load()
 
 import Client from '../DataClient'
 import Permission from '../Permission'
@@ -11,6 +10,7 @@ import {
   promises as fs
 } from 'fs'
 import path from 'path'
+require('dotenv').load()
 
 const mockData = {
   member: {
