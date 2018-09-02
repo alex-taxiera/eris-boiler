@@ -1,13 +1,12 @@
 import test from 'ava'
 import sinon from 'sinon'
-import Orator from '../Orator'
+require('dotenv').load()
 
+import Orator from '../Orator'
 import Client from '../DataClient'
 import Command from '../Command'
 import Permission from '../Permission'
 import Logger from '../Logger'
-
-require('dotenv').load()
 
 const client = new Client()
 
