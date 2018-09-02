@@ -16,7 +16,7 @@ class DatabaseManager {
      * @private
      * @type    {QueryBuilder}
      */
-    this._qb = new QueryBuilder(Logger)
+    this._qb = new QueryBuilder()
     /**
      * The logger.
      * @private
@@ -33,9 +33,9 @@ class DatabaseManager {
 
   /**
    * Insert a guild into the guild_settings table.
-   * @param  {String}             id     The ID of the guild.
-   * @param  {String}             prefix The default prefix
-   * @return {(Array|undefined)}        Returns 0 on success or undefined.
+   * @param  {String}            id     The ID of the guild.
+   * @param  {String}            prefix The default prefix
+   * @return {Promise<Object[]>}        Returns the updated table.
    */
   async addClient (id, prefix) {
     return this._qb.insert({ table: 'guild_settings', data: { id, prefix } })
@@ -44,10 +44,10 @@ class DatabaseManager {
 
   /**
    * Insert a status into the statuses table.
-   * @param  {String}             name   The name of the status.
-   * @param  {Number}             [type] The type of the status.
-   * @param  {Boolean}            [def]  Whether or not this is the default status.
-   * @return {(Number|undefined)}        Returns 0 on success or undefined.
+   * @param  {String}            name   The name of the status.
+   * @param  {Number}            [type] The type of the status.
+   * @param  {Boolean}           [def]  Whether or not this is the default status.
+   * @return {Promise<Object[]>}        Returns the updated table.
    */
   addStatus (name, type, def) {
     return this._qb.insert({ table: 'statuses', data: { name, type, default: def } })
@@ -103,8 +103,8 @@ class DatabaseManager {
 
   /**
    * Remove a guild from the guild_settings table.
-   * @param  {String}             id The guild ID to remove.
-   * @return {(Number|undefined)}    Returns 0 on success or undefined.
+   * @param  {String}            id The guild ID to remove.
+   * @return {Promise<Object[]>}    Returns the updated table.
    */
   removeClient (id) {
     return this._qb.delete({ table: 'guild_settings', where: { id } })
@@ -113,8 +113,8 @@ class DatabaseManager {
 
   /**
    * Remove a status from the statuses table.
-   * @param  {String}             name The status to remove.
-   * @return {(Number|undefined)}      Returns 0 on success or undefined.
+   * @param  {String}            name The status to remove.
+   * @return {Promise<Object[]>}      Returns the updated table.
    */
   removeStatus (name) {
     return this._qb.delete({ table: 'statuses', where: { name } })
@@ -122,9 +122,9 @@ class DatabaseManager {
 
   /**
    * Update the default status of the bot.
-   * @param  {String}             name   The name of the status.
-   * @param  {Number}             [type] The type of the status.
-   * @return {(Number|undefined)}        Returns 0 on success or undefined.
+   * @param  {String}            name   The name of the status.
+   * @param  {Number}            [type] The type of the status.
+   * @return {Promise<Object[]>}        Returns the updated table.
    */
   updateDefaultStatus (name, type) {
     return this._qb.update({ table: 'statuses', data: { name, type }, where: { default: 1 } })
@@ -133,7 +133,6 @@ class DatabaseManager {
   /**
    * Update the default prefix in the guild_settings table. Not available with SQLite.
    * @param  {String}    prefix The prefix to set as default.
-   * @return {undefined}
    */
   // updateDefaultPrefix (prefix) {
   //   this._qb._knex.schema.alterTable('guild_settings', (table) => {
@@ -143,9 +142,9 @@ class DatabaseManager {
 
   /**
    * Update a guild entry in the guild_settings table.
-   * @param  {String}             id       The ID of the guild.
-   * @param  {Object}             settings The data to update. Property names should match column names.
-   * @return {(Number|undefined)}          Returns 0 on success or undefined.
+   * @param  {String}            id       The ID of the guild.
+   * @param  {Object}            settings The data to update. Property names should match column names.
+   * @return {Promise<Object[]>}          Returns the updated table.
    */
   updateSettings (id, settings) {
     return this._qb.update({ table: 'guild_settings', data: settings, where: { id } })
@@ -153,9 +152,9 @@ class DatabaseManager {
 
   /**
    * Update a guild entry in the guild_toggles table.
-   * @param  {String}             id      The ID of the guild.
-   * @param  {Object}             toggles The data to update. Property names should match column names.
-   * @return {(Number|undefined)}         Returns 0 on success or undefined.
+   * @param  {String}            id      The ID of the guild.
+   * @param  {Object}            toggles The data to update. Property names should match column names.
+   * @return {Promise<Object[]>}         Returns the updated table.
    */
   updateToggles (id, toggles) {
     return this._qb.update({ table: 'guild_toggles', data: toggles, where: { id } })
@@ -164,8 +163,8 @@ class DatabaseManager {
   /**
    * Create database tables.
    * @private
-   * @param   {Object[]}   config The DB schema.
-   * @return  {Promise[]}         The results of the table creation.
+   * @param   {Object[]}        config The DB schema.
+   * @return  {Promise<Object>}        The results of the table creation.
    */
   async _createTables (tables) {
     for (const name in tables) {
