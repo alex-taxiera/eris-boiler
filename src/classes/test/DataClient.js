@@ -10,7 +10,7 @@ import {
   promises as fs
 } from 'fs'
 import path from 'path'
-require('dotenv').load()
+require('dotenv').config()
 
 const mockData = {
   member: {

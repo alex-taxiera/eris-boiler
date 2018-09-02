@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import DatabaseManager from '../DatabaseManager'
 import QueryBuilder from 'simple-knex'
 import Logger from '../Logger'
-require('dotenv').load()
+require('dotenv').config()
 
 test.before(async (t) => {
   t.context.DatabaseManager = new DatabaseManager(t.context.tables, Logger, QueryBuilder)

@@ -6,7 +6,7 @@ import Client from '../DataClient'
 import Command from '../Command'
 import Permission from '../Permission'
 import Logger from '../Logger'
-require('dotenv').load()
+require('dotenv').config()
 
 const client = new Client()
 
