@@ -2,9 +2,7 @@ import test from 'ava'
 
 import Client from '../DataClient'
 import Command from '../Command'
-require('dotenv').load()
-
-console.log(process.env)
+require('dotenv').config()
 
 const client = new Client()
 
