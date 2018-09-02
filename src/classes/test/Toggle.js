@@ -2,7 +2,7 @@ import test from 'ava'
 
 import Toggle from '../Toggle'
 import Client from '../DataClient'
-require('dotenv').config()
+require('dotenv').load()
 
 const client = new Client()
 

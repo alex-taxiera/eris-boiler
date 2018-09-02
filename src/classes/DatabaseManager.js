@@ -16,7 +16,7 @@ class DatabaseManager {
      * @private
      * @type    {QueryBuilder}
      */
-    this._qb = new QueryBuilder(Logger)
+    this._qb = new QueryBuilder()
     /**
      * The logger.
      * @private

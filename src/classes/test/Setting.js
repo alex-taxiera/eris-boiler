@@ -2,7 +2,7 @@ import test from 'ava'
 
 import Setting from '../Setting'
 import Client from '../DataClient'
-require('dotenv').config()
+require('dotenv').load()
 
 const client = new Client(process.env)
 
