@@ -25,9 +25,7 @@ test.before(async (t) => {
       })
     }
   }
-})
 
-test.beforeEach((t) => {
   t.context.qbDelete = sinon.spy(t.context.DatabaseManager._qb, 'delete')
   t.context.qbSelect = sinon.spy(t.context.DatabaseManager._qb, 'select')
   t.context.qbUpdate = sinon.spy(t.context.DatabaseManager._qb, 'update')
@@ -35,6 +33,15 @@ test.beforeEach((t) => {
   t.context.qbInsert = sinon.spy(t.context.DatabaseManager._qb, 'insert')
   t.context.qbCreateTable = sinon.spy(t.context.DatabaseManager._qb, 'createTable')
 })
+
+// test.beforeEach((t) => {
+//   t.context.qbDelete = sinon.spy(t.context.DatabaseManager._qb, 'delete')
+//   t.context.qbSelect = sinon.spy(t.context.DatabaseManager._qb, 'select')
+//   t.context.qbUpdate = sinon.spy(t.context.DatabaseManager._qb, 'update')
+//   t.context.qbGet = sinon.spy(t.context.DatabaseManager._qb, 'get')
+//   t.context.qbInsert = sinon.spy(t.context.DatabaseManager._qb, 'insert')
+//   t.context.qbCreateTable = sinon.spy(t.context.DatabaseManager._qb, 'createTable')
+// })
 
 test.afterEach((t) => {
   t.context.qbDelete.restore()
@@ -46,7 +53,7 @@ test.afterEach((t) => {
 })
 
 test.serial('add client', async (t) => {
-  t.is(await t.context.DatabaseManager.addClient('1', '!'), [{ id: '1', prefix: '!' }])
+  t.deepEqual(await t.context.DatabaseManager.addClient('1', '!'), [{ id: '1', prefix: '!' }])
   t.true(t.context.qbInsert.calledTwice)
 })
 
@@ -62,14 +69,16 @@ test.serial('add status', async (t) => {
         .defaultTo(true)
     })
   }
-  t.is(await t.context.DatabaseManager.addStatus('add-stats-name', 1, true), 0)
+  
+  console.log(await t.context.DatabaseManager.addStatus('add-statuses-name', 1, true))
+  t.is(await t.context.DatabaseManager.addStatus('add-statuses-name', 1, true), 0)
   t.true(t.context.qbInsert.calledOnce)
 })
 
-test.serial('get default settings', async (t) => {
+test.serial('get default status', async (t) => {
   const value = await t.context.DatabaseManager.getDefaultStatus()
-  t.deepEqual(value, { name: 'add-stats-name', type: 1 })
-  t.true(t.context.qbGet.calledOnce)
+  t.deepEqual(value, { name: 'a-new-status', type: 0 })
+  t.true(t.context.qbGet.called)
 })
 
 test.serial('get settings', async (t) => {
@@ -78,7 +87,7 @@ test.serial('get settings', async (t) => {
   t.true(t.context.qbGet.calledOnce)
 })
 
-test.serial('get stats', async (t) => {
+test.serial('get statuses', async (t) => {
   await t.context.DatabaseManager.getStatuses()
   t.true(t.context.qbGet.calledOnce)
 })
