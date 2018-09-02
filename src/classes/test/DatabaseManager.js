@@ -6,8 +6,6 @@ import QueryBuilder from 'simple-knex'
 import Logger from '../Logger'
 require('dotenv').load()
 
-console.log(process.env.TOKEN)
-
 test.before(async (t) => {
   t.context.DatabaseManager = new DatabaseManager(t.context.tables, Logger, QueryBuilder)
 
