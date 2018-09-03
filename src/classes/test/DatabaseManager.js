@@ -119,7 +119,7 @@ test.serial('update settings', async (t) => {
 
 test.serial('create tables', async (t) => {
   const exists = await t.context.DatabaseManager._qb._knex.schema.hasTable('some-table')
-  if (exists) return t.pass('Already exists')
+  if (exists) await t.context.DatabaseManager._qb._knex.schema.dropTable('some-table')
 
   await t.context.DatabaseManager._createTables({
     'some-table': [
@@ -131,6 +131,7 @@ test.serial('create tables', async (t) => {
     ]
   })
 
-  t.true((await t.context._qb.select('some-table')) instanceof Array)
-  t.true(t.context.qbCreateTable.called)
+  t.is(await t.context.DatabaseManager._qb.select('some-table'), undefined)
+  t.true(t.context.qbCreateTable.callCount === 0)
+  t.true(t.context.qbSelect.calledOnce)
 })
