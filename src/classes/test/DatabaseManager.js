@@ -133,5 +133,5 @@ test.serial('create tables', async (t) => {
 
   t.is(await t.context.DatabaseManager._qb.select('some-table'), undefined)
   t.true(t.context.qbCreateTable.callCount === 0)
-  t.true(t.context.qbSelect.calledOnce)
+  t.true(t.context.qbSelect.calledTwice)
 })
