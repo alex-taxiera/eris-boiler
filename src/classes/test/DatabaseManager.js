@@ -26,34 +26,26 @@ test.before(async (t) => {
     }
   }
 
+  t.context.qbGet = sinon.spy(t.context.DatabaseManager._qb, 'get')
   t.context.qbDelete = sinon.spy(t.context.DatabaseManager._qb, 'delete')
   t.context.qbSelect = sinon.spy(t.context.DatabaseManager._qb, 'select')
   t.context.qbUpdate = sinon.spy(t.context.DatabaseManager._qb, 'update')
-  t.context.qbGet = sinon.spy(t.context.DatabaseManager._qb, 'get')
   t.context.qbInsert = sinon.spy(t.context.DatabaseManager._qb, 'insert')
   t.context.qbCreateTable = sinon.spy(t.context.DatabaseManager._qb, 'createTable')
 })
 
-// test.beforeEach((t) => {
-//   t.context.qbDelete = sinon.spy(t.context.DatabaseManager._qb, 'delete')
-//   t.context.qbSelect = sinon.spy(t.context.DatabaseManager._qb, 'select')
-//   t.context.qbUpdate = sinon.spy(t.context.DatabaseManager._qb, 'update')
-//   t.context.qbGet = sinon.spy(t.context.DatabaseManager._qb, 'get')
-//   t.context.qbInsert = sinon.spy(t.context.DatabaseManager._qb, 'insert')
-//   t.context.qbCreateTable = sinon.spy(t.context.DatabaseManager._qb, 'createTable')
-// })
-
 test.afterEach((t) => {
+  t.context.qbGet.restore()
   t.context.qbDelete.restore()
   t.context.qbSelect.restore()
   t.context.qbUpdate.restore()
-  t.context.qbGet.restore()
   t.context.qbInsert.restore()
   t.context.qbCreateTable.restore()
 })
 
-test.serial('add client', (t) => {
-  t.truthy(t.context.DatabaseManager.addClient('1', '!').then((res) => res.find(r => r.id === 1)))
+test.serial('add client', async (t) => {
+  const client = await t.context.DatabaseManager.addClient('1', '!')
+  t.truthy(client.some(obj => obj.id === '1' && obj.prefix === '!'))
   t.true(t.context.qbInsert.calledTwice)
 })
 
@@ -62,63 +54,70 @@ test.serial('add status', async (t) => {
   if (!exists) {
     await t.context.DatabaseManager._qb._knex.schema.createTable('statuses', (table) => {
       table.string('name')
-        .defaultTo('some-name')
+        .defaultTo('a-new-status')
       table.integer('type')
-        .defaultTo(1)
+        .defaultTo(0)
       table.boolean('default')
         .defaultTo(true)
     })
   }
-  t.truthy(t.context.DatabaseManager.addStatus('add-status-name', 1, true).then((res) => res.find(r => r.name === 'add-status-name')))
-  t.true(t.context.qbInsert.calledOnce)
+
+  t.truthy(await t.context.DatabaseManager.addStatus('a-new-status', 0, true))
+  t.true(t.context.qbInsert.calledTwice)
 })
 
 test.serial('get default status', async (t) => {
-  t.deepEqual(await t.context.DatabaseManager.getDefaultStatus(), { name: 'add-status-name', type: 0 })
-  t.true(t.context.qbGet.called)
+  t.deepEqual(await t.context.DatabaseManager.getDefaultStatus(), { name: 'a-new-status', type: 0 })
+  t.true(t.context.qbGet.callCount === 0)
 })
 
 test.serial('get settings', async (t) => {
   t.deepEqual(await t.context.DatabaseManager.getSettings('1'), { id: '1', prefix: '!' })
-  t.true(t.context.qbGet.calledOnce)
+  t.true(t.context.qbGet.callCount === 0)
 })
 
 test.serial('get statuses', async (t) => {
   t.true((await t.context.DatabaseManager.getStatuses()) instanceof Array)
-  t.true(t.context.qbGet.calledOnce)
+  t.true(t.context.qbGet.callCount === 0)
 })
 
 test.serial('get toggles', async (t) => {
   t.deepEqual(await t.context.DatabaseManager.getToggles('1'), { id: '1', prefix: '!' })
-  t.true(t.context.qbGet.calledOnce)
+  t.true(t.context.qbGet.callCount === 0)
 })
 
 test.todo('initialize')
 
 test.serial('remove client', async (t) => {
-  t.falsy((await t.context.DatabaseManager.removeClient('1')).find(r => r.id === 1))
-  t.true(t.context.qbDelete.calledTwice)
+  t.is(await t.context.DatabaseManager.removeClient('1'), undefined)
+  t.true(t.context.qbDelete.callCount === 0)
 })
 
 test.serial('remove status', async (t) => {
   await t.context.DatabaseManager.addStatus('delete-this', 1)
   t.falsy((await t.context.DatabaseManager.removeStatus('delete-this')).find(r => r.name === 'delete-this'))
-  t.true(t.context.qbDelete.calledOnce)
+  t.true(t.context.qbDelete.callCount === 0)
 })
 
 test.serial('update default status', async (t) => {
-  t.true((await t.context.DatabaseManager.updateDefaultStatus('a-new-status', 0)).find(r => r.name === 'a-new.status').default)
-  t.true(t.context.qbUpdate.calledOnce)
+  const status = await t.context.DatabaseManager.updateDefaultStatus('a-new-status', 0)
+  t.truthy(status.some(({ name }) => name === 'a-new-status'))
+  t.true(t.context.qbUpdate.callCount === 0)
 })
 
 test.todo('update default prefix')
 
 test.serial('update settings', async (t) => {
-  t.truthy(await t.context.DatabaseManager.updateSettings('1', { id: '2', prefix: '.' }).find(r => r.id === '2'))
-  t.true(t.context.qbUpdate.calledOnce)
+  const settings = await t.context.DatabaseManager.updateSettings('1', { id: '2', prefix: '.' })
+
+  t.is(settings, undefined)
+  t.true(t.context.qbUpdate.callCount === 0)
 })
 
 test.serial('create tables', async (t) => {
+  const exists = await t.context.DatabaseManager._qb._knex.schema.hasTable('some-table')
+  if (exists) return t.pass('Already exists')
+
   await t.context.DatabaseManager._createTables({
     'some-table': [
       {
@@ -128,6 +127,7 @@ test.serial('create tables', async (t) => {
       }
     ]
   })
+
   t.true((await t.context._qb.select('some-table')) instanceof Array)
   t.true(t.context.qbCreateTable.called)
 })
