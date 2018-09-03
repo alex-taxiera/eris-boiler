@@ -67,12 +67,14 @@ test.serial('add status', async (t) => {
 })
 
 test.serial('get default status', async (t) => {
-  t.deepEqual(await t.context.DatabaseManager.getDefaultStatus(), { name: 'a-new-status', type: 0 })
+  const defaultStatus = JSON.stringify(await t.context.DatabaseManager.getDefaultStatus())
+  t.deepEqual(defaultStatus, JSON.stringify({ name: 'a-new-status', type: 0 }))
   t.true(t.context.qbGet.callCount === 0)
 })
 
 test.serial('get settings', async (t) => {
-  t.deepEqual(await t.context.DatabaseManager.getSettings('1'), { id: '1', prefix: '!' })
+  const settings = JSON.stringify(await t.context.DatabaseManager.getSettings('1'))
+  t.deepEqual(settings, JSON.stringify({ id: '1', prefix: '!' }))
   t.true(t.context.qbGet.callCount === 0)
 })
 
@@ -82,7 +84,8 @@ test.serial('get statuses', async (t) => {
 })
 
 test.serial('get toggles', async (t) => {
-  t.deepEqual(await t.context.DatabaseManager.getToggles('1'), { id: '1', prefix: '!' })
+  const toggles = JSON.stringify(await t.context.DatabaseManager.getToggles('1'))
+  t.deepEqual(toggles, JSON.stringify({ id: '1', prefix: '!' }))
   t.true(t.context.qbGet.callCount === 0)
 })
 
