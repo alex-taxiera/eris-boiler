@@ -65,7 +65,7 @@ test.serial('add status', async (t) => {
   }
 
   const addedStatus = await t.context.DatabaseManager.addStatus('a-new-status', 0, true)
-  t.truthy(addedStatus.every(obj => (obj.name === 'a-new-status' && obj.type === 0 && JSON.stringify(obj.default) === 'true')))
+  t.truthy(addedStatus.every(obj => (obj.name === 'a-new-status' && obj.type === 0 && obj.default === 1)))
   t.true(t.context.insert.calledOnce)
 })
 
