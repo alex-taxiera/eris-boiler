@@ -65,7 +65,7 @@ test.serial('add status', async (t) => {
   }
 
   const addedStatus = await t.context.DatabaseManager.addStatus('a-new-status', 0, true)
-  t.truthy(addedStatus.every(obj => (obj.name === 'a-new-status' && obj.type === 0 && obj.default === true)))
+  t.truthy(addedStatus.every(obj => (obj.name === 'a-new-status' && obj.type === 0 && obj.default == true)))
   t.true(t.context.insert.calledOnce)
 })
 
@@ -76,8 +76,8 @@ test.serial('get default status', async (t) => {
 })
 
 test.serial('get settings', async (t) => {
-  const settings = await t.context.DatabaseManager.getSettings('1')
   const tSetting = { id: '1', prefix: '!' }
+  const settings = await t.context.DatabaseManager.getSettings('1')
   t.deepEqual(JSON.stringify(settings), JSON.stringify(tSetting))
   t.true(t.context.get.calledOnce)
 })
@@ -130,12 +130,14 @@ test.serial('create tables', async (t) => {
   await t.context.DatabaseManager._createTables({
     'some-table': [
       {
-        name: 'id',
+        name: 'anime',
         type: 'string',
         primary: true
       }
     ]
   })
 
+  let createdTable = await t.context.DatabaseManager._qb.insert({ table: 'some-table', data: { anime: 'Another' } })
+  t.truthy(createdTable.every(obj => obj.anime === 'Another'))
   t.true(t.context.createTable.called)
 })
