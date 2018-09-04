@@ -52,6 +52,10 @@ class DatabaseManager {
   addStatus (name, type, def) {
     return this._qb.insert({ table: 'statuses', data: { name, type, default: def } })
   }
+  /**
+   * Grabs default statuses for a guild
+   * @returns {Object}
+   */
   getDefaultStatus () {
     return this._qb.get({ table: 'statuses', columns: ['name', 'type'], where: { default: true } })
   }
