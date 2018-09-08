@@ -53,7 +53,7 @@ class DatabaseManager {
     return this._qb.insert({ table: 'statuses', data: { name, type, default: def } })
   }
   /**
-   * Grabs default statuses for a guild
+   * Returns the default presence of the bot.
    * @returns {Object}
    */
   getDefaultStatus () {
@@ -72,7 +72,7 @@ class DatabaseManager {
    * @return {Object[]} Array of statuses, name and type.
    */
   getStatuses () {
-    return this._qb.select({ table: 'statuses', coloumns: ['name', 'type'] })
+    return this._qb.select({ table: 'statuses', columns: ['name', 'type'] })
   }
   /**
    * Get data on a guild from the guild_toggles table
