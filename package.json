@@ -29,7 +29,6 @@
     "dotenv": "^6.0.0",
     "eris": "^0.8.6",
     "moment": "^2.22.2",
-    "pg": "7.4.3",
     "simple-knex": "^1.0.0-beta.4"
   },
   "devDependencies": {
