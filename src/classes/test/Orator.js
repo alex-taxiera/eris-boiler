@@ -6,8 +6,9 @@ import Client from '../DataClient'
 import Command from '../Command'
 import Permission from '../Permission'
 import Logger from '../Logger'
+require('dotenv').load()
 
-const client = new Client(process.env)
+const client = new Client()
 
 const permission = new Permission({
   name: 'Guild Owner',

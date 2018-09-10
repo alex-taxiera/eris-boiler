@@ -1,8 +1,4 @@
 {
-  "prefix": "!",
-  "status": {
-    "name": "Rocket League",
-    "type": 0
-  },
-  "rotateStatus": true
+  "setting-test-name": "setting-test-value",
+  "Super-Bot": false
 }

@@ -2,8 +2,9 @@ import test from 'ava'
 
 import Toggle from '../Toggle'
 import Client from '../DataClient'
+require('dotenv').load()
 
-const client = new Client(process.env)
+const client = new Client()
 
 const clientTest = {
   name: 'Super-Bot',
