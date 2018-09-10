@@ -173,6 +173,12 @@ class DatabaseManager {
   async _createTables (tables) {
     for (const name in tables) {
       await this._qb.createTable({ name, columns: tables[name] })
+        .then((success) => this._logger.success(`Table ${name} created.`))
+        .catch((error) => {
+          if (error.message === `Table with name ${name} already exists.`) {
+            this._logger.warn(`Table ${name} exists...`)
+          }
+        })
     }
   }
 }
