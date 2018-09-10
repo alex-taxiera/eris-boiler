@@ -1,4 +1,4 @@
-const StatusType = require('./StatusType.js')
+const StatusType = require('../status-type')
 /**
  * Class representing the bot status.
  */

@@ -8,14 +8,16 @@
  * @external GuildMember
  * @see {@link https://abal.moe/Eris/docs/GuildMember|GuildMember}
  */
-const DatabaseManager = require('./DatabaseManager.js')
-const QueryBuilder = require('simple-knex')
-const Orator = require('./Orator.js')
-const Logger = require('./Logger.js')
-const Status = require('./Status.js')
-const settingDefaults = require('../../config/settings.json')
-const dbDefaults = require('../../config/database.json')
 const path = require('path')
+const QueryBuilder = require('simple-knex')
+
+const DatabaseManager = require('../database-manager')
+const Orator = require('../orator')
+const Logger = require('../logger')
+const Status = require('../status')
+
+const settingDefaults = require('../../../config/settings.json')
+const dbDefaults = require('../../../config/database.json')
 /**
  * Class representing a DataClient.
  * @extends {Client}
@@ -141,11 +143,11 @@ class DataClient extends require('eris').Client {
   _getDirectories (sourceFolder) {
     return {
       default: {
-        permissions: path.join(__dirname, '../permissions/'),
-        commands: path.join(__dirname, '../commands/'),
-        events: path.join(__dirname, '../events/'),
-        settings: path.join(__dirname, '../settings/'),
-        toggles: path.join(__dirname, '../toggles/')
+        permissions: path.join(__dirname, '../../permissions/'),
+        commands: path.join(__dirname, '../../commands/'),
+        events: path.join(__dirname, '../../events/'),
+        settings: path.join(__dirname, '../../settings/'),
+        toggles: path.join(__dirname, '../../toggles/')
       },
       user: {
         permissions: path.join(process.cwd(), `${sourceFolder}/permissions/`),

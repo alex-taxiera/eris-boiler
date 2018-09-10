@@ -1,4 +1,4 @@
-const Permission = require('../classes/Permission.js')
+const { Permission } = require('../classes')
 
 module.exports = new Permission({
   name: 'Guild Owner',

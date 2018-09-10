@@ -1,4 +1,4 @@
-const Toggle = require('../classes/Toggle.js')
+const { Toggle } = require('../classes')
 
 module.exports = new Toggle({
   name: 'rotateStatus',

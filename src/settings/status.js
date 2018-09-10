@@ -1,4 +1,4 @@
-const Setting = require('../classes/Setting.js')
+const { Setting } = require('../classes')
 
 module.exports = new Setting({
   name: 'status',

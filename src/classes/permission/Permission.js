@@ -2,7 +2,7 @@
  * Class representing a permission.
  * @extends {SafeClass}
  */
-class Permission extends require('./SafeClass.js') {
+class Permission extends require('../safe-class') {
   /**
    * Create a permission.
    * @param {Object}   data                                     The permission data.

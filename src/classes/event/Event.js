@@ -2,7 +2,7 @@
  * Class representing an event.
  * @extends {SafeClass}
  */
-class Event extends require('./SafeClass.js') {
+class Event extends require('../safe-class') {
   constructor (data) {
     super({
       name: 'string',

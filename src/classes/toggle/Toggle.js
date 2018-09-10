@@ -2,7 +2,7 @@
  * Class representing a Toggle.
  * @extends {Setting}
  */
-class Toggle extends require('./Setting.js') {
+class Toggle extends require('../setting') {
   /**
    * Set the value of the Toggle to true.
    * @param  {DataClient} bot The bot object.

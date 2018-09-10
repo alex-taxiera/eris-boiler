@@ -2,7 +2,7 @@
  * Class representing a setting.
  * @extends {SafeClass}
  */
-class Setting extends require('./SafeClass.js') {
+class Setting extends require('../safe-class') {
   /**
    * Create a setting.
    * @param {Object}     data            An object with data to assign to the Setting.

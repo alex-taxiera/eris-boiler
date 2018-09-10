@@ -1,14 +1,14 @@
 module.exports = {
-  Command: require('./Command.js'),
-  DatabaseManager: require('./DatabaseManager.js'),
-  DataClient: require('./DataClient.js'),
-  Event: require('./Event.js'),
-  Logger: require('./Logger.js'),
-  Orator: require('./Orator.js'),
-  Permission: require('./Permission.js'),
-  SafeClass: require('./SafeClass.js'),
-  Setting: require('./Setting.js'),
-  Status: require('./Status.js'),
-  StatusType: require('./StatusType.js'),
-  Toggle: require('./Toggle.js')
+  Command: require('./command'),
+  DatabaseManager: require('./database-manager'),
+  DataClient: require('./data-client'),
+  Event: require('./event'),
+  Logger: require('./logger'),
+  Orator: require('./orator'),
+  Permission: require('./permission'),
+  SafeClass: require('./safe-class'),
+  Setting: require('./setting'),
+  Status: require('./status'),
+  StatusType: require('./status-type'),
+  Toggle: require('./toggle')
 }

@@ -1,4 +1,4 @@
-const Event = require('../classes/Event.js')
+const { Event } = require('../classes')
 
 module.exports = new Event({
   name: 'ready',

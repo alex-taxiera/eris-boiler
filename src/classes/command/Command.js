@@ -2,7 +2,7 @@
  * Class representing a command.
  * @extends {SafeClass}
  */
-class Command extends require('./SafeClass.js') {
+class Command extends require('../safe-class') {
   /**
    * Create a command.
    * @param {DataClient} bot                                      The bot object.
