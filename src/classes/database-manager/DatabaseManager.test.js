@@ -40,7 +40,7 @@ test.beforeEach((t) => {
   t.context.createTable = sinon.spy(t.context.DatabaseManager._qb, 'createTable')
 })
 
-test.afterEach((t) => {
+test.afterEach.always((t) => {
   t.context.get.restore()
   t.context.delete.restore()
   t.context.select.restore()
