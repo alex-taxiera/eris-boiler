@@ -23,9 +23,11 @@ test.before(async (t) => {
     if (!exists) {
       await t.context.DatabaseManager._qb._knex.schema.createTable(t.context.tables[key], (table) => {
         table.string('id')
-          .defaultTo('1')
-        table.string('prefix')
-          .defaultTo('!')
+        if (key === 'guild_settings') {
+          table.string('prefix')
+            .defaultTo('!')
+          table.string('vip')
+        }
       })
     }
   }
