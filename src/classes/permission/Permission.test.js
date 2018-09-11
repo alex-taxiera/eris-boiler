@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import Permission from '../Permission'
+import Permission from './'
 const mockPermData = {
   name: 'test-perm',
   level: 0

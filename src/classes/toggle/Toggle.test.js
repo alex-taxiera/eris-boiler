@@ -1,10 +1,13 @@
 import test from 'ava'
 
-import Toggle from '../Toggle'
-import Client from '../DataClient'
+import {
+  Toggle,
+  DataClient
+} from '../'
+
 require('dotenv').load()
 
-const client = new Client()
+const client = new DataClient()
 
 const clientTest = {
   name: 'Super-Bot',

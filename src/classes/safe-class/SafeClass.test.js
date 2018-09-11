@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import SafeClass from '../SafeClass'
+import SafeClass from './'
 
 test.before((t) => {
   t.context.SafeClass = new SafeClass({ name: 'Another' }, { name: 'My little pony' })

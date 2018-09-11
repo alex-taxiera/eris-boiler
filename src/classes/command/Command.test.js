@@ -1,10 +1,13 @@
 import test from 'ava'
 
-import Client from '../DataClient'
-import Command from '../Command'
+import {
+  Command,
+  DataClient
+} from '../'
+
 require('dotenv').load()
 
-const client = new Client()
+const client = new DataClient()
 
 const commandMock = {
   name: 'test-command-name',

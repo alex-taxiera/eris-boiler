@@ -1,9 +1,13 @@
 import test from 'ava'
 import sinon from 'sinon'
 
-import DatabaseManager from '../DatabaseManager'
 import QueryBuilder from 'simple-knex'
-import Logger from '../Logger'
+
+import {
+  DatabaseManager,
+  Logger
+} from '../'
+
 require('dotenv').load()
 
 test.before(async (t) => {
@@ -47,7 +51,7 @@ test.afterEach((t) => {
 
 test.serial('add client', async (t) => {
   const addedClient = await t.context.DatabaseManager.addClient('1', '!')
-  t.truthy(addedClient.every(({ id, prefix }) => (id && prefix)))
+  t.truthy(addedClient.every(({ id, prefix }) => id))
   t.true(t.context.insert.calledTwice)
 })
 
@@ -76,7 +80,7 @@ test.serial('get default status', async (t) => {
 })
 
 test.serial('get settings', async (t) => {
-  const tSetting = { id: '1', prefix: '!' }
+  const tSetting = { id: '1', vip: null, prefix: '!' }
   const settings = await t.context.DatabaseManager.getSettings('1')
   t.deepEqual(JSON.stringify(settings), JSON.stringify(tSetting))
   t.true(t.context.get.calledOnce)
@@ -89,7 +93,7 @@ test.serial('get statuses', async (t) => {
 })
 
 test.serial('get toggles', async (t) => {
-  const tToggles = { id: '1', prefix: '!' }
+  const tToggles = { id: '1' }
   const toggles = await t.context.DatabaseManager.getToggles('1')
   t.deepEqual(JSON.stringify(toggles), JSON.stringify(tToggles))
   t.true(t.context.get.calledOnce)
@@ -97,9 +101,15 @@ test.serial('get toggles', async (t) => {
 
 test.todo('initialize')
 
+test.serial('update settings', async (t) => {
+  const updatedSettings = await t.context.DatabaseManager.updateSettings('1', { prefix: '.' })
+  t.true(updatedSettings.find((row) => row.id === '1').prefix === '.')
+  t.true(t.context.update.calledOnce)
+})
+
 test.serial('remove client', async (t) => {
-  const removedClient = await t.context.DatabaseManager.removeClient('1')
-  t.is(removedClient, undefined)
+  const updatedTable = await t.context.DatabaseManager.removeClient('1')
+  t.true(updatedTable.every((row) => row.id !== '1'))
   t.true(t.context.delete.calledTwice)
 })
 
@@ -113,14 +123,6 @@ test.serial('remove status', async (t) => {
 test.serial('update default status', async (t) => {
   const updatedDefStatus = await t.context.DatabaseManager.updateDefaultStatus('a-new-status', 0)
   t.truthy(updatedDefStatus.some(obj => (obj.name === 'a-new-status' && obj.type === 0)))
-  t.true(t.context.update.calledOnce)
-})
-
-test.todo('update default prefix')
-
-test.serial('update settings', async (t) => {
-  const updatedSettings = await t.context.DatabaseManager.updateSettings('1', { id: '2', prefix: '.' })
-  t.is(updatedSettings, undefined)
   t.true(t.context.update.calledOnce)
 })
 

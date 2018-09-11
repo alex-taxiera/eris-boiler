@@ -1,14 +1,17 @@
 import test from 'ava'
 import sinon from 'sinon'
 
-import Orator from '../Orator'
-import Client from '../DataClient'
-import Command from '../Command'
-import Permission from '../Permission'
-import Logger from '../Logger'
+import {
+  Orator,
+  DataClient,
+  Command,
+  Permission,
+  Logger
+} from '../'
+
 require('dotenv').load()
 
-const client = new Client()
+const Client = new DataClient()
 
 const permission = new Permission({
   name: 'Guild Owner',
@@ -16,9 +19,9 @@ const permission = new Permission({
   check: async member => member === null
 })
 
-client.permissions.set(permission.name, permission)
+Client.permissions.set(permission.name, permission)
 
-const command = new Command(client, {
+const command = new Command(Client, {
   name: 'test',
   description: 'test description',
   run: () => console.log('hi'),
@@ -33,23 +36,23 @@ test.before((t) => {
 
 test.beforeEach((t) => {
   t.context.log = sinon.spy(console, 'log')
-  client.commands.set(command.name, command)
+  Client.commands.set(command.name, command)
 })
 
 test.afterEach((t) => {
   t.context.log.restore()
-  client.permissions.delete(permission.name)
-  client.commands.delete(command.name)
+  Client.permissions.delete(permission.name)
+  Client.commands.delete(command.name)
 })
 
 test.serial('canExecute', async (t) => {
-  t.is(await t.context.Orator._canExecute(client, command, ['test'], permission, {
+  t.is(await t.context.Orator._canExecute(Client, command, ['test'], permission, {
     member: null
   }), true)
 })
 
 test.serial('getCommand', (t) => {
-  t.is(t.context.Orator._getCommand(client, 'test'), command)
+  t.is(t.context.Orator._getCommand(Client, 'test'), command)
 })
 
 test.serial('Command by user', (t) => {

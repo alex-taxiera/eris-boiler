@@ -1,10 +1,13 @@
 import test from 'ava'
 
-import Setting from '../Setting'
-import Client from '../DataClient'
+import {
+  Setting,
+  DataClient
+} from '../'
+
 require('dotenv').load()
 
-const client = new Client(process.env)
+const client = new DataClient(process.env)
 
 const mockData = {
   name: 'setting-test-name',

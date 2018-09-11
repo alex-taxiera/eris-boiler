@@ -1,5 +1,6 @@
 import test from 'ava'
-const StatusType = require('../StatusType.js')
+
+import StatusType from './'
 
 test.before((t) => {
   t.context.StatusType = new StatusType()

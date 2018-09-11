@@ -1,7 +1,7 @@
 import test from 'ava'
 import sinon from 'sinon'
 
-import Logger from '../Logger'
+import Logger from './'
 
 test.before((t) => {
   t.context.Logger = new Logger()
