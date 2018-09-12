@@ -13,24 +13,35 @@ require('dotenv').load()
 test.before(async (t) => {
   t.context.tables = {
     settings: 'guild_settings',
-    toggles: 'guild_toggles'
+    toggles: 'guild_toggles',
+    statuses: 'statuses'
   }
 
-  t.context.DatabaseManager = new DatabaseManager(t.context.tables, Logger, QueryBuilder)
+  t.context.DatabaseManager = new DatabaseManager(null, Logger, QueryBuilder)
 
-  for (const key in t.context.tables) {
-    const exists = await t.context.DatabaseManager._qb._knex.schema.hasTable(t.context.tables[key])
-    if (!exists) {
-      await t.context.DatabaseManager._qb._knex.schema.createTable(t.context.tables[key], (table) => {
-        table.string('id')
-        if (key === 'guild_settings') {
-          table.string('prefix')
-            .defaultTo('!')
-          table.string('vip')
-        }
-      })
-    }
-  }
+  t.context.DatabaseManager._qb._knex.schema.createTable('guild_settings', (table) => {
+    table.string('id')
+    table.string('vip')
+    table.string('prefix')
+      .defaultTo('!')
+  }).then(() => {
+    t.context.DatabaseManager._qb._knex.schema.createTable('guild_toggles', (table) => {
+      table.string('id')
+    }).then(() => {
+      t.context.DatabaseManager._qb._knex.schema.createTable('statuses', (table) => {
+        table.string('name')
+        table.boolean('default')
+        table.integer('type')
+      }).then()
+    })
+  })
+})
+
+test.after.always(async (t) => {
+  console.log('after')
+  await t.context.DatabaseManager._qb._knex.schema.dropTable('guild_settings')
+  await t.context.DatabaseManager._qb._knex.schema.dropTable('guild_toggles')
+  await t.context.DatabaseManager._qb._knex.schema.dropTable('statuses')
 })
 
 test.beforeEach((t) => {
