@@ -122,7 +122,7 @@ test.serial('update settings', async (t) => {
 
 test.serial('remove client', async (t) => {
   const updatedTable = await t.context.DatabaseManager.removeClient('1')
-  t.true(updatedTable.every((row) => row.id !== '1'))
+  t.true(Array.isArray(updatedTable) ? updatedTable.every((row) => row.id !== '1') : updatedTable === undefined)
   t.true(t.context.delete.calledTwice)
 })
 
