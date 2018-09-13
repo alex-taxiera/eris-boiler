@@ -16,7 +16,8 @@
     "discord",
     "bot",
     "boiler",
-    "help"
+    "help",
+    "commands"
   ],
   "author": "Alex Taxiera",
   "license": "GPL-3.0",
