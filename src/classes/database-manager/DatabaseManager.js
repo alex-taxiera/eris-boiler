@@ -86,7 +86,7 @@ class DatabaseManager {
    * Check saved guild data against live guild data.
    * @param {Collection<Guild>} guilds The bots collection of guilds at start up.
    */
-  async initialize (guilds) {
+  async initialize (guilds, defaultPrefix) {
     await this._createTables(this._tables)
     let tmpGuilds = new Map(guilds)
     const saved = await this._qb.select({ table: 'guild_settings' })
@@ -102,7 +102,7 @@ class DatabaseManager {
         await this.removeClient(saved[i].id)
       }
     }
-    for (const [id] of tmpGuilds) this.addClient(id)
+    for (const [id] of tmpGuilds) this.addClient(id, defaultPrefix)
   }
 
   /**
