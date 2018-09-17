@@ -1,4 +1,4 @@
-const moment = require('moment')
+const format = require('dateformat')
 const colors = require('colors/safe')
 
 /**
@@ -25,7 +25,7 @@ class Logger {
    * @param {String} [color='white'] The color that the message should be in.
    */
   log (content, color = 'white') {
-    const time = moment().format('MM/DD HH:mm:ss')
+    const time = format(Date.now(), 'mm/dd HH:MM:ss')
     console.log(colors.gray(time) + ' | ' + colors[color](content))
   }
   /**

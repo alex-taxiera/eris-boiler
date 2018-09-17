@@ -135,16 +135,6 @@ class DatabaseManager {
   }
 
   /**
-   * Update the default prefix in the guild_settings table. Not available with SQLite.
-   * @param  {String}    prefix The prefix to set as default.
-   */
-  // updateDefaultPrefix (prefix) {
-  //   this._qb._knex.schema.alterTable('guild_settings', (table) => {
-  //     table.string('prefix').defaultTo(prefix)
-  //   })
-  // }
-
-  /**
    * Update a guild entry in the guild_settings table.
    * @param  {String}            id       The ID of the guild.
    * @param  {Object}            settings The data to update. Property names should match column names.

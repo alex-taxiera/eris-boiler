@@ -10,10 +10,10 @@ module.exports = (bot) => new Command(
       permission: 'VIP'
     },
     run: async function ({ msg, bot }) {
+      // TODO get all settings and toggles and generate embed based on that
       const inline = true
       const guild = msg.channel.guild
       const { vip, prefix } = await bot.dbm.getSettings(guild.id)
-      // const { game, watch, listen, stream } = await bot.dbm.getToggles(guild.id)
 
       const vipRole = bot.guilds.get(guild.id).roles.get(vip)
       const embed = {
