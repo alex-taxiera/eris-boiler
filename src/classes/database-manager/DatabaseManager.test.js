@@ -38,7 +38,6 @@ test.before(async (t) => {
 })
 
 test.after.always(async (t) => {
-  console.log('after')
   await t.context.DatabaseManager._qb._knex.schema.dropTable('guild_settings')
   await t.context.DatabaseManager._qb._knex.schema.dropTable('guild_toggles')
   await t.context.DatabaseManager._qb._knex.schema.dropTable('statuses')
