@@ -7,7 +7,8 @@ module.exports = (bot) => new Command(
     description: 'Display guild-wide options',
     options: {
       aliases: ['prefs', 'settings'],
-      permission: 'VIP'
+      permission: 'VIP',
+      deleteResponseDelay: 15000
     },
     run: async function ({ msg, bot }) {
       // TODO get all settings and toggles and generate embed based on that
@@ -30,7 +31,7 @@ module.exports = (bot) => new Command(
           { name: 'VIP Role', value: vip ? vipRole.name : 'None', inline }
         ]
       }
-      return { embed, delay: 15000 }
+      return { embed }
     }
   }
 )
