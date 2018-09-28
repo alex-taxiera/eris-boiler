@@ -29,7 +29,7 @@ class Orator {
     let { prefix } = await bot.dbm.getSettings(msg.channel.guild.id)
     if (!this._isCommandByUser(bot.user, msg, prefix)) return
 
-    const params = msg.content.substring(prefix.length).split(' ')
+    const params = msg.content.substring(prefix.length).split(/\s+/)
     const cmd = params.splice(0, 1)[0]
 
     const command = this._getCommand(bot, cmd); if (!command) return
