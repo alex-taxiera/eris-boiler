@@ -1,41 +1,41 @@
 {
-  "guild_settings": [
-    {
+  "guild_settings": {
+    "id": {
       "name": "id",
       "type": "string",
       "primary": true
     },
-    {
+    "vip": {
       "name": "vip",
       "type": "string"
     },
-    {
+    "prefix": {
       "name": "prefix",
       "type": "string"
     }
-  ],
-  "guild_toggles": [
-    {
+  },
+  "guild_toggles": {
+    "id": {
       "name": "id",
       "type": "string",
       "primary": true
     }
-  ],
-  "statuses": [
-    {
+  },
+  "statuses": {
+    "name": {
       "name": "name",
       "type": "string",
       "primary": true
     },
-    {
+    "type": {
       "name": "type",
       "type": "integer",
       "default": 0
     },
-    {
+    "default": {
       "name": "default",
       "type": "boolean",
       "default": false
     }
-  ]
+  }
 }
