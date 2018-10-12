@@ -20,12 +20,42 @@ const mockData = {
   member: {
     permLevel: 0
   },
-  defaultTables: {
-    anime: 'Another'
-  },
-  newTables: {
-    shows: 'My little pony'
-  }
+  defaultTables: [
+    {
+      name: 'test',
+      columns: [
+        {
+          name: 'testCol',
+          type: 'string'
+        }
+      ]
+    }
+  ],
+  newTables: [
+    {
+      name: 'test',
+      columns: [
+        {
+          name: 'testCol',
+          type: 'boolean',
+          default: false
+        },
+        {
+          name: 'newCol',
+          type: 'string'
+        }
+      ]
+    },
+    {
+      name: 'newTable',
+      columns: [
+        {
+          name: 'test',
+          type: 'integer'
+        }
+      ]
+    }
+  ]
 }
 
 const eventData = new Event({
@@ -90,10 +120,33 @@ test.serial('combine tables', (t) => {
     defaultTables,
     newTables
   } = mockData
-  t.deepEqual(t.context.DataClient._combineTables(defaultTables, newTables), {
-    anime: 'Another',
-    shows: 'My little pony'
-  })
+  const expected = [
+    {
+      name: 'test',
+      columns: [
+        {
+          name: 'testCol',
+          type: 'boolean',
+          default: false
+        },
+        {
+          name: 'newCol',
+          type: 'string'
+        }
+      ]
+    },
+    {
+      name: 'newTable',
+      columns: [
+        {
+          name: 'test',
+          type: 'integer'
+        }
+      ]
+    }
+  ]
+  const actual = t.context.DataClient._combineTables(defaultTables, newTables)
+  t.is(JSON.stringify(actual), JSON.stringify(expected))
 })
 
 test.serial('get dirs', (t) => {

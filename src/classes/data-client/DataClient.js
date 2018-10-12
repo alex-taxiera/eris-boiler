@@ -123,17 +123,23 @@ class DataClient extends require('eris').Client {
    * @return  {Object}               The combined product.
    */
   _combineTables (defaultTables, newTables) {
-    const results = defaultTables
-    for (const table in newTables) {
-      if (results[table]) {
-        for (const column in newTables[table]) {
-          results[table][column] = { ...defaultTables[table][column], ...newTables[table][column] }
+    const tables = defaultTables
+    for (const table of newTables) {
+      const i = tables.findIndex((oldTable) => oldTable.name === table.name)
+      if (i > -1) {
+        for (const column of table.columns) {
+          const j = tables[i].columns.findIndex((oldColumn) => oldColumn.name === column.name)
+          if (j > -1) {
+            tables[i].columns[j] = { ...tables[i].columns[j], ...column }
+          } else {
+            tables[i].columns.push(column)
+          }
         }
       } else {
-        results[table] = newTables[table]
+        tables.push(table)
       }
     }
-    return results
+    return tables
   }
   /**
    * Get the map of default and user directories.

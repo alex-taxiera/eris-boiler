@@ -141,15 +141,18 @@ test.serial('update default status', async (t) => {
 test.serial('create tables', async (t) => {
   const exists = await t.context.DatabaseManager._qb._knex.schema.hasTable('some-table')
   if (exists) await t.context.DatabaseManager._qb._knex.schema.dropTable('some-table')
-  await t.context.DatabaseManager._createTables({
-    'some-table': [
-      {
-        name: 'anime',
-        type: 'string',
-        primary: true
-      }
-    ]
-  })
+  await t.context.DatabaseManager._createTables([
+    {
+      name: 'some-table',
+      columns: [
+        {
+          name: 'anime',
+          type: 'string',
+          primary: true
+        }
+      ]
+    }
+  ])
 
   let createdTable = await t.context.DatabaseManager._qb.insert({ table: 'some-table', data: { anime: 'Another' } })
   t.truthy(createdTable.every(obj => obj.anime === 'Another'))

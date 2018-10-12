@@ -1,41 +1,50 @@
-{
-  "guild_settings": {
-    "id": {
-      "name": "id",
-      "type": "string",
-      "primary": true
-    },
-    "vip": {
-      "name": "vip",
-      "type": "string"
-    },
-    "prefix": {
-      "name": "prefix",
-      "type": "string"
-    }
+[
+  {
+    "name": "guild_settings",
+    "columns": [
+      {
+        "name": "id",
+        "type": "string",
+        "primary": true
+      },
+      {
+        "name": "vip",
+        "type": "string"
+      },
+      {
+        "name": "prefix",
+        "type": "string"
+      }
+    ]
   },
-  "guild_toggles": {
-    "id": {
-      "name": "id",
-      "type": "string",
-      "primary": true
-    }
+  {
+    "name": "guild_toggles",
+    "columns": [
+      {
+        "name": "id",
+        "type": "string",
+        "primary": true
+      }
+    ]
   },
-  "statuses": {
-    "name": {
-      "name": "name",
-      "type": "string",
-      "primary": true
-    },
-    "type": {
-      "name": "type",
-      "type": "integer",
-      "default": 0
-    },
-    "default": {
-      "name": "default",
-      "type": "boolean",
-      "default": false
-    }
+  {
+    "name": "statuses",
+    "columns": [
+      {
+        "name": "name",
+        "type": "string",
+        "primary": true
+      },
+      {
+        "name": "type",
+        "type": "integer",
+        "default": 0
+      },
+      {
+        "name": "default",
+        "type": "boolean",
+        "default": false
+      }
+    ]
   }
-}
+]
