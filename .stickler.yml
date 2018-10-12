@@ -1,5 +1,6 @@
 linters:
-  standardjs:
+  eslint:
+    config: './.eslintrc'
 files:
   ignore:
     - 'docs/*'
