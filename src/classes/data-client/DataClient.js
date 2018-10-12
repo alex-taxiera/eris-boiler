@@ -92,13 +92,14 @@ class DataClient extends require('eris').Client {
     this._directories = this._getDirectories(options.sourceFolder)
 
     // permanent ready event listener to startup proper
-    this.on('ready', async (bot) => {
+    this.onReady = async (bot) => {
       bot.ownerID = (await bot.getOAuthApplication()).owner.id
       await bot.dbm.initialize(bot.guilds, bot.defaultSettings.prefix)
       bot.logger.success('online')
       if (bot.toggles.get('rotateStatus').value) bot.status.startRotate(bot)
       bot.status.default(bot)
-    })
+    }
+    this.on('ready', this.onReady.bind(null, this))
 
     // load everything
     this._setup()
