@@ -46,7 +46,7 @@ class DataClient extends require('eris').Client {
      * The DatabaseManager.
      * @type {DatabaseManager}
      */
-    this.dbm = new DatabaseManager(this._combineTables(dbDefaults || [], options.tables || []), Logger, QueryBuilder, options.qbOptions)
+    this.dbm = new DatabaseManager(this._combineTables(dbDefaults || [], options.tables || []), Logger, QueryBuilder, options.qbOptions || {})
     /**
      * The Orator.
      * @type {Orator}
