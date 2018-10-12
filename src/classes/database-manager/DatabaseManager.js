@@ -10,9 +10,9 @@ class DatabaseManager {
    * @param {Object} tables       The tables to add to the database.
    * @param {Class}  Logger       The Logger class
    * @param {Class}  QueryBuilder The QueryBuilder with which to interface with the DB.
-   * @param {Object} qbOptions    The options to pass to the QueryBuilder constructor.
+   * @param {Object} [qbOptions]  The options to pass to the QueryBuilder constructor.
    */
-  constructor (tables, Logger, QueryBuilder, qbOptions) {
+  constructor (tables, Logger, QueryBuilder, qbOptions = {}) {
     /**
      * The QueryBuilder.
      * @private

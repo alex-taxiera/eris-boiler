@@ -25,13 +25,15 @@ const dbDefaults = require('../../../config/database.json')
 class DataClient extends require('eris').Client {
   /**
    * Create a client.
-   * @param {Object} [options]                 Same as Client.
+   * @param {Object} options                   Same as Client + token.
+   * @param {String} options.token             The bot token.
    * @param {String} [options.sourceFolder]    Source folder to check for data folders such as commands (path from root).
    * @param {Object} [options.defaultSettings] Default values for settings.
    * @param {Object} [options.tables]          Additional database tables to create.
+   * @param {Object} [options.qbOptions]       Params to pass to the QueryBuilder class.
    */
   constructor (options = {}) {
-    super(process.env.TOKEN, options)
+    super(options.token, options)
     /**
      * The default settings.
      * @type {Object}
@@ -46,7 +48,7 @@ class DataClient extends require('eris').Client {
      * The DatabaseManager.
      * @type {DatabaseManager}
      */
-    this.dbm = new DatabaseManager(this._combineTables(dbDefaults || [], options.tables || []), Logger, QueryBuilder, options.qbOptions || {})
+    this.dbm = new DatabaseManager(this._combineTables(dbDefaults || [], options.tables || []), Logger, QueryBuilder, options.qbOptions)
     /**
      * The Orator.
      * @type {Orator}
