@@ -31,10 +31,15 @@ class Status {
    * @param {DataClient} bot The bot object.
    */
   async default (bot) {
+    const defaultStatus = bot.defaultSettings.status
     let status = await bot.dbm.getDefaultStatus()
-    if (status) return this.setStatus(bot, status)
-    status = bot.defaultSettings.status
-    bot.dbm.addStatus(status.name, status.type, true)
+    if (!status) {
+      status = bot.defaultSettings.status
+      bot.dbm.addStatus(status.name, status.type, true)
+    } else if (defaultStatus.name !== status.name || defaultStatus.type !== status.type) {
+      status = defaultStatus
+      bot.dbm.updateDefaultStatus(status.name, status.type)
+    }
     return this.setStatus(bot, status)
   }
   /**
