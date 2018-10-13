@@ -5,7 +5,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/586014eefb135a4c51a1/test_coverage)](https://codeclimate.com/github/alex-taxiera/eris-boiler/test_coverage)
 [![Build Status](https://travis-ci.com/alex-taxiera/eris-boiler.svg?branch=master)](https://travis-ci.com/alex-taxiera/eris-boiler)
 
-A Discord bot boilerplate using JavaScript and the [Eris](https://abal.moe/Eris/) library.
+A Discord bot framework for JavaScript and the [Eris](https://abal.moe/Eris/) library.
 
 ## Installation
 `npm install eris-boiler`
