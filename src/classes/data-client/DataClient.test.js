@@ -74,7 +74,7 @@ const setting = new Setting({
 const permission = new Permission({
   name: 'test-dataDataClient',
   level: 0,
-  check: async member => member === null
+  check: async (member) => member === null
 })
 
 test.before((t) => {
