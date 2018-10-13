@@ -1,8 +1,10 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>External: Client | eris-boiler</title>
+    <title>Source: status-type/StatusType.js | eris-boiler</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -48,95 +50,55 @@
 
 
 
-
-<section>
-
-<header>
     
-        <h2>Client</h2>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Class representing the possible status types.
+ */
+class StatusType {
+  /**
+   * Create a status type object.
+   */
+  constructor () {
+    /**
+     * Enum for status types
+     * @private
+     * @type     {Object}
+     * @property {Number} PLAYING   0
+     * @property {Number} STREAMING 1 (Twitch only)
+     * @property {Number} LISTENING 2
+     * @property {Number} WATCHING  3
+     */
+    this._num = {
+      PLAYING: 0,
+      STREAMING: 1,
+      LISTENING: 2,
+      WATCHING: 3
+    }
+  }
+  /**
+   * Get a status type string by num.
+   * @param  {Number} num The number type to lookup.
+   * @return {String}     The nice string name.
+   */
+  getStatusName (num) {
+    const strings = {
+      PLAYING: 'Playing',
+      STREAMING: 'Streaming',
+      LISTENING: 'Listening',
+      WATCHING: 'Watching'
+    }
+    for (let key in this._num) {
+      if (this._num[key] === num) return strings[key]
+    }
+  }
+}
 
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p>The Eris Client.</p></div>
-            
-
-            
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://abal.moe/Eris/docs/Client">Client</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+module.exports = StatusType
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -153,7 +115,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'external:Client_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

@@ -1,8 +1,10 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>External: Client | eris-boiler</title>
+    <title>Source: setting/Setting.js | eris-boiler</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -48,95 +50,82 @@
 
 
 
-
-<section>
-
-<header>
     
-        <h2>Client</h2>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Class representing a setting.
+ * @extends {SafeClass}
+ */
+class Setting extends require('../safe-class') {
+  /**
+   * Create a setting.
+   * @param {Object}     data            An object with data to assign to the Setting.
+   * @param {String}     data.name       The (camelCase) name of the setting.
+   * @param {String}     data.prettyName Pretty print name for setting.
+   * @param {Function}   data._onChange   A function that gets executed whenever the value of the setting is changed.
+   */
+  constructor (data) {
+    const mandatoryTypes = {
+      name: 'string',
+      prettyName: 'string',
+      _onChange: 'function'
+    }
+    super(mandatoryTypes)
+    const {
+      name,
+      prettyName,
+      _onChange
+    } = data
+    /**
+     * The name of the setting.
+     * @type {String}
+     */
+    this.name = name
+    /**
+     * The (camelCase) code of the setting.
+     * @type {String}
+     */
+    this.prettyName = prettyName
+    /**
+     * A function that gets executed whenever the value of the setting is changed.
+     * @private
+     * @type    {Function}
+     */
+    this._onChange = _onChange
+    /**
+     * The value of the setting.
+     * Default values are applied in DataClient constructor.
+     * @type {*}
+     */
+    this.value = undefined
 
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p>The Eris Client.</p></div>
-            
+    this._checkDataTypes()
+  }
+  /**
+   * Sets the value of the setting.
+   * @param  {*}          value The value to set.
+   * @param  {DataClient} bot   The bot object.
+   * @return {String}           Confirmation message.
+   */
+  setValue (value, bot) {
+    if (this.value === value) return `${this.name} is already ${this.value}!`
+    this.value = bot.defaultSettings[this.name] = value
 
-            
+    const { writeFile } = require('fs').promises
+    writeFile('config/settings.json', JSON.stringify(bot.defaultSettings, undefined, 2))
+      .then((success) => bot.logger.success('wrote to config'))
+      .catch(bot.logger.error)
 
+    this._onChange(bot, value)
+    return `${this.name} set to ${this.value}!`
+  }
+}
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://abal.moe/Eris/docs/Client">Client</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+module.exports = Setting
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -153,7 +142,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'external:Client_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

@@ -1,8 +1,10 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>External: Client | eris-boiler</title>
+    <title>Source: safe-class/SafeClass.js | eris-boiler</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -48,95 +50,89 @@
 
 
 
-
-<section>
-
-<header>
     
-        <h2>Client</h2>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Class factory with type checking.
+ */
+class SafeClass {
+  /**
+   * Create a SafeClass
+   * @param {Object} [mandatoryTypes={}] Object mapping property name to type string.
+   * @param {Object} [restraints={}]     Object mapping property name to a Map of allowed values.
+   */
+  constructor (mandatoryTypes = {}, restraints = {}) {
+    /**
+     * The types to conform to.
+     * @private
+     * @type    {Object}
+     */
+    this._mandatoryTypes = mandatoryTypes
+    /**
+     * The values to conform to.
+     * @private
+     * @type    {Object}
+     */
+    this._restraints = restraints
+  }
+  /**
+   * Verify data types and restraints.
+   * @private
+   * @throws  {TypeError} Error message is all exceptions raised with types or restraints.
+   */
+  _checkDataTypes () {
+    const errors = []
+    for (const key in this._mandatoryTypes) {
+      let expected = this._mandatoryTypes[key]
+      let actual = typeof this[key]
+      if (expected.endsWith('[]')) {
+        actual = typeof this[key][0] + '[]'
+        if (!Array.isArray(this[key]) || (this[key].length > 0 &amp;&amp; actual !== expected)) errors.push(this._typeError(key, expected, actual))
+      } else if (actual !== expected) errors.push(this._typeError(key, expected, actual))
+      if (this._restraints[key]) {
+        expected = this._restraints[key]
+        actual = this[key]
+        if (!expected.has(actual)) errors.push(this._restraintError(key, expected, actual))
+      }
+    }
+    if (errors.length > 0) throw TypeError('\n\t\t\u0020' + errors.join('\n\t\t\u0020'))
+  }
+  /**
+   * Build a restraint error message.
+   * @private
+   * @param   {String} key      Property name which has an invalid value.
+   * @param   {Map}    expected Map of allowed values.
+   * @param   {*}      actual   Whatever the invalid value is.
+   * @return  {String}          Error message.
+   */
+  _restraintError (key, expected, actual) {
+    const keys = []
+    const iter = expected.keys()
+    let name = iter.next().value
+    while (name) {
+      keys.push(name)
+      name = iter.next().value
+    }
+    return `"${key}" expects one of [${keys.join(', ')}] but was given "${actual}"`
+  }
+  /**
+   * Build a type error message.
+   * @private
+   * @param   {String} key      Property name which has an invalid type.
+   * @param   {String} expected Type that was expected.
+   * @param   {String} actual   Whatever the invalid type is.
+   * @return  {String}          Error message.
+   */
+  _typeError (key, expected, actual) {
+    return `"${key}" expects type "${expected}" but was given type "${actual}"`
+  }
+}
 
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p>The Eris Client.</p></div>
-            
-
-            
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://abal.moe/Eris/docs/Client">Client</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+module.exports = SafeClass
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -153,7 +149,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'external:Client_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

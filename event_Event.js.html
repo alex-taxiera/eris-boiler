@@ -1,8 +1,10 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>External: Client | eris-boiler</title>
+    <title>Source: event/Event.js | eris-boiler</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -48,95 +50,39 @@
 
 
 
-
-<section>
-
-<header>
     
-        <h2>Client</h2>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Class representing an event.
+ * @extends {SafeClass}
+ */
+class Event extends require('../safe-class') {
+  constructor (data) {
+    super({
+      name: 'string',
+      run: 'function'
+    })
+    /**
+     * The event name.
+     * @type {String}
+     */
+    this.name = data.name
+    /**
+     * The function to run when the event occurs.
+     * @type {Function}
+     */
+    this.run = data.run
 
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p>The Eris Client.</p></div>
-            
+    // verify types of properties match those defined in mandatoryTypes
+    this._checkDataTypes()
+  }
+}
 
-            
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://abal.moe/Eris/docs/Client">Client</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+module.exports = Event
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -153,7 +99,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'external:Client_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 

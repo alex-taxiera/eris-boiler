@@ -1,8 +1,10 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>External: Client | eris-boiler</title>
+    <title>Source: logger/Logger.js | eris-boiler</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -48,95 +50,59 @@
 
 
 
-
-<section>
-
-<header>
     
-        <h2>Client</h2>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const format = require('dateformat')
+const colors = require('colors/safe')
 
-<article>
-    
-        <div class="container-overview">
-        
-            
-                <div class="description"><p>The Eris Client.</p></div>
-            
+/**
+ * Class representing a logger.
+ */
+class Logger {
+  constructor () {
+    // binding to ensure the this context is always correct
+    this.success = this.success.bind(this)
+    this.warn = this.warn.bind(this)
+    this.error = this.error.bind(this)
+  }
+  /**
+   * Log something in red for error.
+   * @param {String} error The string to log (can also be something with a toString method).
+   */
+  error (error) {
+    error = error.stack || error
+    this.log(error, 'red')
+  }
+  /**
+   * Log something.
+   * @param {String} content         The string to log (can also be something with a toString method).
+   * @param {String} [color='white'] The color that the message should be in.
+   */
+  log (content, color = 'white') {
+    const time = format(Date.now(), 'mm/dd HH:MM:ss')
+    console.log(colors.gray(time) + ' | ' + colors[color](content))
+  }
+  /**
+   * Log something in green for success.
+   * @param {String} content The string to log (can also be something with a toString method).
+   */
+  success (content) {
+    this.log(content, 'green')
+  }
+  /**
+   * Log something in yellow for warning.
+   * @param {String} content The string to log (can also be something with a toString method).
+   */
+  warn (content) {
+    this.log(content, 'yellow')
+  }
+}
 
-            
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://abal.moe/Eris/docs/Client">Client</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-            
-        
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+module.exports = Logger
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -153,7 +119,7 @@
 <script src="scripts/linenumber.js"></script>
 
     <script>
-        var id = 'external:Client_sub'.replace(/"/g, '_');
+        var id = '_sub'.replace(/"/g, '_');
         var selectedApi = document.getElementById(id); // do not use jquery selector
         var $selectedApi = $(selectedApi);
 
