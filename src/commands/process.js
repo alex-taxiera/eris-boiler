@@ -62,5 +62,5 @@ function getDuration (seconds) {
       return ax.time.join(':')
     }
     return ax
-  }, {time: [], seconds})
+  }, { time: [], seconds })
 }
