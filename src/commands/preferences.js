@@ -1,4 +1,4 @@
-const { Command } = require('../classes')
+const { Command } = require('../lib')
 
 module.exports = (bot) => new Command(
   bot,

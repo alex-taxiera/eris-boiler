@@ -1,4 +1,4 @@
-const { Permission } = require('../classes')
+const { Permission } = require('../lib')
 
 module.exports = new Permission({
   name: 'Admin',

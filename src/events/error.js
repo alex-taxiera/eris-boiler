@@ -1,4 +1,4 @@
-const { Event } = require('../classes')
+const { Event } = require('../lib')
 
 module.exports = new Event({
   name: 'error',

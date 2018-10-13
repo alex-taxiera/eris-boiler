@@ -1,4 +1,4 @@
-const { Setting } = require('../classes')
+const { Setting } = require('../lib')
 
 module.exports = new Setting({
   name: 'prefix',

@@ -1,4 +1,4 @@
-const { Toggle } = require('../classes')
+const { Toggle } = require('../lib')
 
 module.exports = new Toggle({
   name: 'rotateStatus',
