@@ -26,7 +26,8 @@ class Orator {
   async processMessage (bot, msg) {
     this._start = Date.now() // NOTE: save in case of analytics
     if (!this._isGuild(msg)) return
-    let { prefix } = await bot.dbm.getSettings(msg.channel.guild.id)
+    const { prefix } = await bot.dbm.getSettings(msg.channel.guild.id)
+    if (this._isMentioned(bot.user, msg)) return this._sendHelp(prefix, msg)
     if (!this._isCommandByUser(bot.user, msg, prefix)) return
 
     const params = msg.content.substring(prefix.length).split(/\s+/)
@@ -116,6 +117,16 @@ class Orator {
     return msg.content.startsWith(prefix) && msg.member.id !== me.id
   }
   /**
+   * Check a message to see if it mentions the bot.
+   * @private
+   * @param  {ExtendedUser} me  The bot user.
+   * @param  {Message}      msg The message to check for mention.
+   * @return {Boolean}          Whether or not this message mentions the bot.
+   */
+  _isMentioned (me, msg) {
+    return msg.mentions.some((user) => user.id === me.id)
+  }
+  /**
    * Check if a message was sent in a guild.
    * @private
    * @param   {Message} msg The message to check.
@@ -142,6 +153,14 @@ class Orator {
       },
       file: response.file
     }
+  }
+  /**
+   * Send a help message in chat.
+   * @param {String}  prefix The prefix used in the server the message was sent.
+   * @param {Message} msg    The message needing help.
+   */
+  _sendHelp (prefix, msg) {
+    msg.channel.createMessage(`Hello! The prefix for this server is \`${prefix}\`, try \`${prefix}help\``)
   }
   /**
    * Log speed of command execution to file.
