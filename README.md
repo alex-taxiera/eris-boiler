@@ -8,7 +8,7 @@
 A Discord bot boilerplate using JavaScript and the [Eris](https://abal.moe/Eris/) library.
 
 ## Installation
-Refer to latest release
+`npm install eris-boiler`
 
 ## Talk to us!
 The [discord](https://discordapp.com/invite/4SkAduM) chat is the best place to communicate. We encourage using it for:
@@ -22,21 +22,28 @@ Class documentation can be found [here](https://alex-taxiera.github.io/eris-boil
 
 
 ## Usage
-NOTE: This has only been tested with MySQL/MariaDB, but should also work with PostgreSQL
 ```js
 // index.js
-require('dotenv').load() // load .env
 const { DataClient } = require('eris-boiler')
+const token = 'MY TOKEN'
 
-const bot = new DataClient({sourceFolder: './src'}) // specify files live in ./src
+const bot = new DataClient({
+  token,
+  qbOptions: {
+    data: {
+      connectionInfo: { // db connection info, as defined in simple-knex
+        user: 'user',
+        password: 'password',
+        database: 'db name',
+        host: 'ip'
+      },
+      client: 'mysql'
+    }
+  }
+  sourceFolder: './src' // specify files live in ./src
+  })
+
 bot.connect()
-```
-```js
-// .env
-TOKEN=XXX
-DB_NAME=my-bot
-DB_USER=user
-DB_PASS=pass
 ```
 ```js
 // src/commands/echo.js
@@ -72,6 +79,6 @@ Check out our guidelines [here.](/CONTRIBUTING.md)
 
 ## Development
 1. Clone this repository
-2. Create a `.env` in the root folder (use `sample.env` as a guide)
-3. Run `npm install`
+2. Run `npm install`
+3. Add your token and other options
 4. Run `npm run dev`
