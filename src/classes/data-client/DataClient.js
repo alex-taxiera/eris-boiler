@@ -31,6 +31,7 @@ class DataClient extends require('eris').Client {
    * @param {Object} [options.defaultSettings] Default values for settings.
    * @param {Object} [options.tables]          Additional database tables to create.
    * @param {Object} [options.qbOptions]       Params to pass to the QueryBuilder class.
+   * @param {Object} [options.oraOptions]      Params to pass to the Orator class.
    */
   constructor (options = {}) {
     super(options.token, options)
@@ -53,7 +54,7 @@ class DataClient extends require('eris').Client {
      * The Orator.
      * @type {Orator}
      */
-    this.ora = new Orator(Logger, { analytics: true })
+    this.ora = new Orator(Logger, options.oraOptions)
     /**
      * The Status handler.
      * @type {Status}
