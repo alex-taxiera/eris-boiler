@@ -1,3 +1,4 @@
+const { Status } = require('../')
 /**
  * @external {Collection} https://abal.moe/Eris/docs/Collection
  */
@@ -56,10 +57,11 @@ class DatabaseManager {
   }
   /**
    * Returns the default presence of the bot.
-   * @returns {Object}
+   * @returns {Status}
    */
   getDefaultStatus () {
     return this._qb.get({ table: 'statuses', columns: ['name', 'type'], where: { default: true } })
+      .then((status) => new Status(status))
   }
   /**
    * Get data on a guild from the guild_settings table
@@ -71,10 +73,11 @@ class DatabaseManager {
   }
   /**
    * Get the statuses of the bot from the statuses table.
-   * @return {Object[]} Array of statuses, name and type.
+   * @return {Status[]} Array of statuses, name and type.
    */
   getStatuses () {
     return this._qb.select({ table: 'statuses', columns: ['name', 'type'] })
+      .then((statuses) => statuses.map((status) => new Status(status)))
   }
   /**
    * Get data on a guild from the guild_toggles table
@@ -128,11 +131,11 @@ class DatabaseManager {
 
   /**
    * Update the default status of the bot.
-   * @param  {String}            name   The name of the status.
-   * @param  {Number}            [type] The type of the status.
+   * @param  {Status}            status The status to update to.
    * @return {Promise<Object[]>}        Returns the updated table.
    */
-  updateDefaultStatus (name, type) {
+  updateDefaultStatus (status) {
+    const { name, type } = status
     return this._qb.update({ table: 'statuses', data: { name, type }, where: { default: 1 } })
   }
 

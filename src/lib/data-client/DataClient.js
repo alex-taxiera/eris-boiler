@@ -11,10 +11,12 @@
 const path = require('path')
 const QueryBuilder = require('simple-knex')
 
-const DatabaseManager = require('../database-manager')
-const Orator = require('../orator')
-const Logger = require('../logger')
-const Status = require('../status')
+const {
+  DatabaseManager,
+  Orator,
+  Logger,
+  Status
+} = require('../')
 
 const settingDefaults = require('../../../config/settings.json')
 const dbDefaults = require('../../../config/database.json')
@@ -56,7 +58,7 @@ class DataClient extends require('eris').Client {
      */
     this.ora = new Orator(Logger, options.oraOptions)
     /**
-     * The Status handler.
+     * The current bot Status.
      * @type {Status}
      */
     this.status = new Status()
@@ -91,6 +93,17 @@ class DataClient extends require('eris').Client {
      * @type    {Object}
      */
     this._directories = this._getDirectories(options.sourceFolder)
+    /**
+     * The interval to switch client status on.
+     * @private
+     */
+    this._statusInterval = undefined
+    /**
+     * The amount of time to wait between changing statuses.
+     * @type    {Number}
+     * @private
+     */
+    this._statusTimer = options.statusTimer || 43200000
 
     // permanent ready event listener to startup proper
     this.onReady = async (bot) => {
@@ -128,6 +141,51 @@ class DataClient extends require('eris').Client {
       val = perms.next().value
     }
     return permLevel
+  }
+  /**
+   * Stop changing status automatically.
+   */
+  statusRotateEnd () {
+    if (this._statusInterval) this._statusInterval = clearInterval(this._statusInterval)
+  }
+  /**
+   * Start rotating the bot status.
+   */
+  statusRotateStart () {
+    this._statusInterval = setInterval(() => { this.statusSet() }, this._statusTimer)
+  }
+  /**
+   * Set the status of the bot.
+   * @param {Status} [status] Status to set to, if none is given it will be chosen at random
+   */
+  async statusSet (status) {
+    if (!(status instanceof Status)) {
+      status = this.status
+      const statuses = await this.dbm.getStatuses()
+      if (statuses.length > 1) {
+        do {
+          status = statuses[Math.floor(Math.random() * statuses.length)]
+        } while (Status.equals(status, this.status))
+      }
+    }
+    this.logger.log(`${status.activity} ${status.name}`, 'cyan')
+    this.editStatus('online', status)
+    this.current = status
+  }
+  /**
+   * Set the status to the default.
+   */
+  async statusSetDefault () {
+    const defaultStatus = this.defaultSettings.status
+    let status = await this.dbm.getDefaultStatus()
+    if (!status) {
+      status = this.defaultSettings.status
+      this.dbm.addStatus(status.name, status.type, true)
+    } else if (!Status.equals(status, defaultStatus)) {
+      status = defaultStatus
+      this.dbm.updateDefaultStatus(status.name, status.type)
+    }
+    return this.statusSet(status)
   }
   /**
    * Combines the default db config with the user supplied config.
