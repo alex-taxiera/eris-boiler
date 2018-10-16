@@ -1,79 +1,52 @@
-const StatusType = require('../status-type')
 /**
- * Class representing the bot status.
+ * Class representing bot status/presence.
  */
-class Status {
+class Status extends require('../safe-class') {
   /**
    * Create a status.
    */
-  constructor () {
+  constructor (name = '', type = 0) {
     /**
-     * The current status.
+     * Enum for status types
+     * @private
      * @type     {Object}
-     * @property {String} name The name of the current status.
-     * @property {Number} type The type of the current status.
+     * @property {Number} PLAYING   0
+     * @property {Number} STREAMING 1 (Twitch only)
+     * @property {Number} LISTENING 2
+     * @property {Number} WATCHING  3
      */
-    this.current = { name: '', type: 0 }
-    /**
-     * StatusType data
-     * @type {StatusType}
-     * @private
-     */
-    this._type = new StatusType()
-    /**
-     * The interval for automatic status changes
-     * @private
-     */
-    this._interval = undefined
-  }
-  /**
-   * Set the status to the default.
-   * @param {DataClient} bot The bot object.
-   */
-  async default (bot) {
-    const defaultStatus = bot.defaultSettings.status
-    let status = await bot.dbm.getDefaultStatus()
-    if (!status) {
-      status = bot.defaultSettings.status
-      bot.dbm.addStatus(status.name, status.type, true)
-    } else if (defaultStatus.name !== status.name || defaultStatus.type !== status.type) {
-      status = defaultStatus
-      bot.dbm.updateDefaultStatus(status.name, status.type)
+    const _types = {
+      0: 'Playing',
+      1: 'Streaming',
+      2: 'Listening to',
+      3: 'Watching'
     }
-    return this.setStatus(bot, status)
-  }
-  /**
-   * Stop changing status automatically
-   */
-  endRotate () {
-    if (this._interval) this._interval = clearInterval(this._interval)
-  }
-  /**
-   * Set the status of the bot
-   * @param {DataClient} bot             The bot object.
-   * @param {Logger} bot.logger      The logger.
-   * @param {Object} [status]        Status to set to, if none is given it will be chosen at random
-   * @param {String} [status.name]   Name of status
-   * @param {Number} [status.type=0] Type of status. 0 is playing, 1 is streaming (Twitch only [Unsupported]), 2 is listening, 3 is watching.
-   */
-  async setStatus (bot, status) {
-    if (!status || !status.name) {
-      status = this.current
-      const statuses = await bot.dbm.getStatuses()
-      do {
-        status = statuses[Math.round(Math.random() * (statuses.length - 1))]
-      } while (statuses.length > 1 && status.name === this.current.name)
+    const mandatoryTypes = {
+      name: 'string',
+      type: 'number',
+      activity: 'string'
     }
-    bot.logger.log(`${this._type.getStatusName(status.type)} ${status.name}`, 'cyan')
-    bot.editStatus('online', status)
-    this.current = status
+    const restraints = {
+      type: Object.keys(_types).map((key) => parseInt(key))
+    }
+    super(mandatoryTypes, restraints)
+
+    this.name = name
+    this.type = type
+    this.activity = _types[type]
+
+    // verify types of properties match those defined in mandatoryTypes
+    this._checkDataTypes()
   }
   /**
-   * Set the status of the bot
-   * @param {DataClient} bot The bot object.
+   * Compare two Statuses for equality
+   * @param  {Status}  status1 The first Status.
+   * @param  {Status}  status2 The second Status.
+   * @return {Boolean}         Whether or not the two Statuses are equal.
    */
-  startRotate (bot) {
-    this._interval = setInterval(() => { this.setStatus(bot) }, 43200000)
+  static equals (status1, status2) {
+    const vals1 = Object.values(status1)
+    return Object.values(status2).every((value, index) => value === vals1[index])
   }
 }
 
