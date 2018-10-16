@@ -30,7 +30,7 @@ class Command extends require('../safe-class') {
       deleteResponse: 'boolean',
       deleteResponseDelay: 'number'
     }, {
-      permission: bot.permissions
+      permission: Array.from(bot.permissions.keys())
     })
     const { options = {} } = data
 

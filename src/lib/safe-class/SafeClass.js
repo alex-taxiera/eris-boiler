@@ -33,12 +33,18 @@ class SafeClass {
       let actual = typeof this[key]
       if (expected.endsWith('[]')) {
         actual = typeof this[key][0] + '[]'
-        if (!Array.isArray(this[key]) || (this[key].length > 0 && actual !== expected)) errors.push(this._typeError(key, expected, actual))
-      } else if (actual !== expected) errors.push(this._typeError(key, expected, actual))
+        if (!Array.isArray(this[key]) || (this[key].length > 0 && actual !== expected)) {
+          errors.push(this._typeError(key, expected, actual))
+        }
+      } else if (actual !== expected) {
+        errors.push(this._typeError(key, expected, actual))
+      }
       if (this._restraints[key]) {
         expected = this._restraints[key]
         actual = this[key]
-        if (!expected.has(actual)) errors.push(this._restraintError(key, expected, actual))
+        if (!expected.includes(actual)) {
+          errors.push(this._restraintError(key, expected, actual))
+        }
       }
     }
     if (errors.length > 0) throw TypeError('\n\t\t\u0020' + errors.join('\n\t\t\u0020'))
