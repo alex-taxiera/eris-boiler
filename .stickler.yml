@@ -1,6 +1,7 @@
 linters:
   eslint:
     config: './.eslintrc'
+    install_plugins: true
 files:
   ignore:
     - 'docs/*'
