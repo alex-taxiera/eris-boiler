@@ -1,3 +1,3 @@
-const Library = require('./src/lib')
+const Library = require('./lib')
 
 module.exports = Library
