@@ -47,7 +47,8 @@
   },
   "files": [
     "index.js",
-    "src/",
+    "lib/",
+    "boiler/",
     "config/",
     "!src/**/test/"
   ]
