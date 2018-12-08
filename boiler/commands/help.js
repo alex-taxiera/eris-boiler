@@ -9,7 +9,7 @@ module.exports = (bot) => new Command(
       if (params[0]) {
         const command = bot.commands.get(params[0]) || bot.commands.get(bot.aliases.get(params[0]))
         if (!command) return `${params[0]} is not a command or alias!`
-        return sendHelp(msg, command.info)
+        return sendHelp(msg, '```' + command.info + '```')
       }
 
       const permLevel = await bot.permissionLevel(msg.member)
