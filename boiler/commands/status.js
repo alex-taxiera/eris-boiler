@@ -21,10 +21,16 @@ module.exports = (bot) => new Command(
         case 'add':
           if (statuses.includes(fullParam)) return `Statuses already includes "${fullParam}"`
           await bot.dbm.addStatus(fullParam)
+          if (statuses.length > 0) {
+            bot.statusRotateStart()
+          }
           return `${fullParam} added!`
         case 'del':
           if (!statuses.includes(fullParam)) return `Statuses does not include "${fullParam}"`
           await bot.dbm.removeStatus(fullParam)
+          if (statuses.length === 1) {
+            bot.setStatus()
+          }
           return `${fullParam} deleted!`
         default:
           return 'Use "add" to add statuses and "del" to delete them!'
