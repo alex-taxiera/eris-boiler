@@ -11,6 +11,7 @@ const {
 } = process.env
 
 const bot = new DataClient({
+  statusTimer: 5000,
   token: TOKEN,
   sourceFolder: './demo',
   qbOptions: {
