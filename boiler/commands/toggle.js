@@ -12,8 +12,8 @@ module.exports = (bot) => new Command(
     run: async ({ params, bot }) => {
       const toggle = bot.toggles.get(params[0])
       if (!toggle) return 'Specify option to toggle'
-      if (!toggle.value) return toggle.enable(bot)
-      return toggle.disable(bot)
+      if (toggle.on) return toggle.disable(bot)
+      return toggle.enable(bot)
     }
   }
 )
