@@ -1,11 +1,14 @@
 language: node_js
 node_js:
-  - "10.5"
+  - "lts/*"
 services:
   - mysql
 install:
-  - npm i -S mysql
-  - npm i
+  - npm ci
+  - npm i --no-save mysql
+cache:
+  directories:
+  - "$HOME/.npm"
 before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
   - |
