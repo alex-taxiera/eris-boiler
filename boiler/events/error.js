@@ -1,6 +1,6 @@
-const { Event } = require('../../lib')
+const { Event, Utils } = require('../../lib')
 
 module.exports = new Event({
   name: 'error',
-  run: (bot, error) => bot.logger.error(error)
+  run: (bot, error) => Utils.logger.error(error)
 })

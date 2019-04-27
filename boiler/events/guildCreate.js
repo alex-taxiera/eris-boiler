@@ -1,9 +1,9 @@
-const { Event } = require('../../lib')
+const { Event, Utils } = require('../../lib')
 
 module.exports = new Event({
   name: 'guildCreate',
   run: (bot, guild) => {
-    bot.logger.success(`joined ${guild.name} guild`)
+    Utils.logger.success(`joined ${guild.name} guild`)
     bot.dbm.addClient(guild.id, bot.defaultSettings.prefix)
   }
 })
