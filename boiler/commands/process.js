@@ -1,39 +1,36 @@
 const { Command } = require('../../lib')
 
-module.exports = (bot) => new Command(
-  bot,
-  {
-    name: 'process',
-    description: 'Check process stats',
-    options: {
-      permission: 'Admin'
-    },
-    run: async ({ bot }) => {
-      const seconds = process.uptime()
-      const uptime = getDuration(seconds)
-      console.log('uptime', uptime)
-      const memory = Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100
-      console.log('rounded heap', memory)
-      const inline = true
-      const embed = {
-        description: ':heartbeat: [**Bot Stats**](https://github.com/alex-taxiera/eris-boiler)',
-        thumbnail: { url: bot.user.avatarURL },
-        timestamp: require('dateformat')(Date.now(), 'isoDateTime'),
-        color: 0x3498db,
-        footer: {
-          icon_url: bot.user.avatarURL,
-          text: 'eris-boiler'
-        },
-        fields: [
-          { name: 'uptime', value: uptime, inline },
-          { name: 'mem', value: `${memory}MB`, inline },
-          { name: 'guilds', value: bot.guilds.size, inline }
-        ]
-      }
-      return { embed }
+module.exports = new Command({
+  name: 'process',
+  description: 'Check process stats',
+  options: {
+    permission: 'Admin'
+  },
+  run: async ({ bot }) => {
+    const seconds = process.uptime()
+    const uptime = getDuration(seconds)
+    console.log('uptime', uptime)
+    const memory = Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100
+    console.log('rounded heap', memory)
+    const inline = true
+    const embed = {
+      description: ':heartbeat: [**Bot Stats**](https://github.com/alex-taxiera/eris-boiler)',
+      thumbnail: { url: bot.user.avatarURL },
+      timestamp: require('dateformat')(Date.now(), 'isoDateTime'),
+      color: 0x3498db,
+      footer: {
+        icon_url: bot.user.avatarURL,
+        text: 'eris-boiler'
+      },
+      fields: [
+        { name: 'uptime', value: uptime, inline },
+        { name: 'mem', value: `${memory}MB`, inline },
+        { name: 'guilds', value: bot.guilds.size, inline }
+      ]
     }
+    return { embed }
   }
-)
+})
 
 function getDuration (seconds) {
   const times = [31557600, 86400, 3600, 60]

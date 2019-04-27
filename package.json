@@ -2,11 +2,12 @@
   "name": "eris-boiler",
   "version": "3.0.0-beta.4",
   "description": "A Discord Bot boilerplate using JavaScript and the Eris library",
-  "main": "./src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "nyc --reporter lcov ava **/*.test.js",
     "dev": "node bin/dev.js",
-    "doc": "jsdoc -c config/.jsdoc.json"
+    "doc": "jsdoc -c config/.jsdoc.json",
+    "ts": "jsdoc -c config/.jsdoc-ts.json"
   },
   "repository": {
     "type": "git",
