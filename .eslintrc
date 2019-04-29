@@ -1,9 +1,10 @@
 {
   "extends": "standard",
   "rules": {
+    "curly": ["error", "all"],
     "arrow-parens": "error",
     "no-lonely-if": "error",
-    "max-len": ["warn", {
+    "max-len": ["error", {
       "ignoreComments": true,
       "ignoreRegExpLiterals": true,
       "ignoreUrls": true
