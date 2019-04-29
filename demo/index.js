@@ -1,8 +1,11 @@
-require('dotenv').load()
+const dotenv = require('dotenv')
 const { resolve } = require('path')
+dotenv.config()
 
-const DataClient = require('../lib/data-client')
-const SQLManager = require('../lib/sql-manager')
+const {
+  DataClient,
+  SQLManager
+} = require('../lib') // same as require('eris-boiler')
 
 const {
   TOKEN,
