@@ -5,8 +5,12 @@ module.exports = new Command({
   description: 'Displays this message, duh!',
   run: async function ({ msg, params, bot }) {
     if (params[0]) {
-      const command = bot.commands.get(params[0]) || bot.commands.get(bot.aliases.get(params[0]))
-      if (!command) return `${params[0]} is not a command or alias!`
+      const command = bot.commands.get(params[0]) ||
+        bot.commands.get(bot.aliases.get(params[0]))
+
+      if (!command) {
+        return `${params[0]} is not a command or alias!`
+      }
       return sendHelp(msg, '```' + command.info + '```')
     }
 
@@ -14,9 +18,13 @@ module.exports = new Command({
     let commands = []
     let longName = 0
     for (let [key, val] of bot.commands) {
-      if (bot.permissions.get(val.permission).level > permLevel) continue
+      if (bot.permissions.get(val.permission).level > permLevel) {
+        continue
+      }
       const length = val.name.length + val.aliases.join('/').length
-      if (longName < length + 3) longName = length + 3
+      if (longName < length + 3) {
+        longName = length + 3
+      }
       commands.push({ name: key, desc: val.description, aliases: val.aliases })
     }
 
