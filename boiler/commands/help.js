@@ -18,7 +18,7 @@ module.exports = new Command({
     let commands = []
     let longName = 0
     for (let [key, val] of bot.commands) {
-      if (bot.permissions.get(val.permission).level > permLevel) {
+      if (val.permission > permLevel) {
         continue
       }
       const length = val.name.length + val.aliases.join('/').length
@@ -31,7 +31,9 @@ module.exports = new Command({
     let content = 'Available commands:```'
     for (let i = 0; i < commands.length; i++) {
       const val = commands[i]
-      if (val.aliases.length > 0) val.name += '/' + val.aliases.join('/')
+      if (val.aliases.length > 0) {
+        val.name += '/' + val.aliases.join('/')
+      }
       val.name += ':' + ' '.repeat(longName - val.name.length)
       content += `\n${val.name}${val.desc}`
     }
