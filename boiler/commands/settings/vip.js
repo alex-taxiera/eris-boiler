@@ -19,7 +19,7 @@ module.exports = new Command({
       return `Could not find role "${fullParam}"`
     }
 
-    const dbGuild = await bot.dbm.query('guild').get(guild.id)
+    const dbGuild = await bot.dbm.newQuery('guild').get(guild.id)
     if (role.id === dbGuild.get('vip')) {
       return 'VIP is already set to that role!'
     }

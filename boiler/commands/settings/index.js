@@ -1,3 +1,5 @@
 module.exports = [
-  require('./vip')
+  require('./vip'),
+  require('./prefix'),
+  require('./status')
 ]
