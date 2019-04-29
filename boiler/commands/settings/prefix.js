@@ -12,7 +12,7 @@ module.exports = new Command({
       return 'Please provide a prefix!'
     }
 
-    const dbGuild = await bot.dbm.query('guild').get(msg.channel.guild.id)
+    const dbGuild = await bot.dbm.newQuery('guild').get(msg.channel.guild.id)
     if (fullParam === dbGuild.get('prefix')) {
       return `Prefix is already set to "${fullParam}"`
     }
