@@ -18,6 +18,6 @@ module.exports = new Command({
       .then((res) => res.links.filter((link) => link.href !== null)[0].href)
       .catch((e) => undefined)
 
-    if (result) return { content: result, delay: -1 }
+    return result || 'Nothing found!'
   }
 })
