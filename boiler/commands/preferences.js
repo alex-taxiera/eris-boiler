@@ -12,7 +12,7 @@ module.exports = new Command({
     // TODO get all settings and toggles and generate embed based on that
     const inline = true
     const guild = msg.channel.guild
-    const dbGuild = await bot.dbm.query('guild').get(guild.id)
+    const dbGuild = await bot.dbm.newQuery('guild').get(guild.id)
     const { vip, prefix } = dbGuild.toJSON()
 
     const vipRole = bot.guilds.get(guild.id).roles.get(vip)
