@@ -1,0 +1,3 @@
+{
+  "exclude": ["boiler", "**/*/*.test.js"]
+}
