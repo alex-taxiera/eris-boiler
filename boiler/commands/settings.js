@@ -1,5 +1,5 @@
 const { Command } = require('../../lib')
-const subCommands = require('./settings')
+const subCommands = require('./settings/')
 
 module.exports = new Command({
   name: 'settings',

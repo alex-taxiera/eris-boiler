@@ -1,10 +1,10 @@
-const { Command } = require('../../lib')
+const { Command } = require('../../../lib')
 
 module.exports = new Command({
   name: 'vip',
   description: 'set vip role for server',
   options: {
-    parameters: ['vip role name/id/mention'],
+    parameters: [ 'vip role name/id/mention' ],
     permission: 80
   },
   run: async ({ bot, msg, params }) => {

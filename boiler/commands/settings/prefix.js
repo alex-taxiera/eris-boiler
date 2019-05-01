@@ -1,10 +1,10 @@
-const { Command } = require('../../lib')
+const { Command } = require('../../../lib')
 
 module.exports = new Command({
   name: 'prefix',
   description: 'set prefix for server',
   options: {
-    parameters: ['desired prefix']
+    parameters: [ 'desired prefix' ]
   },
   run: async ({ bot, msg, params }) => {
     const fullParam = params.join(' ')
