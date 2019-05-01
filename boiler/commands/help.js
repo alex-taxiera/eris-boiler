@@ -5,19 +5,21 @@ module.exports = new Command({
   description: 'Displays this message, duh!',
   run: async function ({ msg, params, bot }) {
     if (params[0]) {
-      const command = bot.commands.get(params[0]) ||
-        bot.commands.get(bot.aliases.get(params[0]))
+      const command = bot.findCommand(params[0])
 
       if (!command) {
         return `${params[0]} is not a command or alias!`
       }
-      return sendHelp(msg, '```' + command.info + '```')
+      return {
+        dm: true,
+        content: '```' + command.info + '```'
+      }
     }
 
     const permLevel = await bot.permissionLevel(msg.member)
     let commands = []
     let longName = 0
-    for (let [key, val] of bot.commands) {
+    for (let [ key, val ] of bot.commands) {
       if (val.permission > permLevel) {
         continue
       }
@@ -38,13 +40,9 @@ module.exports = new Command({
       content += `\n${val.name}${val.desc}`
     }
     content += '\n```\nTo get more information try: `help command`'
-    return sendHelp(msg, content)
+    return {
+      dm: true,
+      content
+    }
   }
 })
-
-async function sendHelp (msg, content) {
-  return msg.author.getDMChannel()
-    .then((dm) => dm.createMessage(content))
-    .then((success) => 'DM sent.')
-    .catch((e) => content)
-}
