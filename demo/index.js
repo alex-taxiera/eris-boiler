@@ -30,7 +30,7 @@ const databaseManager = new SQLManager({
 })
 
 const bot = new DataClient(TOKEN, {
-  sourcePath: resolve(__dirname, './'),
+  // sourcePath: resolve(__dirname, './'),
   databaseManager
 })
 /* log bot into Discord */
