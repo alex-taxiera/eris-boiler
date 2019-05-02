@@ -1,7 +1,7 @@
 {
   "name": "eris-boiler",
   "version": "3.0.0-beta.4",
-  "description": "A Discord Bot boilerplate using JavaScript and the Eris library",
+  "description": "A Discord bot framework using eris",
   "main": "index.js",
   "scripts": {
     "test": "nyc --reporter lcov ava **/*.test.js",
@@ -59,6 +59,7 @@
     "lib/",
     "boiler/",
     "config/",
-    "!src/**/test/"
+    "!config/.jsdoc*",
+    "!lib/**/*.test.js"
   ]
 }
