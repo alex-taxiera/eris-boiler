@@ -24,49 +24,33 @@ Class documentation can be found [here](https://alex-taxiera.github.io/eris-boil
 ## Usage
 ```js
 // index.js
+const { resolve } = require('path')
 const { DataClient } = require('eris-boiler')
-const token = 'MY TOKEN'
 
-const bot = new DataClient({
-  token,
-  qbOptions: {
-    data: {
-      connectionInfo: { // db connection info, as defined in simple-knex
-        user: 'user',
-        password: 'password',
-        database: 'db name',
-        host: 'ip'
-      },
-      client: 'mysql'
-    }
-  }
-  sourceFolder: './src' // specify files live in ./src
-  })
+const bot = new DataClient('YourBotToken', {
+  sourcePath: resolve(__dirname, './src') // absolute path to your source files
+})
 
 bot.connect()
 ```
 ```js
 // src/commands/echo.js
 const { Command } = require('eris-boiler')
-// commands must export a function bringing bot into the constructor
-module.exports = (bot) => new Command(
-  bot,
-  {
-    name: 'echo', // name of command
-    description: 'copy that',
-    run: async ({ params }) => params.join(' ') // functionality of command
-    // list of things in object passed to run: bot (DataClient), msg (Message), params (String[])
-  }
-)
+
+module.exports = new Command({
+  name: 'echo', // name of command
+  description: 'copy that',
+  run: async ({ params }) => params.join(' ') // functionality of command
+  // list of things in object passed to run: bot (DataClient), msg (Message), params (String[])
+})
 ```
 ```js
 // src/events/presenceUpdate.js
-// event files should be named by event name
 const { Event } = require('eris-boiler')
 
 module.exports = new Event({
   name: 'presenceUpdate', // name should match event name
-  run: (bot, newMember, oldMember) => bot.logger.warn('something changed')
+  run: (bot, newMember, oldMember) => console.log('something changed')
   // bot is bound to all events, so bot will be the first parameter in addition to any parameters passed in from Eris
 })
 ```

@@ -5,7 +5,7 @@ dotenv.config()
 const {
   DataClient,
   SQLManager
-} = require('../lib') // same as require('eris-boiler')
+} = require('../') // same as require('eris-boiler')
 
 const {
   TOKEN,
@@ -30,7 +30,7 @@ const databaseManager = new SQLManager({
 })
 
 const bot = new DataClient(TOKEN, {
-  // sourcePath: resolve(__dirname, './'),
+  sourcePath: resolve(__dirname, './src'),
   databaseManager
 })
 /* log bot into Discord */

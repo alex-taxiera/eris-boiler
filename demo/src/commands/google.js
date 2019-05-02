@@ -1,5 +1,5 @@
 const asyncGoogle = require('util').promisify(require('google'))
-const { Command } = require('../../lib')
+const { Command } = require('../../../lib')
 
 module.exports = new Command({
   name: 'google',
