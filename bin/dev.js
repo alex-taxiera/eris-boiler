@@ -1,4 +1,5 @@
 const nodemon = require('nodemon')
+const { Utils: { logger } } = require('../')
 
 nodemon({
   script: 'demo/index.js',
@@ -7,7 +8,11 @@ nodemon({
 })
 
 nodemon
-  .on('start', () => console.log('App has started'))
-  .on('quit', () => { console.log('App has quit'); process.exit() })
-  .on('restart', (files) => console.log('App restarted due to: ', files))
-  .on('crash', () => console.log('crashed'))
+  .on('start', () => logger.info('Nodemon started'))
+  .on('quit', () => { logger.error('Nodemon quit'); process.exit() })
+  .on('restart', ([ file ] = []) =>
+    file
+      ? logger.warn(file, 'changed')
+      : logger.warn('Restarting')
+  )
+  .on('crash', () => logger.error('Crashed'))
