@@ -1,6 +1,6 @@
-const dotenv = require('dotenv')
+const { config: envLoad } = require('dotenv')
 const { resolve } = require('path')
-dotenv.config()
+envLoad() // load .env file
 
 const {
   DataClient,
@@ -17,6 +17,7 @@ const {
   DB_HOST
 } = process.env
 
+/* pass database info to sql database manager */
 const databaseManager = new SQLManager({
   qbOptions: {
     connectionInfo: DATABASE_URL || {
@@ -29,9 +30,11 @@ const databaseManager = new SQLManager({
   }
 })
 
+/* create DataClient instance */
 const bot = new DataClient(TOKEN, {
-  sourcePath: resolve(__dirname, './src'),
+  sourcePath: resolve(__dirname, './src'), // absolute path to source folder
   databaseManager
 })
+
 /* log bot into Discord */
 bot.connect()
