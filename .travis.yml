@@ -13,19 +13,8 @@ install:
 cache:
   directories:
   - "$HOME/.npm"
-before_script:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
-  - |
-      if [[ $TRAVIS_BRANCH == 'master' ]]; then
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
-        ./cc-test-reporter before-build
-      fi
+before_script: mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
 script: npm test
 after_script:
-  - |
-      if [[ $TRAVIS_BRANCH == 'master' ]]; then
-        ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-      fi
   - git fetch --unshallow --quiet
   - sonar-scanner -Dsonar.login=${SONAR_TOKEN}

@@ -1,7 +1,0 @@
-version: '2'
-exclude_patterns:
-  - '**/node_modules/'
-  - '**/spec/'
-  - '**/*.test.js'
-  - '**/*.d.ts'
-  - '**/docs/'
