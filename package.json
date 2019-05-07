@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "ava": "1.4.1",
-    "dotenv": "^7.0.0",
+    "dotenv": "^8.0.0",
     "eris": "^0.9.0",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
@@ -49,6 +49,7 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
+    "google": "^2.1.0",
     "jsdoc": "^3.5.5",
     "nodemon": "^1.18.11",
     "nyc": "^14.0.0",
