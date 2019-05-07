@@ -5,6 +5,8 @@ node_js:
 addons:
   sonarcloud:
     organization: alex-taxiera-github
+    token:
+      secure: "o+N9rJWJc91rMQBxEmLNIG+nDBLpHAltP5Pr5VH3wm8l9xrw5E6GKrXslP39SoV52w9DCqyOyzzyZvtpgyrL0ZbHHhsTJGwP9+GRk0DjmYGHmwDqVkVM5iJ8fkk2S3pOMP0O3TldN0IMgOjBrxamCiAi4uAKEROWC7LwOZPw7cRFP9HWw7zbRM7EJRGHTjfMKyjDc/v3UGg4xjtVQMBYuNWMVeXumt6HS8z4Pv6mo3nDFQUM1fhEoCIjtwY5amBg0MBSBGFsrg/qdVvSSIHxKT5/58hQwlXb+UpUohUnV3GtFzZ4SCOn9jvJPl7OCVz+U5USGG7Dc7/s+OdPc7BzbLMZyb3ZjqpIqlxO5EmLf1RsdOMDqRCkviMx+Y12qQO4gackx1cpsU3Y1c1oZ/jLVGjG7oKRtjVjHQvixv1gVKrvd2Io8sJr7pBetPfkasP3GzgaV0pZ3bSNS+t53xLDHuUV1cEw/Zffzgh/s6NGTVSpztaxTxSuouoRPo/7E2TqHm7Bgm+KkQPHJ1hVLsI++155XRJaQYlg15LVnibOGoh49IXSl7TtnquT12nWTXhk8k6IrlhxLj4gzuq1USsY5ETb00NXR5lSMVD09BnEEBDcfP/7Jmt7dAfQtr9phhvkmUAxBNu8q5P9+E80KH9ohEGGtTU0HWLuK3wfTK7Ff/4="
 services:
   - mysql
 install:
