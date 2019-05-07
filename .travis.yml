@@ -5,8 +5,6 @@ node_js:
 addons:
   sonarcloud:
     organization: alex-taxiera-github
-    token:
-      secure: "dw/S1tgQRzxYIZaL7/ANWHMnzY0Ig9hfXDRPW8GNvP/NVlK6mewO4jSIyj1TCI6FBIXsTQ+ncxpK5BV7bxN6fSVB2uHoYIjPAZvt+Bk00y6x3NgV5q5fl5NKtWfRbBilsou9oGsuJC3ew8N+r3IJ2d0rcq79iX/xuzny2aq2s9L7U6eGCNC0V3wtfcj13w0lZjhghQkAxL+lR1XyLaYGpOEnBO1NneLS4mJuHmxmpwvm0Mi/b/WxRGy0Rbablj4WiVPHBi3jY9qtN1pvDe1/PlKs39afrAYU8JxSBM5qsYv+n9CyuKoiLfWiyaqMxuRLzfI8scRcws9oyMtWr9xMSShNZ9NOgqxufG9+9DJddHaHSF9VqmRgBmj93uEfWGLvS6uV28cpLGgFmCoWOXOtcXUITBgg/cdwKUHztPBeZSPRQjXuEM72W1bjXI/WVgTXEvFZEGosgA5R/IV8nGmxo1YXmuRpWZYNdpwfpez0s/SzZPbEmadRtYKMdyyflY+z/zbkq9OFq254LaDjBqnvf5M8IUgH+lYGFP6/ud8K2WLQK8lN428bkjLUWeNX7+VQpv5XRH25SR0TzAB/G9An+xpxnBBcUbwVJ/spQE2PwB2eJ3oy5xW0Aemn81mCLCM3hRdMn5Y2+VV4XHIXsAHVFh7gxwgWqoY6nm93Zk04swA="
 services:
   - mysql
 install:
@@ -29,4 +27,4 @@ after_script:
       if [[ $TRAVIS_BRANCH == 'master' ]]; then
         ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
       fi
-  - sonar-scanner
+  - sonar-scanner -Dsonar.login=${SONAR_TOKEN}
