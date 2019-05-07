@@ -1,8 +1,12 @@
 {
-  "prefix": "!",
-  "status": {
-    "name": "Rocket League",
-    "type": 0
+  "oratorOptions": {
+    "defaultPrefix": "!"
   },
-  "rotateStatus": true
+  "statusManagerOptions": {
+    "defaultStatus": {
+      "name": "Rocket League",
+      "type": 0
+    },
+    "mode": "random"
+  }
 }
