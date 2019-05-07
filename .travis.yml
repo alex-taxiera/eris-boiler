@@ -27,4 +27,5 @@ after_script:
       if [[ $TRAVIS_BRANCH == 'master' ]]; then
         ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
       fi
+  - git fetch --unshallow --quiet
   - sonar-scanner -Dsonar.login=${SONAR_TOKEN}
