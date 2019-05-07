@@ -1,6 +1,10 @@
 language: node_js
+dist: trusty
 node_js:
   - "lts/*"
+addons:
+  sonarcloud:
+    organization: alex-taxiera-github
 services:
   - mysql
 install:
@@ -23,3 +27,4 @@ after_script:
       if [[ $TRAVIS_BRANCH == 'master' ]]; then
         ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
       fi
+  - sonar-scanner -Dsonar.login=${SONAR_TOKEN}
