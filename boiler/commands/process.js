@@ -10,7 +10,9 @@ module.exports = new Command({
     const seconds = process.uptime()
     const uptime = getDuration(seconds)
     console.log('uptime', uptime)
-    const memory = Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100
+    const memory = Math.round(
+      (process.memoryUsage().heapUsed / 1024 / 1024) * 100
+    ) / 100
     console.log('rounded heap', memory)
     const inline = true
     const embed = {
@@ -33,7 +35,7 @@ module.exports = new Command({
 })
 
 function getDuration (seconds) {
-  const times = [31557600, 86400, 3600, 60]
+  const times = [ 31557600, 86400, 3600, 60 ]
   return times.reduce((ax, dx, idx) => {
     console.log(idx, dx, ax)
     const quotient = Math.floor(ax.seconds / dx)
