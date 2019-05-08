@@ -5,7 +5,7 @@ module.exports = new Command({
   name: 'status',
   description: 'View, add, or remove random statuses',
   options: {
-    parameters: ['one of "view"|"add"|"del"'],
+    parameters: [ 'one of "view"|"add"|"del"' ],
     permission: 100,
     subCommands
   },

@@ -1,0 +1,15 @@
+version: '2'
+plugins: 
+  eslint:
+    enabled: true
+    config:
+      ignore_warnings: true
+exclude_patterns:
+  - '**/node_modules/'
+  - '**/spec/'
+  - '**/*.test.js'
+  - '**/*.d.ts'
+  - '**/docs/'
+  - '**/demo/'
+  - '**/config/'
+  - '**/bin/'

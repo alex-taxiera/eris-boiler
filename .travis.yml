@@ -2,19 +2,21 @@ language: node_js
 dist: trusty
 node_js:
   - "lts/*"
-addons:
-  sonarcloud:
-    organization: alex-taxiera-github
-services:
-  - mysql
 install:
   - npm ci
-  - npm i --no-save mysql
 cache:
   directories:
   - "$HOME/.npm"
-before_script: mysql -e 'CREATE DATABASE IF NOT EXISTS erisboilertest;'
+before_script:
+  - |
+      if [[ $TRAVIS_BRANCH == 'master' ]]; then
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        chmod +x ./cc-test-reporter
+        ./cc-test-reporter before-build
+      fi
 script: npm test
 after_script:
-  - git fetch --unshallow --quiet
-  - sonar-scanner -Dsonar.login=${SONAR_TOKEN}
+  - |
+      if [[ $TRAVIS_BRANCH == 'master' ]]; then
+        ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+      fi

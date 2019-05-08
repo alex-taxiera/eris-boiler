@@ -11,7 +11,10 @@ module.exports = new Command({
   name: 'add',
   description: 'Add a status',
   options: {
-    parameters: ['status in format `status name|type` (ex. `Rocket League|0`) where type is 0, 1, 2, or 3']
+    parameters: [
+      `status in format \`status name|type\` 
+      (ex. \`Rocket League|0\`) where type is 0, 1, 2, or 3`
+    ]
   },
   run: async ({ bot, params }) => {
     const [ name, type ] = params.join(' ').split('|')

@@ -46,13 +46,13 @@
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-node": "^9.0.1",
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
     "google": "^2.1.0",
-    "jsdoc": "^3.5.5",
-    "nodemon": "^1.18.11",
-    "nyc": "^14.0.0",
+    "jsdoc": "^3.6.1",
+    "nodemon": "^1.19.0",
+    "nyc": "^14.1.0",
     "sinon": "^7.3.2"
   },
   "files": [
