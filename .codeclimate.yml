@@ -1,7 +1,8 @@
 version: '2'
 checks:
   method_complexity:
-    config: 10
+    config:
+      threshold: 10
 plugins:
   eslint:
     enabled: true
