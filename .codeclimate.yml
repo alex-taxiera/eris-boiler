@@ -1,5 +1,8 @@
 version: '2'
-plugins: 
+checks:
+  method_complexity:
+    config: 10
+plugins:
   eslint:
     enabled: true
     config:
