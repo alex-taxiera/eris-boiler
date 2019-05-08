@@ -2,11 +2,8 @@
 
 [![discord](https://canary.discordapp.com/api/guilds/463886367496339458/widget.png)](https://discordapp.com/invite/4SkAduM)
 [![Build Status](https://travis-ci.com/alex-taxiera/eris-boiler.svg?branch=master)](https://travis-ci.com/alex-taxiera/eris-boiler)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=alex-taxiera_eris-boiler&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=alex-taxiera_eris-boiler)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=alex-taxiera_eris-boiler&metric=coverage)](https://sonarcloud.io/dashboard?id=alex-taxiera_eris-boiler)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=alex-taxiera_eris-boiler&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=alex-taxiera_eris-boiler)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=alex-taxiera_eris-boiler&metric=security_rating)](https://sonarcloud.io/dashboard?id=alex-taxiera_eris-boiler)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=alex-taxiera_eris-boiler&metric=ncloc)](https://sonarcloud.io/dashboard?id=alex-taxiera_eris-boiler)
+[![Maintainability](https://api.codeclimate.com/v1/badges/586014eefb135a4c51a1/maintainability)](https://codeclimate.com/github/alex-taxiera/eris-boiler/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/586014eefb135a4c51a1/test_coverage)](https://codeclimate.com/github/alex-taxiera/eris-boiler/test_coverage)
 
 A Discord bot framework for JavaScript and the [Eris](https://abal.moe/Eris/) library.
 
