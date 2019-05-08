@@ -8,15 +8,9 @@ cache:
   directories:
   - "$HOME/.npm"
 before_script:
-  - |
-      if [[ $TRAVIS_BRANCH == 'master' ]]; then
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        chmod +x ./cc-test-reporter
-        ./cc-test-reporter before-build
-      fi
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script: npm test
 after_script:
-  - |
-      if [[ $TRAVIS_BRANCH == 'master' ]]; then
-        ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
-      fi
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
