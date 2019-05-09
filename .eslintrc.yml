@@ -1,0 +1,18 @@
+extends: standard
+rules:
+  arrow-parens:
+    - error
+  no-lonely-if:
+    - error
+  curly:
+    - error
+    - all
+  array-bracket-spacing:
+    - error
+    - always
+  max-len:
+    - error
+    -
+      ignoreComments: true
+      ignoreRegExpLiterals: true
+      ignoreUrls: true
