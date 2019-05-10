@@ -1,0 +1,5 @@
+exclude:
+  - bin
+  - demo
+  - config
+  - "**/*/*.test.js"
