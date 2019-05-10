@@ -3,7 +3,11 @@ const { Command } = require('../../lib')
 module.exports = new Command({
   name: 'help',
   description: 'Displays this message, duh!',
-  run: async function ({ msg, params, bot }) {
+  run: async function (context) {
+    const {
+      params,
+      bot
+    } = context
     if (params[0]) {
       const command = bot.findCommand(params[0])
 
@@ -16,12 +20,13 @@ module.exports = new Command({
       }
     }
 
-    const permLevel = await bot.permissionLevel(msg.member)
     let commands = []
     let longName = 0
     for (let [ key, val ] of bot.commands) {
-      if (val.permission > permLevel) {
-        continue
+      for (const middleware of val.middleware) {
+        if (!middleware.run(context)) {
+          continue
+        }
       }
       const length = val.name.length + val.aliases.join('/').length
       if (longName < length + 3) {
