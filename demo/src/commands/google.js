@@ -1,12 +1,12 @@
 const asyncGoogle = require('util').promisify(require('google'))
-const { Command } = require('../../../lib')
+const { Command } = require('eris-boiler')
 
 module.exports = new Command({
   name: 'google',
   description: 'Google something!',
   options: {
-    aliases: ['search', 'bing', 'g'],
-    parameters: ['query'],
+    aliases: [ 'search', 'bing', 'g' ],
+    parameters: [ 'query' ],
     deleteInvoking: false,
     deleteResponse: false
   },

@@ -1,4 +1,4 @@
-const { Command } = require('../../../lib')
+const { Command } = require('eris-boiler')
 
 module.exports = new Command({
   name: 'echo',
