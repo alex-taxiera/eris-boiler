@@ -1,10 +1,11 @@
 const { Command } = require('../../lib')
+const adminOnly = require('../permissions/admin')
 
 module.exports = new Command({
   name: 'process',
   description: 'Check process stats',
   options: {
-    permission: 'Admin'
+    middleware: adminOnly
   },
   run: async ({ bot }) => {
     const seconds = process.uptime()
@@ -36,15 +37,13 @@ module.exports = new Command({
 
 function getDuration (seconds) {
   const times = [ 31557600, 86400, 3600, 60 ]
-  return times.reduce((ax, dx, idx) => {
-    console.log(idx, dx, ax)
+  return times.reduce((ax, dx, cx) => {
     const quotient = Math.floor(ax.seconds / dx)
     ax.seconds = Math.floor(ax.seconds % dx)
-    console.log(quotient, ax.seconds)
     let str = ''
     if (quotient > 0) {
       str += quotient
-      if (str.length < 2 && idx > 0) {
+      if (str.length < 2 && cx > 0) {
         str = '0' + str
       }
     } else if (ax.time[0]) {
@@ -53,7 +52,7 @@ function getDuration (seconds) {
     if (str) {
       ax.time.push(str)
     }
-    if (times.length - 1 === idx) {
+    if (times.length - 1 === cx) {
       if (ax.seconds < 10) {
         ax.seconds = '0' + ax.seconds
       }
