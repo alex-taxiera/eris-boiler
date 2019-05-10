@@ -5,7 +5,7 @@ envLoad() // load .env file
 const {
   DataClient,
   SQLManager
-} = require('../') // same as require('eris-boiler')
+} = require('eris-boiler')
 
 const {
   TOKEN,
@@ -19,7 +19,7 @@ const {
 
 /* pass database info to sql database manager */
 const databaseManager = new SQLManager({
-  qbOptions: {
+  dbInfo: {
     connectionInfo: DATABASE_URL || {
       database: DB_NAME,
       user: DB_USER,
@@ -32,7 +32,7 @@ const databaseManager = new SQLManager({
 
 /* create DataClient instance */
 const bot = new DataClient(TOKEN, {
-  sourcePath: resolve(__dirname, './src'), // absolute path to source folder
+  sourcePath: resolve(__dirname, './src'), // absolute path to source folder (only needed because we linked to a local package)
   databaseManager
 })
 
