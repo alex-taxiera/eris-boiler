@@ -9,45 +9,49 @@ module.exports = new Command({
       bot
     } = context
     if (params[0]) {
-      const command = bot.findCommand(params[0])
-
-      if (!command) {
-        return `${params[0]} is not a command or alias!`
-      }
-      return {
-        dm: true,
-        content: '```' + command.info + '```'
-      }
+      return commandInfo(bot, params[0])
     }
 
-    let commands = []
-    let longName = 0
-    for (let [ key, val ] of bot.commands) {
-      for (const middleware of val.middleware) {
-        if (!middleware.run(context)) {
-          continue
-        }
-      }
-      const length = val.name.length + val.aliases.join('/').length
-      if (longName < length + 3) {
-        longName = length + 3
-      }
-      commands.push({ name: key, desc: val.description, aliases: val.aliases })
-    }
+    const { commands, longName } = filterCommands(bot.commands, context)
 
-    let content = 'Available commands:```'
-    for (let i = 0; i < commands.length; i++) {
-      const val = commands[i]
-      if (val.aliases.length > 0) {
-        val.name += '/' + val.aliases.join('/')
-      }
-      val.name += ':' + ' '.repeat(longName - val.name.length)
-      content += `\n${val.name}${val.desc}`
-    }
-    content += '\n```\nTo get more information try: `help command`'
+    let content = commands.reduce(
+      (ax, { name, description, aliases }) => ax + '\n' + (
+        aliases.length > 0 ? '/' + aliases.join('/') : ''
+      ) + ':' + ' '.repeat(longName - name.length) + description,
+      'Available commands:```'
+    ) + '\n```\nTo get more information try: `help command`'
+
     return {
       dm: true,
       content
     }
   }
 })
+
+function filterCommands (commands, context) {
+  return Array.from(commands.values()).reduce(
+    ({ commands, longName }, { middleware, name, aliases, description }) => {
+      for (const mw of middleware) {
+        if (!mw.run(context)) {
+          return { commands, longName }
+        }
+      }
+      longName = Math.max(name.length + aliases.join('/').length + 3, longName)
+
+      commands.push({ name, description, aliases })
+      return { commands, longName }
+    }, { commands: [], longName: 0 }
+  )
+}
+
+function commandInfo (bot, cmd) {
+  const command = bot.findCommand(cmd)
+
+  if (!command) {
+    return `${cmd} is not a command or alias!`
+  }
+  return {
+    dm: true,
+    content: '```' + command.info + '```'
+  }
+}
