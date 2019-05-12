@@ -10,6 +10,10 @@ rules:
   array-bracket-spacing:
     - error
     - always
+  no-multi-spaces:
+    - error
+    -
+      ignoreEOLComments: true
   max-len:
     - error
     -
