@@ -1,22 +1,22 @@
 extends: standard
-rules:
-  arrow-parens:
-    - error
-  no-lonely-if:
-    - error
-  curly:
-    - error
-    - all
-  array-bracket-spacing:
+rules: 
+  array-bracket-spacing: 
     - error
     - always
-  no-multi-spaces:
+  arrow-parens: 
     - error
-    -
-      ignoreEOLComments: true
-  max-len:
+  curly: 
     - error
-    -
+    - all
+  max-len: 
+    - error
+    - 
       ignoreComments: true
       ignoreRegExpLiterals: true
       ignoreUrls: true
+  no-lonely-if: 
+    - error
+  no-multi-spaces: 
+    - error
+    - 
+      ignoreEOLComments: true
