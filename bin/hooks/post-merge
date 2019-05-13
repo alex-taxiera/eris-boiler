@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+changed_files="$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD)"
+
+echo "$changed_files" |
+grep --quiet "package.json" && eval "npm install && npm prune"
