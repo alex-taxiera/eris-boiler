@@ -7,7 +7,16 @@
     "test": "nyc --reporter lcov ava **/*.test.js",
     "dev": "node bin/dev.js",
     "doc": "jsdoc -c config/.jsdoc.json",
-    "ts": "jsdoc -c config/.jsdoc-ts.json"
+    "ts": "jsdoc -c config/.jsdoc-ts.json",
+    "pre-commit": "./bin/hooks/pre-commit",
+    "post-merge": "./bin/hooks/post-merge"
+  },
+  "husky": {
+    "hooks": {
+      "post-merge": "npm run post-merge",
+      "pre-commit": "npm run pre-commit",
+      "pre-push": "npm test"
+    }
   },
   "repository": {
     "type": "git",
@@ -50,6 +59,7 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-standard": "^4.0.0",
     "google": "^2.1.0",
+    "husky": "^2.2.0",
     "jsdoc": "^3.6.1",
     "nodemon": "^1.19.0",
     "nyc": "^14.1.0",
