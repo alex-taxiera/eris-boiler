@@ -13,6 +13,7 @@ exclude_patterns:
   - '**/node_modules/'
   - '**/spec/'
   - '**/*.test.js'
+  - '**/broken-files/'
   - '**/*.d.ts'
   - '**/docs/'
   - '**/demo/'
