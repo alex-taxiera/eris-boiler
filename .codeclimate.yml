@@ -6,12 +6,14 @@ checks:
 plugins:
   eslint:
     enabled: true
+    channel: "eslint-5"
     config:
       ignore_warnings: true
 exclude_patterns:
   - '**/node_modules/'
   - '**/spec/'
   - '**/*.test.js'
+  - '**/broken-files/'
   - '**/*.d.ts'
   - '**/docs/'
   - '**/demo/'

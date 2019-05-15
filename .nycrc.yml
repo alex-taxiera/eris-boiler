@@ -3,3 +3,4 @@ exclude:
   - demo
   - config
   - "**/*/*.test.js"
+  - "**/broken-files/"

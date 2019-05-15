@@ -1,5 +1,5 @@
 const { config: envLoad } = require('dotenv')
-const { resolve } = require('path')
+const { join } = require('path')
 envLoad() // load .env file
 
 const {
@@ -32,9 +32,9 @@ const databaseManager = new SQLManager({
 
 /* create DataClient instance */
 const bot = new DataClient(TOKEN, {
-  sourcePath: resolve(__dirname, './src'), // absolute path to source folder (only needed because we linked to a local package)
   databaseManager
 })
 
-/* log bot into Discord */
-bot.connect()
+bot
+  .addCommands(join(__dirname, 'src/commands')) // load commands in commands folder
+  .connect()                                     // login to discord
