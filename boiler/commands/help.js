@@ -31,14 +31,11 @@ module.exports = new Command({
 function filterCommands (commands, context) {
   return Array.from(commands.values()).reduce(
     ({ commands, longName }, { middleware, name, aliases, description }) => {
-      if (middleware.length > 0) {
-        console.log(name)
-        for (const mw of middleware) {
-          if (!mw.run(context)) {
-            return {
-              commands,
-              longName
-            }
+      for (const mw of middleware) {
+        if (!mw.run(context)) {
+          return {
+            commands,
+            longName
           }
         }
       }
