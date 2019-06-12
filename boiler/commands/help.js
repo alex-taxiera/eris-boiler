@@ -15,7 +15,7 @@ module.exports = new Command({
     const { commands, longName } = filterCommands(bot.commands, context)
 
     let content = commands.reduce(
-      (ax, { name, description, aliases }) => ax + '\n' + (
+      (ax, { name, description, aliases }) => ax + `\n${name}` + (
         aliases.length > 0 ? '/' + aliases.join('/') : ''
       ) + ':' + ' '.repeat(longName - name.length) + description,
       'Available commands:```'
