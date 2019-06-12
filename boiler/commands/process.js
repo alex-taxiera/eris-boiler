@@ -5,7 +5,7 @@ module.exports = new Command({
   name: 'process',
   description: 'Check process stats',
   options: {
-    middleware: adminOnly
+    middleware: [ adminOnly ]
   },
   run: async ({ bot }) => {
     const seconds = process.uptime()

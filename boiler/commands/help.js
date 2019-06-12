@@ -15,7 +15,7 @@ module.exports = new Command({
     const { commands, longName } = filterCommands(bot.commands, context)
 
     let content = commands.reduce(
-      (ax, { name, description, aliases }) => ax + '\n' + (
+      (ax, { name, description, aliases }) => ax + `\n${name}` + (
         aliases.length > 0 ? '/' + aliases.join('/') : ''
       ) + ':' + ' '.repeat(longName - name.length) + description,
       'Available commands:```'
@@ -33,9 +33,13 @@ function filterCommands (commands, context) {
     ({ commands, longName }, { middleware, name, aliases, description }) => {
       for (const mw of middleware) {
         if (!mw.run(context)) {
-          return { commands, longName }
+          return {
+            commands,
+            longName
+          }
         }
       }
+
       longName = Math.max(name.length + aliases.join('/').length + 3, longName)
 
       commands.push({ name, description, aliases })
