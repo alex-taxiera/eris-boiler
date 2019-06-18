@@ -24,14 +24,15 @@ Class documentation can be found [here](https://alex-taxiera.github.io/eris-boil
 ## Usage
 ```js
 // index.js
-const { resolve } = require('path')
+const { join } = require('path')
 const { DataClient } = require('eris-boiler')
 
-const bot = new DataClient('YourBotToken', {
-  sourcePath: resolve(__dirname, './src') // absolute path to your source files
-})
+/* create DataClient instance */
+const bot = new DataClient('YourBotToken')
 
-bot.connect()
+bot
+  .addCommands(join(__dirname, 'src/commands')) // load commands in src/commands folder
+  .connect()      
 ```
 ```js
 // src/commands/echo.js
