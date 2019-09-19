@@ -5,7 +5,7 @@ const {
       getActivity
     }
   }
-} = require('../../../../lib')
+} = require('../../../lib')
 
 module.exports = new Command({
   name: 'view',

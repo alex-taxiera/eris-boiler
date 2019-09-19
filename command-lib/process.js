@@ -1,11 +1,11 @@
-const { Command } = require('../../lib')
-const adminOnly = require('../permissions/admin')
+const { Command } = require('../lib')
+const { admin: permission } = require('../permission-lib')
 
 module.exports = new Command({
   name: 'process',
   description: 'Check process stats',
   options: {
-    middleware: [ adminOnly ]
+    permission
   },
   run: async ({ bot }) => {
     const seconds = process.uptime()

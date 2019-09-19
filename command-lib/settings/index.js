@@ -1,12 +1,20 @@
 const { Command } = require('../../lib')
-const subCommands = require('./settings/')
+const { vip: permission } = require('../../permission-lib')
+
+const prefix = require('./prefix')
+const status = require('./status')
+const vip = require('./vip')
 
 module.exports = new Command({
   name: 'settings',
   description: 'Change some settings for your server :)',
   options: {
-    permission: 60,
-    subCommands
+    permission,
+    subCommands: [
+      prefix,
+      status,
+      vip
+    ]
   },
   run: async ({ bot, msg }) => {
     const inline = true

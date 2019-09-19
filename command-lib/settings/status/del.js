@@ -1,4 +1,4 @@
-const { Command } = require('../../../../lib')
+const { Command } = require('../../../lib')
 
 module.exports = new Command({
   name: 'del',

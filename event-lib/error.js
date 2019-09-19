@@ -1,4 +1,4 @@
-const { Event, Utils } = require('../../lib')
+const { Event, Utils } = require('../lib')
 
 module.exports = new Event({
   name: 'error',

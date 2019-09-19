@@ -1,4 +1,4 @@
-const { Command } = require('../../lib')
+const { Command } = require('../lib')
 
 module.exports = new Command({
   name: 'help',
@@ -8,6 +8,7 @@ module.exports = new Command({
       params,
       bot
     } = context
+
     if (params[0]) {
       return commandInfo(bot, params[0])
     }
@@ -29,20 +30,21 @@ module.exports = new Command({
 })
 
 function filterCommands (commands, context) {
-  return Array.from(commands.values()).reduce(
-    ({ commands, longName }, { middleware, name, aliases, description }) => {
-      for (const mw of middleware) {
-        if (!mw.run(context)) {
-          return {
-            commands,
-            longName
-          }
-        }
+  return commands.reduce(
+    ({ commands, longName }, command) => {
+      if (context.bot.ora.hasPermission({ ...context, command })) {
+        const {
+          name,
+          aliases,
+          description
+        } = command
+
+        longName = Math.max(
+          name.length + aliases.join('/').length + 3, longName
+        )
+        commands.push({ name, description, aliases })
       }
 
-      longName = Math.max(name.length + aliases.join('/').length + 3, longName)
-
-      commands.push({ name, description, aliases })
       return { commands, longName }
     }, { commands: [], longName: 0 }
   )
@@ -54,6 +56,7 @@ function commandInfo (bot, cmd) {
   if (!command) {
     return `${cmd} is not a command or alias!`
   }
+
   return {
     dm: true,
     content: '```' + command.info + '```'

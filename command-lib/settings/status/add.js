@@ -5,7 +5,7 @@ const {
       equalStatuses
     }
   }
-} = require('../../../../lib')
+} = require('../../../lib')
 
 module.exports = new Command({
   name: 'add',
