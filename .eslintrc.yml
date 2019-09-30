@@ -5,6 +5,11 @@ rules:
     - always
   arrow-parens: 
     - error
+  brace-style:
+    - error
+    - 1tbs
+    -
+      allowSingleLine: false
   curly: 
     - error
     - all
