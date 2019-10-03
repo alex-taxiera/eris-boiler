@@ -46,7 +46,7 @@
     "sqlite": "^3.0.3"
   },
   "peerDependencies": {
-    "eris": "^0.9.0"
+    "eris": "^0.10.1"
   },
   "devDependencies": {
     "ava": "1.4.1",
