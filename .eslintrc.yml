@@ -5,6 +5,8 @@ rules:
     - always
   arrow-parens: 
     - error
+  no-console:
+    - error
   brace-style:
     - error
     - 1tbs

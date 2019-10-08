@@ -9,7 +9,9 @@ nodemon({
 
 nodemon
   .on('start', () => logger.info('Nodemon started'))
-  .on('quit', () => { logger.error('Nodemon quit'); process.exit() })
+  .on('quit', () => {
+    logger.error('Nodemon quit'); process.exit()
+  })
   .on('restart', ([ file ] = []) =>
     file
       ? logger.warn(file, 'changed')

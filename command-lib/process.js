@@ -10,11 +10,11 @@ module.exports = new Command({
   run: async ({ bot }) => {
     const seconds = process.uptime()
     const uptime = getDuration(seconds)
-    console.log('uptime', uptime)
+
     const memory = Math.round(
       (process.memoryUsage().heapUsed / 1024 / 1024) * 100
     ) / 100
-    console.log('rounded heap', memory)
+
     const inline = true
     const embed = {
       description: ':heartbeat: [**Bot Stats**](https://github.com/alex-taxiera/eris-boiler)',

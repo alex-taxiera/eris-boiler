@@ -8,6 +8,7 @@
     "dev": "node bin/dev.js",
     "doc": "jsdoc -c config/.jsdoc.json",
     "ts": "jsdoc -c config/.jsdoc-ts.json",
+    "lint": "eslint .",
     "pre-commit": "./bin/hooks/pre-commit",
     "post-merge": "./bin/hooks/post-merge"
   },
