@@ -1,12 +1,15 @@
-language: node_js
+branches:
+  only:
+  - master
 dist: trusty
+language: node_js
 node_js:
   - "lts/*"
 install:
   - npm ci
 cache:
   directories:
-  - "$HOME/.npm"
+    - "$HOME/.npm"
 before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS eb_db_test;'
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
