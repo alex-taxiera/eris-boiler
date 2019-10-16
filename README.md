@@ -28,10 +28,24 @@ const { join } = require('path')
 const { DataClient } = require('eris-boiler')
 
 /* create DataClient instance */
-const bot = new DataClient('YourBotToken')
+const options = {
+  oratorOptions: {
+    defaultPrefix: '!!' // sets the default prefix to !!
+  },
+  statusManagerOptions: {
+    defaultStatus: { // sets default discord activity
+      type: 0,
+      name: 'a game'
+    },
+    mode: 'random' // sets activity mode to random, the bot will change status on an interval
+  }
+}
+
+const bot = new DataClient('YourBotToken', options)
 
 bot
   .addCommands(join(__dirname, 'src/commands')) // load commands in src/commands folder
+  .addEvents(join(__dirname, 'src/events')) // load events in src/events folder
   .connect()      
 ```
 ```js
