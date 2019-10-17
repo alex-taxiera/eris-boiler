@@ -3,6 +3,13 @@
   "version": "3.0.0-beta.7",
   "description": "A Discord bot framework using eris",
   "main": "index.js",
+  "bin": {
+    "@alex-taxiera/eris-boiler": "cli/eris-boiler",
+    "eris-boiler": "cli/eris-boiler"
+  },
+  "publishConfig": {
+    "access": "publish"
+  },
   "scripts": {
     "test": "nyc --reporter lcov ava **/*.test.js",
     "dev": "node bin/dev.js",
@@ -10,7 +17,9 @@
     "ts": "jsdoc -c config/.jsdoc-ts.json",
     "lint": "eslint .",
     "pre-commit": "./bin/hooks/pre-commit",
-    "post-merge": "./bin/hooks/post-merge"
+    "post-merge": "./bin/hooks/post-merge",
+    "migrate:make": "knex migrate:make",
+    "migrate:run": "knex migrate:latest"
   },
   "husky": {
     "hooks": {
@@ -41,6 +50,7 @@
     "dateformat": "^3.0.3"
   },
   "optionalDependencies": {
+    "knex": "^0.19.5",
     "mysql": "^2.17.1",
     "pg": "^7.10.0",
     "simple-knex": "^1.0.0-beta.5",

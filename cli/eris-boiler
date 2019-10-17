@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+require('esm')(module /* options */)
+require('./index')(process.argv)
