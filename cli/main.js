@@ -2,14 +2,11 @@ const arg = require('arg')
 const inquirer = require('inquirer')
 
 const parseArgsToOpts = (rawArgs) => {
-  const args = arg(
-    {
-      '--init-sql': Boolean
-    },
-    {
-      argv: rawArgs.slice(2)
-    }
-  )
+  const args = arg({
+    '--init-sql': Boolean
+  }, {
+    argv: rawArgs.slice(2)
+  })
 
   return {
     initSql: args['--init-sql'] || false
@@ -35,11 +32,14 @@ const missingOpts = async (opts) => {
 }
 
 const runKnexMigrations = () => {
-  const { exec } = require('child_process')
+  const {
+    exec
+  } = require('child_process')
 
   exec('npm run migrate:run', (err, out, error) => {
-    if (err || error) {
-      return process.stderr.write(err || error)
+    if (err) {
+      process.stderr.write(err.toString())
+      return process.exit(1)
     }
 
     process.stdout.write('\nRunning migrations!!!\n')
