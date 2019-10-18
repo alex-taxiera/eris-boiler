@@ -57,6 +57,11 @@ typings/
 # dotenv environment variables file
 .env
 
+# editors
+.vs
+.idea
+.vscode
+
 # docs
 docs
 jsdoc-theme
