@@ -1,5 +1,4 @@
 // const arg = require('arg')
-const createProject = require('./main.js')
 // const inquirer = require('inquirer')
 const fs = require('fs')
 const path = require('path')
@@ -16,7 +15,7 @@ const copyFiles = () => {
   })
 }
 
-module.exports = async () => {
+const createProject = async () => {
   process.stdout.write('Copying files...\n')
 
   try {
