@@ -1,5 +1,5 @@
 // const arg = require('arg')
-const createProject = require('./main')
+const createProject = require('./main.js')
 // const inquirer = require('inquirer')
 
 // const parseArgs = (rawArgs) => {
