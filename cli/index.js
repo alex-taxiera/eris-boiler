@@ -7,10 +7,10 @@ const {
 } = require('util')
 
 // const access = promisify(fs.access)
-const copy = promisify(fs.copyFile)
+const copy = promisify(require('ncp'))
 
 const copyFiles = () => {
-  console.log(path.join(__dirname), 'template')
+  console.log(path.join(__dirname, 'template'))
   console.log(process.cwd())
 
   return copy(path.join(__dirname, 'template'), process.cwd(), {

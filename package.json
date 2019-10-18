@@ -73,6 +73,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "husky": "^2.2.0",
     "jsdoc": "^3.6.3",
+    "ncp": "^2.0.0",
     "nodemon": "^1.19.0",
     "nyc": "^14.1.0",
     "sinon": "^7.3.2"
