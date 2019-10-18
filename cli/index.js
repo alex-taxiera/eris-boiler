@@ -10,6 +10,9 @@ const {
 const copy = promisify(fs.copyFile)
 
 const copyFiles = () => {
+  console.log(path.join(__dirname), 'template')
+  console.log(process.cwd())
+
   return copy(path.join(__dirname, 'template'), process.cwd(), {
     clobber: false
   })
