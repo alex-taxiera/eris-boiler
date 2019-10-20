@@ -1,3 +1,4 @@
+const color = require('colors')
 const path = require('path')
 const fs = require('fs')
 
@@ -18,12 +19,12 @@ module.exports.initSql = () => {
   exec('npx knex init', (err, stdout, stderr) => {
     if (err) {
       process.stderr.write(
-        `An error occurred running migrations, reason:\n${err}\n`
+        color.red(err)
       )
       process.exit(1)
     } else {
-      process.stdout.write('Generating "knexfile.js"\n')
-      process.stdout.write('Pulling migrations...\n')
+      process.stdout.write(color.yellow('Generating "knexfile.js"\n'))
+      process.stdout.write(color.green('Pulling migrations...\n'))
 
       const templateDir = path.join(__dirname, 'template', 'migrations')
       const userDir = path.join(process.cwd(), 'migrations')
@@ -33,37 +34,22 @@ module.exports.initSql = () => {
   })
 }
 
-module.exports.runSql = (params) => {
-  if (params[0] === '--down') {
-    process.stdout.write(`Running down migrations...\n`)
+module.exports.runSql = () => {
+  process.stdout.write(`Running migrations...\n`)
 
-    exec(`npx knex migrate:rollback ${params.slice(1).join(' ')}`.trim(), (err, stdout, stderr) => {
-      if (err) {
-        process.stderr.write(
-          `An error occurred running migrations, reason:\n${err}\n`
-        )
-        process.exit(1)
-      } else {
-        process.stdout.write(`${stdout}\n`)
-      }
-    })
-  } else {
-    process.stdout.write(`Running migrations...\n`)
-
-    exec('npx knex migrate:latest', (err, stdout, stderr) => {
-      if (err) {
-        process.stderr.write(
-          `An error occurred running migrations, reason:\n${err}\n`
-        )
-        process.exit(1)
-      } else {
-        process.stdout.write(`${stdout}\n`)
-      }
-    })
-  }
+  exec('npx knex migrate:latest', (err, stdout, stderr) => {
+    if (err) {
+      process.stderr.write(
+        color.red(`An error occurred running migrations, reason:\n${err}\n`)
+      )
+      process.exit(1)
+    } else {
+      process.stdout.write(color.green(`${stdout}\n`))
+    }
+  })
 }
 
 module.exports.unknownCmd = () => {
-  process.stderr.write(`Unknown command...\n`)
+  process.stderr.write(color.red(`Unknown command...\n`))
   process.exit(1)
 }

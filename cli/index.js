@@ -6,7 +6,7 @@ const processCommand = (params) => {
       initSql()
       break
     case 'run-sql':
-      runSql(params.slice(1))
+      runSql()
       break
     default:
       unknownCmd()
