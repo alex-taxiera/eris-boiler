@@ -1,17 +1,17 @@
-const path = require('path')
-const { ncp } = require('ncp')
+const { runSql, initSql, unknownCmd } = require('./actions')
 
-module.exports = async (args) => {
-  const templateDir = path.join(__dirname, 'template')
-  const userDir = process.cwd()
-
-  ncp(templateDir, userDir, (err) => {
-    if (err) {
-      process.stderr.write(`${err.toString()}\n`)
-      return process.exit(1)
-    }
-
-    process.stdout.write('Wrote files\n')
-    process.exit(0)
-  })
+const processCommand = (params) => {
+  switch (params[0]) {
+    case 'init-sql':
+      initSql()
+      break
+    case 'run-sql':
+      runSql()
+      break
+    default:
+      unknownCmd()
+      break
+  }
 }
+
+module.exports = async (args) => processCommand(args.slice(2))
