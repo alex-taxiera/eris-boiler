@@ -1,33 +1,24 @@
 const color = require('colors')
 const path = require('path')
-const fs = require('fs')
+const ncp = require('ncp')
 
 const { exec } = require('child_process')
 
-const copy = (dirone, dirtwo) => {
-  const files = fs.readdirSync(dirone)
-
-  for (const file of files) {
-    fs.createReadStream(`${dirone}/${file}`)
-      .pipe(fs.createWriteStream(`${dirtwo}/${file}`))
-  }
-}
-
 module.exports.initSql = () => {
-  exec('npx knex init', (err, stdout, stderr) => {
+  process.stdout.write(color.green('Pulling migrations...\n'))
+
+  const templateDir = path.join(__dirname, 'template')
+  const userDir = process.cwd()
+
+  ncp(templateDir, userDir, (err) => {
     if (err) {
       process.stderr.write(
-        color.red(err)
+        color.red(`An error transferring files, reason:\n${err}`)
       )
       process.exit(1)
     } else {
-      process.stdout.write(color.yellow('Generating "knexfile.js"'))
-      process.stdout.write(color.green('Pulling migrations...\n'))
-
-      const templateDir = path.join(__dirname, 'template', 'migrations')
-      const userDir = path.join(process.cwd(), 'migrations')
-
-      copy(templateDir, userDir)
+      process.stdout.write(color.green(`Files transferred...\n`))
+      process.exit(0)
     }
   })
 }
