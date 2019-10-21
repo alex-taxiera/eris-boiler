@@ -66,6 +66,7 @@
     "sinon": "^7.3.2"
   },
   "files": [
+    "cli",
     "index.js",
     "*lib/",
     "boiler/",
