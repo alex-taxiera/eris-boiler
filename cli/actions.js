@@ -33,19 +33,34 @@ module.exports.initSql = () => {
   })
 }
 
-module.exports.runSql = () => {
-  process.stdout.write(`Running migrations...\n`)
+module.exports.runSql = (params) => {
+  if (params[0] === '--down') {
+    process.stdout.write(`Running down migrations...\n`)
 
-  exec('npx knex migrate:latest', (err, stdout, stderr) => {
-    if (err) {
-      process.stderr.write(
-        `An error occurred running migrations, reason:\n${err}\n`
-      )
-      process.exit(1)
-    } else {
-      process.stdout.write(`${stdout}\n`)
-    }
-  })
+    exec(`npx knex migrate:rollback ${params.slice(1).join(' ')}`.trim(), (err, stdout, stderr) => {
+      if (err) {
+        process.stderr.write(
+          `An error occurred running migrations, reason:\n${err}\n`
+        )
+        process.exit(1)
+      } else {
+        process.stdout.write(`${stdout}\n`)
+      }
+    })
+  } else {
+    process.stdout.write(`Running migrations...\n`)
+
+    exec('npx knex migrate:latest', (err, stdout, stderr) => {
+      if (err) {
+        process.stderr.write(
+          `An error occurred running migrations, reason:\n${err}\n`
+        )
+        process.exit(1)
+      } else {
+        process.stdout.write(`${stdout}\n`)
+      }
+    })
+  }
 }
 
 module.exports.unknownCmd = () => {
