@@ -3,7 +3,7 @@ const { Command } = require('../lib')
 module.exports = new Command({
   name: 'help',
   description: 'Displays this message, duh!',
-  run: async function (context) {
+  run: async (context) => {
     const {
       params,
       bot
