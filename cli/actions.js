@@ -9,8 +9,9 @@ const copy = (dirone, dirtwo) => {
   const files = fs.readdirSync(dirone)
 
   for (const file of files) {
-    fs.createReadStream(`${dirone}/${file}`)
-      .pipe(fs.createWriteStream(`${dirtwo}/${file}`))
+    fs.readFileSync(`${dirone}/${file}`)
+
+    fs.writeFileSync(`${dirtwo}/${file}`)
   }
 }
 
@@ -25,10 +26,20 @@ module.exports.initSql = () => {
       process.stdout.write('Generating "knexfile.js"\n')
       process.stdout.write('Pulling migrations...\n')
 
-      const templateDir = path.resolve('template', 'migrations')
-      const userDir = path.resolve(process.cwd(), 'migrations')
+      const templateDir = path.join(__dirname, 'template', 'migrations')
 
-      copy(templateDir, userDir)
+      const userDir = path.join(process.cwd(), 'migrations')
+
+      fs.mkdir(userDir, (err) => {
+        if (err) {
+          process.stderr.write(
+            `An error occurred running migrations, reason:\n${err}\n`
+          )
+          process.exit(1)
+        } else {
+          copy(templateDir, userDir)
+        }
+      })
     }
   })
 }
@@ -37,16 +48,17 @@ module.exports.runSql = (params) => {
   if (params[0] === '--down') {
     process.stdout.write(`Running down migrations...\n`)
 
-    exec(`npx knex migrate:rollback ${params.slice(1).join(' ')}`.trim(), (err, stdout, stderr) => {
-      if (err) {
-        process.stderr.write(
-          `An error occurred running migrations, reason:\n${err}\n`
-        )
-        process.exit(1)
-      } else {
-        process.stdout.write(`${stdout}\n`)
-      }
-    })
+    exec(`npx knex migrate:rollback ${params.slice(1).join(' ')}`.trim(),
+      (err, stdout, stderr) => {
+        if (err) {
+          process.stderr.write(
+            `An error occurred running migrations, reason:\n${err}\n`
+          )
+          process.exit(1)
+        } else {
+          process.stdout.write(`${stdout}\n`)
+        }
+      })
   } else {
     process.stdout.write(`Running migrations...\n`)
 
