@@ -12,6 +12,10 @@
     "pre-commit": "./bin/hooks/pre-commit",
     "post-merge": "./bin/hooks/post-merge"
   },
+  "bin": {
+    "@alex-taxiera/eris-boiler": "cli/eris-boiler",
+    "eris-boiler": "cli/eris-boiler"
+  },
   "husky": {
     "hooks": {
       "post-merge": "npm run post-merge",
