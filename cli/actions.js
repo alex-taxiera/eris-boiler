@@ -25,7 +25,7 @@ module.exports.initSql = () => {
       process.stdout.write('Generating "knexfile.js"\n')
       process.stdout.write('Pulling migrations...\n')
 
-      const templateDir = path.join(__dirname, 'template', 'migrations')
+      const templateDir = path.join('template', 'migrations')
       const userDir = path.join(process.cwd(), 'migrations')
 
       copy(templateDir, userDir)
