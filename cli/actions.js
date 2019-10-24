@@ -9,9 +9,14 @@ const copy = (dirone, dirtwo) => {
   const files = fs.readdirSync(dirone)
 
   for (const file of files) {
-    fs.readFileSync(`${dirone}/${file}`)
-
-    fs.writeFileSync(`${dirtwo}/${file}`)
+    fs.copyFile(`${dirone}/${file}`, `${dirtwo}/${file}`, (err) => {
+      if (err) {
+        process.stderr.write(
+          `An error occurred running migrations, reason:\n${err}\n`
+        )
+        process.exit(1)
+      }
+    })
   }
 }
 
