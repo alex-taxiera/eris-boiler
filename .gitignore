@@ -61,5 +61,11 @@ typings/
 docs
 jsdoc-theme
 
+# editor folders
+.vs
+.idea
+.atom
+.vscode
+
 # project
 config.json
