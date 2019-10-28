@@ -38,7 +38,8 @@
   "homepage": "https://alex-taxiera.github.io/eris-boiler/",
   "dependencies": {
     "colors": "^1.3.3",
-    "dateformat": "^3.0.3"
+    "dateformat": "^3.0.3",
+    "eris": "^0.11.0"
   },
   "optionalDependencies": {
     "mysql": "^2.17.1",
@@ -46,13 +47,9 @@
     "simple-knex": "^1.0.0-beta.5",
     "sqlite": "^3.0.3"
   },
-  "peerDependencies": {
-    "eris": "^0.10.1"
-  },
   "devDependencies": {
     "ava": "1.4.1",
     "dotenv": "^8.0.0",
-    "eris": "^0.10.1",
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.17.2",
