@@ -2,7 +2,7 @@ import {
     Client,
     Message,
     Collection,
-    GuildMember,
+    Member,
     ExtendedUser,
     TextChannel
 } from 'eris';
@@ -40,14 +40,16 @@ declare type CommandOptions = {
 };
 
 /**
- * @typedef {Function(CommandContext): (CommandResults|string)} CommandAction
+ * @callback CommandAction
+ * @param    {CommandContext}        context The CommandContext.
+ * @returns  {CommandResults|string}
  */
 declare type CommandAction = (context: CommandContext) => CommandResults | string;
 
 /**
  * @typedef  CommandContext
  * @property {string[]}   params The parsed params that make up the invoking message.
- * @property {Message}    msg    The message from Discord.
+ * @property {Message}    msg    The message from Discord {@link https://abal.moe/Eris/docs/Message|(link)}.
  * @property {DataClient} bot    The bot client.
  */
 declare type CommandContext = {
@@ -112,6 +114,7 @@ declare class Command {
     permission: Permission;
     /**
      * @type {Collection<Command>}
+     * @see {@link https://abal.moe/Eris/docs/Collection|Collection}
      */
     subCommands: Collection<Command>;
     /**
@@ -141,12 +144,14 @@ declare type CommandMiddlewareData = {
 };
 
 /**
- * @typedef {Function(CommandContext): Promise<void>} MiddlewareRun
+ * @callback MiddlewareRun
+ * @param    {CommandContext} context The CommandContext
+ * @returns  {Promise<void>}
  */
 declare type MiddlewareRun = (context: CommandContext) => Promise<void>;
 
 /**
- * @typedef  DataClientOptions                    The DataClient options.
+ * @typedef  DataClientOptions
  * @property {DatabaseManager}      [databaseManager]      The DatabaseManager.
  * @property {OratorOptions}        [oratorOptions]        Params to pass to the Orator class.
  * @property {StatusManagerOptions} [statusManagerOptions] StatusManagerOptions object.
@@ -190,8 +195,14 @@ declare class DataClient extends Client {
     sm: StatusManager;
     /**
      * @type {Collection}
+     * @see {@link https://abal.moe/Eris/docs/Collection|Collection}
      */
     commands: Collection;
+    /**
+     * @type {Collection}
+     * @see {@link https://abal.moe/Eris/docs/Collection|Collection}
+     */
+    permissions: Collection;
     /**
      * Connect to discord.
      * @returns {Promise<void>}
@@ -201,7 +212,7 @@ declare class DataClient extends Client {
      * Find a command from commands.
      * @param    {string}              name             Name of command to search.
      * @param    {object}              options          Options to customize search.
-     * @property {Collection<Command>} options.commands A collection of commands to search instead of the build in commands.
+     * @property {Collection<Command>} options.commands A collection of commands to search instead of the build in commands {@link https://abal.moe/Eris/docs/Collection|(link)}.
      * @returns  {object}
      * @property {DataClient}          bot              Current state of DataClient.
      * @property {Command}             command          Command found from search.
@@ -212,19 +223,19 @@ declare class DataClient extends Client {
     };
     /**
      * Add commands to store.
-     * @param  {...string|Command|Array<string|Command>} commands Commands to add to store.
+     * @param   {...string|Command|Array<string|Command>} commands Commands to add to store.
      * @returns {DataClient}                                      Current state of DataClient.
      */
     addCommands(...commands: (string | Command | (string | Command)[])[]): DataClient;
     /**
      * Add events to store.
-     * @param  {...string|DiscordEvent|Array<string|DiscordEvent>} events Events to add to store.
+     * @param   {...string|DiscordEvent|Array<string|DiscordEvent>} events Events to add to store.
      * @returns {DataClient}                                              Current state of DataClient.
      */
     addEvents(...events: (string | DiscordEvent | (string | DiscordEvent)[])[]): DataClient;
     /**
      * Add permissions to store.
-     * @param  {...string|Permission|Array<string|Permission>} permissions Permissions to add to store.
+     * @param   {...string|Permission|Array<string|Permission>} permissions Permissions to add to store.
      * @returns {DataClient}                                               Current state of DataClient.
      */
     addPermissions(...permissions: (string | Permission | (string | Permission)[])[]): DataClient;
@@ -232,13 +243,27 @@ declare class DataClient extends Client {
 
 /**
  * @typedef  DatabaseManagerOptions
- * @property {Function(...any[]): DatabaseObject} DataObject DatabaseObject constructor to structure database values.
- * @property {Function(...any[]): DatabaseQuery}  DataQuery  DatabaseQuery constructor to structure database values.
+ * @property {DatabaseObjectBuilder} DataObject DatabaseObject constructor to structure database values.
+ * @property {DatabaseQueryBuilder}  DataQuery  DatabaseQuery constructor to structure database values.
  */
 declare type DatabaseManagerOptions = {
-    DataObject: (...params: any[]) => DatabaseObject;
-    DataQuery: (...params: any[]) => DatabaseQuery;
+    DataObject: DatabaseObjectBuilder;
+    DataQuery: DatabaseQueryBuilder;
 };
+
+/**
+ * @callback DatabaseObjectBuilder
+ * @param    {...any} params The params.
+ * @returns  {DatabaseObject}
+ */
+declare type DatabaseObjectBuilder = (...params: any[]) => DatabaseObject;
+
+/**
+ * @callback DatabaseQueryBuilder
+ * @param    {...any} params The params.
+ * @returns  {DatabaseQuery}
+ */
+declare type DatabaseQueryBuilder = (...params: any[]) => DatabaseQuery;
 
 /**
  * Class representing a database manager.
@@ -262,8 +287,8 @@ declare class DatabaseManager {
     newQuery(type: string): DatabaseQuery;
     /**
      * Add a new DatabaseObject.
-     * @param   {string}                  type The type of DatabaseObject to add.
-     * @param   {any}                  data The raw data for the new DatabaseObject.
+     * @param   {string}       type The type of DatabaseObject to add.
+     * @param   {any}          data The raw data for the new DatabaseObject.
      * @returns {Promise<any>}      The new DatabaseObject (should not need to be saved).
      */
     add(type: string, data: any): Promise<any>;
@@ -403,9 +428,12 @@ declare type DiscordEventData = {
 };
 
 /**
- * @typedef {Function(DataClient, ...any[]): void} DiscordEventRunner
+ * @callback DiscordEventRunner
+ * @param    {DataClient} bot  The DataClient.
+ * @param    {...any}     rest The rest.
+ * @returns  {void}
  */
-declare type DiscordEventRunner = (bot: DataClient, ...any: any[]) => void;
+declare type DiscordEventRunner = (bot: DataClient, ...rest: any[]) => void;
 
 /**
  * Create an Event.
@@ -440,15 +468,15 @@ declare class Orator {
     permissions: Permission[];
     /**
      * Try to delete a message.
-     * @param   {ExtendedUser}       me  The bot user.
-     * @param   {Message}            msg The message to delete
+     * @param   {ExtendedUser}       me  The bot user {@link https://abal.moe/Eris/docs/ExtendedUser|(link)}.
+     * @param   {Message}            msg The message to delete {@link https://abal.moe/Eris/docs/Message|(link)}.
      * @returns {Promise<void>|void}
      */
     tryMessageDelete(me: ExtendedUser, msg: Message): Promise<void> | void;
     /**
      * Try to send a message.
-     * @param   {ExtendedUser}       me      The bot user.
-     * @param   {TextChannel}        channel The channel to send the message in.
+     * @param   {ExtendedUser}       me      The bot user {@link https://abal.moe/Eris/docs/ExtendedUser|(link)}.
+     * @param   {TextChannel}        channel The channel to send the message in {@link https://abal.moe/Eris/docs/TextChannel|(link)}.
      * @param   {string|any}         content The content of the message.
      * @param   {any}                file    The file to send (if any).
      * @returns {Promise<void>|void}
@@ -456,17 +484,17 @@ declare class Orator {
     tryCreateMessage(me: ExtendedUser, channel: TextChannel, content: string | any, file: any): Promise<void> | void;
     /**
      * Try to send a message.
-     * @param   {ExtendedUser}       me      The bot user.
-     * @param   {Message}            msg     The message that prompted the DM.
-     * @param   {string|any}         content The content of the message.
-     * @param   {any}                file    The file to send (if any).
+     * @param   {ExtendedUser}  me      The bot user {@link https://abal.moe/Eris/docs/ExtendedUser|(link)}.
+     * @param   {Message}       msg     The message that prompted the DM {@link https://abal.moe/Eris/docs/Message|(link)}.
+     * @param   {string|any}    content The content of the message.
+     * @param   {any}           file    The file to send (if any).
      * @returns {Promise<void>}
      */
     tryDMCreateMessage(me: ExtendedUser, msg: Message, content: string | any, file: any): Promise<void>;
     /**
      * Process a message read by the bot.
      * @param {DataClient} bot The bot object.
-     * @param {Message}    msg The message to process.
+     * @param {Message}    msg The message to process {@link https://abal.moe/Eris/docs/Message|(link)}.
      */
     processMessage(bot: DataClient, msg: Message): void;
     /**
@@ -475,20 +503,14 @@ declare class Orator {
      * @returns {Promise<boolean>}
      */
     hasPermission(context: CommandContext): Promise<boolean>;
-    /**
-     * Send a help message in chat.
-     * @param {String}  prefix The prefix used in the server the message was sent.
-     * @param {Message} msg    The message needing help.
-     */
-    _sendHelp(prefix: string, msg: Message): void;
 }
 
 /**
  * @typedef  OratorOptions
- * @property {string}      [defaultPrefix]             The default command prefix.
- * @property {boolean}     [deleteInvoking=false]      Default behavior for whether or not the bot should delete the message that invoked a command.
- * @property {boolean}     [deleteResponse=false]      Default behavior for whether or not the bot should delete the message response from a command.
- * @property {number}      [deleteResponseDelay=10000] Default behavior for how many miliseconds to wait before deleting the bots response from a command.
+ * @property {string}  [defaultPrefix]             The default command prefix.
+ * @property {boolean} [deleteInvoking=false]      Default behavior for whether or not the bot should delete the message that invoked a command.
+ * @property {boolean} [deleteResponse=false]      Default behavior for whether or not the bot should delete the message response from a command.
+ * @property {number}  [deleteResponseDelay=10000] Default behavior for how many miliseconds to wait before deleting the bots response from a command.
  */
 declare type OratorOptions = {
     defaultPrefix?: string;
@@ -498,9 +520,12 @@ declare type OratorOptions = {
 };
 
 /**
- * @typedef {function(GuildMember, DataClient): boolean} CheckFunction
+ * @callback CheckFunction
+ * @param    {Member}     member The Member to check permissions {@link https://abal.moe/Eris/docs/Member|(link)}.
+ * @param    {DataClient} bot    The DataClient.
+ * @returns  {boolean}
  */
-declare type CheckFunction = (member: GuildMember, bot: DataClient) => boolean;
+declare type CheckFunction = (member: Member, bot: DataClient) => boolean;
 
 /**
  * @typedef  PermissionData
@@ -534,12 +559,6 @@ declare class Permission extends CommandMiddleware {
 declare class RAMManager extends DatabaseManager {
     constructor();
     /**
-     * Add a new data store if needed.
-     * @param   {string} type The type of DatabaseObject.
-     * @returns {void}
-     */
-    _addStoreIfNeeded(type: string): void;
-    /**
      * Create a new DatabaseObject.
      * @param   {string}         type         The type of DatabaseObject to create.
      * @param   {any}            data         The data to initialize the DataObject with.
@@ -555,8 +574,8 @@ declare class RAMManager extends DatabaseManager {
     newQuery(type: string): DatabaseQuery;
     /**
      * Add a new DatabaseObject.
-     * @param   {string}                  type The type of DatabaseObject to add.
-     * @param   {any}                  data The raw data for the new DatabaseObject.
+     * @param   {string}       type The type of DatabaseObject to add.
+     * @param   {any}          data The raw data for the new DatabaseObject.
      * @returns {Promise<any>}      The new DatabaseObject (should not need to be saved).
      */
     add(type: string, data: any): Promise<any>;
@@ -634,8 +653,8 @@ declare class SQLManager extends DatabaseManager {
     newQuery(type: string): DatabaseQuery;
     /**
      * Add a new DatabaseObject.
-     * @param   {string}                  type The type of DatabaseObject to add.
-     * @param   {any}                  data The raw data for the new DatabaseObject.
+     * @param   {string}       type The type of DatabaseObject to add.
+     * @param   {any}          data The raw data for the new DatabaseObject.
      * @returns {Promise<any>}      The new DatabaseObject (should not need to be saved).
      */
     add(type: string, data: any): Promise<any>;
@@ -667,9 +686,9 @@ declare class SQLManager extends DatabaseManager {
 
 /**
  * @typedef  StatusManagerOptions
- * @property {string}  [mode='manual']      The mode of the StatusManager, either 'manual' or 'random'.
- * @property {number}  [interval=43200000]  The amount of time to wait before randomly changing status (requires 'random' mode).
- * @property {Status}  defaultStatus        The default status of the bot.
+ * @property {string} [mode='manual']      The mode of the StatusManager, either 'manual' or 'random'.
+ * @property {number} [interval=43200000]  The amount of time to wait before randomly changing status (requires 'random' mode).
+ * @property {Status} defaultStatus        The default status of the bot.
  */
 declare type StatusManagerOptions = {
     mode?: string;
@@ -741,11 +760,10 @@ declare class StatusManager {
 
 /**
  * @typedef  Status
- * @property {string}  name   The name of the status.
- * @property {number}  type   The data type of the status.
+ * @property {string} name   The name of the status.
+ * @property {number} type   The data type of the status.
  */
 declare type Status = {
     name: string;
     type: number;
 };
-

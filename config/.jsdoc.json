@@ -5,7 +5,7 @@
   "source": {
     "include": ["lib", "README.md"],
     "includePattern": ".+\\.js(doc|x)?$",
-    "excludePattern": "(^|\\/|\\\\)_"
+    "excludePattern": "(broken-files)"
   },
   "plugins": ["plugins/markdown"],
   "markdown": {
@@ -26,7 +26,7 @@
     "package": "package.json",
     "template": "../jsdoc-theme",
     "destination": "docs",
-    "private": true,
+    "private": false,
     "recurse": true
   }
 }
