@@ -38,7 +38,7 @@ jobs:
 stages:
   -
     name: test
-    if: type = pull_request
+    if: type = pull_request OR branch = master
   -
     name: publish
     if: branch IN (master, eris-boiler) AND tag IS present
