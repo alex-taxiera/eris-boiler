@@ -16,6 +16,7 @@ exclude_patterns:
   - '**/broken-files/'
   - '**/*.d.ts'
   - '**/docs/'
+  - '**/jsdoc-theme/'
   - '**/demo/'
   - '**/config/'
   - '**/bin/'

@@ -1,6 +1,3 @@
-branches:
-  only:
-    - master
 dist: trusty
 language: node_js
 node_js:
@@ -10,11 +7,38 @@ install:
 cache:
   directories:
     - "$HOME/.npm"
-before_script:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS eb_db_test;'
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-script: npm test
-after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+jobs:
+  include:
+    -
+      stage: test
+      before_script:
+        - mysql -e 'CREATE DATABASE IF NOT EXISTS eb_db_test;'
+        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+        - chmod +x ./cc-test-reporter
+        - ./cc-test-reporter before-build
+      script:
+        - npm test
+      after_script:
+        - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+    -
+      stage: publish
+      deploy:
+        -
+          provider: pages
+          github_token: $GITHUB_TOKEN
+          skip_cleanup: true
+          keep_history: true
+          committer_from_gh: true
+          on:
+            branch: master
+        -
+          provider: npm
+          email: $NPM_EMAIL
+          api_key: $NPM_API_KEY
+stages:
+  -
+    name: test
+    if: type = pull_request
+  -
+    name: publish
+    if: branch IN (master, eris-boiler) AND tag IS present
