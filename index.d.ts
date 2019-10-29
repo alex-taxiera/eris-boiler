@@ -113,10 +113,9 @@ declare class Command {
      */
     permission: Permission;
     /**
-     * @type {Collection<string, Command>}
-     * @see {@link https://abal.moe/Eris/docs/Collection|Collection}
+     * @type {ExtendedMap<string, Command>}
      */
-    subCommands: Collection<string, Command>;
+    subCommands: ExtendedMap<string, Command>;
     /**
      * @type {string}
      */
@@ -194,15 +193,13 @@ declare class DataClient extends Client {
      */
     sm: StatusManager;
     /**
-     * @type {Collection<string, Command>}
-     * @see {@link https://abal.moe/Eris/docs/Collection|Collection}
+     * @type {ExtendedMap<string, Command>}
      */
-    commands: Collection<string, Command>;
+    commands: ExtendedMap<string, Command>;
     /**
-     * @type {Collection<string, Permission>}
-     * @see {@link https://abal.moe/Eris/docs/Collection|Collection}
+     * @type {ExtendedMap<string, Permission>}
      */
-    permissions: Collection<string, Permission>;
+    permissions: ExtendedMap<string, Permission>;
     /**
      * Connect to discord.
      * @returns {Promise<void>}
@@ -210,13 +207,13 @@ declare class DataClient extends Client {
     connect(): Promise<void>;
     /**
      * Find a command from commands.
-     * @param    {string}                      name     Name of command to search.
-     * @param    {Collection<string, Command>} commands A collection of commands to search instead of the build in commands {@link https://abal.moe/Eris/docs/Collection|(link)}.
+     * @param    {string}                       name     Name of command to search.
+     * @param    {ExtendedMap<string, Command>} commands A collection of commands to search instead of the build in commands.
      * @returns  {object}
-     * @property {DataClient}                  bot      Current state of DataClient.
-     * @property {Command}                     command  Command found from search.
+     * @property {DataClient}                   bot      Current state of DataClient.
+     * @property {Command}                      command  Command found from search.
      */
-    findCommand(name: string, commands: Collection<string, Command>): {
+    findCommand(name: string, commands: ExtendedMap<string, Command>): {
         bot: DataClient;
         command: Command;
     };
@@ -755,6 +752,71 @@ declare class StatusManager {
      * @returns {void}
      */
     timerEnd(): void;
+}
+
+/**
+ * @callback FilterCallback
+ * @param    {any}     item The item.
+ * @returns  {boolean}
+ */
+declare type FilterCallback = (item: any) => boolean;
+
+/**
+ * @callback MapCallback
+ * @param    {any}     item The item.
+ * @returns  {any}
+ */
+declare type MapCallback = (item: any) => any;
+
+/**
+ * @callback ReduceCallback
+ * @param    {any} accumulator The accumulator.
+ * @param    {any} item        The item.
+ * @returns  {any}
+ */
+declare type ReduceCallback = (accumulator: any, item: any) => any;
+
+/**
+ * @extends Map
+ */
+declare class ExtendedMap extends Map {
+    /**
+     * Return the first object to make the function evaluate true.
+     * @param   {FilterCallback} func A function that takes an object and returns true if it matches.
+     * @returns {any|void}            The first matching object, or undefined if no match.
+     */
+    find(func: FilterCallback): any | void;
+    /**
+     * Return all the objects that make the function evaluate true.
+     * @param   {FilterCallback}   func A function that takes an object and returns true if it matches.
+     * @returns {Array<any>}            An array containing all the objects that matched.
+     */
+    filter(func: FilterCallback): any[];
+    /**
+     * Return an array with the results of applying the given function to each element.
+     * @param   {MapCallback}   func A function that takes an object and returns something.
+     * @returns {Array<any>}      An array containing the results.
+     */
+    map(func: MapCallback): any[];
+    /**
+     * Returns a value resulting from applying a function to every element of the collection.
+     * @param   {ReduceCallback} func           A function that takes the previous value and the next item and returns a new value.
+     * @param   {any}      [initialValue] The initial value passed to the function.
+     * @returns {any}                     The final result.
+     */
+    reduce(func: ReduceCallback, initialValue?: any): any;
+    /**
+     * Returns true if all elements satisfy the condition.
+     * @param   {FilterCallback} func A function that takes an object and returns true or false.
+     * @returns {boolean}             Whether or not all elements satisfied the condition.
+     */
+    every(func: FilterCallback): boolean;
+    /**
+     * Returns true if at least one element satisfies the condition.
+     * @param   {FilterCallback} func A function that takes an object and returns true or false.
+     * @returns {boolean}             Whether or not at least one element satisfied the condition.
+     */
+    some(func: FilterCallback): boolean;
 }
 
 /**
