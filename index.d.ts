@@ -470,13 +470,13 @@ declare class Orator {
     tryMessageDelete(me: ExtendedUser, msg: Message): Promise<void> | void;
     /**
      * Try to send a message.
-     * @param   {ExtendedUser}       me      The bot user {@link https://abal.moe/Eris/docs/ExtendedUser|(link)}.
-     * @param   {TextChannel}        channel The channel to send the message in {@link https://abal.moe/Eris/docs/TextChannel|(link)}.
-     * @param   {string|any}         content The content of the message.
-     * @param   {any}                file    The file to send (if any).
-     * @returns {Promise<void>|void}
+     * @param   {ExtendedUser}               me      The bot user {@link https://abal.moe/Eris/docs/ExtendedUser|(link)}.
+     * @param   {TextChannel}                channel The channel to send the message in {@link https://abal.moe/Eris/docs/TextChannel|(link)}.
+     * @param   {string|any}                 content The content of the message.
+     * @param   {any}                        file    The file to send (if any).
+     * @returns {Promise<Message|void>|void}
      */
-    tryCreateMessage(me: ExtendedUser, channel: TextChannel, content: string | any, file: any): Promise<void> | void;
+    tryCreateMessage(me: ExtendedUser, channel: TextChannel, content: string | any, file: any): Promise<Message | void> | void;
     /**
      * Try to send a message.
      * @param   {ExtendedUser}  me      The bot user {@link https://abal.moe/Eris/docs/ExtendedUser|(link)}.
