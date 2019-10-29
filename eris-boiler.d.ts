@@ -1,12 +1,3 @@
-import {
-    Client,
-    Message,
-    Collection,
-    Member,
-    ExtendedUser,
-    TextChannel
-} from 'eris';
-
 /**
  * @typedef  CommandData
  * @property {string}         name        The command name.
@@ -766,3 +757,4 @@ declare type Status = {
     name: string;
     type: number;
 };
+
