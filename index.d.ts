@@ -6,7 +6,6 @@ import {
     ExtendedUser,
     TextChannel
 } from 'eris';
-
 /**
  * @typedef  CommandData
  * @property {string}         name        The command name.
@@ -263,10 +262,10 @@ declare type DatabaseQueryBuilder = (...params: any[]) => DatabaseQuery;
 
 /**
  * Class representing a database manager.
- * @param {DatabaseManagerOptions} options The DatabaseManagerOptions.
+ * @interface
+ * @param     {DatabaseManagerOptions} options The DatabaseManagerOptions.
  */
-declare class DatabaseManager {
-    constructor(options: DatabaseManagerOptions);
+declare interface DatabaseManager {
     /**
      * Create a new DatabaseObject.
      * @param   {string}         type         The type of DatabaseObject to create.
@@ -548,26 +547,15 @@ declare class Permission extends CommandMiddleware {
     run: MiddlewareRun;
 }
 
+declare interface RAMManager extends DatabaseManager {
+}
+
 /**
  * Class representing a database manager.
- * @extends {DatabaseManager}
+ * @implements {DatabaseManager}
  */
-declare class RAMManager extends DatabaseManager {
+declare class RAMManager implements DatabaseManager {
     constructor();
-    /**
-     * Create a new DatabaseObject.
-     * @param   {string}         type         The type of DatabaseObject to create.
-     * @param   {any}            data         The data to initialize the DataObject with.
-     * @param   {boolean}        [isNew=true] Whether or not the DatabaseObject should be treated as a new record.
-     * @returns {DatabaseObject}              The new DatabaseObject.
-     */
-    newObject(type: string, data: any, isNew?: boolean): DatabaseObject;
-    /**
-     * Start a DatabaseQuery.
-     * @param   {string}        type The type of DatabaseObject to query for.
-     * @returns {DatabaseQuery}      The new DatabaseQuery.
-     */
-    newQuery(type: string): DatabaseQuery;
     /**
      * Add a new DatabaseObject.
      * @param   {string}       type The type of DatabaseObject to add.
@@ -625,28 +613,17 @@ declare type ConnectionInfo = {
     host: string;
 };
 
+declare interface SQLManager extends DatabaseManager {
+}
+
 /**
  * Class representing an SQLDatabaseManager.
- * @extends {DatabaseManager}
- * @param   {ConnectionData}         connection   The connection data for the SQL DB.
- * @param   {DatabaseManagerOptions} [options={}] The DatabaseManagerOptions.
+ * @implements {DatabaseManager}
+ * @param      {ConnectionData}         connection   The connection data for the SQL DB.
+ * @param      {DatabaseManagerOptions} [options={}] The DatabaseManagerOptions.
  */
-declare class SQLManager extends DatabaseManager {
+declare class SQLManager implements DatabaseManager {
     constructor(connection: ConnectionData, options?: DatabaseManagerOptions);
-    /**
-     * Create a new DatabaseObject.
-     * @param   {string}         type         The type of DatabaseObject to create.
-     * @param   {any}            data         The data to initialize the DataObject with.
-     * @param   {boolean}        [isNew=true] Whether or not the DatabaseObject should be treated as a new record.
-     * @returns {DatabaseObject}              The new DatabaseObject.
-     */
-    newObject(type: string, data: any, isNew?: boolean): DatabaseObject;
-    /**
-     * Start a DatabaseQuery.
-     * @param   {string}        type The type of DatabaseObject to query for.
-     * @returns {DatabaseQuery}      The new DatabaseQuery.
-     */
-    newQuery(type: string): DatabaseQuery;
     /**
      * Add a new DatabaseObject.
      * @param   {string}       type The type of DatabaseObject to add.
@@ -755,6 +732,11 @@ declare class StatusManager {
 }
 
 /**
+ * @typedef {string|number} Key
+ */
+declare type Key = string | number;
+
+/**
  * @callback FilterCallback
  * @param    {any}     item The item.
  * @returns  {boolean}
@@ -777,9 +759,9 @@ declare type MapCallback = (item: any) => any;
 declare type ReduceCallback = (accumulator: any, item: any) => any;
 
 /**
- * @extends Map
+ * @extends Map<Key,T>
  */
-declare class ExtendedMap extends Map {
+declare class ExtendedMap<Key, T> extends Map<Key, T> {
     /**
      * Return the first object to make the function evaluate true.
      * @param   {FilterCallback} func A function that takes an object and returns true if it matches.
