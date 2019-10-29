@@ -210,14 +210,13 @@ declare class DataClient extends Client {
     connect(): Promise<void>;
     /**
      * Find a command from commands.
-     * @param    {string}              name             Name of command to search.
-     * @param    {object}              options          Options to customize search.
-     * @property {Collection<Command>} options.commands A collection of commands to search instead of the build in commands {@link https://abal.moe/Eris/docs/Collection|(link)}.
+     * @param    {string}              name     Name of command to search.
+     * @param    {Collection<Command>} commands A collection of commands to search instead of the build in commands {@link https://abal.moe/Eris/docs/Collection|(link)}.
      * @returns  {object}
-     * @property {DataClient}          bot              Current state of DataClient.
-     * @property {Command}             command          Command found from search.
+     * @property {DataClient}          bot      Current state of DataClient.
+     * @property {Command}             command  Command found from search.
      */
-    findCommand(name: string, options: { commands: Collection<Command> }): {
+    findCommand(name: string, commands: Collection<Command>): {
         bot: DataClient;
         command: Command;
     };

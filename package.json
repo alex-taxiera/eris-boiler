@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "nyc --reporter lcov ava **/*.test.js",
+    "build": "npm run doc",
     "dev": "node bin/dev.js",
     "doc": "jsdoc -c config/.jsdoc.json",
     "ts": "jsdoc -c config/.jsdoc-ts.json",
@@ -37,30 +38,30 @@
   },
   "homepage": "https://alex-taxiera.github.io/eris-boiler/",
   "dependencies": {
-    "colors": "^1.3.3",
+    "chalk": "^2.4.2",
     "dateformat": "^3.0.3",
     "eris": "^0.11.0"
   },
   "optionalDependencies": {
     "mysql": "^2.17.1",
-    "pg": "^7.10.0",
+    "pg": "^7.12.1",
     "simple-knex": "^1.0.0-beta.5",
     "sqlite": "^3.0.3"
   },
   "devDependencies": {
     "ava": "1.4.1",
-    "dotenv": "^8.0.0",
-    "eslint": "^5.16.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-node": "^9.0.1",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-standard": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^6.6.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "husky": "^2.2.0",
     "jsdoc": "^3.6.3",
-    "nodemon": "^1.19.0",
-    "nyc": "^14.1.0",
-    "sinon": "^7.3.2",
+    "nodemon": "^1.19.4",
+    "nyc": "^14.1.1",
+    "sinon": "^7.5.0",
     "tsd-jsdoc": "^2.4.0"
   },
   "files": [

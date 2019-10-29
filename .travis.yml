@@ -22,20 +22,23 @@ jobs:
         - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
     -
       stage: publish
-      script: echo "publishing..."
+      script: npm run build
       deploy:
         -
           provider: pages
           github_token: $GITHUB_TOKEN
           skip_cleanup: true
           keep_history: true
+          local_dir: './docs'
           committer_from_gh: true
           on:
-            branch: master
+            tags: true
         -
           provider: npm
           email: $NPM_EMAIL
           api_key: $NPM_API_KEY
+          on:
+            tags: true
 stages:
   -
     name: test
