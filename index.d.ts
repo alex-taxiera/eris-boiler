@@ -745,7 +745,7 @@ declare type FilterCallback = (item: any) => boolean;
 
 /**
  * @callback MapCallback
- * @param    {any}     item The item.
+ * @param    {any} item The item.
  * @returns  {any}
  */
 declare type MapCallback = (item: any) => any;
@@ -761,30 +761,30 @@ declare type ReduceCallback = (accumulator: any, item: any) => any;
 /**
  * @extends Map<Key,T>
  */
-declare class ExtendedMap<Key, T> extends Map<Key, T> {
+declare class ExtendedMap<Key, T> extends Map<Key,T> {
     /**
      * Return the first object to make the function evaluate true.
      * @param   {FilterCallback} func A function that takes an object and returns true if it matches.
-     * @returns {any|void}            The first matching object, or undefined if no match.
+     * @returns {T|void}              The first matching item, or undefined if no match.
      */
-    find(func: FilterCallback): any | void;
+    find(func: FilterCallback): T | void;
     /**
      * Return all the objects that make the function evaluate true.
-     * @param   {FilterCallback}   func A function that takes an object and returns true if it matches.
-     * @returns {Array<any>}            An array containing all the objects that matched.
+     * @param   {FilterCallback} func A function that takes an object and returns true if it matches.
+     * @returns {Array<T>}            An array containing all the objects that matched.
      */
-    filter(func: FilterCallback): any[];
+    filter(func: FilterCallback): T[];
     /**
      * Return an array with the results of applying the given function to each element.
-     * @param   {MapCallback}   func A function that takes an object and returns something.
-     * @returns {Array<any>}      An array containing the results.
+     * @param   {MapCallback} func A function that takes an object and returns something.
+     * @returns {Array<any>}       An array containing the results.
      */
     map(func: MapCallback): any[];
     /**
      * Returns a value resulting from applying a function to every element of the collection.
      * @param   {ReduceCallback} func           A function that takes the previous value and the next item and returns a new value.
-     * @param   {any}      [initialValue] The initial value passed to the function.
-     * @returns {any}                     The final result.
+     * @param   {any}            [initialValue] The initial value passed to the function.
+     * @returns {any}                           The final result.
      */
     reduce(func: ReduceCallback, initialValue?: any): any;
     /**
