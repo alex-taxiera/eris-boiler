@@ -25,9 +25,9 @@ module.exports = new Command({
     const dbStatuses = await bot.sm.getStatuses()
     const statuses = dbStatuses.map((dbStatus) => dbStatus.toJSON())
     if (statuses.some((status) => equalStatuses(status, newStatus))) {
-      return `Status already exists!`
+      return 'Status already exists!'
     }
     await bot.sm.addStatus(newStatus)
-    return `Added status!`
+    return 'Added status!'
   }
 })

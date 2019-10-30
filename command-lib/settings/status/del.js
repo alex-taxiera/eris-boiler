@@ -17,9 +17,9 @@ module.exports = new Command({
       .find()
 
     if (!toDelete) {
-      return `Status does not exist!`
+      return 'Status does not exist!'
     }
     await bot.sm.deleteStatus(toDelete)
-    return `Status deleted!`
+    return 'Status deleted!'
   }
 })

@@ -19,15 +19,13 @@ const {
 
 /* pass database info to sql database manager */
 const databaseManager = new SQLManager({
-  dbInfo: {
-    connectionInfo: EB_DATABASE_URL || {
-      database: EB_DB_NAME,
-      user: EB_DB_USER,
-      password: EB_DB_PASS,
-      host: EB_DB_HOST
-    },
-    client: EB_DB_CLIENT
-  }
+  connectionInfo: EB_DATABASE_URL || {
+    database: EB_DB_NAME,
+    user: EB_DB_USER,
+    password: EB_DB_PASS,
+    host: EB_DB_HOST
+  },
+  client: EB_DB_CLIENT
 })
 
 /* create DataClient instance */
