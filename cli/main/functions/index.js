@@ -9,14 +9,27 @@ module.exports.copy = async (parent, target) => {
 
   for (const file of files) {
     try {
+      const { isDirectory } = await fs.stat(`${parent}/${file}`)
+
+      if (isDirectory()) {
+        try {
+          await fs.access(`${target}/${file}`)
+        } catch (error) {
+          await fs.mkdir(`${target}/${file}`)
+        }
+
+        await this.copy(`${parent}/${file}`, `${target}/${file}`)
+      }
+
       await fs.copyFile(`${parent}/${file}`, `${target}/${file}`)
-      this.print('Copied files...')
     } catch (error) {
       this.print(
         `An error occurred running migrations, reason:\n${error}`
       )
     }
   }
+
+  this.print('Copied files...')
 }
 
 module.exports.parseArgs = (rawArgs) => {
