@@ -364,10 +364,10 @@ declare class DatabaseObject {
     delete(): Promise<void>;
     /**
      * Save the DatabaseObject record.
-     * @param   {any}                     data Any new data to write to the DatabaseObject before saving.
-     * @returns {Promise<DatabaseObject>}      The DatabaseObject.
+     * @param   {any}                     [data={}] Any new data to write to the DatabaseObject before saving.
+     * @returns {Promise<DatabaseObject>}           The DatabaseObject.
      */
-    save(data: any): Promise<DatabaseObject>;
+    save(data?: any): Promise<DatabaseObject>;
 }
 
 /**
@@ -478,13 +478,13 @@ declare class DatabaseQuery {
     greaterThan(prop: string, num: number): this;
     /**
      * Execute this query.
-     * @returns {Promise<Array<DatabasObject>>} The DatabaseObject records, if found.
+     * @returns {Promise<Array<DatabaseObject>>} The DatabaseObject records, if found.
      */
     find(): Promise<DatabaseObject[]>;
     /**
      * Execute this query searching for the given id.
-     * @param   {string}                      id The ID to search for.
-     * @returns {Promise<DatabasObject|void>}    The DatabaseObject record, if found.
+     * @param   {string}                       id The ID to search for.
+     * @returns {Promise<DatabaseObject|void>}    The DatabaseObject record, if found.
      */
     get(id: string): Promise<DatabaseObject | void>;
 }
