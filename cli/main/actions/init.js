@@ -2,7 +2,9 @@ const { Action } = require('.')
 
 const { exec } = require('child_process')
 const { resolve } = require('path')
-const { copy } = require('fs-extra')
+const {
+  copy
+} = require('../functions')
 
 const { print } = require('../functions')
 
