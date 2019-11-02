@@ -70,13 +70,14 @@
     "tsd-jsdoc": "^2.4.0"
   },
   "files": [
-    "cli",
+    "cli/*",
     "index.js",
     "index.d.ts",
     "*lib/",
     "boiler/",
     "config/",
     "!config/.jsdoc*",
+    "!cli/templates/*",
     "!lib/**/*.test.js",
     "!lib/**/broken-files/"
   ]
