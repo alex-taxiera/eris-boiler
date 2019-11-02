@@ -44,12 +44,33 @@ class Migrations extends Action {
           async run (params) {
             const migration = params.slice(1)[0]
 
-            exec(`npx knex migrate:up ${migration}`
+            exec(`npx knex migrate:down ${migration}`
               , (error, stdout, stderr) => {
                 if (error) {
                   throw error
                 } else {
                   print(stdout)
+                }
+              })
+          }
+        }),
+        new Action({
+          name: 'rollback',
+          async run (params) {
+            const options = params.slice(1)
+
+            if (options.includes('--all')) {
+              print('Rolling back all latest migrations')
+            } else {
+              print('Rolling back latest migration')
+            }
+
+            exec(`npx knex migrate:rollback ${options.join(' ')}`,
+              (err, stdout, stderr) => {
+                if (err) {
+                  throw err
+                } else {
+                  print('Rolled back migration(s)')
                 }
               })
           }
