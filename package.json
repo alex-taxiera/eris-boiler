@@ -77,7 +77,6 @@
     "boiler/",
     "config/",
     "!config/.jsdoc*",
-    "!cli/templates/*",
     "!lib/**/*.test.js",
     "!lib/**/broken-files/"
   ]
