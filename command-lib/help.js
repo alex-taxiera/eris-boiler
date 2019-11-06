@@ -3,7 +3,7 @@ const { Command } = require('../lib')
 module.exports = new Command({
   name: 'help',
   description: 'Displays this message, duh!',
-  run: async function (context) {
+  run: async (context) => {
     const {
       params,
       bot
@@ -15,7 +15,7 @@ module.exports = new Command({
 
     const { commands, longName } = filterCommands(bot.commands, context)
 
-    let content = commands.reduce(
+    const content = commands.reduce(
       (ax, { name, description, aliases }) => ax + `\n${name}` + (
         aliases.length > 0 ? '/' + aliases.join('/') : ''
       ) + ':' + ' '.repeat(longName - name.length) + description,
