@@ -1,27 +1,29 @@
 const fs = require('fs').promises
+const path = require('path')
 
 module.exports.print = (...input) => {
   process.stdout.write(input.join(' ') + '\n')
 }
 
-module.exports.copy = async (parent, target) => {
+module.exports.copyFiles = async (parent, target) => {
   const files = await fs.readdir(parent)
+
+  try {
+    await fs.access(
+      path.join(target, 'migrations')
+    )
+  } catch (error) {
+    await fs.mkdir(
+      path.join(target, 'migrations')
+    )
+  }
 
   for (const file of files) {
     try {
-      const { isDirectory } = await fs.stat(`${parent}/${file}`)
-
-      if (isDirectory()) {
-        try {
-          await fs.access(`${target}/${file}`)
-        } catch (error) {
-          await fs.mkdir(`${target}/${file}`)
-        }
-
-        await this.copy(`${parent}/${file}`, `${target}/${file}`)
-      }
-
-      await fs.copyFile(`${parent}/${file}`, `${target}/${file}`)
+      await fs.copyFile(
+        path.join(parent, file),
+        path.join(target, 'migrations', file)
+      )
     } catch (error) {
       this.print(
         `An error occurred running migrations, reason:\n${error}`
