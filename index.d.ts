@@ -6,6 +6,7 @@ import {
     ExtendedUser,
     TextChannel
 } from 'eris';
+
 /**
  * @typedef  CommandData
  * @property {string}         name        The command name.
@@ -363,19 +364,24 @@ declare class DatabaseObject {
     delete(): Promise<void>;
     /**
      * Save the DatabaseObject record.
-     * @param   {any}                     data Any new data to write to the DatabaseObject before saving.
-     * @returns {Promise<DatabaseObject>}      The DatabaseObject.
+     * @param   {any}                     [data={}] Any new data to write to the DatabaseObject before saving.
+     * @returns {Promise<DatabaseObject>}           The DatabaseObject.
      */
-    save(data: any): Promise<DatabaseObject>;
+    save(data?: any): Promise<DatabaseObject>;
 }
 
 /**
+ * @typedef {('and'|'or')} SubQueryType
+ */
+declare type SubQueryType = 'and' | 'or';
+
+/**
  * @typedef  SubQuery
- * @property {string}        type  The type of SubQuery.
+ * @property {SubQueryType}  type  The type of SubQuery.
  * @property {DatabaseQuery} query The SubQuery.
  */
 declare type SubQuery = {
-    type: string;
+    type: SubQueryType;
     query: DatabaseQuery;
 };
 
@@ -410,6 +416,77 @@ declare class DatabaseQuery {
      * @type {Array<SubQuery>}
      */
     subQueries: SubQuery[];
+    /**
+     * OR some queries together.
+     * @static
+     * @param   {Array<DatabaseQuery>} queries The queries to OR.
+     * @returns {DatabaseQuery}                The first query passed in, with the rest as OR SubQueries.
+     */
+    static or(queries: DatabaseQuery[]): DatabaseQuery;
+    /**
+     * AND some queries together.
+     * @static
+     * @param   {Array<DatabaseQuery>} queries The queries to AND.
+     * @returns {DatabaseQuery}                The first query passed in, with the rest as AND SubQueries.
+     */
+    static and(queries: DatabaseQuery[]): DatabaseQuery;
+    /**
+     * OR some queries to this query.
+     * @param   {Array<DatabaseQuery>} queries The queries to OR.
+     * @returns {this}                         The DatabaseQuery.
+     */
+    or(queries: DatabaseQuery[]): this;
+    /**
+     * AND some queries to this query.
+     * @param   {Array<DatabaseQuery>} queries The queries to AND.
+     * @returns {this}                         The DatabaseQuery.
+     */
+    and(queries: DatabaseQuery[]): this;
+    /**
+     * Add a limit condition.
+     * @param   {number} num The number of results to return.
+     * @returns {this}       The DatabaseQuery.
+     */
+    limit(num: number): this;
+    /**
+     * Add an equalTo condition.
+     * @param   {string} prop The property to check.
+     * @param   {any}    val  The value that the property's value must be equal to.
+     * @returns {this}        The DatabaseQuery.
+     */
+    equalTo(prop: string, val: any): this;
+    /**
+     * Add a notEqualTo condition.
+     * @param   {string} prop The property to check.
+     * @param   {any}    val  The value that the property's value must not be equal to.
+     * @returns {this}        The DatabaseQuery.
+     */
+    notEqualTo(prop: string, val: any): this;
+    /**
+     * Add a lessThan condition.
+     * @param   {string} prop The property to check.
+     * @param   {number} num  The number that the property's value must be less than.
+     * @returns {this}        The DatabaseQuery.
+     */
+    lessThan(prop: string, num: number): this;
+    /**
+     * Add a greaterThan condition.
+     * @param   {string} prop The property to check.
+     * @param   {number} num  The number that the property's value must be greater than.
+     * @returns {this}        The DatabaseQuery.
+     */
+    greaterThan(prop: string, num: number): this;
+    /**
+     * Execute this query.
+     * @returns {Promise<Array<DatabaseObject>>} The DatabaseObject records, if found.
+     */
+    find(): Promise<DatabaseObject[]>;
+    /**
+     * Execute this query searching for the given id.
+     * @param   {string}                       id The ID to search for.
+     * @returns {Promise<DatabaseObject|void>}    The DatabaseObject record, if found.
+     */
+    get(id: string): Promise<DatabaseObject | void>;
 }
 
 /**
