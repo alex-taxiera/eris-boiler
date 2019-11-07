@@ -29,6 +29,7 @@ declare type CommandData = {
  * @property {boolean}    [deleteInvoking=true]       Whether or not the bot should delete the message that invoked this command.
  * @property {boolean}    [deleteResponse=true]       Whether or not the bot should delete the message response from this command.
  * @property {number}     [deleteResponseDelay=10000] How many miliseconds to wait before deleting the bots response.
+ * @property {Command[]}  [subCommands]               The sub commands.
  */
 declare type CommandOptions = {
     aliases?: string[];
@@ -37,6 +38,7 @@ declare type CommandOptions = {
     deleteInvoking?: boolean;
     deleteResponse?: boolean;
     deleteResponseDelay?: number;
+    subCommands?: Command[];
 };
 
 /**
