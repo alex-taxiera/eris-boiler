@@ -7,21 +7,26 @@
     "node": ">=12.13.0"
   },
   "scripts": {
-    "test": "nyc --reporter lcov ava **/*.test.js",
+    "test": "nyc --reporter lcov ava",
     "build": "npm run doc",
     "dev": "node bin/dev.js",
     "doc": "jsdoc -c config/.jsdoc.json",
     "ts": "jsdoc -c config/.jsdoc-ts.json",
-    "lint": "eslint .",
-    "pre-commit": "./bin/hooks/pre-commit",
-    "post-merge": "./bin/hooks/post-merge"
+    "lint": "eslint ."
   },
   "husky": {
     "hooks": {
-      "post-merge": "npm run post-merge",
-      "pre-commit": "npm run pre-commit",
+      "post-merge": "./bin/hooks/post-merge",
+      "pre-commit": "./bin/hooks/pre-commit",
       "pre-push": "npm test"
     }
+  },
+  "ava": {
+    "files": [
+      "**/**/*.test.js",
+      "!broken-files",
+      "!node_modules"
+    ]
   },
   "repository": {
     "type": "git",
