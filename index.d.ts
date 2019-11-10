@@ -172,7 +172,7 @@ declare type Loadable = string | LoadableObject | (string | LoadableObject)[];
 /**
  * @typedef {Command|DiscordEvent|Permission} LoadableObject
  */
-declare type LoadableObject = Command | DiscordEvent | Permission;
+declare type LoadableObject = Command | DiscordEvent<any> | Permission;
 
 /**
  * Class representing a DataClient.
@@ -230,7 +230,7 @@ declare class DataClient extends Client {
      * @param   {...string|DiscordEvent|Array<string|DiscordEvent>} events Events to add to store.
      * @returns {DataClient}                                              Current state of DataClient.
      */
-    addEvents(...events: (string | DiscordEvent | (string | DiscordEvent)[])[]): DataClient;
+    addEvents(...events: (string | DiscordEvent<this> | (string | DiscordEvent<this>)[])[]): DataClient;
     /**
      * Add permissions to store.
      * @param   {...string|Permission|Array<string|Permission>} permissions Permissions to add to store.
@@ -492,37 +492,38 @@ declare class DatabaseQuery {
 }
 
 /**
- * @typedef  DiscordEventData
- * @property {string}             name      The event name.
- * @property {DiscordEventRunner} run       The function to run when the event occurs.
+ * @typedef  DiscordEventData<T extends DataClient>
+ * @property {string}                name      The event name.
+ * @property {DiscordEventRunner<T>} run       The function to run when the event occurs.
  */
-declare type DiscordEventData = {
+declare type DiscordEventData<T extends DataClient> = {
     name: string;
-    run: DiscordEventRunner;
+    run: DiscordEventRunner<T>;
 };
 
 /**
- * @callback DiscordEventRunner
- * @param    {DataClient} bot  The DataClient.
- * @param    {...any}     rest The rest.
+ * @callback DiscordEventRunner<T>
+ * @param    {T}      bot  The DataClient.
+ * @param    {...any} rest The rest.
  * @returns  {void}
  */
-declare type DiscordEventRunner = (bot: DataClient, ...rest: any[]) => void;
+declare type DiscordEventRunner<T> = (bot: T, ...rest: any[]) => void;
 
 /**
  * Create an Event.
- * @param {DiscordEventData} data The EventData.
+ * <T extends DataClient>
+ * @param {DiscordEventData<T>} data The EventData.
  */
-declare class DiscordEvent {
-    constructor(data: DiscordEventData);
+declare class DiscordEvent<T extends DataClient> {
+    constructor(data: DiscordEventData<T>);
     /**
      * @type {String}
      */
     name: string;
     /**
-     * @type {DiscordEventRunner}
+     * @type {DiscordEventRunner<T>}
      */
-    run: DiscordEventRunner;
+    run: DiscordEventRunner<T>;
 }
 
 /**
@@ -816,68 +817,47 @@ declare class StatusManager {
 declare type Key = string | number;
 
 /**
- * @callback FilterCallback
- * @param    {any}     item The item.
- * @returns  {boolean}
- */
-declare type FilterCallback = (item: any) => boolean;
-
-/**
- * @callback MapCallback
- * @param    {any} item The item.
- * @returns  {any}
- */
-declare type MapCallback = (item: any) => any;
-
-/**
- * @callback ReduceCallback
- * @param    {any} accumulator The accumulator.
- * @param    {any} item        The item.
- * @returns  {any}
- */
-declare type ReduceCallback = (accumulator: any, item: any) => any;
-
-/**
  * @extends Map<Key,T>
  */
 declare class ExtendedMap<Key, T> extends Map<Key,T> {
     /**
      * Return the first object to make the function evaluate true.
-     * @param   {FilterCallback} func A function that takes an object and returns true if it matches.
-     * @returns {T|void}              The first matching item, or undefined if no match.
+     * @param   {Function(T): boolean} func A function that takes an object and returns true if it matches.
+     * @returns {T|void}                    The first matching item, or undefined if no match.
      */
-    find(func: FilterCallback): T | void;
+    find(func: (element: T) => boolean): T | void;
     /**
      * Return all the objects that make the function evaluate true.
-     * @param   {FilterCallback} func A function that takes an object and returns true if it matches.
-     * @returns {Array<T>}            An array containing all the objects that matched.
+     * @param   {Function(T): boolean} func A function that takes an object and returns true if it matches.
+     * @returns {Array<T>}                  An array containing all the objects that matched.
      */
-    filter(func: FilterCallback): T[];
+    filter(func: (element: T) => boolean): T[];
     /**
      * Return an array with the results of applying the given function to each element.
-     * @param   {MapCallback} func A function that takes an object and returns something.
-     * @returns {Array<any>}       An array containing the results.
+     * @param   {Function(T): R} func A function that takes an object and returns something.
+     * @returns {Array<R>}            An array containing the results.
      */
-    map(func: MapCallback): any[];
+    map<R>(func: (element: T) => R): R[];
     /**
      * Returns a value resulting from applying a function to every element of the collection.
-     * @param   {ReduceCallback} func           A function that takes the previous value and the next item and returns a new value.
-     * @param   {any}            [initialValue] The initial value passed to the function.
-     * @returns {any}                           The final result.
+     * @param   {Function(any|R, T): any|R} func           A function that takes the previous value and the next item and returns a new value.
+     * @param   {any}                       [initialValue] The initial value passed to the function.
+     * @returns {any|R}                                    The final result.
      */
-    reduce(func: ReduceCallback, initialValue?: any): any;
+    reduce(func: (accumulator: T, element: T) => T): T;
+    reduce<R>(func: (accumulator: R, element: T) => R, initialValue: R): R;
     /**
      * Returns true if all elements satisfy the condition.
-     * @param   {FilterCallback} func A function that takes an object and returns true or false.
-     * @returns {boolean}             Whether or not all elements satisfied the condition.
+     * @param   {Function(T): boolean} func A function that takes an object and returns true or false.
+     * @returns {boolean}                   Whether or not all elements satisfied the condition.
      */
-    every(func: FilterCallback): boolean;
+    every(func: (element: T) => boolean): boolean;
     /**
      * Returns true if at least one element satisfies the condition.
-     * @param   {FilterCallback} func A function that takes an object and returns true or false.
-     * @returns {boolean}             Whether or not at least one element satisfied the condition.
+     * @param   {Function(T): boolean} func A function that takes an object and returns true or false.
+     * @returns {boolean}                   Whether or not at least one element satisfied the condition.
      */
-    some(func: FilterCallback): boolean;
+    some(func: (element: T) => boolean): boolean;
 }
 
 /**
