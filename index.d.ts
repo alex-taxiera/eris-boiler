@@ -817,47 +817,55 @@ declare class StatusManager {
 declare type Key = string | number;
 
 /**
+ * @callback FilterCallback<T>
+ * @param    {T}       item The item.
+ * @returns  {boolean}
+ */
+declare type FilterCallback<T> = (item: T) => boolean;
+
+/**
  * @extends Map<Key,T>
  */
 declare class ExtendedMap<Key, T> extends Map<Key,T> {
     /**
      * Return the first object to make the function evaluate true.
-     * @param   {Function(T): boolean} func A function that takes an object and returns true if it matches.
-     * @returns {T|void}                    The first matching item, or undefined if no match.
+     * @param   {FilterCallback<T>} func A function that takes an object and returns true if it matches.
+     * @returns {T|void}                 The first matching item, or undefined if no match.
      */
-    find(func: (element: T) => boolean): T | void;
+    find(func: FilterCallback<T>): T | void;
     /**
      * Return all the objects that make the function evaluate true.
-     * @param   {Function(T): boolean} func A function that takes an object and returns true if it matches.
-     * @returns {Array<T>}                  An array containing all the objects that matched.
+     * @param   {FilterCallback<T>} func A function that takes an object and returns true if it matches.
+     * @returns {Array<T>}               An array containing all the objects that matched.
      */
-    filter(func: (element: T) => boolean): T[];
+    filter(func: FilterCallback<T>): T[];
     /**
      * Return an array with the results of applying the given function to each element.
-     * @param   {Function(T): R} func A function that takes an object and returns something.
-     * @returns {Array<R>}            An array containing the results.
+     * @param   {MapCallback<T>} func A function that takes an object and returns something.
+     * @returns {Array<R>}               An array containing the results.
      */
-    map<R>(func: (element: T) => R): R[];
+    map<R>(func: (item: T) => R): R[];
     /**
      * Returns a value resulting from applying a function to every element of the collection.
-     * @param   {Function(any|R, T): any|R} func           A function that takes the previous value and the next item and returns a new value.
-     * @param   {any}                       [initialValue] The initial value passed to the function.
-     * @returns {any|R}                                    The final result.
+     * @param   {ReduceCallback<T>} func           A function that takes the previous value and the next item and returns a new value.
+     * @param   {T}                   [initialValue] The initial value passed to the function.
+     * @returns {T}                                  The final result.
      */
-    reduce(func: (accumulator: T, element: T) => T): T;
-    reduce<R>(func: (accumulator: R, element: T) => R, initialValue: R): R;
+    reduce(func: (accumulator: T, item: T) => T, initialValue?: T): T;
+    reduce<R>(func: (accumulator: R, item: T) => R, initialValue: R): R;
+
     /**
      * Returns true if all elements satisfy the condition.
-     * @param   {Function(T): boolean} func A function that takes an object and returns true or false.
-     * @returns {boolean}                   Whether or not all elements satisfied the condition.
+     * @param   {FilterCallback<T>} func A function that takes an object and returns true or false.
+     * @returns {boolean}                Whether or not all elements satisfied the condition.
      */
-    every(func: (element: T) => boolean): boolean;
+    every(func: FilterCallback<T>): boolean;
     /**
      * Returns true if at least one element satisfies the condition.
-     * @param   {Function(T): boolean} func A function that takes an object and returns true or false.
-     * @returns {boolean}                   Whether or not at least one element satisfied the condition.
+     * @param   {FilterCallback<T>} func A function that takes an object and returns true or false.
+     * @returns {boolean}                Whether or not at least one element satisfied the condition.
      */
-    some(func: (element: T) => boolean): boolean;
+    some(func: FilterCallback<T>): boolean;
 }
 
 /**
