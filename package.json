@@ -14,8 +14,8 @@
     "post-merge": "./bin/hooks/post-merge"
   },
   "bin": {
-    "@alex-taxiera/eris-boiler": "cli/eris-boiler",
-    "eris-boiler": "cli/eris-boiler"
+    "@alex-taxiera/eris-boiler": "cli/index.js",
+    "eris-boiler": "cli/index.js"
   },
   "husky": {
     "hooks": {

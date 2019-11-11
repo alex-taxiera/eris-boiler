@@ -68,3 +68,5 @@ docs
 
 # project
 config.json
+knexfile.js
+migrations
