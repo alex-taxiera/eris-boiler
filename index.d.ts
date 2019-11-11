@@ -8,72 +8,78 @@ import {
 } from 'eris';
 
 /**
- * @typedef  CommandData
- * @property {string}         name        The command name.
- * @property {string}         description The command description.
- * @property {CommandAction}  run         The command function.
- * @property {CommandOptions} [options]   The command options.
+ * @typedef  CommandData<T extends DataClient>
+ * @property {string}            name        The command name.
+ * @property {string}            description The command description.
+ * @property {CommandAction<T>}  run         The command function.
+ * @property {CommandOptions<T>} [options]   The command options.
  */
-declare type CommandData = {
+declare type CommandData<T extends DataClient> = {
     name: string;
     description: string;
-    run: CommandAction;
-    options?: CommandOptions;
+    run: CommandAction<T>;
+    options?: CommandOptions<T>;
 };
 
 /**
- * @typedef  CommandOptions
- * @property {string[]}   [aliases=[]]                List of alias names for the command.
- * @property {string[]}   [parameters=[]]             List of paremeters that the command takes.
- * @property {Permission} [permission]                The permission threshold needed to execute this command.
- * @property {boolean}    [deleteInvoking=true]       Whether or not the bot should delete the message that invoked this command.
- * @property {boolean}    [deleteResponse=true]       Whether or not the bot should delete the message response from this command.
- * @property {number}     [deleteResponseDelay=10000] How many miliseconds to wait before deleting the bots response.
- * @property {Command[]}  [subCommands]               The sub commands.
+ * @typedef  CommandOptions<T extends DataClient>
+ * @property {Array<string[]>}   [aliases=[]]                List of alias names for the command.
+ * @property {Array<string>}     [parameters=[]]             List of paremeters that the command takes.
+ * @property {Permission}        [permission]                The permission threshold needed to execute this command.
+ * @property {boolean}           [deleteInvoking=true]       Whether or not the bot should delete the message that invoked this command.
+ * @property {boolean}           [deleteResponse=true]       Whether or not the bot should delete the message response from this command.
+ * @property {number}            [deleteResponseDelay=10000] How many miliseconds to wait before deleting the bots response.
+ * @property {Array<Command<T>>} [subCommands]               The sub commands.
  */
-declare type CommandOptions = {
-    aliases?: string[];
+declare type CommandOptions<T extends DataClient> = {
+    aliases?: string[][];
     parameters?: string[];
     permission?: Permission;
     deleteInvoking?: boolean;
     deleteResponse?: boolean;
     deleteResponseDelay?: number;
-    subCommands?: Command[];
+    subCommands?: Command<T>[];
 };
 
 /**
- * @callback CommandAction
- * @param    {CommandContext}        context The CommandContext.
- * @returns  {CommandResults|string}
+ * @callback CommandAction<T extends DataClient>
+ * @param    {CommandContext<T>} context The CommandContext.
+ * @returns  {Promise<CommandResults>}
  */
-declare type CommandAction = (context: CommandContext) => CommandResults | string;
+declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) => CommandResults;
 
 /**
- * @typedef  CommandContext
+ * @typedef  CommandContext<T extends DataClient>
  * @property {string[]}   params The parsed params that make up the invoking message.
  * @property {Message}    msg    The message from Discord {@link https://abal.moe/Eris/docs/Message|(link)}.
- * @property {DataClient} bot    The bot client.
+ * @property {T}          bot    The bot client.
  */
-declare type CommandContext = {
+declare type CommandContext<T extends DataClient> = {
     params: string[];
     msg: Message;
-    bot: DataClient;
+    bot: T;
 };
 
 /**
- * @typedef  CommandResults
+ * @typedef  {MessageData|string} CommandResults
+ */
+declare type CommandResults = MessageData | string | Promise<CommandResults>;
+
+/**
+ * @typedef  MessageData
  * @property {string} content The message content.
  */
-declare type CommandResults = {
+declare type MessageData = {
     content: string;
 };
 
 /**
  * Class representing a command.
- * @param {CommandData} data The CommandData.
+ * <T extends DataClient>
+ * @param {CommandData<T>} data The CommandData.
  */
-declare class Command {
-    constructor(data: CommandData);
+declare class Command<T extends DataClient> {
+    constructor(data: CommandData<T>);
     /**
      * @type {string}
      */
@@ -83,9 +89,9 @@ declare class Command {
      */
     description: string;
     /**
-     * @type {CommandAction}
+     * @type {CommandAction<T>}
      */
-    run: CommandAction;
+    run: CommandAction<T>;
     /**
      * @type {string[]}
      */
@@ -115,9 +121,9 @@ declare class Command {
      */
     permission: Permission;
     /**
-     * @type {ExtendedMap<string, Command>}
+     * @type {ExtendedMap<string, Command<T>>}
      */
-    subCommands: ExtendedMap<string, Command>;
+    subCommands: ExtendedMap<string, Command<T>>;
     /**
      * @type {string}
      */
@@ -149,7 +155,7 @@ declare type CommandMiddlewareData = {
  * @param    {CommandContext} context The CommandContext
  * @returns  {Promise<void>}
  */
-declare type MiddlewareRun = (context: CommandContext) => Promise<void>;
+declare type MiddlewareRun = <T extends DataClient>(context: CommandContext<T>) => Promise<void>;
 
 /**
  * @typedef  DataClientOptions
@@ -167,12 +173,12 @@ declare type DataClientOptions = {
 /**
  * @typedef {string|LoadableObject|Array<string|LoadableObject>} Loadable
  */
-declare type Loadable = string | LoadableObject | (string | LoadableObject)[];
+declare type Loadable<T extends DataClient> = string | LoadableObject<T> | (string | LoadableObject<T>)[];
 
 /**
- * @typedef {Command|DiscordEvent|Permission} LoadableObject
+ * @typedef {Command<any>|DiscordEvent<any>|Permission} LoadableObject
  */
-declare type LoadableObject = Command | DiscordEvent<any> | Permission;
+declare type LoadableObject<T extends DataClient> = Command<T> | DiscordEvent<T> | Permission;
 
 /**
  * Class representing a DataClient.
@@ -187,17 +193,17 @@ declare class DataClient extends Client {
      */
     dbm: DatabaseManager;
     /**
-     * @type {Orator}
+     * @type {Orator<this>}
      */
-    ora: Orator;
+    ora: Orator<this>;
     /**
      * @type {StatusManager}
      */
     sm: StatusManager;
     /**
-     * @type {ExtendedMap<string, Command>}
+     * @type {ExtendedMap<string, Command<this>>}
      */
-    commands: ExtendedMap<string, Command>;
+    commands: ExtendedMap<string, Command<this>>;
     /**
      * @type {ExtendedMap<string, Permission>}
      */
@@ -209,22 +215,17 @@ declare class DataClient extends Client {
     connect(): Promise<void>;
     /**
      * Find a command from commands.
-     * @param    {string}                       name     Name of command to search.
-     * @param    {ExtendedMap<string, Command>} commands A collection of commands to search instead of the build in commands.
-     * @returns  {object}
-     * @property {DataClient}                   bot      Current state of DataClient.
-     * @property {Command}                      command  Command found from search.
+     * @param   {string}                             name     Name of command to search.
+     * @param   {ExtendedMap<string, Command<this>>} commands A collection of commands to search instead of the build in commands.
+     * @returns {Command<this>|void}
      */
-    findCommand(name: string, commands: ExtendedMap<string, Command>): {
-        bot: DataClient;
-        command: Command;
-    };
+    findCommand(name: string, commands: ExtendedMap<string, Command<this>>): Command<this> | void;
     /**
      * Add commands to store.
-     * @param   {...string|Command|Array<string|Command>} commands Commands to add to store.
+     * @param   {...string|Command<this>|Array<string|Command<this>>} commands Commands to add to store.
      * @returns {DataClient}                                      Current state of DataClient.
      */
-    addCommands(...commands: (string | Command | (string | Command)[])[]): DataClient;
+    addCommands(...commands: (string | Command<this> | (string | Command<this>)[])[]): DataClient;
     /**
      * Add events to store.
      * @param   {...string|DiscordEvent|Array<string|DiscordEvent>} events Events to add to store.
@@ -510,7 +511,7 @@ declare type DiscordEventData<T extends DataClient> = {
 declare type DiscordEventRunner<T> = (bot: T, ...rest: any[]) => void;
 
 /**
- * Create an Event.
+ * Class representing an event.
  * <T extends DataClient>
  * @param {DiscordEventData<T>} data The EventData.
  */
@@ -531,7 +532,7 @@ declare class DiscordEvent<T extends DataClient> {
  * @param {string}        defaultPrefix The default command prefix.
  * @param {OratorOptions} oratorOptions The OratorOptions.
  */
-declare class Orator {
+declare class Orator<T extends DataClient> {
     constructor(defaultPrefix: string, oratorOptions: OratorOptions);
     /**
      * @type {string}
@@ -577,7 +578,7 @@ declare class Orator {
      * @param   {CommandContext}   context The CommandContext.
      * @returns {Promise<boolean>}
      */
-    hasPermission(context: CommandContext): Promise<boolean>;
+    hasPermission(context: CommandContext<T>): Promise<boolean>;
 }
 
 /**
