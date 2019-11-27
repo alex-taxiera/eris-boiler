@@ -61,9 +61,9 @@ module.exports = new Command({
 ```
 ```js
 // src/events/presenceUpdate.js
-const { Event } = require('eris-boiler')
+const { DiscordEvent } = require('eris-boiler')
 
-module.exports = new Event({
+module.exports = new DiscordEvent({
   name: 'presenceUpdate', // name should match event name
   run: (bot, newMember, oldMember) => console.log('something changed')
   // bot is bound to all events, so bot will be the first parameter in addition to any parameters passed in from Eris

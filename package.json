@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "ava": "2.4.0",
+    "clean-jsdoc-theme": "^2.2.6",
     "dotenv": "^8.2.0",
     "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
@@ -70,7 +71,6 @@
     "nodemon": "^1.19.4",
     "nyc": "^14.1.1",
     "sinon": "^7.5.0",
-    "taxiera-jsdoc-template": "github:alex-taxiera/taxiera.jsdoc-template",
     "tsd-jsdoc": "^2.4.0"
   },
   "files": [
