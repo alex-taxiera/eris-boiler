@@ -22,6 +22,8 @@ declare type CommandOptions<T extends DataClient> = {
     deleteResponse?: boolean
     deleteResponseDelay?: number
     subCommands?: Command<T>[]
+    dmOnly?: boolean
+    guildOnly?: boolean
 }
 
 declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) => CommandResults
@@ -50,6 +52,8 @@ declare class Command<T extends DataClient> {
     deleteResponse: boolean
     deleteResponseDelay: number
     permission: Permission
+    dmOnly: boolean
+    guildOnly: boolean
     subCommands: ExtendedMap<string, Command<T>>
     info: string
 }
