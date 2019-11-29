@@ -60,5 +60,13 @@ typings/
 # docs
 docs
 
+# editor folders
+.vs
+.idea
+.atom
+.vscode
+
 # project
 config.json
+knexfile.js
+migrations

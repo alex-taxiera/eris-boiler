@@ -13,6 +13,10 @@
     "pre-commit": "./bin/hooks/pre-commit",
     "post-merge": "./bin/hooks/post-merge"
   },
+  "bin": {
+    "@alex-taxiera/eris-boiler": "cli/index.js",
+    "eris-boiler": "cli/index.js"
+  },
   "husky": {
     "hooks": {
       "post-merge": "npm run post-merge",
@@ -66,6 +70,7 @@
     "tsd-jsdoc": "^2.4.0"
   },
   "files": [
+    "cli/*",
     "index.js",
     "index.d.ts",
     "*lib/",
