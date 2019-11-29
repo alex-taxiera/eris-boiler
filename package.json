@@ -24,7 +24,7 @@
   "ava": {
     "files": [
       "**/**/*.test.js",
-      "!broken-files",
+      "!test-files",
       "!node_modules"
     ]
   },
@@ -81,6 +81,6 @@
     "config/",
     "!config/.jsdoc*",
     "!lib/**/*.test.js",
-    "!lib/**/broken-files/"
+    "!lib/**/test-files/"
   ]
 }
