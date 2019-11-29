@@ -5,28 +5,15 @@
   "source": {
     "include": ["lib", "README.md"],
     "includePattern": ".+\\.js(doc|x)?$",
-    "excludePattern": "(broken-files)"
+    "excludePattern": "(test-files)"
   },
   "plugins": ["plugins/markdown"],
-  "markdown": {
-    "parser": "gfm",
-    "hardwrap": true
-  },
-  "templates": {
-    "name": "eris-boiler",
-    "github": "https://github.com/alex-taxiera/eris-boiler",
-    "cleverLinks": true,
-    "monospaceLinks": false,
-    "default": {
-      "outputSourceFiles": true
-    }
-  },
   "opts": {
     "encoding": "utf8",
+    "readme": "./README.md",
     "package": "package.json",
-    "template": "../node_modules/taxiera-jsdoc-template",
+    "template": "../node_modules/clean-jsdoc-theme",
     "destination": "docs",
-    "private": false,
     "recurse": true
   }
 }
