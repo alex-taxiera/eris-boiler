@@ -15,7 +15,6 @@
     "lint": "eslint ."
   },
   "bin": {
-    "@alex-taxiera/eris-boiler": "cli/index.js",
     "eris-boiler": "cli/index.js"
   },
   "husky": {
