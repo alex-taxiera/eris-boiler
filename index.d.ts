@@ -146,7 +146,7 @@ declare module 'eris-boiler' {
 
   type DatabaseQueryBuilder = (...params: any[]) => DatabaseQuery
 
-  abstract class DatabaseManager {
+declare abstract class DatabaseManager {
     newObject(type: string, data: any, isNew?: boolean): DatabaseObject
     newQuery(type: string): DatabaseQuery
     abstract add(type: string, data: any): Promise<any>
@@ -154,9 +154,9 @@ declare module 'eris-boiler' {
     abstract update(object: DatabaseObject): Promise<any>
     abstract get(query: DatabaseQuery): Promise<any>
     abstract find(query: DatabaseQuery): Promise<any[]>
-  }
+}
 
-  type DatabaseObjectOptions = {
+declare type DatabaseObjectOptions = {
     isNew?: boolean
   }
 
@@ -242,7 +242,7 @@ declare module 'eris-boiler' {
     run: PermissionRun<T, C>
   }
 
-  class RAMManager extends DatabaseManager {
+declare class RAMManager extends DatabaseManager {
     constructor()
     add(type: string, data: any): Promise<any>
     delete(object: DatabaseObject): Promise<void>
@@ -269,7 +269,7 @@ declare module 'eris-boiler' {
     min?: number
   }
 
-  class SQLManager extends DatabaseManager {
+declare class SQLManager extends DatabaseManager {
     constructor(connection: ConnectionData, options?: DatabaseManagerOptions)
     protected readonly _qb: any
     add(type: string, data: any): Promise<any>
