@@ -102,14 +102,14 @@ declare type DatabaseObjectBuilder = (...params: any[]) => DatabaseObject
 
 declare type DatabaseQueryBuilder = (...params: any[]) => DatabaseQuery
 
-declare interface DatabaseManager {
+declare abstract class DatabaseManager {
     newObject(type: string, data: any, isNew?: boolean): DatabaseObject
     newQuery(type: string): DatabaseQuery
-    add(type: string, data: any): Promise<any>
-    delete(object: DatabaseObject): Promise<void>
-    update(object: DatabaseObject): Promise<any>
-    get(query: DatabaseQuery): Promise<any>
-    find(query: DatabaseQuery): Promise<any[]>
+    abstract add(type: string, data: any): Promise<any>
+    abstract delete(object: DatabaseObject): Promise<void>
+    abstract update(object: DatabaseObject): Promise<any>
+    abstract get(query: DatabaseQuery): Promise<any>
+    abstract find(query: DatabaseQuery): Promise<any[]>
 }
 
 declare type DatabaseObjectOptions = {
@@ -200,7 +200,7 @@ declare class Permission extends CommandMiddleware {
     run: MiddlewareRun
 }
 
-declare class RAMManager implements DatabaseManager {
+declare class RAMManager extends DatabaseManager {
     constructor()
     add(type: string, data: any): Promise<any>
     delete(object: DatabaseObject): Promise<void>
@@ -221,7 +221,7 @@ declare type ConnectionInfo = {
     host: string
 }
 
-declare class SQLManager implements DatabaseManager {
+declare class SQLManager extends DatabaseManager {
     constructor(connection: ConnectionData, options?: DatabaseManagerOptions)
     add(type: string, data: any): Promise<any>
     delete(object: DatabaseObject): Promise<void>
