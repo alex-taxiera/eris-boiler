@@ -42,7 +42,7 @@ jobs:
 stages:
   -
     name: test
-    if: type = pull_request OR branch =~ (master|dev)
+    if: type = pull_request OR branch =~ /^(master|dev)$/
   -
     name: publish
     if: tag IS present
