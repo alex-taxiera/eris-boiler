@@ -26,7 +26,7 @@ declare type CommandOptions<T extends DataClient> = {
     guildOnly?: boolean
 }
 
-declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) => CommandResults
+declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) => CommandResults | Promise<CommandResults>
 
 declare type CommandContext<T extends DataClient> = {
     params: string[]
