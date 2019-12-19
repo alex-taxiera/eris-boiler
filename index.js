@@ -1,5 +1,5 @@
 const Library = require('./lib')
-const PermissionLibrary = require('./permission-lib')
+const PermissionLibrary = require('./permissions')
 
 module.exports = {
   ...Library,

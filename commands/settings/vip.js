@@ -1,5 +1,5 @@
 const { Command } = require('../../lib')
-const { owner: permission } = require('../../permission-lib')
+const { owner: permission } = require('../../permissions')
 
 module.exports = new Command({
   name: 'vip',

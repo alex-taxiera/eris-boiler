@@ -1,5 +1,5 @@
 const { Command } = require('../lib')
-const { admin: permission } = require('../permission-lib')
+const { admin: permission } = require('../permissions')
 
 module.exports = new Command({
   name: 'process',

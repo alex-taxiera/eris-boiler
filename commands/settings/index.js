@@ -1,5 +1,5 @@
 const { Command } = require('../../lib')
-const { vip: permission } = require('../../permission-lib')
+const { vip: permission } = require('../../permissions')
 
 const prefix = require('./prefix')
 const status = require('./status')
