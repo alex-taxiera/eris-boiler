@@ -2,6 +2,6 @@ import {
   Permission
 } from 'eris-boiler'
 
-const admin: Permission
-const owner: Permission
-const vip: Permission
+declare const admin: Permission
+declare const owner: Permission
+declare const vip: Permission
