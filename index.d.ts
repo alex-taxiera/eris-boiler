@@ -45,7 +45,7 @@ declare module 'eris-boiler' {
     guildOnly?: boolean
   }
 
-declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) => CommandResults | Promise<CommandResults>
+declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) => CommandResults
 
   interface CommandContext {
     params: string[]
