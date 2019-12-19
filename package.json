@@ -31,6 +31,20 @@
       "!node_modules"
     ]
   },
+  "files": [
+    "cli/",
+    "index.js",
+    "index.d.ts",
+    "lib/",
+    "commands/",
+    "permissions/",
+    "events/",
+    "boiler/",
+    "config/",
+    "!config/.jsdoc*",
+    "!lib/**/*.test.js",
+    "!lib/**/test-files/"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alex-taxiera/eris-boiler.git"
@@ -75,16 +89,5 @@
     "nyc": "^14.1.1",
     "sinon": "^7.5.0",
     "tsd-jsdoc": "^2.4.0"
-  },
-  "files": [
-    "cli/*",
-    "index.js",
-    "index.d.ts",
-    "*lib/",
-    "boiler/",
-    "config/",
-    "!config/.jsdoc*",
-    "!lib/**/*.test.js",
-    "!lib/**/test-files/"
-  ]
+  }
 }
