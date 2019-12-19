@@ -1,4 +1,4 @@
-const { SettingCommand } = require('../../lib')
+const { Command } = require('../../lib')
 const { owner: permission } = require('../../permissions')
 
 module.exports = new SettingCommand({
