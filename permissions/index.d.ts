@@ -1,7 +1,9 @@
-import {
-  Permission
-} from 'eris-boiler'
+declare module 'eris-boiler/permissions' {
+  import {
+    Permission
+  } from 'eris-boiler'
 
-declare const admin: Permission
-declare const owner: Permission
-declare const vip: Permission
+  const admin: Permission
+  const owner: Permission
+  const vip: Permission
+}

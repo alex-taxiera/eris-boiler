@@ -1,3 +1,5 @@
+declare module 'eris-boiler/util'
+
 declare type Key = string | number
 
 declare type FilterCallback<T> = (item: T) => boolean
