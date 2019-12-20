@@ -1,11 +1,11 @@
 const {
-  Command,
-  Utils: {
-    status: {
-      equalStatuses
-    }
-  }
+  Command
 } = require('../../../lib')
+const {
+  status: {
+    equalStatuses
+  }
+} = require('../../../util')
 
 module.exports = new Command({
   name: 'add',

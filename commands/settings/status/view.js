@@ -1,11 +1,11 @@
 const {
-  Command,
-  Utils: {
-    status: {
-      getActivity
-    }
-  }
+  Command
 } = require('../../../lib')
+const {
+  status: {
+    getActivity
+  }
+} = require('../../../util')
 
 module.exports = new Command({
   name: 'view',

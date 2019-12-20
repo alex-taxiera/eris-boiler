@@ -1,6 +1,7 @@
-const { DiscordEvent, Utils } = require('../lib')
+const { DiscordEvent } = require('../lib')
+const { logger } = require('../util')
 
 module.exports = new DiscordEvent({
   name: 'error',
-  run: (bot, error) => Utils.logger.error(error)
+  run: (bot, error) => logger.error(error)
 })
