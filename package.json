@@ -36,6 +36,7 @@
     "index.js",
     "index.d.ts",
     "lib/",
+    "util/",
     "commands/",
     "permissions/",
     "events/",
