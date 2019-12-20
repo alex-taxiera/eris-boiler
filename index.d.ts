@@ -12,14 +12,12 @@ declare module 'eris-boiler' {
     GroupChannel
   } from 'eris'
 
-  import {
+import {
     ExtendedMap,
     Status
-  } from 'eris-boiler/util'
+} from 'eris-boiler/util'
 
-  type PrivateTextableChannel = PrivateChannel | GroupChannel
-
-  type CommandData<T extends DataClient, C extends CommandContext> = {
+declare type CommandData<T extends DataClient> = {
     name: string
     description: string
     run?: CommandAction<T, C>
@@ -296,34 +294,4 @@ declare class SQLManager extends DatabaseManager {
     timerStart(): void
     timerEnd(): void
   }
-}
-
-declare module 'eris-boiler/util' {
-  export { default as logger } from 'eris-boiler/util/logger'
-
-  type Key = string | number
-
-  type FilterCallback<T> = (item: T) => boolean
-  
-  class ExtendedMap<Key, T> extends Map<Key,T> {
-    find(func: FilterCallback<T>): T | undefined
-    filter(func: FilterCallback<T>): T[]
-    map<R>(func: (item: T) => R): R[]
-    reduce(func: (accumulator: T, item: T) => T, initialValue?: T): T
-    reduce<R>(func: (accumulator: R, item: T) => R, initialValue: R): R
-    every(func: FilterCallback<T>): boolean
-    some(func: FilterCallback<T>): boolean
-  }
-  
-  export type Status = {
-    name: string
-    type: number
-  }
-}
-
-declare module 'eris-boiler/util/logger' {
-  function success (...args: any[]): unknown
-  function warn (...args: any[]): unknown
-  function error (...args: any[]): unknown
-  function info (...args: any[]): unknown
 }
