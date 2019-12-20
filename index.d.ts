@@ -1,5 +1,6 @@
-declare module 'eris-boiler' {
-  import {
+declare module 'eris-boiler'
+
+import {
     Client,
     Message,
     Collection,
