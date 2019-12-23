@@ -12,7 +12,7 @@ class Action {
 module.exports.Action = Action
 
 module.exports.LoadActions = async () => {
-  let acts = []
+  const acts = []
 
   const files = await fs.readdir(path.join(__dirname))
 

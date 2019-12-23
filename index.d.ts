@@ -1,27 +1,29 @@
-declare module 'eris-boiler'
-
-import {
+declare module 'eris-boiler' {
+  import {
     Client,
     Message,
     Collection,
     Member,
     ExtendedUser,
-    TextChannel
-} from 'eris'
+    TextChannel,
+    GuildChannel,
+    PrivateChannel,
+    TextableChannel
+  } from 'eris'
 
-import {
+  import {
     ExtendedMap,
     Status
-} from 'eris-boiler/util'
+  } from 'eris-boiler/util'
 
-declare type CommandData<T extends DataClient> = {
+  type CommandData<T extends DataClient> = {
     name: string
     description: string
     run: CommandAction<T>
     options?: CommandOptions<T>
-}
+  }
 
-declare type CommandOptions<T extends DataClient> = {
+  type CommandOptions<T extends DataClient> = {
     aliases?: string[][]
     parameters?: string[]
     permission?: Permission
@@ -31,23 +33,31 @@ declare type CommandOptions<T extends DataClient> = {
     subCommands?: Command<T>[]
     dmOnly?: boolean
     guildOnly?: boolean
-}
+  }
 
-declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) => CommandResults
+  type CommandAction<T extends DataClient> = (bot: T, context: CommandContext) => CommandResults
 
-declare type CommandContext<T extends DataClient> = {
+  interface CommandContext {
     params: string[]
     msg: Message
-    bot: T
-}
+    channel: TextableChannel | GuildChannel
+  }
 
-declare type CommandResults = MessageData | string | Promise<CommandResults>
+  interface GuildCommandContext extends CommandContext {
+    channel: GuildChannel
+  }
 
-declare type MessageData = {
+  interface PrivateCommandContext extends CommandContext {
+    channel: PrivateChannel
+  }
+
+  type CommandResults = MessageData | string | Promise<CommandResults>
+
+  type MessageData = {
     content: string
-}
+  }
 
-declare class Command<T extends DataClient> {
+  class Command<T extends DataClient> {
     constructor(data: CommandData<T>)
     name: string
     description: string
@@ -63,30 +73,30 @@ declare class Command<T extends DataClient> {
     guildOnly: boolean
     subCommands: ExtendedMap<string, Command<T>>
     info: string
-}
+  }
 
-declare class CommandMiddleware {
+  class CommandMiddleware {
     constructor(data: CommandMiddlewareData)
     run: MiddlewareRun
-}
+  }
 
-declare type CommandMiddlewareData = {
+  type CommandMiddlewareData = {
     run?: CheckFunction
-}
+  }
 
-declare type MiddlewareRun = <T extends DataClient>(context: CommandContext<T>) => Promise<void>
+  type MiddlewareRun = <T extends DataClient>(bot: T, context: CommandContext) => Promise<void>
 
-declare type DataClientOptions = {
+  type DataClientOptions = {
     databaseManager?: DatabaseManager
     oratorOptions?: OratorOptions
     statusManagerOptions?: StatusManagerOptions
-}
+  }
 
-declare type Loadable<T extends DataClient> = string | LoadableObject<T> | (string | LoadableObject<T>)[]
+  type Loadable<T extends DataClient> = string | LoadableObject<T> | (string | LoadableObject<T>)[]
 
-declare type LoadableObject<T extends DataClient> = Command<T> | DiscordEvent<T> | Permission
+  type LoadableObject<T extends DataClient> = Command<T> | DiscordEvent<T> | Permission
 
-declare class DataClient extends Client {
+  class DataClient extends Client {
     constructor(token: string, options?: DataClientOptions)
     dbm: DatabaseManager
     ora: Orator<this>
@@ -98,18 +108,18 @@ declare class DataClient extends Client {
     addCommands(...commands: (string | Command<this> | (string | Command<this>)[])[]): DataClient
     addEvents(...events: (string | DiscordEvent<this> | (string | DiscordEvent<this>)[])[]): DataClient
     addPermissions(...permissions: (string | Permission | (string | Permission)[])[]): DataClient
-}
+  }
 
-declare type DatabaseManagerOptions = {
+  type DatabaseManagerOptions = {
     DataObject: DatabaseObjectBuilder
     DataQuery: DatabaseQueryBuilder
-}
+  }
 
-declare type DatabaseObjectBuilder = (...params: any[]) => DatabaseObject
+  type DatabaseObjectBuilder = (...params: any[]) => DatabaseObject
 
-declare type DatabaseQueryBuilder = (...params: any[]) => DatabaseQuery
+  type DatabaseQueryBuilder = (...params: any[]) => DatabaseQuery
 
-declare abstract class DatabaseManager {
+  abstract class DatabaseManager {
     newObject(type: string, data: any, isNew?: boolean): DatabaseObject
     newQuery(type: string): DatabaseQuery
     abstract add(type: string, data: any): Promise<any>
@@ -117,13 +127,13 @@ declare abstract class DatabaseManager {
     abstract update(object: DatabaseObject): Promise<any>
     abstract get(query: DatabaseQuery): Promise<any>
     abstract find(query: DatabaseQuery): Promise<any[]>
-}
+  }
 
-declare type DatabaseObjectOptions = {
+  type DatabaseObjectOptions = {
     isNew?: boolean
-}
+  }
 
-declare class DatabaseObject {
+  class DatabaseObject {
     constructor(databaseManager: DatabaseManager, type: string, data?: any, options?: DatabaseObjectOptions)
     type: string
     id: string
@@ -132,17 +142,17 @@ declare class DatabaseObject {
     toJSON(): any
     delete(): Promise<void>
     save(data?: any): Promise<DatabaseObject>
-}
+  }
 
 
-declare type SubQueryType = 'and' | 'or'
+  type SubQueryType = 'and' | 'or'
 
-declare type SubQuery = {
+  type SubQuery = {
     type: SubQueryType
     query: DatabaseQuery
-}
+  }
 
-declare class DatabaseQuery {
+  class DatabaseQuery {
     constructor(databaseManager: DatabaseManager, type: string)
     type: string
     maxResults: number
@@ -161,89 +171,89 @@ declare class DatabaseQuery {
     greaterThan(prop: string, num: number): this
     find(): Promise<DatabaseObject[]>
     get(id: string): Promise<DatabaseObject | void>
-}
+  }
 
-declare type DiscordEventData<T extends DataClient> = {
+  type DiscordEventData<T extends DataClient> = {
     name: string
     run: DiscordEventRunner<T>
-}
+  }
 
-declare type DiscordEventRunner<T> = (bot: T, ...rest: any[]) => void
+  type DiscordEventRunner<T> = (bot: T, ...rest: any[]) => void
 
-declare class DiscordEvent<T extends DataClient> {
+  class DiscordEvent<T extends DataClient> {
     constructor(data: DiscordEventData<T>)
     name: string
     run: DiscordEventRunner<T>
-}
+  }
 
-declare class Orator<T extends DataClient> {
+  class Orator<T extends DataClient> {
     constructor(defaultPrefix: string, oratorOptions: OratorOptions)
     defaultPrefix: string
     permissions: Permission[]
     tryMessageDelete(me: ExtendedUser, msg: Message): Promise<void> | void
     tryCreateMessage(me: ExtendedUser, channel: TextChannel, content: string | any, file: any): Promise<Message | void> | void
     tryDMCreateMessage(me: ExtendedUser, msg: Message, content: string | any, file: any): Promise<void>
-    processMessage(bot: DataClient, msg: Message): void
-    hasPermission(context: CommandContext<T>): Promise<boolean>
-}
+    processMessage(bot: T, msg: Message): void
+    hasPermission(bot: T, context: CommandContext): Promise<boolean>
+  }
 
-declare type OratorOptions = {
+  type OratorOptions = {
     defaultPrefix?: string
     deleteInvoking?: boolean
     deleteResponse?: boolean
     deleteResponseDelay?: number
-}
+  }
 
-declare type CheckFunction = (member: Member, bot: DataClient) => boolean
+  type CheckFunction = (member: Member, bot: DataClient) => boolean
 
-declare type PermissionData = {
+  type PermissionData = {
     level?: number
     reason?: string
     run?: CheckFunction
-}
+  }
 
-declare class Permission extends CommandMiddleware {
+  class Permission extends CommandMiddleware {
     constructor(data: PermissionData)
     run: MiddlewareRun
-}
+  }
 
-declare class RAMManager extends DatabaseManager {
+  class RAMManager extends DatabaseManager {
     constructor()
     add(type: string, data: any): Promise<any>
     delete(object: DatabaseObject): Promise<void>
     update(object: DatabaseObject): Promise<any>
     get(query: DatabaseQuery): Promise<any>
     find(query: DatabaseQuery): Promise<any[]>
-}
+  }
 
-declare type ConnectionData = {
+  type ConnectionData = {
     connectionInfo: ConnectionInfo
     client: string
-}
+  }
 
-declare type ConnectionInfo = {
+  type ConnectionInfo = {
     database: string
     user: string
     password?: string
     host: string
-}
+  }
 
-declare class SQLManager extends DatabaseManager {
+  class SQLManager extends DatabaseManager {
     constructor(connection: ConnectionData, options?: DatabaseManagerOptions)
     add(type: string, data: any): Promise<any>
     delete(object: DatabaseObject): Promise<void>
     update(object: DatabaseObject): Promise<any>
     get(query: DatabaseQuery): Promise<any>
     find(query: DatabaseQuery): Promise<any[]>
-}
+  }
 
-declare type StatusManagerOptions = {
+  type StatusManagerOptions = {
     mode?: string
     interval?: number
     defaultStatus: Status
-}
+  }
 
-declare class StatusManager {
+  class StatusManager {
     constructor(bot: DataClient, databaseManager: DatabaseManager, options?: StatusManagerOptions)
     defaultStatus: Status
     current: Status
@@ -255,4 +265,6 @@ declare class StatusManager {
     setStatus(status?: Status): Promise<void>
     timerStart(): void
     timerEnd(): void
+  }
 }
+
