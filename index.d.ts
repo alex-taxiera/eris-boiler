@@ -23,8 +23,8 @@ declare module 'eris-boiler' {
     options?: CommandOptions<T>
   }
 
-  type CommandOptions<T extends DataClient> = {
-    aliases?: string[][]
+declare type CommandOptions<T extends DataClient> = {
+    aliases?: string[]
     parameters?: string[]
     permission?: Permission<T>
     postHook?: PostHook<T, C>
