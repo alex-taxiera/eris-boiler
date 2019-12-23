@@ -1,38 +1,30 @@
-declare module 'eris-boiler'
-
-import {
+declare module 'eris-boiler' {
+  import {
     Client,
     Message,
     Collection,
     Member,
     ExtendedUser,
-    GuildTextableChannel,
+    TextChannel,
+    GuildChannel,
     PrivateChannel,
-    EmbedOptions,
-    MessageFile,
-    GroupChannel
+    TextableChannel
   } from 'eris'
 
-import {
+  import {
     ExtendedMap,
     Status
-} from 'eris-boiler/util'
+  } from 'eris-boiler/util'
 
-declare type CommandData<T extends DataClient> = {
+  type CommandData<T extends DataClient> = {
     name: string
     description: string
-    run?: CommandAction<T, C>
-    options?: CommandOptions<T, C>
+    run: CommandAction<T>
+    options?: CommandOptions<T>
   }
 
-  type SettingCommandData<T extends DataClient, C extends CommandContext> = {
-    displayName: string
-    setting: string
-    getValue?: SettingCommandGetValue<T, C>
-  } & CommandData<T, C>
-
-  type CommandOptions<T extends DataClient, C extends CommandContext> = {
-    aliases?: string[]
+  type CommandOptions<T extends DataClient> = {
+    aliases?: string[][]
     parameters?: string[]
     permission?: Permission<T>
     postHook?: PostHook<T, C>
@@ -44,31 +36,30 @@ declare type CommandData<T extends DataClient> = {
     guildOnly?: boolean
   }
 
-declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) => CommandResults
+  type CommandAction<T extends DataClient> = (bot: T, context: CommandContext) => CommandResults
 
   interface CommandContext {
     params: string[]
     msg: Message
+    channel: TextableChannel | GuildChannel
   }
 
   interface GuildCommandContext extends CommandContext {
-    msg: Message<GuildTextableChannel>
+    channel: GuildChannel
   }
 
   interface PrivateCommandContext extends CommandContext {
-    msg: Message<PrivateTextableChannel>
+    channel: PrivateChannel
   }
 
-  type CommandResults = MessageData | Promise<MessageData>
+  type CommandResults = MessageData | string | Promise<CommandResults>
 
-  type MessageData = string | {
-    content?: string
-    embed?: EmbedOptions
-    file?: MessageFile
+  type MessageData = {
+    content: string
   }
 
-  class Command<T extends DataClient = DataClient, C extends CommandContext = CommandContext> {
-    constructor(data: CommandData<T, C>)
+  class Command<T extends DataClient> {
+    constructor(data: CommandData<T>)
     name: string
     description: string
     run: CommandAction<T, C>
@@ -86,28 +77,16 @@ declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) 
     info: string
   }
 
-  class GuildCommand<T extends DataClient = DataClient> extends Command<T, GuildCommandContext> {}
-  class PrivateCommand<T extends DataClient = DataClient> extends Command<T, PrivateCommandContext> {}
-  class SettingCommand<T extends DataClient = DataClient> extends GuildCommand<T> {
-    constructor(data: SettingCommandData<T, GuildCommandContext>)
-    displayName: string
-    setting: string
-    getValue: SettingCommandGetValue<T, GuildCommandContext>
-  }
-  class ToggleCommand<T extends DataClient = DataClient> extends SettingCommand<T> {}
-  type AnyCommand<T extends DataClient = DataClient> = Command<T> | PrivateCommand<T> | GuildCommand<T> | SettingCommand<T> | ToggleCommand<T>
-
-  class CommandMiddleware<T extends DataClient, C extends CommandContext = CommandContext> {
-    constructor(data: CommandMiddlewareData<T, C>)
-    run: MiddlewareRun<T, C>
+  class CommandMiddleware {
+    constructor(data: CommandMiddlewareData)
+    run: MiddlewareRun
   }
 
-  type CommandMiddlewareData<T extends DataClient, C extends CommandContext> = {
-    run?: MiddlewareRun<T, C>
+  type CommandMiddlewareData = {
+    run?: CheckFunction
   }
 
-  type MiddlewareRun<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => Promise<unknown> | unknown
-  type PermissionRun<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => Promise<boolean> | boolean
+  type MiddlewareRun = <T extends DataClient>(bot: T, context: CommandContext) => Promise<void>
 
   type DataClientOptions = {
     databaseManager?: DatabaseManager
@@ -117,7 +96,7 @@ declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) 
 
   type Loadable<T extends DataClient> = string | LoadableObject<T> | (string | LoadableObject<T>)[]
 
-  type LoadableObject<T extends DataClient> = Command | DiscordEvent | Permission
+  type LoadableObject<T extends DataClient> = Command<T> | DiscordEvent<T> | Permission
 
   class DataClient extends Client {
     constructor(token: string, options?: DataClientOptions)
@@ -131,7 +110,7 @@ declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) 
     addCommands(...commands: (string | AnyCommand<this> | (string | AnyCommand<this>)[])[]): DataClient
     addSettingCommands(...commands: (string | SettingCommand<this> | ToggleCommand<this> | (string | SettingCommand<this> | ToggleCommand<this>)[])[]): DataClient
     addEvents(...events: (string | DiscordEvent<this> | (string | DiscordEvent<this>)[])[]): DataClient
-    addPermissions(...permissions: (string | Permission<this> | (string | Permission<this>)[])[]): DataClient
+    addPermissions(...permissions: (string | Permission | (string | Permission)[])[]): DataClient
   }
 
   type DatabaseManagerOptions = {
@@ -143,7 +122,7 @@ declare type CommandAction<T extends DataClient> = (context: CommandContext<T>) 
 
   type DatabaseQueryBuilder = (...params: any[]) => DatabaseQuery
 
-declare abstract class DatabaseManager {
+  abstract class DatabaseManager {
     newObject(type: string, data: any, isNew?: boolean): DatabaseObject
     newQuery(type: string): DatabaseQuery
     abstract add(type: string, data: any): Promise<any>
@@ -151,9 +130,9 @@ declare abstract class DatabaseManager {
     abstract update(object: DatabaseObject): Promise<any>
     abstract get(query: DatabaseQuery): Promise<any>
     abstract find(query: DatabaseQuery): Promise<any[]>
-}
+  }
 
-declare type DatabaseObjectOptions = {
+  type DatabaseObjectOptions = {
     isNew?: boolean
   }
 
@@ -194,7 +173,7 @@ declare type DatabaseObjectOptions = {
     lessThan(prop: string, num: number): this
     greaterThan(prop: string, num: number): this
     find(): Promise<DatabaseObject[]>
-    get(value: any, key?: string): Promise<DatabaseObject | undefined>
+    get(id: string): Promise<DatabaseObject | void>
   }
 
   type DiscordEventData<T extends DataClient> = {
@@ -204,21 +183,21 @@ declare type DatabaseObjectOptions = {
 
   type DiscordEventRunner<T> = (bot: T, ...rest: any[]) => void
 
-  class DiscordEvent<T extends DataClient = DataClient> {
+  class DiscordEvent<T extends DataClient> {
     constructor(data: DiscordEventData<T>)
     name: string
     run: DiscordEventRunner<T>
   }
 
-  class Orator<T extends DataClient = DataClient> {
+  class Orator<T extends DataClient> {
     constructor(defaultPrefix: string, oratorOptions: OratorOptions)
     defaultPrefix: string
     permissions: Permission<T>[]
     tryMessageDelete(me: ExtendedUser, msg: Message): Promise<void> | void
-    tryCreateMessage(me: ExtendedUser, channel: GuildTextableChannel, content: string | any, file: any): Promise<Message<GuildTextableChannel> | undefined> | undefined
-    tryDMCreateMessage(me: ExtendedUser, msg: Message<GuildTextableChannel>, content: string | any, file: any): Promise<Message<GuildTextableChannel> >
+    tryCreateMessage(me: ExtendedUser, channel: TextChannel, content: string | any, file: any): Promise<Message | void> | void
+    tryDMCreateMessage(me: ExtendedUser, msg: Message, content: string | any, file: any): Promise<void>
     processMessage(bot: T, msg: Message): void
-    hasPermission<C extends CommandContext = CommandContext>(bot: T, context: C): Promise<{ ok: boolean; message: string }>
+    hasPermission(bot: T, context: CommandContext): Promise<boolean>
   }
 
   type OratorOptions = {
@@ -228,18 +207,20 @@ declare type DatabaseObjectOptions = {
     deleteResponseDelay?: number
   }
 
-  type PermissionData<T extends DataClient, C extends CommandContext> = {
+  type CheckFunction = (member: Member, bot: DataClient) => boolean
+
+  type PermissionData = {
     level?: number
     reason?: string
-    run?: PermissionRun<T, C>
+    run?: CheckFunction
   }
 
-  class Permission<T extends DataClient = DataClient, C extends CommandContext = CommandContext> extends CommandMiddleware<T, C> {
-    constructor(data: PermissionData<T, C>)
-    run: PermissionRun<T, C>
+  class Permission extends CommandMiddleware {
+    constructor(data: PermissionData)
+    run: MiddlewareRun
   }
 
-declare class RAMManager extends DatabaseManager {
+  class RAMManager extends DatabaseManager {
     constructor()
     add(type: string, data: any): Promise<any>
     delete(object: DatabaseObject): Promise<void>
@@ -249,9 +230,8 @@ declare class RAMManager extends DatabaseManager {
   }
 
   type ConnectionData = {
-    connectionInfo: ConnectionInfo | string
+    connectionInfo: ConnectionInfo
     client: string
-    pool?: PoolInfo
   }
 
   type ConnectionInfo = {
@@ -261,12 +241,7 @@ declare class RAMManager extends DatabaseManager {
     host: string
   }
 
-  type PoolInfo = {
-    max?: number
-    min?: number
-  }
-
-declare class SQLManager extends DatabaseManager {
+  class SQLManager extends DatabaseManager {
     constructor(connection: ConnectionData, options?: DatabaseManagerOptions)
     protected readonly _qb: any
     add(type: string, data: any): Promise<any>
@@ -296,3 +271,4 @@ declare class SQLManager extends DatabaseManager {
     timerEnd(): void
   }
 }
+
