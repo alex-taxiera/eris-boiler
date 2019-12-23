@@ -24,7 +24,7 @@ declare module 'eris-boiler' {
   }
 
   type CommandOptions<T extends DataClient> = {
-    aliases?: string[][]
+    aliases?: string[]
     parameters?: string[]
     permission?: Permission
     deleteInvoking?: boolean
