@@ -26,7 +26,7 @@ declare module 'eris-boiler' {
   type CommandOptions<T extends DataClient> = {
     aliases?: string[]
     parameters?: string[]
-    permission?: Permission
+    permission?: Permission<T>
     deleteInvoking?: boolean
     deleteResponse?: boolean
     deleteResponseDelay?: number
@@ -35,7 +35,7 @@ declare module 'eris-boiler' {
     guildOnly?: boolean
   }
 
-  type CommandAction<T extends DataClient> = (bot: T, context: CommandContext) => CommandResults
+  type CommandAction<T extends DataClient, Y extends CommandContext = CommandContext> = (bot: T, context: Y) => CommandResults
 
   interface CommandContext {
     params: string[]
@@ -57,34 +57,34 @@ declare module 'eris-boiler' {
     content: string
   }
 
-  class Command<T extends DataClient> {
+  class Command<T extends DataClient = DataClient> {
     constructor(data: CommandData<T>)
     name: string
     description: string
     run: CommandAction<T>
     aliases: string[]
     parameters: string[]
-    middleware: CommandMiddleware[]
+    middleware: CommandMiddleware<T>[]
     deleteInvoking: boolean
     deleteResponse: boolean
     deleteResponseDelay: number
-    permission: Permission
+    permission: Permission<T>
     dmOnly: boolean
     guildOnly: boolean
     subCommands: ExtendedMap<string, Command<T>>
     info: string
   }
 
-  class CommandMiddleware {
+  class CommandMiddleware<T extends DataClient, Y extends CommandContext = CommandContext> {
     constructor(data: CommandMiddlewareData)
-    run: MiddlewareRun
+    run: MiddlewareRun<T, Y>
   }
 
   type CommandMiddlewareData = {
     run?: CheckFunction
   }
 
-  type MiddlewareRun = <T extends DataClient>(bot: T, context: CommandContext) => Promise<void>
+  type MiddlewareRun<T extends DataClient, Y extends CommandContext> = (bot: T, context: Y) => Promise<void>
 
   type DataClientOptions = {
     databaseManager?: DatabaseManager
@@ -99,14 +99,14 @@ declare module 'eris-boiler' {
   class DataClient extends Client {
     constructor(token: string, options?: DataClientOptions)
     dbm: DatabaseManager
-    ora: Orator<this>
+    ora: Orator
     sm: StatusManager
-    commands: ExtendedMap<string, Command<this>>
+    commands: ExtendedMap<string, Command>
     permissions: ExtendedMap<string, Permission>
     connect(): Promise<void>
-    findCommand(name: string, commands: ExtendedMap<string, Command<this>>): Command<this> | void
-    addCommands(...commands: (string | Command<this> | (string | Command<this>)[])[]): DataClient
-    addEvents(...events: (string | DiscordEvent<this> | (string | DiscordEvent<this>)[])[]): DataClient
+    findCommand(name: string, commands: ExtendedMap<string, Command>): Command | void
+    addCommands(...commands: (string | Command | (string | Command)[])[]): DataClient
+    addEvents(...events: (string | DiscordEvent | (string | DiscordEvent)[])[]): DataClient
     addPermissions(...permissions: (string | Permission | (string | Permission)[])[]): DataClient
   }
 
@@ -180,16 +180,16 @@ declare module 'eris-boiler' {
 
   type DiscordEventRunner<T> = (bot: T, ...rest: any[]) => void
 
-  class DiscordEvent<T extends DataClient> {
+  class DiscordEvent<T extends DataClient = DataClient> {
     constructor(data: DiscordEventData<T>)
     name: string
     run: DiscordEventRunner<T>
   }
 
-  class Orator<T extends DataClient> {
+  class Orator<T extends DataClient = DataClient> {
     constructor(defaultPrefix: string, oratorOptions: OratorOptions)
     defaultPrefix: string
-    permissions: Permission[]
+    permissions: Permission<T>[]
     tryMessageDelete(me: ExtendedUser, msg: Message): Promise<void> | void
     tryCreateMessage(me: ExtendedUser, channel: TextChannel, content: string | any, file: any): Promise<Message | void> | void
     tryDMCreateMessage(me: ExtendedUser, msg: Message, content: string | any, file: any): Promise<void>
@@ -212,9 +212,9 @@ declare module 'eris-boiler' {
     run?: CheckFunction
   }
 
-  class Permission extends CommandMiddleware {
+  class Permission<T extends DataClient = DataClient, Y extends CommandContext = CommandContext> extends CommandMiddleware<T, Y> {
     constructor(data: PermissionData)
-    run: MiddlewareRun
+    run: MiddlewareRun<T, Y>
   }
 
   class RAMManager extends DatabaseManager {
