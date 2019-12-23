@@ -20,7 +20,7 @@ declare type CommandData<T extends DataClient> = {
 }
 
 declare type CommandOptions<T extends DataClient> = {
-    aliases?: string[][]
+    aliases?: string[]
     parameters?: string[]
     permission?: Permission
     deleteInvoking?: boolean
