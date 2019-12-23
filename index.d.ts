@@ -27,7 +27,6 @@ declare type CommandOptions<T extends DataClient> = {
     aliases?: string[]
     parameters?: string[]
     permission?: Permission<T>
-    postHook?: PostHook<T, C>
     deleteInvoking?: boolean
     deleteResponse?: boolean
     deleteResponseDelay?: number
@@ -36,7 +35,7 @@ declare type CommandOptions<T extends DataClient> = {
     guildOnly?: boolean
   }
 
-  type CommandAction<T extends DataClient> = (bot: T, context: CommandContext) => CommandResults
+  type CommandAction<T extends DataClient, Y extends CommandContext = CommandContext> = (bot: T, context: Y) => CommandResults
 
   interface CommandContext {
     params: string[]
@@ -58,7 +57,7 @@ declare type CommandOptions<T extends DataClient> = {
     content: string
   }
 
-  class Command<T extends DataClient> {
+  class Command<T extends DataClient = DataClient> {
     constructor(data: CommandData<T>)
     name: string
     description: string
@@ -70,23 +69,22 @@ declare type CommandOptions<T extends DataClient> = {
     deleteResponse: boolean
     deleteResponseDelay: number
     permission: Permission<T>
-    postHook?: PostHook<T, C>
     dmOnly: boolean
     guildOnly: boolean
     subCommands: ExtendedMap<string, Command<T, C>>
     info: string
   }
 
-  class CommandMiddleware {
+  class CommandMiddleware<T extends DataClient, Y extends CommandContext = CommandContext> {
     constructor(data: CommandMiddlewareData)
-    run: MiddlewareRun
+    run: MiddlewareRun<T, Y>
   }
 
   type CommandMiddlewareData = {
     run?: CheckFunction
   }
 
-  type MiddlewareRun = <T extends DataClient>(bot: T, context: CommandContext) => Promise<void>
+  type MiddlewareRun<T extends DataClient, Y extends CommandContext> = (bot: T, context: Y) => Promise<void>
 
   type DataClientOptions = {
     databaseManager?: DatabaseManager
@@ -103,13 +101,12 @@ declare type CommandOptions<T extends DataClient> = {
     dbm: DatabaseManager
     ora: Orator
     sm: StatusManager
-    commands: ExtendedMap<string, AnyCommand<this>>
-    permissions: ExtendedMap<string, Permission<this>>
+    commands: ExtendedMap<string, Command>
+    permissions: ExtendedMap<string, Permission>
     connect(): Promise<void>
-    findCommand(name: string, commands: ExtendedMap<string, AnyCommand<this>>): AnyCommand<this> | undefined
-    addCommands(...commands: (string | AnyCommand<this> | (string | AnyCommand<this>)[])[]): DataClient
-    addSettingCommands(...commands: (string | SettingCommand<this> | ToggleCommand<this> | (string | SettingCommand<this> | ToggleCommand<this>)[])[]): DataClient
-    addEvents(...events: (string | DiscordEvent<this> | (string | DiscordEvent<this>)[])[]): DataClient
+    findCommand(name: string, commands: ExtendedMap<string, Command>): Command | void
+    addCommands(...commands: (string | Command | (string | Command)[])[]): DataClient
+    addEvents(...events: (string | DiscordEvent | (string | DiscordEvent)[])[]): DataClient
     addPermissions(...permissions: (string | Permission | (string | Permission)[])[]): DataClient
   }
 
@@ -183,13 +180,13 @@ declare type CommandOptions<T extends DataClient> = {
 
   type DiscordEventRunner<T> = (bot: T, ...rest: any[]) => void
 
-  class DiscordEvent<T extends DataClient> {
+  class DiscordEvent<T extends DataClient = DataClient> {
     constructor(data: DiscordEventData<T>)
     name: string
     run: DiscordEventRunner<T>
   }
 
-  class Orator<T extends DataClient> {
+  class Orator<T extends DataClient = DataClient> {
     constructor(defaultPrefix: string, oratorOptions: OratorOptions)
     defaultPrefix: string
     permissions: Permission<T>[]
@@ -215,9 +212,9 @@ declare type CommandOptions<T extends DataClient> = {
     run?: CheckFunction
   }
 
-  class Permission extends CommandMiddleware {
+  class Permission<T extends DataClient = DataClient, Y extends CommandContext = CommandContext> extends CommandMiddleware<T, Y> {
     constructor(data: PermissionData)
-    run: MiddlewareRun
+    run: MiddlewareRun<T, Y>
   }
 
   class RAMManager extends DatabaseManager {
