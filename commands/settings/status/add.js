@@ -16,7 +16,7 @@ module.exports = new Command({
       (ex. \`Rocket League|0\`) where type is 0, 1, 2, or 3`
     ]
   },
-  run: async ({ bot, params }) => {
+  run: async (bot, { params }) => {
     const [ name, type ] = params.join(' ').split('|')
     if (!name || !type) {
       return 'Please format the status like name|type (ex. `Rocket League|0`)'

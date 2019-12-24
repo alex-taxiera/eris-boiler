@@ -85,7 +85,7 @@ declare module 'eris-boiler' {
   }
 
   type CommandMiddlewareData = {
-    run?: CheckFunction
+    run?: MiddlewareRun
   }
 
   type MiddlewareRun<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => Promise<void>
@@ -208,12 +208,10 @@ declare module 'eris-boiler' {
     deleteResponseDelay?: number
   }
 
-  type CheckFunction = (member: Member, bot: DataClient) => boolean
-
   type PermissionData = {
     level?: number
     reason?: string
-    run?: CheckFunction
+    run?: MiddlewareRun
   }
 
   class Permission<T extends DataClient = DataClient, C extends CommandContext = CommandContext> extends CommandMiddleware<T, C> {

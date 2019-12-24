@@ -8,7 +8,7 @@ module.exports = new Command({
     parameters: [ 'vip role name/id/mention' ],
     permission
   },
-  run: async ({ bot, msg, params }) => {
+  run: async (bot, { msg, params }) => {
     const [ roleId ] = params
     const fullParam = params.join(' ')
 
