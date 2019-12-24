@@ -6,11 +6,6 @@ module.exports = new SettingCommand({
   options: {
     parameters: [ 'desired prefix' ]
   },
-  displayName: 'Prefix',
-  getValue: async (bot, { channel }) => {
-    const dbGuild = await bot.dbm.newQuery('guild').get(channel.guild.id)
-    return dbGuild.get('prefix') || bot.ora.defaultPrefix
-  },
   run: async (bot, { msg, params }) => {
     const fullParam = params.join(' ')
     if (!fullParam) {

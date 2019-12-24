@@ -16,7 +16,7 @@ module.exports = new Command({
       vip
     ]
   },
-  run: async ({ bot, msg }) => {
+  run: async (bot, { msg }) => {
     const inline = true
     const guild = msg.channel.guild
     const dbGuild = await bot.dbm.newQuery('guild').get(guild.id)
