@@ -16,26 +16,26 @@ declare module 'eris-boiler' {
     Status
   } from 'eris-boiler/util'
 
-  type CommandData<T extends DataClient> = {
+  type CommandData<T extends DataClient, C extends CommandContext> = {
     name: string
     description: string
-    run: CommandAction<T>
-    options?: CommandOptions<T>
+    run: CommandAction<T, C>
+    options?: CommandOptions<T, C>
   }
 
-  type CommandOptions<T extends DataClient> = {
+  type CommandOptions<T extends DataClient, C extends CommandContext> = {
     aliases?: string[]
     parameters?: string[]
-    permission?: Permission
+    permission?: Permission<T>
     deleteInvoking?: boolean
     deleteResponse?: boolean
     deleteResponseDelay?: number
-    subCommands?: Command<T>[]
+    subCommands?: Command<T, C>[]
     dmOnly?: boolean
     guildOnly?: boolean
   }
 
-  type CommandAction<T extends DataClient> = (bot: T, context: CommandContext) => CommandResults
+  type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults
 
   interface CommandContext {
     params: string[]
@@ -57,34 +57,38 @@ declare module 'eris-boiler' {
     content: string
   }
 
-  class Command<T extends DataClient> {
-    constructor(data: CommandData<T>)
+  class Command<T extends DataClient = DataClient, C extends CommandContext = CommandContext> {
+    constructor(data: CommandData<T, C>)
     name: string
     description: string
-    run: CommandAction<T>
+    run: CommandAction<T, C>
     aliases: string[]
     parameters: string[]
-    middleware: CommandMiddleware[]
+    middleware: CommandMiddleware<T>[]
     deleteInvoking: boolean
     deleteResponse: boolean
     deleteResponseDelay: number
-    permission: Permission
+    permission: Permission<T>
     dmOnly: boolean
     guildOnly: boolean
-    subCommands: ExtendedMap<string, Command<T>>
+    subCommands: ExtendedMap<string, Command<T, C>>
     info: string
   }
 
-  class CommandMiddleware {
+  class GuildCommand<T extends DataClient = DataClient> extends Command<T, GuildCommandContext> {}
+  class PrivateCommand<T extends DataClient = DataClient> extends Command<T, PrivateCommandContext> {}
+  type AnyCommand<T extends DataClient = DataClient> = Command<T> | PrivateCommand<T> | GuildCommand<T>
+
+  class CommandMiddleware<T extends DataClient, C extends CommandContext = CommandContext> {
     constructor(data: CommandMiddlewareData)
-    run: MiddlewareRun
+    run: MiddlewareRun<T, C>
   }
 
   type CommandMiddlewareData = {
-    run?: CheckFunction
+    run?: MiddlewareRun
   }
 
-  type MiddlewareRun = <T extends DataClient>(bot: T, context: CommandContext) => Promise<void>
+  type MiddlewareRun<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => Promise<void>
 
   type DataClientOptions = {
     databaseManager?: DatabaseManager
@@ -94,20 +98,20 @@ declare module 'eris-boiler' {
 
   type Loadable<T extends DataClient> = string | LoadableObject<T> | (string | LoadableObject<T>)[]
 
-  type LoadableObject<T extends DataClient> = Command<T> | DiscordEvent<T> | Permission
+  type LoadableObject<T extends DataClient> = Command | DiscordEvent | Permission
 
   class DataClient extends Client {
     constructor(token: string, options?: DataClientOptions)
     dbm: DatabaseManager
-    ora: Orator<this>
+    ora: Orator
     sm: StatusManager
-    commands: ExtendedMap<string, Command<this>>
-    permissions: ExtendedMap<string, Permission>
+    commands: ExtendedMap<string, AnyCommand<this>>
+    permissions: ExtendedMap<string, Permission<this>>
     connect(): Promise<void>
-    findCommand(name: string, commands: ExtendedMap<string, Command<this>>): Command<this> | void
-    addCommands(...commands: (string | Command<this> | (string | Command<this>)[])[]): DataClient
+    findCommand(name: string, commands: ExtendedMap<string, AnyCommand<this>>): AnyCommand<this> | void
+    addCommands(...commands: (string | AnyCommand<this> | (string | AnyCommand<this>)[])[]): DataClient
     addEvents(...events: (string | DiscordEvent<this> | (string | DiscordEvent<this>)[])[]): DataClient
-    addPermissions(...permissions: (string | Permission | (string | Permission)[])[]): DataClient
+    addPermissions(...permissions: (string | Permission<this> | (string | Permission<this>)[])[]): DataClient
   }
 
   type DatabaseManagerOptions = {
@@ -180,21 +184,21 @@ declare module 'eris-boiler' {
 
   type DiscordEventRunner<T> = (bot: T, ...rest: any[]) => void
 
-  class DiscordEvent<T extends DataClient> {
+  class DiscordEvent<T extends DataClient = DataClient> {
     constructor(data: DiscordEventData<T>)
     name: string
     run: DiscordEventRunner<T>
   }
 
-  class Orator<T extends DataClient> {
+  class Orator<T extends DataClient = DataClient> {
     constructor(defaultPrefix: string, oratorOptions: OratorOptions)
     defaultPrefix: string
-    permissions: Permission[]
+    permissions: Permission<T>[]
     tryMessageDelete(me: ExtendedUser, msg: Message): Promise<void> | void
     tryCreateMessage(me: ExtendedUser, channel: TextChannel, content: string | any, file: any): Promise<Message | void> | void
     tryDMCreateMessage(me: ExtendedUser, msg: Message, content: string | any, file: any): Promise<void>
     processMessage(bot: T, msg: Message): void
-    hasPermission(bot: T, context: CommandContext): Promise<boolean>
+    hasPermission<C extends CommandContext = CommandContext>(bot: T, context: C): Promise<boolean>
   }
 
   type OratorOptions = {
@@ -204,17 +208,15 @@ declare module 'eris-boiler' {
     deleteResponseDelay?: number
   }
 
-  type CheckFunction = (member: Member, bot: DataClient) => boolean
-
   type PermissionData = {
     level?: number
     reason?: string
-    run?: CheckFunction
+    run?: MiddlewareRun
   }
 
-  class Permission extends CommandMiddleware {
+  class Permission<T extends DataClient = DataClient, C extends CommandContext = CommandContext> extends CommandMiddleware<T, C> {
     constructor(data: PermissionData)
-    run: MiddlewareRun
+    run: MiddlewareRun<T, C>
   }
 
   class RAMManager extends DatabaseManager {

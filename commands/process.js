@@ -7,7 +7,7 @@ module.exports = new Command({
   options: {
     permission
   },
-  run: async ({ bot }) => {
+  run: async (bot) => {
     const seconds = process.uptime()
     const uptime = getDuration(seconds)
 

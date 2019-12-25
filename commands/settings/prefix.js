@@ -6,7 +6,7 @@ module.exports = new Command({
   options: {
     parameters: [ 'desired prefix' ]
   },
-  run: async ({ bot, msg, params }) => {
+  run: async (bot, { msg, params }) => {
     const fullParam = params.join(' ')
     if (!fullParam) {
       return 'Please provide a prefix!'

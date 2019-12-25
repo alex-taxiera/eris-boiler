@@ -3,10 +3,9 @@ const { Command } = require('../lib')
 module.exports = new Command({
   name: 'help',
   description: 'Displays this message, duh!',
-  run: async (context) => {
+  run: async (bot, context) => {
     const {
-      params,
-      bot
+      params
     } = context
 
     if (params[0]) {
