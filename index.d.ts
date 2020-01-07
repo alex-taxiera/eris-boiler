@@ -80,12 +80,12 @@ declare module 'eris-boiler' {
   type AnyCommand<T extends DataClient = DataClient> = Command<T> | PrivateCommand<T> | GuildCommand<T>
 
   class CommandMiddleware<T extends DataClient, C extends CommandContext = CommandContext> {
-    constructor(data: CommandMiddlewareData)
+    constructor(data: CommandMiddlewareData<T, C>)
     run: MiddlewareRun<T, C>
   }
 
-  type CommandMiddlewareData = {
-    run?: MiddlewareRun
+  type CommandMiddlewareData<T extends DataClient, C extends CommandContext> = {
+    run?: MiddlewareRun<T, C>
   }
 
   type MiddlewareRun<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => Promise<void>
@@ -208,14 +208,14 @@ declare module 'eris-boiler' {
     deleteResponseDelay?: number
   }
 
-  type PermissionData = {
+  type PermissionData<T extends DataClient, C extends CommandContext> = {
     level?: number
     reason?: string
-    run?: MiddlewareRun
+    run?: MiddlewareRun<T, C>
   }
 
   class Permission<T extends DataClient = DataClient, C extends CommandContext = CommandContext> extends CommandMiddleware<T, C> {
-    constructor(data: PermissionData)
+    constructor(data: PermissionData<T, C>)
     run: MiddlewareRun<T, C>
   }
 
