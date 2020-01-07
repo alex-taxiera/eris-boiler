@@ -8,7 +8,9 @@ declare module 'eris-boiler' {
     TextChannel,
     GuildChannel,
     PrivateChannel,
-    TextableChannel
+    TextableChannel,
+    EmbedOptions,
+    MessageFile
   } from 'eris'
 
   import {
@@ -35,7 +37,7 @@ declare module 'eris-boiler' {
     guildOnly?: boolean
   }
 
-  type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults
+  type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults | Promise<CommandResults>
 
   interface CommandContext {
     params: string[]
@@ -51,10 +53,12 @@ declare module 'eris-boiler' {
     channel: PrivateChannel
   }
 
-  type CommandResults = MessageData | string | Promise<CommandResults>
+  type CommandResults = MessageData
 
-  type MessageData = {
-    content: string
+  type MessageData = string | {
+    content?: string
+    embed?: EmbedOptions
+    file?: MessageFile
   }
 
   class Command<T extends DataClient = DataClient, C extends CommandContext = CommandContext> {
