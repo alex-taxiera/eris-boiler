@@ -37,7 +37,7 @@ declare module 'eris-boiler' {
     guildOnly?: boolean
   }
 
-  type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults | Promise<CommandResults>
+  type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults
 
   interface CommandContext {
     params: string[]
@@ -53,7 +53,7 @@ declare module 'eris-boiler' {
     channel: PrivateChannel
   }
 
-  type CommandResults = MessageData
+  type CommandResults = MessageData | Promise<MessageData>
 
   type MessageData = string | {
     content?: string
