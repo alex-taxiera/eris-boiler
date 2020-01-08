@@ -1,5 +1,5 @@
-const { Command } = require('../../../lib')
-const { admin: permission } = require('../../../permissions')
+const { Command } = require('../../lib')
+const { admin: permission } = require('../../permissions')
 
 const add = require('./add')
 const del = require('./del')

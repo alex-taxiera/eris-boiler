@@ -2,7 +2,6 @@ const { Command } = require('../../lib')
 const { vip: permission } = require('../../permissions')
 
 const prefix = require('./prefix')
-const status = require('./status')
 const vip = require('./vip')
 
 module.exports = new Command({
@@ -12,7 +11,6 @@ module.exports = new Command({
     permission,
     subCommands: [
       prefix,
-      status,
       vip
     ]
   },
