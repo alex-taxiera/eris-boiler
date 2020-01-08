@@ -82,7 +82,7 @@ declare module 'eris-boiler' {
 
   class GuildCommand<T extends DataClient = DataClient> extends Command<T, GuildCommandContext> {}
   class PrivateCommand<T extends DataClient = DataClient> extends Command<T, PrivateCommandContext> {}
-  class SettingCommand<T extends DataClient = DataClient> extends GuildCommand<T, GuildCommandContext> {
+  class SettingCommand<T extends DataClient = DataClient> extends GuildCommand<T> {
     displayName: string
     getValue: SettingCommandGetValue<T, GuildCommandContext>
   }

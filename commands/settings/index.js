@@ -14,21 +14,23 @@ module.exports = new GuildCommand({
       vip
     ]
   },
-  run: async (bot, context) => ({
-    embed: {
-      description: ':gear: [**Settings**](https://github.com/alex-taxiera/eris-boiler)',
-      thumbnail: { url: bot.user.avatarURL },
-      timestamp: require('dateformat')(Date.now(), 'isoDateTime'),
-      color: 0x3498db,
-      footer: {
-        icon_url: bot.user.avatarURL,
-        text: 'eris-boiler'
-      },
-      fields: this.subCommands.map((sub) => ({
-        name: sub.displayName,
-        value: sub.getValue(bot, context),
-        inline: true
-      }))
+  run: async function (bot, context) {
+    return {
+      embed: {
+        description: ':gear: [**Settings**](https://github.com/alex-taxiera/eris-boiler)',
+        thumbnail: { url: bot.user.avatarURL },
+        timestamp: require('dateformat')(Date.now(), 'isoDateTime'),
+        color: 0x3498db,
+        footer: {
+          icon_url: bot.user.avatarURL,
+          text: 'eris-boiler'
+        },
+        fields: this.subCommands.map((sub) => ({
+          name: sub.displayName,
+          value: sub.getValue(bot, context),
+          inline: true
+        }))
+      }
     }
-  })
+  }
 })

@@ -11,7 +11,7 @@ module.exports = new SettingCommand({
   displayName: 'VIP Role',
   getValue: async (bot, { channel }) => {
     const dbGuild = await bot.dbm.newQuery('guild').get(channel.guild.id)
-    return dbGuild.get('vip')
+    return dbGuild.get('vip') || 'None'
   },
   run: async (bot, { msg, params }) => {
     const [ roleId ] = params
