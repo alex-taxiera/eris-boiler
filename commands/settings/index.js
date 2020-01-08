@@ -1,10 +1,10 @@
-const { Command } = require('../../lib')
+const { GuildCommand } = require('../../lib')
 const { vip: permission } = require('../../permissions')
 
 const prefix = require('./prefix')
 const vip = require('./vip')
 
-module.exports = new Command({
+module.exports = new GuildCommand({
   name: 'settings',
   description: 'Change some settings for your server :)',
   options: {
@@ -14,14 +14,8 @@ module.exports = new Command({
       vip
     ]
   },
-  run: async (bot, { msg }) => {
-    const inline = true
-    const guild = msg.channel.guild
-    const dbGuild = await bot.dbm.newQuery('guild').get(guild.id)
-    const { vip, prefix } = dbGuild.toJSON()
-
-    const vipRole = bot.guilds.get(guild.id).roles.get(vip)
-    const embed = {
+  run: async (bot, context) => ({
+    embed: {
       description: ':gear: [**Settings**](https://github.com/alex-taxiera/eris-boiler)',
       thumbnail: { url: bot.user.avatarURL },
       timestamp: require('dateformat')(Date.now(), 'isoDateTime'),
@@ -30,11 +24,11 @@ module.exports = new Command({
         icon_url: bot.user.avatarURL,
         text: 'eris-boiler'
       },
-      fields: [
-        { name: 'Prefix', value: prefix || bot.ora.defaultPrefix, inline },
-        { name: 'VIP Role', value: vip ? vipRole.name : 'None', inline }
-      ]
+      fields: this.subCommands.map((sub) => ({
+        name: sub.displayName,
+        value: sub.getValue(bot, context),
+        inline: true
+      }))
     }
-    return { embed }
-  }
+  })
 })

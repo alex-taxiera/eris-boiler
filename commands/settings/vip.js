@@ -1,4 +1,4 @@
-const { Command } = require('../../lib')
+const { SettingCommand } = require('../../lib')
 const { owner: permission } = require('../../permissions')
 
 module.exports = new SettingCommand({
@@ -7,6 +7,11 @@ module.exports = new SettingCommand({
   options: {
     parameters: [ 'vip role name/id/mention' ],
     permission
+  },
+  displayName: 'VIP Role',
+  getValue: async (bot, { channel }) => {
+    const dbGuild = await bot.dbm.newQuery('guild').get(channel.guild.id)
+    return dbGuild.get('vip')
   },
   run: async (bot, { msg, params }) => {
     const [ roleId ] = params
