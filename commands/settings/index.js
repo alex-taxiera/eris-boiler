@@ -25,11 +25,11 @@ module.exports = new GuildCommand({
           icon_url: bot.user.avatarURL,
           text: 'eris-boiler'
         },
-        fields: this.subCommands.map((sub) => ({
+        fields: await Promise.all(this.subCommands.map(async (sub) => ({
           name: sub.displayName,
-          value: sub.getValue(bot, context),
+          value: await sub.getValue(bot, context),
           inline: true
-        }))
+        })))
       }
     }
   }
