@@ -21,9 +21,15 @@ declare module 'eris-boiler' {
   type CommandData<T extends DataClient, C extends CommandContext> = {
     name: string
     description: string
-    run: CommandAction<T, C>
+    run?: CommandAction<T, C>
     options?: CommandOptions<T, C>
   }
+
+  type SettingCommandData<T extends DataClient, C extends CommandContext> = {
+    displayName: string
+    setting: string
+    getValue?: SettingCommandGetValue<T, C>
+  } & CommandData<T, C>
 
   type CommandOptions<T extends DataClient, C extends CommandContext> = {
     aliases?: string[]
@@ -83,10 +89,13 @@ declare module 'eris-boiler' {
   class GuildCommand<T extends DataClient = DataClient> extends Command<T, GuildCommandContext> {}
   class PrivateCommand<T extends DataClient = DataClient> extends Command<T, PrivateCommandContext> {}
   class SettingCommand<T extends DataClient = DataClient> extends GuildCommand<T> {
+    constructor(data: SettingCommandData<T, GuildCommandContext>)
     displayName: string
+    setting: string
     getValue: SettingCommandGetValue<T, GuildCommandContext>
   }
-  type AnyCommand<T extends DataClient = DataClient> = Command<T> | PrivateCommand<T> | GuildCommand<T>
+  class ToggleCommand<T extends DataClient = DataClient> extends SettingCommand<T> {}
+  type AnyCommand<T extends DataClient = DataClient> = Command<T> | PrivateCommand<T> | GuildCommand<T> | SettingCommand<T> | ToggleCommand<T>
 
   class CommandMiddleware<T extends DataClient, C extends CommandContext = CommandContext> {
     constructor(data: CommandMiddlewareData<T, C>)
