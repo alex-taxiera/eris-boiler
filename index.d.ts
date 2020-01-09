@@ -35,6 +35,7 @@ declare module 'eris-boiler' {
     aliases?: string[]
     parameters?: string[]
     permission?: Permission<T>
+    postHook?: PostHook<T, C>
     deleteInvoking?: boolean
     deleteResponse?: boolean
     deleteResponseDelay?: number
@@ -43,6 +44,7 @@ declare module 'eris-boiler' {
     guildOnly?: boolean
   }
 
+  type PostHook<T extends DataClient, C extends CommandContext> = (bot: T, context: C, response: Message) => void
   type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults
   type SettingCommandGetValue<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => string
 
@@ -80,6 +82,7 @@ declare module 'eris-boiler' {
     deleteResponse: boolean
     deleteResponseDelay: number
     permission: Permission<T>
+    postHook?: PostHook<T, C>
     dmOnly: boolean
     guildOnly: boolean
     subCommands: ExtendedMap<string, Command<T, C>>
