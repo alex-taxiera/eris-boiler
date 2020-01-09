@@ -128,6 +128,7 @@ declare module 'eris-boiler' {
     connect(): Promise<void>
     findCommand(name: string, commands: ExtendedMap<string, AnyCommand<this>>): AnyCommand<this> | void
     addCommands(...commands: (string | AnyCommand<this> | (string | AnyCommand<this>)[])[]): DataClient
+    addSettingCommands(...commands: (string | SettingCommand<this> | ToggleCommand<this> | (string | SettingCommand<this> | ToggleCommand<this>)[])[]): DataClient
     addEvents(...events: (string | DiscordEvent<this> | (string | DiscordEvent<this>)[])[]): DataClient
     addPermissions(...permissions: (string | Permission<this> | (string | Permission<this>)[])[]): DataClient
   }
