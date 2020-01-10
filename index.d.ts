@@ -251,7 +251,7 @@ declare module 'eris-boiler' {
   }
 
   type ConnectionData = {
-    connectionInfo: ConnectionInfo
+    connectionInfo: ConnectionInfo | string
     client: string
   }
 
