@@ -21,14 +21,21 @@ declare module 'eris-boiler' {
   type CommandData<T extends DataClient, C extends CommandContext> = {
     name: string
     description: string
-    run: CommandAction<T, C>
+    run?: CommandAction<T, C>
     options?: CommandOptions<T, C>
   }
+
+  type SettingCommandData<T extends DataClient, C extends CommandContext> = {
+    displayName: string
+    setting: string
+    getValue?: SettingCommandGetValue<T, C>
+  } & CommandData<T, C>
 
   type CommandOptions<T extends DataClient, C extends CommandContext> = {
     aliases?: string[]
     parameters?: string[]
     permission?: Permission<T>
+    postHook?: PostHook<T, C>
     deleteInvoking?: boolean
     deleteResponse?: boolean
     deleteResponseDelay?: number
@@ -37,7 +44,9 @@ declare module 'eris-boiler' {
     guildOnly?: boolean
   }
 
+  type PostHook<T extends DataClient, C extends CommandContext> = (bot: T, context: C, response: Message) => void
   type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults
+  type SettingCommandGetValue<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => string
 
   interface CommandContext {
     params: string[]
@@ -73,6 +82,7 @@ declare module 'eris-boiler' {
     deleteResponse: boolean
     deleteResponseDelay: number
     permission: Permission<T>
+    postHook?: PostHook<T, C>
     dmOnly: boolean
     guildOnly: boolean
     subCommands: ExtendedMap<string, Command<T, C>>
@@ -81,7 +91,14 @@ declare module 'eris-boiler' {
 
   class GuildCommand<T extends DataClient = DataClient> extends Command<T, GuildCommandContext> {}
   class PrivateCommand<T extends DataClient = DataClient> extends Command<T, PrivateCommandContext> {}
-  type AnyCommand<T extends DataClient = DataClient> = Command<T> | PrivateCommand<T> | GuildCommand<T>
+  class SettingCommand<T extends DataClient = DataClient> extends GuildCommand<T> {
+    constructor(data: SettingCommandData<T, GuildCommandContext>)
+    displayName: string
+    setting: string
+    getValue: SettingCommandGetValue<T, GuildCommandContext>
+  }
+  class ToggleCommand<T extends DataClient = DataClient> extends SettingCommand<T> {}
+  type AnyCommand<T extends DataClient = DataClient> = Command<T> | PrivateCommand<T> | GuildCommand<T> | SettingCommand<T> | ToggleCommand<T>
 
   class CommandMiddleware<T extends DataClient, C extends CommandContext = CommandContext> {
     constructor(data: CommandMiddlewareData<T, C>)
@@ -114,6 +131,7 @@ declare module 'eris-boiler' {
     connect(): Promise<void>
     findCommand(name: string, commands: ExtendedMap<string, AnyCommand<this>>): AnyCommand<this> | void
     addCommands(...commands: (string | AnyCommand<this> | (string | AnyCommand<this>)[])[]): DataClient
+    addSettingCommands(...commands: (string | SettingCommand<this> | ToggleCommand<this> | (string | SettingCommand<this> | ToggleCommand<this>)[])[]): DataClient
     addEvents(...events: (string | DiscordEvent<this> | (string | DiscordEvent<this>)[])[]): DataClient
     addPermissions(...permissions: (string | Permission<this> | (string | Permission<this>)[])[]): DataClient
   }
