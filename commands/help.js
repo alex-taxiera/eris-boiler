@@ -12,7 +12,7 @@ module.exports = new Command({
       return commandInfo(bot, params[0])
     }
 
-    const { commands, longName } = await filterCommands(bot, context)
+    const { commands, longName } = filterCommands(bot, context)
 
     const content = commands.reduce(
       (ax, { name, description, aliases }) => ax + `\n${name}` + (
@@ -28,25 +28,25 @@ module.exports = new Command({
   }
 })
 
-async function filterCommands (bot, context) {
-  const commands = []
-  let longName = 0
-  for (const command of bot.commands.values()) {
-    const { ok } = await bot.ora.hasPermission(bot, { ...context, command })
-    if (ok) {
-      const {
-        name,
-        aliases,
-        description
-      } = command
+function filterCommands (bot, context) {
+  return bot.commands.reduce(
+    ({ commands, longName }, command) => {
+      if (bot.ora.hasPermission({ ...context, command })) {
+        const {
+          name,
+          aliases,
+          description
+        } = command
 
-      longName = Math.max(
-        name.length + aliases.join('/').length + 3, longName
-      )
-      commands.push({ name, description, aliases })
-    }
-  }
-  return { commands, longName }
+        longName = Math.max(
+          name.length + aliases.join('/').length + 3, longName
+        )
+        commands.push({ name, description, aliases })
+      }
+
+      return { commands, longName }
+    }, { commands: [], longName: 0 }
+  )
 }
 
 function commandInfo (bot, cmd) {
