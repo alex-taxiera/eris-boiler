@@ -31,7 +31,7 @@ module.exports = new Command({
 function filterCommands (bot, context) {
   return bot.commands.reduce(
     ({ commands, longName }, command) => {
-      if (bot.ora.hasPermission({ ...context, command })) {
+      if (bot.ora.hasPermission(bot, { ...context, command })) {
         const {
           name,
           aliases,
