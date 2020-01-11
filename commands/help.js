@@ -12,7 +12,7 @@ module.exports = new Command({
       return commandInfo(bot, params[0])
     }
 
-    const { commands, longName } = filterCommands(bot.commands, context)
+    const { commands, longName } = filterCommands(bot, context)
 
     const content = commands.reduce(
       (ax, { name, description, aliases }) => ax + `\n${name}` + (
@@ -28,10 +28,10 @@ module.exports = new Command({
   }
 })
 
-function filterCommands (commands, context) {
-  return commands.reduce(
+function filterCommands (bot, context) {
+  return bot.commands.reduce(
     ({ commands, longName }, command) => {
-      if (context.bot.ora.hasPermission({ ...context, command })) {
+      if (bot.ora.hasPermission({ ...context, command })) {
         const {
           name,
           aliases,
