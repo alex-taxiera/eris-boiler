@@ -264,6 +264,7 @@ declare module 'eris-boiler' {
 
   class SQLManager extends DatabaseManager {
     constructor(connection: ConnectionData, options?: DatabaseManagerOptions)
+    protected readonly _qb: any
     add(type: string, data: any): Promise<any>
     delete(object: DatabaseObject): Promise<void>
     update(object: DatabaseObject): Promise<any>
