@@ -1,4 +1,5 @@
 const { Command } = require('../lib')
+const { logger } = require('../util')
 
 module.exports = new Command({
   name: 'help',
@@ -31,6 +32,7 @@ module.exports = new Command({
 function filterCommands (bot, context) {
   return bot.commands.reduce(
     ({ commands, longName }, command) => {
+      logger.info('command.name :', command ? command.name : 'why')
       if (bot.ora.hasPermission(bot, { ...context, command })) {
         const {
           name,
