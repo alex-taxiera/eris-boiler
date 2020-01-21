@@ -1,6 +1,6 @@
-declare module 'eris-boiler/utils/logger' {
-  declare function success (...args: any[]): unknown
-  declare function warn (...args: any[]): unknown
-  declare function error (...args: any[]): unknown
-  declare function info (...args: any[]): unknown
+declare module 'eris-boiler/util/logger' {
+  function success (...args: any[]): unknown
+  function warn (...args: any[]): unknown
+  function error (...args: any[]): unknown
+  function info (...args: any[]): unknown
 }
