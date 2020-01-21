@@ -5,18 +5,19 @@ declare module 'eris-boiler' {
     Collection,
     Member,
     ExtendedUser,
-    TextChannel,
-    GuildChannel,
+    GuildTextableChannel,
     PrivateChannel,
-    TextableChannel,
     EmbedOptions,
-    MessageFile
+    MessageFile,
+    GroupChannel
   } from 'eris'
 
   import {
     ExtendedMap,
     Status
   } from 'eris-boiler/util'
+
+  type PrivateTextableChannel = PrivateChannel | GroupChannel
 
   type CommandData<T extends DataClient, C extends CommandContext> = {
     name: string
@@ -44,22 +45,21 @@ declare module 'eris-boiler' {
     guildOnly?: boolean
   }
 
-  type PostHook<T extends DataClient, C extends CommandContext> = (bot: T, context: C, response: Message) => void
+  type PostHook<T extends DataClient, C extends CommandContext> = (bot: T, context: C, response: C['msg']) => void
   type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults
   type SettingCommandGetValue<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => string
 
   interface CommandContext {
     params: string[]
     msg: Message
-    channel: TextableChannel | GuildChannel
   }
 
   interface GuildCommandContext extends CommandContext {
-    channel: GuildChannel
+    msg: Message<GuildTextableChannel>
   }
 
   interface PrivateCommandContext extends CommandContext {
-    channel: PrivateChannel
+    msg: Message<PrivateTextableChannel>
   }
 
   type CommandResults = MessageData | Promise<MessageData>
@@ -217,8 +217,8 @@ declare module 'eris-boiler' {
     defaultPrefix: string
     permissions: Permission<T>[]
     tryMessageDelete(me: ExtendedUser, msg: Message): Promise<void> | void
-    tryCreateMessage(me: ExtendedUser, channel: TextChannel, content: string | any, file: any): Promise<Message | void> | void
-    tryDMCreateMessage(me: ExtendedUser, msg: Message, content: string | any, file: any): Promise<void>
+    tryCreateMessage(me: ExtendedUser, channel: GuildTextableChannel, content: string | any, file: any): Promise<Message<GuildTextableChannel> | void> | void
+    tryDMCreateMessage(me: ExtendedUser, msg: Message<GuildTextableChannel>, content: string | any, file: any): Promise<Message<GuildTextableChannel> >
     processMessage(bot: T, msg: Message): void
     hasPermission<C extends CommandContext = CommandContext>(bot: T, context: C): Promise<boolean>
   }
