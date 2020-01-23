@@ -196,7 +196,7 @@ declare module 'eris-boiler' {
     lessThan(prop: string, num: number): this
     greaterThan(prop: string, num: number): this
     find(): Promise<DatabaseObject[]>
-    get(id: string): Promise<DatabaseObject | void>
+    get(value: any, key?: string): Promise<DatabaseObject | void>
   }
 
   type DiscordEventData<T extends DataClient> = {
