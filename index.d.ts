@@ -253,7 +253,7 @@ declare module 'eris-boiler' {
   type ConnectionData = {
     connectionInfo: ConnectionInfo | string
     client: string
-    pool: PoolInfo
+    pool?: PoolInfo
   }
 
   type ConnectionInfo = {
@@ -264,8 +264,8 @@ declare module 'eris-boiler' {
   }
 
   type PoolInfo = {
-    max: number
-    min: number
+    max?: number
+    min?: number
   }
 
   class SQLManager extends DatabaseManager {
