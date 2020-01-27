@@ -221,7 +221,7 @@ declare module 'eris-boiler' {
     tryCreateMessage(me: ExtendedUser, channel: GuildTextableChannel, content: string | any, file: any): Promise<Message<GuildTextableChannel> | void> | void
     tryDMCreateMessage(me: ExtendedUser, msg: Message<GuildTextableChannel>, content: string | any, file: any): Promise<Message<GuildTextableChannel> >
     processMessage(bot: T, msg: Message): void
-    hasPermission<C extends CommandContext = CommandContext>(bot: T, context: C): Promise<boolean>
+    hasPermission<C extends CommandContext = CommandContext>(bot: T, context: C): Promise<{ ok: boolean; message: string }>
   }
 
   type OratorOptions = {
