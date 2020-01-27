@@ -1,5 +1,4 @@
 const { Command } = require('../lib')
-const { logger } = require('../util')
 
 module.exports = new Command({
   name: 'help',
@@ -13,7 +12,7 @@ module.exports = new Command({
       return commandInfo(bot, params[0])
     }
 
-    const { commands, longName } = filterCommands(bot, context)
+    const { commands, longName } = await filterCommands(bot, context)
 
     const content = commands.reduce(
       (ax, { name, description, aliases }) => ax + `\n${name}` + (
@@ -29,26 +28,25 @@ module.exports = new Command({
   }
 })
 
-function filterCommands (bot, context) {
-  return bot.commands.reduce(
-    ({ commands, longName }, command) => {
-      logger.info('command.name :', command ? command.name : 'why')
-      if (bot.ora.hasPermission(bot, { ...context, command })) {
-        const {
-          name,
-          aliases,
-          description
-        } = command
+async function filterCommands (bot, context) {
+  const commands = []
+  let longName = 0
+  for (const command of bot.commands.values()) {
+    const { ok } = await bot.ora.hasPermission(bot, { ...context, command })
+    if (ok) {
+      const {
+        name,
+        aliases,
+        description
+      } = command
 
-        longName = Math.max(
-          name.length + aliases.join('/').length + 3, longName
-        )
-        commands.push({ name, description, aliases })
-      }
-
-      return { commands, longName }
-    }, { commands: [], longName: 0 }
-  )
+      longName = Math.max(
+        name.length + aliases.join('/').length + 3, longName
+      )
+      commands.push({ name, description, aliases })
+    }
+  }
+  return { commands, longName }
 }
 
 function commandInfo (bot, cmd) {
