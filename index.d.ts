@@ -109,7 +109,8 @@ declare module 'eris-boiler' {
     run?: MiddlewareRun<T, C>
   }
 
-  type MiddlewareRun<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => Promise<void>
+  type MiddlewareRun<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => Promise<unknown> | unknown
+  type PermissionRun<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => Promise<boolean> | boolean
 
   type DataClientOptions = {
     databaseManager?: DatabaseManager
@@ -233,12 +234,12 @@ declare module 'eris-boiler' {
   type PermissionData<T extends DataClient, C extends CommandContext> = {
     level?: number
     reason?: string
-    run?: MiddlewareRun<T, C>
+    run?: PermissionRun<T, C>
   }
 
   class Permission<T extends DataClient = DataClient, C extends CommandContext = CommandContext> extends CommandMiddleware<T, C> {
     constructor(data: PermissionData<T, C>)
-    run: MiddlewareRun<T, C>
+    run: PermissionRun<T, C>
   }
 
   class RAMManager extends DatabaseManager {
