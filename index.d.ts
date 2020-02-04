@@ -301,12 +301,14 @@ declare module 'eris-boiler' {
 }
 
 declare module 'eris-boiler/util' {
+  import * as logger from 'eris-boiler/util/logger'
+
   type Key = string | number
-  
+
   type FilterCallback<T> = (item: T) => boolean
   
-  class ExtendedMap<Key, T> extends Map<Key,T> {
-    find(func: FilterCallback<T>): T | undefined
+  export class ExtendedMap<Key, T> extends Map<Key,T> {
+    find(func: FilterCallback<T>): T | void
     filter(func: FilterCallback<T>): T[]
     map<R>(func: (item: T) => R): R[]
     reduce(func: (accumulator: T, item: T) => T, initialValue?: T): T
@@ -315,10 +317,12 @@ declare module 'eris-boiler/util' {
     some(func: FilterCallback<T>): boolean
   }
   
-  type Status = {
+  export type Status = {
     name: string
     type: number
   }
+
+  export { logger }
 }
 
 declare module 'eris-boiler/util/logger' {
