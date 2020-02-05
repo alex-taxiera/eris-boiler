@@ -301,7 +301,7 @@ declare module 'eris-boiler' {
 }
 
 declare module 'eris-boiler/util' {
-  import * as logger from 'eris-boiler/util/logger'
+  export { default as logger } from 'eris-boiler/util/logger'
 
   type Key = string | number
 
@@ -321,8 +321,6 @@ declare module 'eris-boiler/util' {
     name: string
     type: number
   }
-
-  export { logger }
 }
 
 declare module 'eris-boiler/util/logger' {
