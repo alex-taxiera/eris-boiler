@@ -130,7 +130,7 @@ declare module 'eris-boiler' {
     commands: ExtendedMap<string, AnyCommand<this>>
     permissions: ExtendedMap<string, Permission<this>>
     connect(): Promise<void>
-    findCommand(name: string, commands: ExtendedMap<string, AnyCommand<this>>): AnyCommand<this> | void
+    findCommand(name: string, commands: ExtendedMap<string, AnyCommand<this>>): AnyCommand<this> | undefined
     addCommands(...commands: (string | AnyCommand<this> | (string | AnyCommand<this>)[])[]): DataClient
     addSettingCommands(...commands: (string | SettingCommand<this> | ToggleCommand<this> | (string | SettingCommand<this> | ToggleCommand<this>)[])[]): DataClient
     addEvents(...events: (string | DiscordEvent<this> | (string | DiscordEvent<this>)[])[]): DataClient
@@ -197,7 +197,7 @@ declare module 'eris-boiler' {
     lessThan(prop: string, num: number): this
     greaterThan(prop: string, num: number): this
     find(): Promise<DatabaseObject[]>
-    get(value: any, key?: string): Promise<DatabaseObject | void>
+    get(value: any, key?: string): Promise<DatabaseObject | undefined>
   }
 
   type DiscordEventData<T extends DataClient> = {
@@ -218,7 +218,7 @@ declare module 'eris-boiler' {
     defaultPrefix: string
     permissions: Permission<T>[]
     tryMessageDelete(me: ExtendedUser, msg: Message): Promise<void> | void
-    tryCreateMessage(me: ExtendedUser, channel: GuildTextableChannel, content: string | any, file: any): Promise<Message<GuildTextableChannel> | void> | void
+    tryCreateMessage(me: ExtendedUser, channel: GuildTextableChannel, content: string | any, file: any): Promise<Message<GuildTextableChannel> | undefined> | undefined
     tryDMCreateMessage(me: ExtendedUser, msg: Message<GuildTextableChannel>, content: string | any, file: any): Promise<Message<GuildTextableChannel> >
     processMessage(bot: T, msg: Message): void
     hasPermission<C extends CommandContext = CommandContext>(bot: T, context: C): Promise<{ ok: boolean; message: string }>
@@ -306,7 +306,7 @@ declare module 'eris-boiler/util' {
   type FilterCallback<T> = (item: T) => boolean
   
   class ExtendedMap<Key, T> extends Map<Key,T> {
-    find(func: FilterCallback<T>): T | void
+    find(func: FilterCallback<T>): T | undefined
     filter(func: FilterCallback<T>): T[]
     map<R>(func: (item: T) => R): R[]
     reduce(func: (accumulator: T, item: T) => T, initialValue?: T): T
