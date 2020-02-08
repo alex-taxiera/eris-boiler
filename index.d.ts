@@ -301,8 +301,10 @@ declare module 'eris-boiler' {
 }
 
 declare module 'eris-boiler/util' {
+  export { default as logger } from 'eris-boiler/util/logger'
+
   type Key = string | number
-  
+
   type FilterCallback<T> = (item: T) => boolean
   
   class ExtendedMap<Key, T> extends Map<Key,T> {
@@ -315,7 +317,7 @@ declare module 'eris-boiler/util' {
     some(func: FilterCallback<T>): boolean
   }
   
-  type Status = {
+  export type Status = {
     name: string
     type: number
   }
