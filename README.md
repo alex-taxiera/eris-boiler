@@ -11,7 +11,7 @@ A Discord bot framework for JavaScript and the [Eris](https://abal.moe/Eris/) li
 `npm install eris-boiler`
 
 ## Talk to us!
-The [discord](https://discordapp.com/invite/4SkAduM) chat is the best place to communicate. We encourage using it for:
+The [discord](https://discord.gg/eqwAFJW) chat is the best place to communicate. We encourage using it for:
 - Asking for help
 - Asking if something is a bug
 - Proposing ideas
@@ -72,7 +72,7 @@ module.exports = new DiscordEvent({
 That should cover most things anyone starting out should need to know.
 
 ## Contributing
-Before starting work you should hash it out with us over on [discord](https://discordapp.com/invite/4SkAduM) to make sure it is not already being worked on by someone else.
+Before starting work you should hash it out with us over on [discord](https://discord.gg/eqwAFJW) to make sure it is not already being worked on by someone else.
 
 Check out our guidelines [here.](/CONTRIBUTING.md)
 
