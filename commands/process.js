@@ -1,5 +1,5 @@
 const { Command } = require('../lib')
-const { admin: permission } = require('../permission-lib')
+const { admin: permission } = require('../permissions')
 
 module.exports = new Command({
   name: 'process',
@@ -7,7 +7,7 @@ module.exports = new Command({
   options: {
     permission
   },
-  run: async ({ bot }) => {
+  run: async (bot) => {
     const seconds = process.uptime()
     const uptime = getDuration(seconds)
 

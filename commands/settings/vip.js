@@ -1,14 +1,19 @@
-const { Command } = require('../../lib')
-const { owner: permission } = require('../../permission-lib')
+const { SettingCommand } = require('../../lib')
+const { owner: permission } = require('../../permissions')
 
-module.exports = new Command({
+module.exports = new SettingCommand({
   name: 'vip',
   description: 'set vip role for server',
   options: {
     parameters: [ 'vip role name/id/mention' ],
     permission
   },
-  run: async ({ bot, msg, params }) => {
+  displayName: 'VIP Role',
+  getValue: async (bot, { channel }) => {
+    const dbGuild = await bot.dbm.newQuery('guild').get(channel.guild.id)
+    return dbGuild.get('vip') || 'None'
+  },
+  run: async (bot, { msg, params }) => {
     const [ roleId ] = params
     const fullParam = params.join(' ')
 

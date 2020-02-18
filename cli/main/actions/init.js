@@ -1,8 +1,6 @@
-const { Action } = require('.')
-
 const { exec } = require('child_process')
-const { resolve } = require('path')
-const { copyFiles } = require('../functions')
+
+const { Action } = require('.')
 
 const { print } = require('../functions')
 
@@ -11,13 +9,6 @@ class Initialize extends Action {
     super({
       name: 'init',
       async run (params) {
-        print('Importing the template...')
-
-        const templateDir = resolve(__dirname, '..', 'migrations')
-        const userDir = resolve(process.cwd())
-
-        copyFiles(templateDir, userDir)
-
         print('Loading package.json')
         exec('npm init -y', (error, stdout, stderr) => {
           if (error) {
