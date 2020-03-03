@@ -47,7 +47,7 @@ declare module 'eris-boiler' {
 
   type PostHook<T extends DataClient, C extends CommandContext> = (bot: T, context: C, response: C['msg']) => void
   type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults
-  type SettingCommandGetValue<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => string
+  type SettingCommandGetValue<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => string | Promise<string>
 
   interface CommandContext {
     params: string[]
