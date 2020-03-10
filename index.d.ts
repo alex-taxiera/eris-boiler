@@ -1,6 +1,7 @@
 declare module 'eris-boiler' {
   import {
     Client,
+    ClientOptions,
     Message,
     Collection,
     Member,
@@ -116,6 +117,7 @@ declare module 'eris-boiler' {
     databaseManager?: DatabaseManager
     oratorOptions?: OratorOptions
     statusManagerOptions?: StatusManagerOptions
+    erisOptions?: ClientOptions
   }
 
   type Loadable<T extends DataClient> = string | LoadableObject<T> | (string | LoadableObject<T>)[]
