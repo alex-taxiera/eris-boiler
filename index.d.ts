@@ -307,9 +307,9 @@ declare module 'eris-boiler/util' {
 
   type Key = string | number
 
-  type FilterCallback<T> = (item: T) => boolean
+  export type FilterCallback<T> = (item: T) => boolean
   
-  class ExtendedMap<Key, T> extends Map<Key,T> {
+  export class ExtendedMap<Key, T> extends Map<Key,T> {
     find(func: FilterCallback<T>): T | undefined
     filter(func: FilterCallback<T>): T[]
     map<R>(func: (item: T) => R): R[]
