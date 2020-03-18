@@ -1,6 +1,6 @@
 # eris-boiler
 
-[![discord](https://canary.discordapp.com/api/guilds/463886367496339458/widget.png)](https://discordapp.com/invite/4SkAduM)
+[![discord](https://canary.discordapp.com/api/guilds/463886367496339458/widget.png)](https://discordapp.com/invite/eqwAFJWM)
 [![Build Status](https://travis-ci.com/alex-taxiera/eris-boiler.svg?branch=master)](https://travis-ci.com/alex-taxiera/eris-boiler)
 [![Maintainability](https://api.codeclimate.com/v1/badges/586014eefb135a4c51a1/maintainability)](https://codeclimate.com/github/alex-taxiera/eris-boiler/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/586014eefb135a4c51a1/test_coverage)](https://codeclimate.com/github/alex-taxiera/eris-boiler/test_coverage)
