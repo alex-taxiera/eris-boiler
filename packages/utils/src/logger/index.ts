@@ -39,25 +39,25 @@ export function log (
 }
 
 export function error (
-  content: Content
+  ...content: Content
 ): void {
   return write(process.stderr, LEVEL.ERROR, content.join(' '))
 }
 
 export function info (
-  content: Content
+  ...content: Content
 ): void {
   return log(content, LEVEL.INFO)
 }
 
 export function success (
-  content: Content
+  ...content: Content
 ): void {
   return log(content, LEVEL.SUCCESS)
 }
 
 export function warn (
-  content: Content
+  ...content: Content
 ): void {
   return log(content, LEVEL.WARN)
 }
