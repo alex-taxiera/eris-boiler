@@ -1,8 +1,10 @@
+const { exec } = require('child_process')
+const { resolve } = require('path')
+
 const { Action } = require('.')
 
-const { exec } = require('child_process')
-
 const { print } = require('../functions')
+const { copyFiles } = require('../functions')
 
 class Migrations extends Action {
   constructor () {
@@ -88,9 +90,28 @@ class Migrations extends Action {
               }
             })
           }
+        }),
+        new Action({
+          name: 'update',
+          async run () {
+            print('Importing the default migrations...')
+
+            const templateDir = resolve(__dirname, '..', 'migrations')
+            const userDir = resolve(process.cwd())
+
+            await copyFiles(templateDir, userDir)
+
+            print('Copied over all built in migrations')
+          }
         })
       ],
       async run () {
+        print('Importing the default migrations...')
+
+        const templateDir = resolve(__dirname, '..', 'migrations')
+        const userDir = resolve(process.cwd())
+
+        await copyFiles(templateDir, userDir)
         print('Creating a knexfile...\n')
 
         exec('npx knex init', (err, stdout, stderr) => {

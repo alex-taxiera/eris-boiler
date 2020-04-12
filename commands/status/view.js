@@ -1,16 +1,16 @@
 const {
-  Command,
-  Utils: {
-    status: {
-      getActivity
-    }
+  Command
+} = require('../../lib')
+const {
+  status: {
+    getActivity
   }
-} = require('../../../lib')
+} = require('../../util')
 
 module.exports = new Command({
   name: 'view',
   description: 'View all statuses',
-  run: async ({ bot }) => {
+  run: async (bot) => {
     const dbStatuses = await bot.sm.getStatuses()
     const statuses = dbStatuses.map((dbStatus) => dbStatus.toJSON())
     return `Current random statuses:\n${

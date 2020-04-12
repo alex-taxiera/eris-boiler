@@ -1,4 +1,4 @@
-const { Command } = require('../../../lib')
+const { Command } = require('../../lib')
 
 module.exports = new Command({
   name: 'del',
@@ -9,7 +9,7 @@ module.exports = new Command({
       where type is 0, 1, 2, or 3`
     ]
   },
-  run: async ({ bot, params }) => {
+  run: async (bot, { params }) => {
     const [ name, type ] = params.join(' ').split('|')
     const [ toDelete ] = bot.dbm.newQuery('status')
       .equalTo('name', name)

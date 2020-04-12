@@ -1,10 +1,11 @@
 const nodemon = require('nodemon')
-const { Utils: { logger } } = require('../')
+const { logger } = require('../util')
 
 nodemon({
   script: 'demo/index.js',
   ext: 'js',
-  watch: './'
+  watch: './',
+  nodeArgs: [ '--inspect=9999' ]
 })
 
 nodemon

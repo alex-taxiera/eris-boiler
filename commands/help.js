@@ -3,17 +3,16 @@ const { Command } = require('../lib')
 module.exports = new Command({
   name: 'help',
   description: 'Displays this message, duh!',
-  run: async (context) => {
+  run: async (bot, context) => {
     const {
-      params,
-      bot
+      params
     } = context
 
     if (params[0]) {
       return commandInfo(bot, params[0])
     }
 
-    const { commands, longName } = filterCommands(bot.commands, context)
+    const { commands, longName } = await filterCommands(bot, context)
 
     const content = commands.reduce(
       (ax, { name, description, aliases }) => ax + `\n${name}` + (
@@ -29,25 +28,25 @@ module.exports = new Command({
   }
 })
 
-function filterCommands (commands, context) {
-  return commands.reduce(
-    ({ commands, longName }, command) => {
-      if (context.bot.ora.hasPermission({ ...context, command })) {
-        const {
-          name,
-          aliases,
-          description
-        } = command
+async function filterCommands (bot, context) {
+  const commands = []
+  let longName = 0
+  for (const command of bot.commands.values()) {
+    const { ok } = await bot.ora.hasPermission(bot, { ...context, command })
+    if (ok) {
+      const {
+        name,
+        aliases,
+        description
+      } = command
 
-        longName = Math.max(
-          name.length + aliases.join('/').length + 3, longName
-        )
-        commands.push({ name, description, aliases })
-      }
-
-      return { commands, longName }
-    }, { commands: [], longName: 0 }
-  )
+      longName = Math.max(
+        name.length + aliases.join('/').length + 3, longName
+      )
+      commands.push({ name, description, aliases })
+    }
+  }
+  return { commands, longName }
 }
 
 function commandInfo (bot, cmd) {
