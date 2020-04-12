@@ -17,6 +17,11 @@ export enum LEVEL {
   DEFAULT = 'white'
 }
 
+/**
+ * @param content An array of things to log
+ * @param level   The log level
+ * @param stream  The WriteStream to use
+ */
 export function log (
   content: Content,
   level: LEVEL = LEVEL.DEFAULT,
@@ -32,24 +37,36 @@ export function log (
   ))
 }
 
+/**
+ * @param content The stuff to log, can be anything, use like console.log
+ */
 export function error (
   ...content: Content
 ): void {
   return log(content, LEVEL.ERROR, process.stderr)
 }
 
+/**
+ * @param content The stuff to log, can be anything, use like console.log
+ */
 export function info (
   ...content: Content
 ): void {
   return log(content, LEVEL.INFO)
 }
 
+/**
+ * @param content The stuff to log, can be anything, use like console.log
+ */
 export function success (
   ...content: Content
 ): void {
   return log(content, LEVEL.SUCCESS)
 }
 
+/**
+ * @param content The stuff to log, can be anything, use like console.log
+ */
 export function warn (
   ...content: Content
 ): void {

@@ -1,0 +1,14 @@
+{
+  "name": "eris-boiler",
+  "theme": "default",
+  "ignoreCompilerErrors": "false",
+  "preserveConstEnums": "true",
+  "mode": "modules",
+  "out": "docs",
+  "exclude": [
+    "**/node_modules/**",
+    "**/__tests__/**"
+  ],
+  "excludePrivate": true,
+  "external-modulemap": ".*packages\/([^\/]+)\/.*"
+}

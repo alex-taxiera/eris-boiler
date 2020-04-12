@@ -14,6 +14,10 @@ import {
 export class Client extends ErisClient {
   private readonly ora: Orator = new Orator()
 
+  /**
+   * @param token   Discord bot token
+   * @param options Client options
+   */
   constructor (token: string, options: { erisOptions: ErisOptions }) {
     super(token, options.erisOptions)
 
