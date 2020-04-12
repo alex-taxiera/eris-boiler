@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "tsc": "tsc"
+    "build": "ttsc"
   },
   "bugs": {
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"

@@ -5,9 +5,14 @@
     "baseUrl": "./src",
     "paths": {
       "@modules/*": [
-        "modules/*",
+        "modules/*"
       ]
-    }
+    },
+    "plugins": [
+      {
+        "transform": "@zerollup/ts-transform-paths"
+      }
+    ],
   },
   "include": [
     "./src"
