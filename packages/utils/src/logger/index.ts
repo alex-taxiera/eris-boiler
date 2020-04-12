@@ -17,31 +17,25 @@ export enum LEVEL {
   DEFAULT = 'white'
 }
 
-function colorize (level: LEVEL, text: string): string {
-  const codes = inspect.colors[level]
-
-  return codes ? `\x1b[${codes[0]}m${text}\x1b[${codes[1]}m` : text
-}
-
-function write (stream: NodeJS.WriteStream, level: LEVEL, text: string): void {
-  const time = timestamp()
-
-  stream.write(Buffer.from(
-    `${time} | ${formatWithOptions({ colors: true }, colorize(level, text))}\n`
-  ))
-}
-
 export function log (
   content: Content,
-  level: LEVEL = LEVEL.DEFAULT
+  level: LEVEL = LEVEL.DEFAULT,
+  stream: NodeJS.WriteStream = process.stdout
 ): void {
-  return write(process.stdout, level, content.join(' '))
+  const time = timestamp()
+  const codes = inspect.colors[level]
+  const text = content.join(' ')
+  const message = codes ? `\x1b[${codes[0]}m${text}\x1b[${codes[1]}m` : text
+
+  stream.write(Buffer.from(
+    `${time} | ${formatWithOptions({ colors: true }, message)}\n`
+  ))
 }
 
 export function error (
   ...content: Content
 ): void {
-  return write(process.stderr, LEVEL.ERROR, content.join(' '))
+  return log(content, LEVEL.ERROR, process.stderr)
 }
 
 export function info (
