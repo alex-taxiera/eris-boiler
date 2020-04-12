@@ -10,5 +10,5 @@
     "**/__tests__/**"
   ],
   "excludePrivate": true,
-  "external-modulemap": ".*packages\/([^\/]+)\/.*"
+  "external-modulemap": ".*packages\/((@[^\/]+\/)?[^\/]+)\/.+"
 }
