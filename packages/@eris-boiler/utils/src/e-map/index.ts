@@ -1,7 +1,5 @@
-type FilterCallback<T> = (item: T) => boolean
-
 export class ExtendedMap<Key, T> extends Map<Key, T> {
-  public find (func: FilterCallback<T>): T | void {
+  public find (func: (item: T) => boolean): T | void {
     for (const item of this.values()) {
       if (func(item)) {
         return item
@@ -11,7 +9,7 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
     return undefined
   }
 
-  public filter (func: FilterCallback<T>): T[] {
+  public filter (func: (item: T) => boolean): T[] {
     const arr = []
 
     for (const item of this.values()) {
@@ -46,7 +44,7 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
     return result
   }
 
-  public every (func: FilterCallback<T>): boolean {
+  public every (func: (item: T) => boolean): boolean {
     for (const item of this.values()) {
       if (!func(item)) {
         return false
@@ -56,7 +54,7 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
     return true
   }
 
-  public some (func: FilterCallback<T>): boolean {
+  public some (func: (item: T) => boolean): boolean {
     for (const item of this.values()) {
       if (func(item)) {
         return true
