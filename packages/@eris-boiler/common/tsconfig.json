@@ -6,6 +6,9 @@
     "paths": {
       "@helpers/*": [
         "helpers/*"
+      ],
+      "@modules/*": [
+        "modules/*"
       ]
     },
     "plugins": [

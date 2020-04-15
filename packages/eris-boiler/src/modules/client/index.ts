@@ -5,7 +5,7 @@ import {
 
 import {
   logger
-} from '@eris-boiler/utils'
+} from '@eris-boiler/common'
 
 import {
   Orator

@@ -3,9 +3,14 @@
   "private": true,
   "scripts": {
     "doc": "typedoc packages",
+    "lint": "lerna run lint",
+    "pretest": "lerna run build:tests",
+    "test": "ava",
     "build": "lerna run build",
-    "publish": "npm run build && lerna publish",
-    "postinstall": "lerna bootstrap"
+    "preversion": "npm run lint && npm run build",
+    "version": "lerna version --conventional-commits --create-release github",
+    "publish": "lerna publish from-git --yes",
+    "postinstall": "lerna bootstrap --hoist"
   },
   "devDependencies": {
     "@strictsoftware/typedoc-plugin-monorepo": "^0.3.1",
@@ -13,6 +18,7 @@
     "@typescript-eslint/eslint-plugin": "^2.27.0",
     "@typescript-eslint/parser": "^2.27.0",
     "@zerollup/ts-transform-paths": "^1.7.17",
+    "ava": "^3.6.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",

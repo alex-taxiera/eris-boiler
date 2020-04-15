@@ -1,5 +1,5 @@
 {
-  "name": "@eris-boiler/utils",
+  "name": "@eris-boiler/common",
   "version": "1.0.0",
   "description": "> TODO: description",
   "author": "Alex Taxiera <alex.taxiera@gmail.com>",
@@ -19,7 +19,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "ttsc"
+    "build": "ttsc",
+    "build:tests": "ttsc --p __tests__/tsconfig.json"
   },
   "bugs": {
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"

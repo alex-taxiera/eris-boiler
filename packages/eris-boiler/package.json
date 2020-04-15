@@ -27,13 +27,14 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "ttsc"
+    "build": "ttsc",
+    "build:tests": "ttsc --p __tests__/tsconfig.json"
   },
   "bugs": {
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"
   },
   "dependencies": {
-    "@eris-boiler/utils": "^1.0.0",
+    "@eris-boiler/common": "^1.0.0",
     "eris": "^0.11.2"
   }
 }

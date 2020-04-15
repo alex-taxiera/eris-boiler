@@ -3,5 +3,6 @@
     "packages/@*/*",
     "packages/*"
   ],
+  "tagVersionPrefix": "",
   "version": "independent"
 }
