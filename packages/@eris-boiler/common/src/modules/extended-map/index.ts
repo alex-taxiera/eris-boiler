@@ -1,5 +1,5 @@
 export class ExtendedMap<Key, T> extends Map<Key, T> {
-  public find (func: (item: T) => boolean): T | void {
+  public find (func: (item: T) => boolean): T | undefined {
     for (const item of this.values()) {
       if (func(item)) {
         return item

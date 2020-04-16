@@ -13,6 +13,8 @@ import {
 
 export class Client extends ErisClient {
   private readonly ora: Orator = new Orator()
+  public ownerId?: string
+  public custom: any = {}
 
   /**
    * @param token   Discord bot token
@@ -24,5 +26,9 @@ export class Client extends ErisClient {
     this.on('ready', () => {
       logger.success('Logged in!')
     })
+  }
+
+  private async setOwner (): Promise<void> {
+    this.ownerId = (await this.getOAuthApplication()).owner.id
   }
 }
