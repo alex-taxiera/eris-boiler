@@ -11,8 +11,16 @@ import {
   Orator
 } from '@modules/orator'
 
-export class Client extends ErisClient {
-  private readonly ora: Orator = new Orator()
+export interface ClientManagers {
+  orator?: Orator
+}
+
+export interface ClientOptions extends ClientManagers {
+  erisOptions: ErisOptions
+}
+
+export class Client extends ErisClient implements ClientManagers {
+  public readonly orator: Orator
   public ownerId?: string
   public custom: any = {}
 
@@ -20,11 +28,18 @@ export class Client extends ErisClient {
    * @param token   Discord bot token
    * @param options Client options
    */
-  constructor (token: string, options: { erisOptions: ErisOptions }) {
-    super(token, options.erisOptions)
+  constructor (token: string, options?: ClientOptions) {
+    super(token, options?.erisOptions)
+
+    this.orator = options?.orator ?? new Orator('eb!')
 
     this.on('ready', () => {
       logger.success('Logged in!')
+      this.setOwner()
+    })
+
+    this.on('messageCreate', (message) => {
+      this.orator.processMessage(this, message)
     })
   }
 

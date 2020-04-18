@@ -1,19 +1,11 @@
 {
-  "name": "eris-boiler",
-  "version": "4.0.0",
-  "description": "A Discord bot framework using eris",
-  "keywords": [
-    "discord",
-    "bot",
-    "boiler",
-    "help",
-    "commands"
-  ],
-  "author": "Alex Taxiera <alex@taxiera.dev>",
-  "homepage": "https://alex-taxiera.github.io/eris-boiler/",
+  "name": "@eris-boiler/status-manager",
+  "version": "1.0.0",
+  "description": "Status manager for eris-boiler",
+  "author": "Alex Taxiera <alex.taxiera@gmail.com>",
+  "homepage": "https://github.com/alex-taxiera/eris-boiler#readme",
   "license": "MIT",
   "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -21,6 +13,9 @@
   "files": [
     "lib"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alex-taxiera/eris-boiler.git"
@@ -33,8 +28,10 @@
   "bugs": {
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"
   },
-  "dependencies": {
-    "@eris-boiler/common": "^1.0.0",
-    "eris": "^0.12.0"
+  "peerDependencies": {
+    "eris-boiler": "^4.0.0"
+  },
+  "devDependencies": {
+    "eris-boiler": "^4.0.0"
   }
 }
