@@ -4,7 +4,7 @@ import {
 
 import {
   Command
-} from '@modules/command'
+} from '@modules/command/base-command'
 
 import {
   Client

@@ -2,7 +2,7 @@ import { promises as fs } from 'fs'
 import { join } from 'path'
 
 import * as logger from '@modules/logger'
-import { ExtendedMap } from '@modules/extended-map'
+import { ExtendedMap } from '@modules/stores/extended-map'
 
 type Loadable<T> = string | T
 

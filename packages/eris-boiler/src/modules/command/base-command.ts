@@ -1,7 +1,9 @@
 import {
   EmbedOptions,
   MessageFile,
-  Message
+  Message,
+  PrivateChannel,
+  GuildTextableChannel
 } from 'eris'
 
 import {
@@ -12,7 +14,7 @@ import {
 } from '@modules/permission'
 import {
   CommandMiddleware
-} from './command-middleware'
+} from './middleware'
 
 export type MessageData = string | {
   content?: string
@@ -48,7 +50,7 @@ export class Command<
   T extends Client = Client,
   C extends CommandContext = CommandContext
 > implements CommandOptions {
-  /** OPTIONS **/
+
   public readonly aliases: Array<string>
   public readonly dmOnly: boolean
   public readonly permission?: Permission
@@ -60,7 +62,7 @@ export class Command<
     public readonly name: string,
     public readonly description: string,
     public readonly action: CommandAction<T, C>,
-    options?: CommandOptions
+    options?: Partial<CommandOptions>
   ) {
     this.aliases = options?.aliases ?? []
     this.subCommands = options?.subCommands ?? []
@@ -69,4 +71,5 @@ export class Command<
     this.dmOnly = options?.dmOnly ?? false
     this.guildOnly = options?.guildOnly ?? false
   }
+
 }

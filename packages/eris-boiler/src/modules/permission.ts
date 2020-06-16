@@ -1,9 +1,9 @@
 import { Client } from '@modules/client'
-import { CommandContext } from '@modules/command'
+import { CommandContext } from '@modules/command/base-command'
 import {
   CommandMiddleware,
   CommandMiddlewareAction
-} from '@modules/command-middleware'
+} from '@modules/command/middleware'
 
 export interface PermissionOptions {
   reason?: string
