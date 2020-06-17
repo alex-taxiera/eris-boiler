@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "doc": "typedoc packages",
-    "lint": "lerna run lint",
+    "lint": "lerna run lint --no-bail",
+    "lint:fix": "npm run lint -- -- -- --fix",
     "pretest": "lerna run build:tests",
     "test": "ava",
     "build": "lerna run build",

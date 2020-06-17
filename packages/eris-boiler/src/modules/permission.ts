@@ -2,7 +2,7 @@ import { Client } from '@modules/client'
 import { CommandContext } from '@modules/command/base'
 import {
   CommandMiddleware,
-  CommandMiddlewareAction
+  CommandMiddlewareAction,
 } from '@modules/command/middleware'
 
 export interface PermissionOptions {
@@ -13,16 +13,18 @@ export class Permission<
   T extends Client = Client,
   C extends CommandContext = CommandContext
 > extends CommandMiddleware<T, C, boolean> implements PermissionOptions {
+
   /** OPTIONS **/
   public readonly reason: string
 
   constructor (
     public readonly level: number,
     run: CommandMiddlewareAction<T, C, boolean>,
-    options?: PermissionOptions
+    options?: PermissionOptions,
   ) {
     super(run)
 
     this.reason = options?.reason ?? ''
   }
+
 }

@@ -12,7 +12,7 @@ export class CommandMiddleware<
 > {
 
   constructor (
-    public readonly run: CommandMiddlewareAction<T, C, R>
+    public readonly run: CommandMiddlewareAction<T, C, R>,
   ) {}
 
 }

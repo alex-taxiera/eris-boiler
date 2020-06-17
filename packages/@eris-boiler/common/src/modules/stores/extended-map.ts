@@ -1,4 +1,5 @@
 export class ExtendedMap<Key, T> extends Map<Key, T> {
+
   public find (func: (item: T) => boolean): T | undefined {
     for (const item of this.values()) {
       if (func(item)) {
@@ -34,11 +35,12 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
   public reduce<R> (func: (accumulator: R, item: T) => R, initialValue: R): R
   public reduce (func: (accumulator: T, item: T) => T, initialValue?: T): T {
     const iter = this.values()
-    let val
-    let result = initialValue === undefined ? iter.next().value : initialValue
+    let current: IteratorResult<T, T> = iter.next()
+    let result = initialValue ?? current.value
 
-    while ((val = iter.next().value) !== undefined) {
-      result = func(result, val)
+    while (!current.done) {
+      result = func(result, current.value)
+      current = iter.next()
     }
 
     return result
@@ -63,4 +65,5 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
 
     return false
   }
+
 }

@@ -12,7 +12,10 @@ import {
 
 export class CommandMap<C extends Client> extends LoadMap<Command<C>> {
 
-  protected _load (loadableObject: Command<C>): void {
+  protected _load (loadableObject: any): void {
+    if (!(loadableObject instanceof Command)) {
+      throw TypeError('Invalid Command found during loading')
+    }
     this.set(loadableObject.name, loadableObject)
   }
 

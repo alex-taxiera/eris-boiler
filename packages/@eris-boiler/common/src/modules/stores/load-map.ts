@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
 import { promises as fs } from 'fs'
 import { join } from 'path'
 
@@ -7,12 +8,19 @@ import { ExtendedMap } from '@modules/stores/extended-map'
 type Loadable<T> = string | T
 
 export abstract class LoadMap<T> extends ExtendedMap<string, T> {
+
   protected toLoad: Array<Loadable<T>> = []
 
-  protected abstract _load (loadableObject: T): Promise<void> | void
+  protected abstract _load (loadableObject: any): Promise<void> | void
 
   public add (...loadables: Array<Loadable<T> | Array<Loadable<T>>>): this {
-    this.toLoad.concat(loadables.flat())
+    this.toLoad.concat(
+      loadables
+        .reduce<Array<Loadable<T>>>((ax, dx) => ([
+          ...ax,
+          ...(Array.isArray(dx) ? dx : [ dx ]),
+        ]), []),
+    )
 
     return this
   }
@@ -21,7 +29,7 @@ export abstract class LoadMap<T> extends ExtendedMap<string, T> {
     const loadableObjects = await this.resolveToLoad()
 
     await Promise.all(
-      loadableObjects.map(async (loadableObject) => this._load(loadableObject))
+      loadableObjects.map(async (loadableObject) => this._load(loadableObject)),
     )
 
     return this
@@ -32,7 +40,7 @@ export abstract class LoadMap<T> extends ExtendedMap<string, T> {
    * @param   path The path to the loadable file/directory.
    * @returns      The loadable objects loaded from file.
    */
-  protected async loadFiles (path: string): Promise<Array<T>> {
+  protected async loadFiles (path: string): Promise<Array<any>> {
     const file = await fs.stat(path)
     const files = file.isDirectory() ? await fs.readdir(path) : [ '' ]
     const res = []
@@ -43,16 +51,14 @@ export abstract class LoadMap<T> extends ExtendedMap<string, T> {
         (await fs.stat(filePath)).isDirectory()
       ) {
         try {
-          let data = await import(filePath)
-          if (data.__esModule) {
-            data = data.default
-          }
-          if (!data.isIndex) {
-            res.push(data)
-          }
+          const data = await import(filePath)
+
+          res.push(data.__esModule ? data.default : data)
         } catch (e) {
           logger.error(
-            `Unable to read ${path}/${fd}:\n\t\t\u0020${e}`
+            `Unable to read ${path}/${fd}:\n\t\t\u0020${
+              (e as Error).toString()
+            }`,
           )
         }
       }
@@ -66,13 +72,14 @@ export abstract class LoadMap<T> extends ExtendedMap<string, T> {
    * @param   loadable Parse a loadable to clean up any arrays or paths.
    * @returns          The cleaned loadable(s).
    */
-  private async resolveToLoad (): Promise<Array<T>> {
+  private async resolveToLoad (): Promise<Array<any | T>> {
     const ax = await Promise.all(this.toLoad.map(async (loadable) =>
-      typeof loadable === 'string' ? this.loadFiles(loadable) : [ loadable ]
+      typeof loadable === 'string' ? this.loadFiles(loadable) : [ loadable ],
     ))
 
     this.toLoad = []
 
     return ax.flat()
   }
+
 }

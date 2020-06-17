@@ -1,5 +1,5 @@
 import {
-  BotActivityType
+  BotActivityType,
 } from 'eris'
 
 type ActivityMessages = {
@@ -12,19 +12,21 @@ export interface StatusStruct {
 }
 
 export class Status implements StatusStruct {
+
   constructor (
     public readonly name: string,
-    public readonly type: BotActivityType
+    public readonly type: BotActivityType,
   ) {}
 
   public static Activities: ActivityMessages = {
     0: 'Playing',
     1: 'Streaming',
     2: 'Listening to',
-    3: 'Watching'
+    3: 'Watching',
   }
 
   public static isStatus (status: any): status is StatusStruct {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return (status.type in Status.Activities) && typeof status.name === 'string'
   }
 
@@ -32,7 +34,8 @@ export class Status implements StatusStruct {
     const [ first, ...rest ] = statuses
 
     return rest.every(
-      (status) => status.name === first.name && status.type === first.type
+      (status) => status.name === first.name && status.type === first.type,
     )
   }
+
 }

@@ -1,14 +1,14 @@
 import {
   Client as ErisClient,
-  ClientOptions as ErisOptions
+  ClientOptions as ErisOptions,
 } from 'eris'
 
 import {
-  logger
+  logger,
 } from '@eris-boiler/common'
 
 import {
-  Orator
+  Orator,
 } from '@modules/orator'
 
 export interface ClientManagers {
@@ -20,6 +20,7 @@ export interface ClientOptions extends ClientManagers {
 }
 
 export class Client extends ErisClient implements ClientManagers {
+
   public readonly orator: Orator
   public ownerId?: string
   public custom: any = {}
@@ -36,14 +37,17 @@ export class Client extends ErisClient implements ClientManagers {
     this.on('ready', () => {
       logger.success('Logged in!')
       this.setOwner()
+        .catch((error) => this.emit('error', error))
     })
 
     this.on('messageCreate', (message) => {
       this.orator.processMessage(this, message)
+        .catch((error) => this.emit('error', error))
     })
   }
 
   private async setOwner (): Promise<void> {
     this.ownerId = (await this.getOAuthApplication()).owner.id
   }
+
 }

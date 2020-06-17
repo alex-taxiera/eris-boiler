@@ -4,5 +4,6 @@
     "packages/*"
   ],
   "tagVersionPrefix": "",
-  "version": "independent"
+  "version": "independent",
+  "stream": true
 }

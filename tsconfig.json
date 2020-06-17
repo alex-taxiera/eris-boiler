@@ -21,10 +21,13 @@
     "noImplicitReturns": true,
     "esModuleInterop": true
   },
+  "include": [
+    "**/src"
+  ],
   "exclude": [
-    "node_modules",
-    "**/*.spec.ts",
-    "**/*.test.ts"
+    "**/node_modules",
+    "**/__tests__",
+    "**/lib"
   ],
   "plugins": [
     {

@@ -1,9 +1,9 @@
 import {
-  Client
+  Client,
 } from 'eris-boiler'
 import {
   StatusStruct,
-  Status
+  Status,
 } from '@modules/status'
 
 export type StatusSource = StatusStruct | Array<StatusStruct>
@@ -18,7 +18,7 @@ export interface StatusManagerOptions {
 export function manageStatus (
   client: Client,
   source: StatusSource | StatusGenerator,
-  options?: StatusManagerOptions
+  options?: StatusManagerOptions,
 ): Client {
   if (Status.isStatus(source)) {
     client.on('ready', () => {
@@ -36,7 +36,7 @@ export function manageStatus (
     const realOptions: StatusManagerOptions = {
       multiMode: 'random',
       interval: 12 * 60 * 60 * 1000,
-      ...options
+      ...options,
     }
     let lastIndex = -1
 
@@ -63,9 +63,11 @@ export function manageStatus (
 
     client.on('ready', () => {
       useSelector()
+        .catch((error) => client.emit('error', error))
 
       setInterval(() => {
         useSelector()
+          .catch((error) => client.emit('error', error))
       }, realOptions.interval)
     })
   }

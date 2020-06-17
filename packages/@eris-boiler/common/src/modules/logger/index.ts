@@ -1,10 +1,10 @@
 import {
   inspect,
-  formatWithOptions
+  formatWithOptions,
 } from 'util'
 
 import {
-  timestamp
+  timestamp,
 } from '@helpers/time'
 
 type Content = Array<any>
@@ -25,7 +25,7 @@ export enum LEVEL {
 export function log (
   content: Content,
   level: LEVEL = LEVEL.DEFAULT,
-  stream: NodeJS.WriteStream = process.stdout
+  stream: NodeJS.WriteStream = process.stdout,
 ): void {
   const time = timestamp()
   const codes = inspect.colors[level]
@@ -33,7 +33,7 @@ export function log (
   const message = codes ? `\x1b[${codes[0]}m${text}\x1b[${codes[1]}m` : text
 
   stream.write(Buffer.from(
-    `${time} | ${formatWithOptions({ colors: true }, message)}\n`
+    `${time} | ${formatWithOptions({ colors: true }, message)}\n`,
   ))
 }
 
