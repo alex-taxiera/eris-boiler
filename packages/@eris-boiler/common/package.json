@@ -25,5 +25,11 @@
   },
   "bugs": {
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"
+  },
+  "peerDependencies": {
+    "eris": "^0.12.0"
+  },
+  "devDependencies": {
+    "eris": "^0.12.0"
   }
 }
