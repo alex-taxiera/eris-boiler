@@ -24,6 +24,7 @@ export class Client extends ErisClient implements ClientManagers {
   public readonly orator: Orator
   public ownerId?: string
   public custom: any = {}
+  public commands = new Map()
 
   /**
    * @param token   Discord bot token
