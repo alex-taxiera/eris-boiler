@@ -1,5 +1,5 @@
 import { Client } from '@modules/client'
-import { CommandContext } from '@modules/command/base-command'
+import { CommandContext } from '@modules/command/base'
 import {
   CommandMiddleware,
   CommandMiddlewareAction

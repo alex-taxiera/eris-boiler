@@ -1,5 +1,5 @@
 import { Client } from '@modules/client'
-import { CommandContext } from '@modules/command'
+import { CommandContext } from '@modules/command/base'
 
 export type CommandMiddlewareAction<
   T extends Client, C extends CommandContext, R = unknown
@@ -10,7 +10,9 @@ export class CommandMiddleware<
   C extends CommandContext = CommandContext,
   R = unknown
 > {
+
   constructor (
     public readonly run: CommandMiddlewareAction<T, C, R>
   ) {}
+
 }

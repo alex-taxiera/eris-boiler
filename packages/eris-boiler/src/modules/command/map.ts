@@ -1,16 +1,17 @@
 import {
-  LoadMap
+  LoadMap,
 } from '@eris-boiler/common'
 
 import {
-  Command
-} from '@modules/command/base-command'
+  Command,
+} from '@modules/command/base'
 
 import {
-  Client
+  Client,
 } from '@modules/client'
 
 export class CommandMap<C extends Client> extends LoadMap<Command<C>> {
+
   protected _load (loadableObject: Command<C>): void {
     this.set(loadableObject.name, loadableObject)
   }
@@ -18,7 +19,8 @@ export class CommandMap<C extends Client> extends LoadMap<Command<C>> {
   public search (key: string): Command<C> | undefined {
     return this.find(
       (command) => command.name.toLowerCase() === key.toLowerCase() ||
-                   command.aliases.includes(key.toLowerCase())
+                   command.aliases.includes(key.toLowerCase()),
     )
   }
+
 }
