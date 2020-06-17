@@ -9,10 +9,11 @@ import {
 
 import {
   Command,
-  PrivilegedCommandOptions,
+  CommandOptions,
   CommandContext,
   CommandAction,
 } from '@modules/command/base'
+import { privateOnly } from '@modules/command/middleware'
 
 export interface PrivateCommandContext extends CommandContext {
   message: Message<PrivateChannel>
@@ -27,11 +28,11 @@ export class PrivateCommand<
     name: string,
     description: string,
     action: CommandAction<T, C>,
-    options?: Partial<PrivilegedCommandOptions>,
+    options?: Partial<CommandOptions>,
   ) {
     super(name, description, action, {
       ...options,
-      dmOnly: true,
+      middleware: [ privateOnly ].concat(options?.middleware ?? []),
     })
   }
 

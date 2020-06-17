@@ -9,10 +9,11 @@ import {
 
 import {
   Command,
-  PrivilegedCommandOptions,
   CommandContext,
   CommandAction,
+  CommandOptions,
 } from '@modules/command/base'
+import { guildOnly } from '@modules/command/middleware'
 
 export interface GuildCommandContext extends CommandContext {
   message: Message<GuildTextableChannel>
@@ -27,11 +28,11 @@ export class GuildCommand<
     name: string,
     description: string,
     action: CommandAction<T, C>,
-    options?: Partial<PrivilegedCommandOptions>,
+    options?: Partial<CommandOptions>,
   ) {
     super(name, description, action, {
       ...options,
-      guildOnly: true,
+      middleware: [ guildOnly ].concat(options?.middleware ?? []),
     })
   }
 

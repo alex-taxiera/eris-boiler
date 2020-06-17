@@ -5,12 +5,12 @@ export type PrefixGenerator = (id: string) => string | Promise<string>
 
 export class Orator {
 
-  private readonly prefixGen: PrefixGenerator
+  private readonly getPrefix: PrefixGenerator
 
   constructor (
     prefix: PrefixGenerator | string,
   ) {
-    this.prefixGen = typeof prefix === 'string' ? (): string => prefix : prefix
+    this.getPrefix = typeof prefix === 'string' ? (): string => prefix : prefix
   }
 
   public async processMessage (

@@ -12,7 +12,7 @@ import {
 } from '@modules/permission'
 import {
   CommandMiddleware,
-} from '@modules/command/middleware'
+} from '@modules/command/middleware/base'
 
 export type MessageData = string | {
   content?: string
@@ -40,13 +40,7 @@ export interface CommandOptions {
   subCommands: Array<Command>
   permission?: Permission
   middleware: Array<CommandMiddleware>
-  dmOnly: boolean
-  guildOnly: boolean
 }
-
-export type PrivilegedCommandOptions = Omit<
-  CommandOptions, 'dmOnly' | 'guildOnly'
->
 
 export class Command<
   T extends Client = Client,
@@ -54,10 +48,8 @@ export class Command<
 > implements CommandOptions {
 
   public readonly aliases: Array<string>
-  public readonly dmOnly: boolean
   public readonly permission?: Permission
   public readonly middleware: Array<CommandMiddleware>
-  public readonly guildOnly: boolean
   public readonly subCommands: Array<Command>
 
   constructor (
@@ -70,8 +62,6 @@ export class Command<
     this.subCommands = options.subCommands ?? []
     this.permission = options.permission
     this.middleware = options.middleware ?? []
-    this.dmOnly = options.dmOnly ?? false
-    this.guildOnly = options.guildOnly ?? false
   }
 
 }

@@ -3,7 +3,7 @@ import { CommandContext } from '@modules/command/base'
 import {
   CommandMiddleware,
   CommandMiddlewareAction,
-} from '@modules/command/middleware'
+} from '@modules/command/middleware/base'
 
 export interface PermissionOptions {
   reason?: string
