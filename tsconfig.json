@@ -25,5 +25,10 @@
     "node_modules",
     "**/*.spec.ts",
     "**/*.test.ts"
+  ],
+  "plugins": [
+    {
+      "transform": "@zerollup/ts-transform-paths"
+    }
   ]
 }

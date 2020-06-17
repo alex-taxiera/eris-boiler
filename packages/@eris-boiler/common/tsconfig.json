@@ -1,23 +1,13 @@
 {
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./lib",
-    "baseUrl": "./src",
+    "rootDir": "src",
+    "outDir": "lib",
+    "baseUrl": "src",
     "paths": {
-      "@helpers/*": [
-        "helpers/*"
-      ],
-      "@modules/*": [
-        "modules/*"
+      "@*": [
+        "*"
       ]
-    },
-    "plugins": [
-      {
-        "transform": "@zerollup/ts-transform-paths"
-      }
-    ],
-  },
-  "include": [
-    "./src"
-  ]
+    }
+  }
 }
