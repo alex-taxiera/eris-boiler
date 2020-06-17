@@ -14,7 +14,8 @@
     "bootstrap": "lerna bootstrap --hoist",
     "clean": "lerna clean --yes && rm -rf ./node_modules",
     "reinstall": "npm run clean && npm i",
-    "postinstall": "npm run bootstrap"
+    "postinstall": "npm run bootstrap",
+    "install:prod": "npm ci --ignore-scripts --only=prod --no-optional && npx lerna bootstrap --no-hoist -- --only=prod --no-optional"
   },
   "devDependencies": {
     "@strictsoftware/typedoc-plugin-monorepo": "^0.3.1",
