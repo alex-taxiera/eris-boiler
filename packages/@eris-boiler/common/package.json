@@ -5,13 +5,14 @@
   "author": "Alex Taxiera <alex.taxiera@gmail.com>",
   "homepage": "https://github.com/alex-taxiera/eris-boiler#readme",
   "license": "ISC",
-  "main": "lib/index.js",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
   "directories": {
-    "lib": "lib",
+    "lib": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist/src"
   ],
   "repository": {
     "type": "git",
@@ -20,7 +21,6 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "ttsc",
-    "build:tests": "ttsc --p __tests__/tsconfig.json",
     "lint": "eslint src __tests__"
   },
   "bugs": {

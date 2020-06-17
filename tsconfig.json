@@ -19,19 +19,14 @@
     "noImplicitThis": true,
     "alwaysStrict": true,
     "noImplicitReturns": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "transform": "@zerollup/ts-transform-paths"
+      }
+    ]
   },
-  "include": [
-    "**/src"
-  ],
   "exclude": [
-    "**/node_modules",
-    "**/__tests__",
-    "**/lib"
-  ],
-  "plugins": [
-    {
-      "transform": "@zerollup/ts-transform-paths"
-    }
+    "node_modules"
   ]
 }

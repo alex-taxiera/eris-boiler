@@ -2,6 +2,5 @@ node_modules
 lerna-debug.log
 npm-debug.log
 docs
-testing
-lib
+dist
 coverage

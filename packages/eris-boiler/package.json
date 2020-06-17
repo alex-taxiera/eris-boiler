@@ -12,14 +12,13 @@
   "author": "Alex Taxiera <alex@taxiera.dev>",
   "homepage": "https://alex-taxiera.github.io/eris-boiler/",
   "license": "MIT",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "dist/src/index.js",
   "directories": {
-    "lib": "lib",
+    "lib": "dist",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist/src"
   ],
   "repository": {
     "type": "git",
