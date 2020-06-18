@@ -1,4 +1,4 @@
-import {
+import Eris, {
   EmbedOptions,
   MessageFile,
   Message,
@@ -22,8 +22,15 @@ export type MessageData = string | {
 
 export type CommandResults = MessageData | Promise<MessageData>
 
+export interface CommandParam {
+  name: string
+  resolve: (input: string) => unknown
+  onMissing?: () => unknown
+  onFail?: () => unknown
+}
+
 export interface CommandContext {
-  params: { [k: string]: unknown }[] // TODO: Make this an array of object
+  params: { [k: string]: unknown } // TODO: Make this an array of object
   message: Message
 }
 
@@ -37,7 +44,7 @@ export type CommandAction<
 
 export interface CommandOptions {
   aliases: Array<string>
-  params: { name: string; type: unknown }[]
+  params: CommandParam[]
   subCommands: Array<Command>
   permission?: Permission
   middleware: Array<CommandMiddleware>
@@ -49,7 +56,7 @@ export class Command<
 > implements CommandOptions {
 
   public readonly aliases: Array<string>
-  public readonly params: { name: string; type: unknown }[]
+  public readonly params: CommandParam[]
   public readonly permission?: Permission
   public readonly middleware: Array<CommandMiddleware>
   public readonly subCommands: Array<Command>
