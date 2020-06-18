@@ -23,7 +23,7 @@ export type MessageData = string | {
 export type CommandResults = MessageData | Promise<MessageData>
 
 export interface CommandContext {
-  params: { [k: string]: any }[] // TODO: Make this an array of object
+  params: { [k: string]: unknown }[] // TODO: Make this an array of object
   message: Message
 }
 
@@ -37,6 +37,7 @@ export type CommandAction<
 
 export interface CommandOptions {
   aliases: Array<string>
+  params: { name: string; type: unknown }[]
   subCommands: Array<Command>
   permission?: Permission
   middleware: Array<CommandMiddleware>
@@ -47,8 +48,8 @@ export class Command<
   C extends CommandContext = CommandContext
 > implements CommandOptions {
 
-  public readonly params?: { name: string, type: any }[]
   public readonly aliases: Array<string>
+  public readonly params: { name: string; type: unknown }[]
   public readonly permission?: Permission
   public readonly middleware: Array<CommandMiddleware>
   public readonly subCommands: Array<Command>
@@ -60,6 +61,7 @@ export class Command<
     options: Partial<CommandOptions> = {},
   ) {
     this.aliases = options.aliases ?? []
+    this.params = options.params ?? []
     this.subCommands = options.subCommands ?? []
     this.permission = options.permission
     this.middleware = options.middleware ?? []
