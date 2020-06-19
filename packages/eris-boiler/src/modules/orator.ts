@@ -25,7 +25,7 @@ export class Orator {
   private separatePositionalArgs (content: string): Array<string> {
     return [ ...content.matchAll(/(".+?"|'.+?'|`.+?`)|[\S]+/g) ]
       .map(
-        ([ match, group ]) => (group ? group.slice(1, -1) : match),
+        ([ match, group ]) => (group?.slice(1, -1) ?? match),
       )
   }
 
@@ -40,7 +40,6 @@ export class Orator {
     const [ commandName, ...args ] = await this.cleanParams(
       client,
       message,
-      message.content,
     )
 
     const command = client.commands.search(commandName)
@@ -65,9 +64,8 @@ export class Orator {
   private async cleanParams (
     client: Client,
     message: Message,
-    content: string,
   ): Promise<Array<string>> {
-    const args = this.separatePositionalArgs(this.cleanContent(content))
+    const args = this.separatePositionalArgs(this.cleanContent(message.content))
     const first = args.shift()
     let commandName: string | undefined
 
@@ -101,19 +99,15 @@ export class Orator {
       throw Error('not enough parameters')
     }
 
-    const params = await command.params
-      .reduce<Promise<{ [k: string]: unknown }>>(
-        async (prom, commandParam, i) => prom.then(async (resolved) => {
-          const res = await commandParam.resolve(args[i])
-          if (res === undefined) {
-            throw Error('shit')
-          }
-          resolved[commandParam.name] = res
-          return resolved
-        }), Promise.resolve({}),
-      )
-
-    return params
+    return command.params.reduce<Promise<{ [k: string]: unknown }>>(
+      async (prom, { name, resolve }, i) => prom.then(async (resolved) => {
+        resolved[name] = await resolve(args[i]) ?? undefined
+        if (resolved[name] === undefined) {
+          throw Error('shit')
+        }
+        return resolved
+      }), Promise.resolve({}),
+    )
   }
 
 }
