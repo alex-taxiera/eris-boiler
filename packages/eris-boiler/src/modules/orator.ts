@@ -2,9 +2,7 @@ import { Client } from '@modules/client'
 import { Message } from 'eris'
 import {
   Command,
-  MessageData,
 } from './command/base'
-import { logger } from '@eris-boiler/common'
 
 export type PrefixGenerator = (id?: string) => string | Promise<string>
 
@@ -18,93 +16,100 @@ export class Orator {
     this.getPrefix = typeof prefix === 'string' ? (): string => prefix : prefix
   }
 
+  private cleanContent (content: string): string {
+    return content
+      .replace(/[\uFE00-\uFE0F]/g, '')
+      .replace(/<[@|#][&|!]?([0-9]+)>/g, (match, capture) => capture as string)
+  }
+
+  private separatePositionalArgs (content: string): Array<string> {
+    return [ ...content.matchAll(/(".+?"|'.+?'|`.+?`)|[\S]+/g) ]
+      .map(
+        ([ match, group ]) => (group?.slice(1, -1) ?? match),
+      )
+  }
+
   public async processMessage (
     client: Client,
     message: Message,
   ): Promise<void> {
-    const prefix = await this.getPrefix(message.guildID)
-    if (message.content.slice(0, prefix.length) !== prefix) {
+    if (!message.content && message.author.bot) {
       return
     }
 
-    const content = message.content.slice(prefix.length)
-    const regex = /(".+?"|'.+?'|`.+?`)|[\S]+/g
+    const [ commandName, ...args ] = await this.cleanParams(
+      client,
+      message,
+    )
 
-    const command = this.parseCommand(client, content, regex)
+    const command = client.commands.search(commandName)
     if (!command) {
       return
     }
 
-    const params = await this.parseParams(command, content, regex)
-
-    const result = await command.action(client, {
-      message,
-      params,
-    })
-
-    if (result != null) {
-      this.createMessage(message, result)
-        .catch(() => logger.error('Failed to send message'))
-    }
+    const params = await this.resolveParams(command, args)
+    /**
+     * TODO
+     * -------------------------- refer to try to execute for below
+     * check command permission
+     * run command middleware
+     * check for sub commands (recurse on sub commands)
+     * -------------------------- refer to process command response for below
+     * handle sending message
+     * delete message if needed
+     * call post hook
+     */
   }
 
-  private parseCommand (
+  private async cleanParams (
     client: Client,
-    content: string,
-    regex: RegExp,
-  ): Command | null {
-    const match = regex.exec(content)
-    return client.commands.get(match?.[0]) as unknown as Command || null
-  }
+    message: Message,
+  ): Promise<Array<string>> {
+    const args = this.separatePositionalArgs(this.cleanContent(message.content))
+    const first = args.shift()
+    let commandName: string | undefined
 
-  private parseParams (
-    command: Command,
-    content: string,
-    regex: RegExp,
-  ): Promise<{ [k: string]: unknown }> {
-    const args = []
-    for (let i = 0; i < command.params.length; i++) {
-      const match = regex.exec(content)
-      if (match === null) {
-        // await param.onMissing()
-        throw new Error('Missing param')
-      }
-
-      args.push(match[1]?.slice(1, -1) ?? match[0])
+    if (first === client.user.id && args.length > 0) {
+      commandName = args.shift()
+    } else if (first?.startsWith(client.user.id)) {
+      commandName = first.substring(client.user.id.length)
     }
 
-    return this.resolveParams(args, command)
+    if (!commandName) {
+      if (first === client.user.id) {
+        commandName = 'help'
+      } else {
+        const prefix = await this.getPrefix(message.guildID)
+        if (first === prefix) {
+          commandName = args.shift()
+        } else if (first?.startsWith(prefix)) {
+          commandName = first.substring(prefix.length)
+        }
+      }
+    }
+
+    return [ commandName ?? '', ...args ]
   }
 
   private async resolveParams (
-    args: string[],
     command: Command,
-  ): Promise<{ [k: string]: unknown }> {
-    const params: { [k: string]: unknown } = {}
-
-    for (const param of command.params) {
-      const arg = await param.resolve(args.shift() as string)
-      if (arg == null) {
-        // await param.onFail()
-        throw new Error('Param did not resolve correctly')
-      }
-
-      params[param.name] = arg
+    args: Array<string>,
+  ): Promise<{[k: string]: unknown}> {
+    if (command.params.length !== args.length) {
+      throw Error('not enough parameters')
     }
 
-    return params
-  }
+    const resolved: {[k: string]: unknown} = {}
 
-  private createMessage (
-    message: Message,
-    data: MessageData,
-  ): Promise<Message> {
-    return typeof data === 'string'
-      ? message.channel.createMessage(data)
-      : message.channel.createMessage({
-        content: data.content,
-        embed: data.embed,
-      }, data.file)
+    for (let i = 0; i < command.params.length; i++) {
+      const param = command.params[i]
+      resolved[param.name] = await param.resolve(args[i])
+      if (resolved[param.name] === undefined) {
+        throw Error('shit')
+      }
+    }
+
+    return resolved
   }
 
 }
