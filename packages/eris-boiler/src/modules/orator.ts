@@ -94,20 +94,22 @@ export class Orator {
   private async resolveParams (
     command: Command,
     args: Array<string>,
-  ): Promise<{ [k: string]: unknown }> {
+  ): Promise<{[k: string]: unknown}> {
     if (command.params.length !== args.length) {
       throw Error('not enough parameters')
     }
 
-    return command.params.reduce<Promise<{ [k: string]: unknown }>>(
-      async (prom, { name, resolve }, i) => prom.then(async (resolved) => {
-        resolved[name] = await resolve(args[i]) ?? undefined
-        if (resolved[name] === undefined) {
-          throw Error('shit')
-        }
-        return resolved
-      }), Promise.resolve({}),
-    )
+    const resolved: {[k: string]: unknown} = {}
+
+    for (let i = 0; i < command.params.length; i++) {
+      const param = command.params[i]
+      resolved[param.name] = await param.resolve(args[i])
+      if (resolved[param.name] === undefined) {
+        throw Error('shit')
+      }
+    }
+
+    return resolved
   }
 
 }
