@@ -10,6 +10,7 @@ import {
 import {
   Orator,
 } from '@modules/orator'
+import { CommandMap } from './command'
 
 export interface ClientManagers {
   orator?: Orator
@@ -24,7 +25,7 @@ export class Client extends ErisClient implements ClientManagers {
   public readonly orator: Orator
   public ownerId?: string
   public custom: any = {}
-  public commands = new Map()
+  public commands = new CommandMap<this>()
 
   /**
    * @param token   Discord bot token
