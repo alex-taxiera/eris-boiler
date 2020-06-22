@@ -10,16 +10,26 @@ type Loadable<T> = string | T
 export abstract class LoadMap<T> extends ExtendedMap<string, T> {
 
   protected toLoad: Array<Loadable<T>> = []
+  protected reloadables: {[k: string]: any} = {}
 
   protected abstract _load (loadableObject: any): Promise<void> | void
+  protected abstract _reload (
+    oldLoadableObject: any,
+    loadableObject: any,
+  ): Promise<void> | void
+
+  constructor (
+    private readonly reloadable = true,
+  ) {
+    super()
+  }
 
   public add (...loadables: Array<Loadable<T> | Array<Loadable<T>>>): this {
-    this.toLoad.concat(
+    this.toLoad = this.toLoad.concat(
       loadables
-        .reduce<Array<Loadable<T>>>((ax, dx) => ([
-          ...ax,
-          ...(Array.isArray(dx) ? dx : [ dx ]),
-        ]), []),
+        .reduce<Array<Loadable<T>>>((ax, dx) => ax.concat(
+          Array.isArray(dx) ? dx : [ dx ],
+        ), []),
     )
 
     return this
@@ -35,6 +45,30 @@ export abstract class LoadMap<T> extends ExtendedMap<string, T> {
     return this
   }
 
+  public async reload (): Promise<this> {
+    const reloadPaths = Object.keys(this.reloadables)
+    for (const reloadable of reloadPaths) {
+      delete require.cache[reloadable]
+    }
+    const oldToLoad = this.toLoad
+    const oldReloadables = { ...this.reloadables }
+    this.toLoad = reloadPaths
+    this.reloadables = {}
+
+    await this.resolveToLoad()
+
+    await Promise.all(
+      Object.keys(this.reloadables).map(
+        async (path) =>
+          this._reload(oldReloadables[path], this.reloadables[path]),
+      ),
+    )
+
+    this.toLoad = oldToLoad
+
+    return this
+  }
+
   /**
    * Load data files.
    * @param   path The path to the loadable file/directory.
@@ -44,19 +78,25 @@ export abstract class LoadMap<T> extends ExtendedMap<string, T> {
     const file = await fs.stat(path)
     const files = file.isDirectory() ? await fs.readdir(path) : [ '' ]
     const res = []
+
     for (const fd of files) {
       const filePath = join(path, fd)
+      const importName = /^(?!.*\.(?:d|spec|test)\.ts$).*(?=\.ts$)/.exec(filePath)?.[0]
       if (
-        (/(?<!\.(?:test|spec|d))\.[jt]sx?$/.exec(filePath)) ||
+        (importName) ||
         (await fs.stat(filePath)).isDirectory()
       ) {
         try {
-          const data = await import(filePath)
+          const data = await import(importName ?? filePath)
+          const obj = data.__esModule ? data.default : data
+          res.push(obj)
 
-          res.push(data.__esModule ? data.default : data)
+          if (this.reloadable) {
+            this.reloadables[filePath] = obj
+          }
         } catch (e) {
           logger.error(
-            `Unable to read ${path}/${fd}:\n\t\t\u0020${
+            `Unable to read ${path}${fd ? `/${fd}` : ''}:\n\t\t\u0020${
               (e as Error).toString()
             }`,
           )
@@ -74,7 +114,9 @@ export abstract class LoadMap<T> extends ExtendedMap<string, T> {
    */
   private async resolveToLoad (): Promise<Array<any | T>> {
     const ax = await Promise.all(this.toLoad.map(async (loadable) =>
-      typeof loadable === 'string' ? this.loadFiles(loadable) : [ loadable ],
+      typeof loadable === 'string'
+        ? this.loadFiles(loadable)
+        : [ loadable ],
     ))
 
     this.toLoad = []
