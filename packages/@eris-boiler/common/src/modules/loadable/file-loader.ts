@@ -23,7 +23,10 @@ export async function load (
       throw Error('Unsupported file type!')
     }
     const data = await import(importName)
-    return data.__esmModule ? data.default : data
+    const obj = data.__esmModule ? data.default : data
+    obj.filePath = str
+
+    return obj
   }
 
   return Array.isArray(path) ? path.map((p) => loader(p)) : loader(path)
@@ -45,12 +48,11 @@ export function reload (
 
 export async function loadDirectory (
   path: string,
-): Promise<Record<string, any>> {
+): Promise<Array<any>> {
   const files = await fs.readdir(path)
-  const res: Record<string, any> = {}
+  const res = []
   for (const fd of files) {
-    const filePath = join(path, fd)
-    res[filePath] = await load(filePath)
+    res.push(await load(join(path, fd)))
   }
 
   return res

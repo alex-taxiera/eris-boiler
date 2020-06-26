@@ -4,12 +4,15 @@ import { join } from 'path'
 
 import * as logger from '@modules/logger'
 import { ExtendedMap } from '@modules/extended-map'
+import {
+  Loadable,
+} from './base'
 
-type Loadable<T> = string | T
+export abstract class LoadableMap<
+  T extends Loadable
+> extends ExtendedMap<string, T> {
 
-export abstract class LoadMap<T> extends ExtendedMap<string, T> {
-
-  protected toLoad: Array<Loadable<T>> = []
+  protected toLoad: Array<T> = []
   protected reloadables: {[k: string]: any} = {}
 
   protected abstract _load (loadableObject: any): Promise<void> | void
@@ -24,10 +27,10 @@ export abstract class LoadMap<T> extends ExtendedMap<string, T> {
     super()
   }
 
-  public add (...loadables: Array<Loadable<T> | Array<Loadable<T>>>): this {
+  public add (...loadables: Array<T | Array<T>>): this {
     this.toLoad = this.toLoad.concat(
       loadables
-        .reduce<Array<Loadable<T>>>((ax, dx) => ax.concat(
+        .reduce<Array<T>>((ax, dx) => ax.concat(
           Array.isArray(dx) ? dx : [ dx ],
         ), []),
     )
