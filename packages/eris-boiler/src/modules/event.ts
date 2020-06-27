@@ -2,13 +2,16 @@ import {
   ClientEvents,
   ShardEvents,
 } from 'eris'
+import { Loadable } from '@eris-boiler/common'
 
 export class ErisEvent extends Loadable {
 
   constructor (
     public readonly event: string,
     public readonly listener: (...args: any[]) => void,
-  ) {}
+  ) {
+    super()
+  }
 
 }
 

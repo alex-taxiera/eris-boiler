@@ -1,4 +1,4 @@
-import Eris, {
+import {
   EmbedOptions,
   MessageFile,
   Message,
@@ -13,6 +13,7 @@ import {
 import {
   CommandMiddleware,
 } from '@modules/command/middleware/base'
+import { Loadable } from '@eris-boiler/common'
 
 export type MessageData = string | {
   content?: string
@@ -53,7 +54,7 @@ export interface CommandOptions {
 export class Command<
   T extends Client = Client,
   C extends CommandContext = CommandContext
-> implements CommandOptions {
+> extends Loadable implements CommandOptions {
 
   public readonly aliases: Array<string>
   public readonly params: CommandParam[]
@@ -67,6 +68,7 @@ export class Command<
     public readonly action: CommandAction<T, C>,
     options: Partial<CommandOptions> = {},
   ) {
+    super()
     this.aliases = options.aliases ?? []
     this.params = options.params ?? []
     this.subCommands = options.subCommands ?? []

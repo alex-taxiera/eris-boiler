@@ -1,36 +1,40 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
 import { promises as fs } from 'fs'
-import { join } from 'path'
-
-import * as logger from '@modules/logger'
 import { ExtendedMap } from '@modules/extended-map'
+import { KeysMatching } from '@utils/keys-matching'
 import {
   Loadable,
 } from './base'
+import * as fileLoader from './file-loader'
+import {
+  LoadableTypeError,
+  LoadableNotFoundError,
+  LoadableBadKey,
+} from './error'
+import { Constructor } from '@utils/constructor'
 
 export abstract class LoadableMap<
   T extends Loadable
 > extends ExtendedMap<string, T> {
 
-  protected toLoad: Array<T> = []
-  protected reloadables: {[k: string]: any} = {}
+  protected toLoad: Array<T | string> = []
+  protected reloadPaths: Array<string> = []
 
-  protected abstract _load (loadableObject: any): Promise<void> | void
-  protected abstract _reload (
-    oldLoadableObject: any,
-    loadableObject: any,
-  ): Promise<void> | void
+  protected onLoad? (loadable: T): unknown
+  protected onReload? (oldLoadable: T, loadable: T): unknown
 
   constructor (
-    private readonly reloadable = true,
+    private readonly _constructor: Constructor<T>,
+    private readonly key: KeysMatching<T, string>,
   ) {
     super()
   }
 
-  public add (...loadables: Array<T | Array<T>>): this {
+  public add (
+    ...loadables: Array<T | Array<T> | string | Array<string>>
+  ): this {
     this.toLoad = this.toLoad.concat(
       loadables
-        .reduce<Array<T>>((ax, dx) => ax.concat(
+        .reduce<Array<T | string>>((ax, dx) => ax.concat(
           Array.isArray(dx) ? dx : [ dx ],
         ), []),
     )
@@ -39,33 +43,61 @@ export abstract class LoadableMap<
   }
 
   public async load (): Promise<this> {
-    const loadableObjects = await this.resolveToLoad()
+    const loadables = await this.resolveToLoad()
 
-    await Promise.all(
-      loadableObjects.map(async (loadableObject) => this._load(loadableObject)),
-    )
+    for (const loadable of loadables) {
+      const key = loadable[this.key]
+      if (typeof key !== 'string') {
+        throw new LoadableBadKey(
+          loadable.filePath ?? '',
+          this.key.toString(),
+        )
+      }
+
+      this.set(key, loadable)
+      if (this.onLoad) {
+        this.onLoad(loadable)
+      }
+    }
 
     return this
   }
 
   public async reload (): Promise<this> {
-    const reloadPaths = Object.keys(this.reloadables)
-    for (const reloadable of reloadPaths) {
-      delete require.cache[reloadable]
+    for (const { filePath } of this.values()) {
+      if (filePath) {
+        fileLoader.unload(filePath)
+      }
     }
     const oldToLoad = this.toLoad
-    const oldReloadables = { ...this.reloadables }
-    this.toLoad = reloadPaths
-    this.reloadables = {}
 
-    await this.resolveToLoad()
+    this.toLoad = this.reloadPaths
 
-    await Promise.all(
-      Object.keys(this.reloadables).map(
-        async (path) =>
-          this._reload(oldReloadables[path], this.reloadables[path]),
-      ),
-    )
+    const loadables = await this.resolveToLoad()
+
+    for (const loadable of loadables) {
+      const key = loadable[this.key]
+      if (typeof key !== 'string') {
+        throw new LoadableBadKey(
+          loadable.filePath ?? '',
+          this.key.toString(),
+        )
+      }
+
+      this.set(key, loadable)
+
+      const oldLoadableObject = this
+        .find((old) => old.filePath === loadable.filePath)
+
+      if (oldLoadableObject) {
+        this.delete(oldLoadableObject[this.key] as unknown as string)
+        if (this.onReload) {
+          this.onReload(oldLoadableObject, loadable)
+        }
+      } else if (this.onLoad) {
+        this.onLoad(loadable)
+      }
+    }
 
     this.toLoad = oldToLoad
 
@@ -77,37 +109,31 @@ export abstract class LoadableMap<
    * @param   path The path to the loadable file/directory.
    * @returns      The loadable objects loaded from file.
    */
-  protected async loadFiles (path: string): Promise<Array<any>> {
+  protected async loadFiles (path: string): Promise<Array<T> | T> {
+    this.reloadPaths.push(path)
     const file = await fs.stat(path)
-    const files = file.isDirectory() ? await fs.readdir(path) : [ '' ]
-    const res = []
-
-    for (const fd of files) {
-      const filePath = join(path, fd)
-      const importName = /^(?!.*\.(?:d|spec|test)\.ts$).*(?=\.ts$)/.exec(filePath)?.[0]
-      if (
-        (importName) ||
-        (await fs.stat(filePath)).isDirectory()
-      ) {
-        try {
-          const data = await import(importName ?? filePath)
-          const obj = data.__esModule ? data.default : data
-          res.push(obj)
-
-          if (this.reloadable) {
-            this.reloadables[filePath] = obj
-          }
-        } catch (e) {
-          logger.error(
-            `Unable to read ${path}${fd ? `/${fd}` : ''}:\n\t\t\u0020${
-              (e as Error).toString()
-            }`,
-          )
+    if (file.isDirectory()) {
+      const loadables = await fileLoader.loadDirectory(path)
+      const res = []
+      for (const loadable of loadables) {
+        if (!(loadable instanceof this._constructor)) {
+          throw new LoadableTypeError(loadable.filePath)
         }
+        res.push(loadable)
       }
-    }
 
-    return res
+      return res
+    } else {
+      const loadable = await fileLoader.load(path)
+      if (!loadable) {
+        throw new LoadableNotFoundError(path)
+      }
+      if (!(loadable instanceof this._constructor)) {
+        throw new LoadableTypeError(path)
+      }
+
+      return loadable
+    }
   }
 
   /**
@@ -115,8 +141,8 @@ export abstract class LoadableMap<
    * @param   loadable Parse a loadable to clean up any arrays or paths.
    * @returns          The cleaned loadable(s).
    */
-  private async resolveToLoad (): Promise<Array<any | T>> {
-    const ax = await Promise.all(this.toLoad.map(async (loadable) =>
+  private async resolveToLoad (): Promise<Array<T>> {
+    const res = await Promise.all(this.toLoad.map(async (loadable) =>
       typeof loadable === 'string'
         ? this.loadFiles(loadable)
         : [ loadable ],
@@ -124,7 +150,14 @@ export abstract class LoadableMap<
 
     this.toLoad = []
 
-    return ax.flat()
+    return res.reduce<Array<T>>((ax, dx) => {
+      if (Array.isArray(dx)) {
+        return ax.concat(dx)
+      } else {
+        ax.push(dx)
+      }
+      return ax
+    }, [])
   }
 
 }

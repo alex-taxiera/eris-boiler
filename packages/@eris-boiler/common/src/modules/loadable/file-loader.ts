@@ -1,18 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
 import {
   promises as fs,
 } from 'fs'
 import { join } from 'path'
+import {
+  identity,
+} from '@utils/identity'
 
-export async function load (path: string): Promise<any>
-export async function load (path: Array<string>): Promise<Array<any>>
+export type LoadedFile = Record<string, unknown> & {filePath: string}
+
+export async function load (path: string): Promise<LoadedFile | undefined>
+export async function load (path: Array<string>): Promise<Array<LoadedFile>>
+export async function load (
+  path: string | Array<string>
+): Promise<LoadedFile | Array<LoadedFile>>
 export async function load (
   path: string | Array<string>,
-): Promise<any | Array<any>>
-export async function load (
-  path: string | Array<string>,
-): Promise<any | Array<any>> {
-  const loader = async (str: string): Promise<any> => {
+): Promise<LoadedFile | undefined | Array<LoadedFile>> {
+  const loader = async (str: string): Promise<LoadedFile | undefined> => {
     const fd = await fs.stat(str)
 
     const importName = fd.isDirectory()
@@ -20,16 +24,21 @@ export async function load (
       : /^(?!.*\.(?:d|spec|test)\.[jt]s$).*(?=\.[jt]s$)/.exec(str)?.[0]
 
     if (!importName) {
-      throw Error('Unsupported file type!')
+      return undefined
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const data = await import(importName)
-    const obj = data.__esmModule ? data.default : data
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const obj = (data.__esmModule ? data.default : data) as LoadedFile
     obj.filePath = str
 
     return obj
   }
 
-  return Array.isArray(path) ? path.map((p) => loader(p)) : loader(path)
+  return Array.isArray(path)
+    ? identity(await Promise.all(path.map((p) => loader(p))))
+    : loader(path)
 }
 
 export function unload (path: string | Array<string>): void {
@@ -41,21 +50,21 @@ export function unload (path: string | Array<string>): void {
 
 export function reload (
   path: string | Array<string>,
-): Promise<any | Array<any>> {
+): Promise<LoadedFile | Array<LoadedFile>> {
   unload(path)
   return load(path)
 }
 
 export async function loadDirectory (
   path: string,
-): Promise<Array<any>> {
+): Promise<Array<LoadedFile>> {
   const files = await fs.readdir(path)
   const res = []
   for (const fd of files) {
     res.push(await load(join(path, fd)))
   }
 
-  return res
+  return identity(res)
 }
 
 export async function unloadDirectory (path: string): Promise<void> {
@@ -65,13 +74,16 @@ export async function unloadDirectory (path: string): Promise<void> {
 
 export async function reloadDirectory (
   path: string,
-): Promise<Record<string, any>> {
+): Promise<Record<string, LoadedFile>> {
   const files = await fs.readdir(path)
-  const res: Record<string, any> = {}
+  const res: Record<string, LoadedFile> = {}
   for (const fd of files) {
     const filePath = join(path, fd)
     unload(filePath)
-    res[filePath] = await load(filePath)
+    const loadable = await load(filePath)
+    if (loadable) {
+      res[filePath] = loadable
+    }
   }
 
   return res
