@@ -5,6 +5,7 @@ import { join } from 'path'
 import {
   identity,
 } from '@utils/identity'
+import { FILE_REGEXP } from './constants'
 
 export type LoadedFile = Record<string, unknown> & {filePath: string}
 
@@ -21,7 +22,7 @@ export async function load (
 
     const importName = fd.isDirectory()
       ? str
-      : /^(?!.*\.(?:d|spec|test)\.[jt]s$).*(?=\.[jt]s$)/.exec(str)?.[0]
+      : FILE_REGEXP.exec(str)?.[0]
 
     if (!importName) {
       return undefined
