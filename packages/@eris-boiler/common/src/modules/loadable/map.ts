@@ -142,7 +142,7 @@ export abstract class LoadableMap<
    * @returns          The cleaned loadable(s).
    */
   private async resolveToLoad (): Promise<Array<T>> {
-    const res = await Promise.all(this.toLoad.map(async (loadable) =>
+    const res = await Promise.all(this.toLoad.map((loadable) =>
       typeof loadable === 'string'
         ? this.loadFiles(loadable)
         : [ loadable ],
