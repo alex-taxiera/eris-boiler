@@ -21,6 +21,7 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "ttsc",
+    "clean": "rm -rf dist",
     "lint": "eslint src __tests__"
   },
   "bugs": {

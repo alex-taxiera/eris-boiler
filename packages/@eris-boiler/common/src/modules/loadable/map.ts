@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs'
-import { ExtendedMap } from '@modules/extended-map'
-import { KeysMatching } from '@utils/keys-matching'
+import { ExtendedMap } from '@utils/extended-map'
 import {
   Loadable,
 } from './base'
@@ -10,7 +9,10 @@ import {
   LoadableNotFoundError,
   LoadableBadKey,
 } from './error'
-import { Constructor } from '@utils/constructor'
+import {
+  Constructor,
+  KeysMatching,
+} from '@utils/type'
 
 export abstract class LoadableMap<
   T extends Loadable

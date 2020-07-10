@@ -13,8 +13,8 @@ import {
 import {
   canSend,
   canDelete,
-} from '@utils/permissions'
-import * as logger from '@modules/logger'
+} from '@modules/permissions'
+import * as logger from '@utils/logger'
 
 export function isInDM (
   subject: TextableChannel,
