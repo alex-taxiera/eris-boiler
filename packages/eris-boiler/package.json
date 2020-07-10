@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "@eris-boiler/common": "^1.0.0",
-    "eris": "^0.13.1"
+    "eris": "alex-taxiera/eris#dev"
   }
 }

@@ -12,20 +12,20 @@ import {
 } from '@modules/orator'
 import { CommandMap } from './command'
 
-export interface ClientManagers {
+export interface ClientManagers<C extends Client = any> {
   orator?: Orator
+  commands?: CommandMap<C>
 }
 
 export interface ClientOptions extends ClientManagers {
-  erisOptions: ErisOptions
+  erisOptions?: ErisOptions
 }
-
 export class Client extends ErisClient implements ClientManagers {
 
   public readonly orator: Orator
+  public readonly commands: CommandMap<this>
   public ownerId?: string
   public custom: any = {}
-  public commands = new CommandMap<this>()
 
   /**
    * @param token   Discord bot token
@@ -35,6 +35,7 @@ export class Client extends ErisClient implements ClientManagers {
     super(token, options?.erisOptions)
 
     this.orator = options?.orator ?? new Orator('eb!')
+    this.commands = options?.commands ?? new CommandMap<this>()
 
     this.on('ready', () => {
       logger.success('Logged in!')

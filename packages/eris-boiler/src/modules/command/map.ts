@@ -1,5 +1,5 @@
 import {
-  LoadMap,
+  LoadableMap,
 } from '@eris-boiler/common'
 
 import {
@@ -10,13 +10,10 @@ import {
   Client,
 } from '@modules/client'
 
-export class CommandMap<C extends Client> extends LoadMap<Command<C>> {
+export class CommandMap<C extends Client> extends LoadableMap<Command<C>> {
 
-  protected _load (loadableObject: any): void {
-    if (!(loadableObject instanceof Command)) {
-      throw TypeError('Invalid Command found during loading')
-    }
-    this.set(loadableObject.name, loadableObject)
+  constructor () {
+    super(Command, 'name')
   }
 
   public search (key: string): Command<C> | undefined {
