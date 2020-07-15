@@ -65,7 +65,7 @@ declare module 'eris-boiler' {
 
   type CommandResults = MessageData | Promise<MessageData>
 
-  type MessageData = string | {
+  type MessageData = void | string | {
     content?: string
     embed?: EmbedOptions
     file?: MessageFile
@@ -308,7 +308,7 @@ declare module 'eris-boiler/util' {
   type Key = string | number
 
   export type FilterCallback<T> = (item: T) => boolean
-  
+
   export class ExtendedMap<Key, T> extends Map<Key,T> {
     find(func: FilterCallback<T>): T | undefined
     filter(func: FilterCallback<T>): T[]
@@ -318,7 +318,7 @@ declare module 'eris-boiler/util' {
     every(func: FilterCallback<T>): boolean
     some(func: FilterCallback<T>): boolean
   }
-  
+
   export type Status = {
     name: string
     type: number
