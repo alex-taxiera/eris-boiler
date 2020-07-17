@@ -1,95 +1,12 @@
 env:
   es6: true
-globals:
-  Atomics: readonly
-  SharedArrayBuffer: readonly
 parserOptions:
-  ecmaVersion: 2018
+  ecmaVersion: 2020
   sourceType: module
   project:
     - ./tsconfig.json
     - ./**/tsconfig.json
     - ./**/tsconfig.eslint.json
-plugins:
-  - modules-newline
 extends:
-  - standard
-  - plugin:@typescript-eslint/eslint-recommended
-  - plugin:@typescript-eslint/recommended
-  - plugin:@typescript-eslint/recommended-requiring-type-checking
-rules:
-  array-bracket-spacing:
-    - error
-    - always
-  arrow-parens:
-    - error
-  no-console:
-    - error
-  object-curly-newline:
-    - error
-    -
-      multiline: true
-      minProperties: 3
-      consistent: true
-  modules-newline/import-declaration-newline:
-    - error
-  modules-newline/export-declaration-newline:
-    - error
-  brace-style:
-    - error
-    - 1tbs
-    -
-      allowSingleLine: false
-  curly:
-    - error
-    - all
-  max-len:
-    - error
-    -
-      ignoreComments: true
-      ignoreRegExpLiterals: true
-      ignoreUrls: true
-  no-lonely-if:
-    - error
-  no-multi-spaces:
-    - error
-    -
-      ignoreEOLComments: true
-  no-useless-constructor:
-    - off
-  padded-blocks:
-    - error
-    -
-      classes: always
-      blocks: never
-      switches: never
-  comma-dangle:
-    - error
-    - always-multiline
-  '@typescript-eslint/no-useless-constructor':
-    - error
-  '@typescript-eslint/no-empty-interface':
-    - error
-    -
-      allowSingleExtends: true
-  '@typescript-eslint/no-empty-function':
-    - warn
-  '@typescript-eslint/explicit-function-return-type':
-    - error
-  '@typescript-eslint/no-inferrable-types':
-    - error
-    -
-      ignoreParameters: true
-      ignoreProperties: true
-  '@typescript-eslint/member-delimiter-style':
-    - error
-    -
-      multiline:
-        delimiter: none
-  '@typescript-eslint/prefer-readonly':
-    - error
-  '@typescript-eslint/explicit-member-accessibility':
-    - error
-    -
-      overrides:
-        constructors: no-public
+  - '@alex-taxiera/eslint-config-ts'
+rules: {}
