@@ -63,7 +63,7 @@ declare module 'eris-boiler' {
     msg: Message<PrivateTextableChannel>
   }
 
-  type CommandResults = void | MessageData | Promise<MessageData>
+  type CommandResults = undefined | MessageData | Promise<MessageData>
 
   type MessageData = string | {
     content?: string
