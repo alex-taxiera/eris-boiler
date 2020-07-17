@@ -63,9 +63,9 @@ declare module 'eris-boiler' {
     msg: Message<PrivateTextableChannel>
   }
 
-  type CommandResults = MessageData | Promise<MessageData>
+  type CommandResults = void | MessageData | Promise<MessageData>
 
-  type MessageData = void | string | {
+  type MessageData = string | {
     content?: string
     embed?: EmbedOptions
     file?: MessageFile
