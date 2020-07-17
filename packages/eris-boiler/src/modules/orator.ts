@@ -1,8 +1,17 @@
 import { Client } from '@modules/client'
-import { Message } from 'eris'
+import {
+  Message,
+  MessageContent,
+  MessageFile,
+} from 'eris'
 import {
   Command,
 } from './command/base'
+import {
+  isInDM,
+  createDirectMessage,
+  createMessage,
+} from '@eris-boiler/common'
 
 export type PrefixGenerator = (id?: string) => string | Promise<string>
 
@@ -32,7 +41,7 @@ export class Orator {
   public async processMessage (
     client: Client,
     message: Message,
-  ): Promise<void> {
+  ): Promise<any> {
     if (!message.content && message.author.bot) {
       return
     }
@@ -46,6 +55,10 @@ export class Orator {
     if (!command) {
       return
     }
+
+    // if (command.numberOfRequiredParams > args.length) {
+    //   return this.replyToMessage(client, message, 'Not enough params!')
+    // }
 
     const params = await this.resolveParams(command, args)
     /**
@@ -94,22 +107,35 @@ export class Orator {
   private async resolveParams (
     command: Command,
     args: Array<string>,
-  ): Promise<{[k: string]: unknown}> {
-    if (command.params.length !== args.length) {
-      throw Error('not enough parameters')
-    }
-
-    const resolved: {[k: string]: unknown} = {}
+  ): Promise<Record<string, unknown>> {
+    const resolved: Record<string, unknown> = {}
 
     for (let i = 0; i < command.params.length; i++) {
       const param = command.params[i]
-      resolved[param.name] = await param.resolve(args[i])
-      if (resolved[param.name] === undefined) {
+      const arg = args[i]
+      if (arg) {
+        resolved[param.name] = await param.resolve(args[i])
+
+        if (param.required && resolved[param.name] === undefined) {
+          throw Error('hmmm')
+        }
+      } else if (param.required) {
         throw Error('shit')
       }
     }
 
     return resolved
+  }
+
+  private replyToMessage (
+    client: Client,
+    message: Message,
+    content: MessageContent,
+    file?: MessageFile,
+  ) {
+    return isInDM(message.channel)
+      ? createDirectMessage(client.user, message.author, content, { file })
+      : createMessage(client.user, message.channel, content, file)
   }
 
 }
