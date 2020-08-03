@@ -3,8 +3,6 @@ declare module 'eris-boiler' {
     Client,
     ClientOptions,
     Message,
-    Collection,
-    Member,
     ExtendedUser,
     GuildTextableChannel,
     PrivateChannel,
@@ -47,7 +45,7 @@ declare module 'eris-boiler' {
   }
 
   type PostHook<T extends DataClient, C extends CommandContext> = (bot: T, context: C, response: C['msg']) => void
-  type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults
+  type CommandAction<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => CommandResults | Promise<CommandResults>
   type SettingCommandGetValue<T extends DataClient, C extends CommandContext> = (bot: T, context: C) => string | Promise<string>
 
   interface CommandContext {
@@ -63,12 +61,22 @@ declare module 'eris-boiler' {
     msg: Message<PrivateTextableChannel>
   }
 
-  type CommandResults = undefined | MessageData | Promise<MessageData>
+  type CommandResults = undefined | string | MessageData | WebhookData
 
-  type MessageData = string | {
+  interface MessageData {
     content?: string
     embed?: EmbedOptions
     file?: MessageFile
+    dm?: boolean
+    webhook?: boolean
+    badCommand?: boolean
+  }
+
+  interface WebhookData extends MessageData {
+    webhook: true
+    username?: string
+    avatarURL?: string
+    dm?: false
   }
 
   class Command<T extends DataClient = DataClient, C extends CommandContext = CommandContext> {

@@ -9,23 +9,23 @@ const {
 
 const {
   DISCORD_TOKEN,
-  EB_DATABASE_URL,
-  EB_DB_CLIENT,
-  EB_DB_NAME,
-  EB_DB_USER,
-  EB_DB_PASS,
-  EB_DB_HOST
+  DATABASE_URL,
+  DB_CLIENT,
+  DB_NAME,
+  DB_USER,
+  DB_PASS,
+  DB_HOST
 } = process.env
 
 /* pass database info to sql database manager */
 const databaseManager = new SQLManager({
-  connectionInfo: EB_DATABASE_URL || {
-    database: EB_DB_NAME,
-    user: EB_DB_USER,
-    password: EB_DB_PASS,
-    host: EB_DB_HOST
+  connectionInfo: DATABASE_URL || {
+    database: DB_NAME,
+    user: DB_USER,
+    password: DB_PASS,
+    host: DB_HOST
   },
-  client: EB_DB_CLIENT
+  client: DB_CLIENT
 })
 
 /* create DataClient instance */
