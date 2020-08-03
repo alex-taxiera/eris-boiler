@@ -28,6 +28,7 @@
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "ttsc",
     "build:tests": "ttsc --p __tests__/tsconfig.json",
+    "clean": "rm -rf dist",
     "lint": "eslint src __tests__"
   },
   "bugs": {
