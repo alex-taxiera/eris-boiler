@@ -157,7 +157,7 @@ declare module 'eris-boiler' {
   type DatabaseQueryBuilder = (...params: any[]) => DatabaseQuery
 
   abstract class DatabaseManager {
-    newObject(type: string, data: any, isNew?: boolean): DatabaseObject
+    newObject(type: string, data?: any, isNew?: boolean): DatabaseObject
     newQuery(type: string): DatabaseQuery
     abstract add(type: string, data: any): Promise<any>
     abstract delete(object: DatabaseObject): Promise<void>
