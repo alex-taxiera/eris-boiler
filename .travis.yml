@@ -14,7 +14,7 @@ jobs:
     -
       stage: test
       before_script:
-        - psql -c 'CrEaTe DaTaBaSe eb_db_test;' -U postgres
+        - psql -c 'create database eb_db_test;' -U postgres
         - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
         - chmod +x ./cc-test-reporter
         - ./cc-test-reporter before-build
