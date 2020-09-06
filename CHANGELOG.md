@@ -17,3 +17,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Exception with generic commands executed in DM
+- SQL Manager add
+- SQL Manager update
