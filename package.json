@@ -66,7 +66,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "dateformat": "^3.0.3",
-    "eris": "github:abalabahaha/eris#dev"
+    "eris": "github:alex-taxiera/eris#1607863f8767716780902dc92009fc68b44dc651"
   },
   "peerDependencies": {
     "knex": "^0.21.5",
