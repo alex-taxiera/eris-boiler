@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Responses with `webhook: true` will be send via webhook
   - Set webhook `username` and `avatarURL`
 
+### Removed
+- Command parameter length validation
+  - This validation did not take optional parameters into consideration
+
 ### Fixed
 - Exception with generic commands executed in DM
 - SQL Manager add
