@@ -7,7 +7,7 @@ module.exports = new Command({
     deleteResponseDelay: 30000
   },
   run: async (bot) => {
-    const owner = bot.users.get(bot.ownerID)
+    const owner = bot.users.get(bot.owner.id) || bot.owner
     const ownerName = owner.username + '#' + owner.discriminator
     const guilds = bot.guilds.size
     const inline = true
