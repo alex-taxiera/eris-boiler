@@ -2,5 +2,5 @@ const { Permission } = require('../lib')
 
 module.exports = new Permission({
   level: 999,
-  run: (bot, { msg }) => msg.author.id === bot.owner.id
+  run: (bot, { msg }) => bot.owners.some(({ id }) => id === msg.author.id)
 })
