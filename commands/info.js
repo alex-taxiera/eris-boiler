@@ -7,7 +7,7 @@ module.exports = new Command({
     deleteResponseDelay: 30000
   },
   run: async (bot) => {
-    const owners = bot.owners.map((user) => bot.users.get(user.id) ?? user)
+    const owners = bot.owners.map((user) => bot.users.get(user.id) || user)
     const ownerText = owners
       .map(({ username, discriminator }) => `${username}#${discriminator}`)
       .join(', ')
