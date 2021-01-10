@@ -14,7 +14,6 @@ export class Permission<
   C extends CommandContext = CommandContext
 > extends CommandMiddleware<T, C, boolean> implements PermissionOptions {
 
-  /** OPTIONS **/
   public readonly reason: string
 
   constructor (

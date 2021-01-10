@@ -12,14 +12,16 @@ import {
 } from '@modules/orator'
 import { CommandMap } from './command'
 
+// eslint-disable-next-line no-use-before-define
 export interface ClientManagers<C extends Client = any> {
-  orator?: Orator
-  commands?: CommandMap<C>
+  orator: Orator
+  commands: CommandMap<C>
 }
 
-export interface ClientOptions extends ClientManagers {
+export interface ClientOptions extends Partial<ClientManagers> {
   erisOptions?: ErisOptions
 }
+
 export class Client extends ErisClient implements ClientManagers {
 
   public readonly orator: Orator

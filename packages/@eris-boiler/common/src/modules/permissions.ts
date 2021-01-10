@@ -1,3 +1,4 @@
+import { KnownKeys } from '@utils/type'
 import {
   TextChannel,
   Constants,
@@ -5,7 +6,7 @@ import {
 } from 'eris'
 import { isInGuild } from './message'
 
-export type PermissionKeys = Array<keyof Constants['Permissions']>
+export type PermissionKeys = Array<KnownKeys<Constants['Permissions']>>
 
 export const requiredSendPermissions: PermissionKeys = [
   'readMessages',

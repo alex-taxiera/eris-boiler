@@ -3,11 +3,7 @@ import {
   formatWithOptions,
 } from 'util'
 
-import {
-  timestamp,
-} from '@helpers/time'
-
-type Content = Array<any>
+type Content = Array<unknown>
 
 export enum LEVEL {
   SUCCESS = 'green',
@@ -27,13 +23,12 @@ export function log (
   level: LEVEL = LEVEL.DEFAULT,
   stream: NodeJS.WriteStream = process.stdout,
 ): void {
-  const time = timestamp()
   const codes = inspect.colors[level]
   const text = content.join(' ')
   const message = codes ? `\x1b[${codes[0]}m${text}\x1b[${codes[1]}m` : text
 
   stream.write(Buffer.from(
-    `${time} | ${formatWithOptions({ colors: true }, message)}\n`,
+    `ERIS_BOILER: ${formatWithOptions({ colors: true }, message)}\n`,
   ))
 }
 

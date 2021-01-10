@@ -4,3 +4,5 @@ npm-debug.log
 docs
 dist
 coverage
+.nyc_output
+.vscode
