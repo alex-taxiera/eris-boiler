@@ -1,7 +1,5 @@
-'use strict';
+import test from 'ava'
 
-const discordPermission = require('../src/discord-permission');
-
-describe('discord-permission', () => {
-    it('needs tests');
-});
+test('passing', (t) => {
+  t.pass()
+})

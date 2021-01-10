@@ -4,7 +4,7 @@ import {
   Constants,
   Message,
 } from 'eris'
-import { isInGuild } from './message'
+import { isInGuild } from '@modules/message'
 
 export type PermissionKeys = Array<KnownKeys<Constants['Permissions']>>
 
