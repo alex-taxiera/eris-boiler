@@ -7,7 +7,7 @@
     "lint:fix": "npm run lint -- -- -- --fix",
     "pretest": "npm run build",
     "test": "ava",
-    "build": "lerna run build --scope=@eris-boiler/common && lerna run build --ignore=@eris-boiler/common",
+    "build": "lerna run build",
     "clean": "lerna run clean",
     "rebuild": "npm run clean && npm run build",
     "preversion": "npm run lint && npm run test",
