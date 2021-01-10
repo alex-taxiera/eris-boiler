@@ -14,7 +14,12 @@ import {
   CommandMiddleware,
 } from '@modules/command/middleware/base'
 import { Loadable } from '@eris-boiler/common'
-import { CommandParam } from './parameter'
+import {
+  booleanResolver,
+  CommandParam,
+  floatResolver,
+  ActualArgs,
+} from './parameter'
 
 export type MessageData = string | {
   content?: string
@@ -24,48 +29,49 @@ export type MessageData = string | {
 
 export type CommandResults = MessageData | Promise<MessageData>
 
-export interface CommandContext {
-  params: { [k: string]: unknown } // TODO: Make this an array of object
+export interface CommandContext<T extends readonly CommandParam[]> {
+  params: ActualArgs<T>
   message: Message
 }
 
 export type CommandAction<
-  T extends Client = Client,
-  C extends CommandContext = CommandContext
+  T extends readonly CommandParam[],
+  C extends Client = Client,
 > = (
-  bot: T,
-  context: C
+  bot: C,
+  context: CommandContext<T>
 ) => CommandResults | Promise<CommandResults>
 
-export interface CommandOptions {
+export interface CommandOptions<T extends readonly CommandParam[]> {
   aliases: Array<string>
-  params: CommandParam[]
-  subCommands: Array<Command>
+  params: readonly [...T]
+  // eslint-disable-next-line no-use-before-define
+  subCommands: Array<Command<T>>
   permission?: Permission
   middleware: Array<CommandMiddleware>
 }
 
 export class Command<
-  T extends Client = Client,
-  C extends CommandContext = CommandContext
-> extends Loadable implements CommandOptions {
+  T extends readonly CommandParam[],
+  C extends Client = Client,
+> extends Loadable implements CommandOptions<T> {
 
   public readonly aliases: Array<string>
-  public readonly params: CommandParam[]
+  public readonly params: readonly [...T]
   public readonly numberOfRequiredParams: number
   public readonly permission?: Permission
   public readonly middleware: Array<CommandMiddleware>
-  public readonly subCommands: Array<Command>
+  public readonly subCommands: Array<Command<any>>
 
   constructor (
     public readonly name: string,
     public readonly description: string,
     public readonly action: CommandAction<T, C>,
-    options: Partial<CommandOptions> = {},
+    options: Partial<CommandOptions<T>> = {},
   ) {
     super()
     this.aliases = options.aliases ?? []
-    this.params = options.params ?? []
+    this.params = (options.params ?? []) as unknown as readonly [...T]
     this.numberOfRequiredParams = this.params.filter(
       (param) => param.required,
     ).length

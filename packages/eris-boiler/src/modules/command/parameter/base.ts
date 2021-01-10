@@ -1,34 +1,31 @@
 import {
-  Expand,
+  KnownKeys,
   UnionToIntersection,
-  Awaited,
 } from '@eris-boiler/common'
 
 export type ArgResolver<T> = (str: string) => T | undefined
 
-export interface CommandParamOptions<T> {
-  resolver?: ArgResolver<T>
-  required?: boolean
+export interface CommandParam<
+  N extends string = string,
+  T = unknown,
+  R = boolean
+> {
+  readonly name: N
+  readonly resolve: ArgResolver<T>
+  readonly required?: R
 }
 
-export class CommandParam<N extends string = string, T = unknown> {
+export type ParseArgs<
+  T extends readonly CommandParam[]
+> = UnionToIntersection<{
+  // eslint-disable-next-line no-use-before-define
+  [P in keyof T]: T[P] extends CommandParam<infer N, infer T, infer R>
+    ? R extends true
+      ? { [_ in N]: T }
+      : { [_ in N]?: T }
+    : never;
+}[number]>
 
-  public readonly resolve: ArgResolver<T>
-  public readonly required: boolean
-
-  constructor (
-    public readonly name: N,
-    options?: CommandParamOptions<T>,
-  ) {
-    this.resolve = options?.resolver ?? (<T>(x: T) => x) as ArgResolver<T>
-    this.required = options?.required ?? false
-  }
-
-}
-
-export type ParseArgs<T extends readonly CommandParam<string, string>[]> =
-  Expand<UnionToIntersection<{
-    [K in keyof T]: T[K] extends CommandParam<infer N, infer R>
-      ? { [K2 in N]: Awaited<R> }
-      : never
-  }[number]>>
+export type ActualArgs<
+  T extends readonly CommandParam[]
+> = KnownKeys<ParseArgs<T>> extends never ? never : ParseArgs<T>
