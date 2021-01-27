@@ -7,8 +7,10 @@ module.exports = new Command({
     deleteResponseDelay: 30000
   },
   run: async (bot) => {
-    const owner = bot.users.get(bot.ownerID)
-    const ownerName = owner.username + '#' + owner.discriminator
+    const owners = bot.owners.map((user) => bot.users.get(user.id) || user)
+    const ownerText = owners
+      .map(({ username, discriminator }) => `${username}#${discriminator}`)
+      .join(', ')
     const guilds = bot.guilds.size
     const inline = true
     const embed = {
@@ -17,7 +19,7 @@ module.exports = new Command({
       timestamp: require('dateformat')(Date.now(), 'isoDateTime'),
       color: 0x3498db,
       fields: [
-        { name: 'Owner', value: ownerName, inline },
+        { name: 'Owner(s)', value: ownerText, inline },
         { name: 'Guilds Served', value: guilds, inline },
         { name: 'Built With', value: '[eris-boiler](https://github.com/alex-taxiera/eris-boiler)\n[eris](https://github.com/abalabahaha/eris)', inline }
       ],
