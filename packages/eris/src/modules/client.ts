@@ -36,8 +36,9 @@ export class Forge extends CoreForge {
   ): Promise<void> {
     if ('guildId' in command && command.guildId != null) {
       await this.client.createGuildCommand(command.guildId, command)
+    } else {
+      await this.client.createCommand(command)
     }
-    await this.client.createCommand(command)
   }
 
   private registerEvent (event: Event): void {
