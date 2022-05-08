@@ -8,8 +8,7 @@
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
   "directories": {
-    "lib": "dist",
-    "test": "__tests__"
+    "lib": "dist"
   },
   "files": [
     "dist/src"
@@ -22,12 +21,12 @@
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "ttsc",
     "clean": "rm -rf dist",
-    "lint": "eslint src __tests__"
+    "lint": "eslint src"
   },
   "bugs": {
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"
   },
   "dependencies": {
-    "@hephaestus/utils": "^1.0.0"
+    "@hephaestus/utils": "^0.0.0"
   }
 }

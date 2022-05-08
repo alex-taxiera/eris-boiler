@@ -55,7 +55,6 @@ export class Forge extends CoreForge {
 
     this.client.on('interactionCreate', async (interaction) => {
       if (interaction instanceof CommandInteraction) {
-        console.log(interaction.data.options)
         const command = this.commands.get(interaction.data.name)
         if (command == null) {
           await interaction.createMessage({
