@@ -1,6 +1,6 @@
 {
   "name": "@hephaestus/core",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "> TODO: description",
   "author": "Alex Taxiera <alex.taxiera@gmail.com>",
   "homepage": "https://github.com/alex-taxiera/eris-boiler#readme",
@@ -27,6 +27,6 @@
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"
   },
   "dependencies": {
-    "@hephaestus/utils": "^0.0.0"
+    "@hephaestus/utils": "^1.0.0-alpha.0"
   }
 }
