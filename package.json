@@ -10,7 +10,7 @@
     "build": "lerna run build",
     "clean": "lerna run clean",
     "rebuild": "npm run clean && npm run build",
-    "preversion": "npm run lint && npm run test",
+    "preversion": "npm run lint",
     "version": "lerna version --conventional-commits --create-release github",
     "publish": "lerna publish from-git --yes",
     "bootstrap": "lerna bootstrap --hoist",
