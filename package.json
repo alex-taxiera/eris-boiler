@@ -1,32 +1,29 @@
 {
   "name": "root",
   "private": true,
+  "workspaces": [
+    "./packages/*"
+  ],
   "scripts": {
-    "doc": "typedoc packages",
-    "lint": "lerna run lint --no-bail",
+    "lint": "lerna run lint",
     "lint:fix": "npm run lint -- -- -- --fix",
     "pretest": "npm run build",
     "test": "ava",
     "build": "lerna run build",
-    "clean": "lerna run clean",
-    "rebuild": "npm run clean && npm run build",
     "preversion": "npm run lint",
-    "version": "lerna version --conventional-commits --create-release github",
+    "version": "lerna version",
     "publish": "lerna publish from-git --yes",
-    "bootstrap": "lerna bootstrap --hoist",
-    "uninstall": "lerna clean --yes && rm -rf ./node_modules",
-    "reinstall": "npm run uninstall && npm i",
-    "postinstall": "npm run bootstrap",
-    "install:prod": "npm ci --ignore-scripts --only=prod --no-optional && npx lerna bootstrap --no-hoist -- --only=prod --no-optional"
+    "install:prod": "npm ci --only=prod --no-optional"
   },
   "devDependencies": {
     "@alex-taxiera/eslint-config-ts": "^2.0.1",
+    "@lerna-lite/cli": "^1.1.1",
+    "@lerna-lite/run": "^1.1.1",
     "@ovos-media/ts-transform-paths": "^1.7.18-1",
     "@types/node": "^16.11.33",
     "@typescript-eslint/parser": "^4.33.0",
     "ava": "^4.2.0",
     "eslint": "^7.32.0",
-    "lerna": "^4.0.0",
     "ts-node-dev": "1.1.8",
     "tsconfig-paths": "^3.14.1",
     "ttypescript": "^1.5.13",
