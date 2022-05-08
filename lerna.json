@@ -1,9 +1,8 @@
 {
   "packages": [
-    "packages/@*/*",
     "packages/*"
   ],
   "tagVersionPrefix": "",
-  "version": "independent",
-  "stream": true
+  "stream": true,
+  "version": "1.0.0"
 }

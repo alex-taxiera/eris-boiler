@@ -1,12 +1,17 @@
 env:
   es6: true
 parserOptions:
-  ecmaVersion: 2020
+  ecmaVersion: latest
   sourceType: module
   project:
     - ./tsconfig.json
     - ./**/tsconfig.json
-    - ./**/tsconfig.eslint.json
 extends:
   - '@alex-taxiera/eslint-config-ts'
-rules: {}
+rules:
+  '@typescript-eslint/no-base-to-string':
+    - 'error'
+    -
+      ignoredTypeNames:
+        - 'RegExp'
+        - 'Error'

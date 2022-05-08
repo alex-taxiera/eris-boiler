@@ -1,0 +1,30 @@
+{
+  "name": "@hephaestus/utils",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Alex Taxiera <alex.taxiera@gmail.com>",
+  "homepage": "https://github.com/alex-taxiera/eris-boiler#readme",
+  "license": "ISC",
+  "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
+  "directories": {
+    "lib": "dist",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist/src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex-taxiera/eris-boiler.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "ttsc",
+    "clean": "rm -rf dist",
+    "lint": "eslint src __tests__"
+  },
+  "bugs": {
+    "url": "https://github.com/alex-taxiera/eris-boiler/issues"
+  }
+}

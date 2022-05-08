@@ -3,11 +3,11 @@
     "target": "es6",
     "module": "commonjs",
     "declaration": true,
-    "downlevelIteration": true,
     "lib": [
       "es2020.string",
       "es2019.array"
     ],
+    "downlevelIteration": true,
     "sourceMap": true,
     "removeComments": true,
     "strict": true,
@@ -18,11 +18,11 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "esModuleInterop": true,
     "plugins": [
       {
-        "transform": "@zerollup/ts-transform-paths"
+        "transform": "@ovos-media/ts-transform-paths"
       }
     ]
   },
