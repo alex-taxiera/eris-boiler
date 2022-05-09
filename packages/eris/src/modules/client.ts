@@ -14,6 +14,7 @@ import {
   TopLevelCommand,
   Event,
 } from './'
+import { getValidSubCommands } from './interaction'
 
 export class Forge extends CoreForge {
 
@@ -67,9 +68,11 @@ export class Forge extends CoreForge {
         const middlewares = [ ...command.middleware ?? [] ]
         let permission = command.permission ?? null
 
+        const hasSubCommand = command.options
+          ?.some(({ type }) => type < 3) ?? false
         let action
 
-        if ('action' in command) {
+        if (!hasSubCommand) {
           action = command.action
         } else {
           // look for sub command or sub command group
@@ -79,7 +82,7 @@ export class Forge extends CoreForge {
             )
           }
           const option = interaction.data.options[0]
-          const subCommand = command.options.find(
+          const subCommand = getValidSubCommands(command.options).find(
             (command) => command.name === option.name,
           )
 

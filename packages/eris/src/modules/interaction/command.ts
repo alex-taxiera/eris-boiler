@@ -38,10 +38,22 @@ export type SubCommand = ApplicationCommandOptionsSubCommand & ExecutableCommand
 export type TopLevelCommand =
 & Omit<ChatInputApplicationCommandStructure, 'options'>
 & Command
-& ({
-  options?: Array<SubCommandGroup | SubCommand>
-} | (ExecutableCommand & {
-  options?: ApplicationCommandOptionsWithValue[]
-}))
+& ExecutableCommand
+& {
+  options?: Array<
+  | SubCommandGroup
+  | SubCommand
+  | ApplicationCommandOptionsWithValue
+  >
+}
+
+export function getValidSubCommands (options: Array<
+| SubCommandGroup
+| SubCommand
+| ApplicationCommandOptionsWithValue
+>): Array<SubCommandGroup | SubCommand> {
+  return options
+    .filter((option) => option.type < 3) as Array<SubCommandGroup | SubCommand>
+}
 
 export class CommandMap extends CoreCommandMap<TopLevelCommand> {}
