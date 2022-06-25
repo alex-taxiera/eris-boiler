@@ -1,6 +1,6 @@
 {
   "name": "eris-boiler",
-  "version": "3.1.0-beta.8",
+  "version": "3.1.0-beta.9",
   "description": "A Discord bot framework using eris",
   "main": "index.js",
   "engines": {
@@ -66,13 +66,13 @@
   "dependencies": {
     "chalk": "^4.1.1",
     "dateformat": "^4.5.1",
-    "eris": "github:alex-taxiera/eris#1607863f8767716780902dc92009fc68b44dc651"
+    "eris": "^0.17.0"
   },
   "peerDependencies": {
-    "knex": "^0.21.19",
-    "mysql": "^2.18.0",
-    "pg": "^7.18.2",
-    "sqlite": "^3.0.6"
+    "knex": ">= 0.21.19 < 1",
+    "mysql": ">= 2.18.0 < 3",
+    "pg": ">= 7.18.2",
+    "sqlite": ">= 3.0.6"
   },
   "devDependencies": {
     "ava": "2.4.0",
