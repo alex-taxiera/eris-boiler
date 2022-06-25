@@ -7,7 +7,7 @@ declare module 'eris-boiler' {
     GuildTextableChannel,
     PrivateChannel,
     EmbedOptions,
-    MessageFile,
+    FileContent,
     GroupChannel
   } from 'eris'
 
@@ -66,7 +66,7 @@ declare module 'eris-boiler' {
   interface MessageData {
     content?: string
     embed?: EmbedOptions
-    file?: MessageFile
+    file?: FileContent
     dm?: boolean
     webhook?: boolean
     badCommand?: boolean
