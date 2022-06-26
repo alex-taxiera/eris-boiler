@@ -9,7 +9,7 @@ declare module 'eris-boiler' {
     EmbedOptions,
     FileContent,
     GroupChannel
-  } from 'eris'
+  } from '@alex-taxiera/eris'
 
   import {
     ExtendedMap,
