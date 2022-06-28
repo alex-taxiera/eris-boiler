@@ -43,6 +43,7 @@ export class Forge extends CoreForge {
   }
 
   private registerEvent (event: Event): void {
+    // @ts-expect-error this just won't compile lol
     this.client.on(event.name, event.handler)
   }
 

@@ -12,6 +12,7 @@
     "build": "lerna run build",
     "preversion": "npm run lint",
     "version": "lerna version",
+    "prepublishOnly": "npm run build",
     "publish": "lerna publish from-package",
     "publish:next": "npm run publish --dist-tag next",
     "install:prod": "npm ci --only=prod --no-optional"
