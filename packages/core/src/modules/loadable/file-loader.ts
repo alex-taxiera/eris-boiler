@@ -31,7 +31,7 @@ export async function load (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const data = await import(importName)
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const obj = (data.__esmModule ? data.default : data) as LoadedFile
+    const obj = (data.default ?? data) as LoadedFile
     obj.filePath = str
 
     return obj
