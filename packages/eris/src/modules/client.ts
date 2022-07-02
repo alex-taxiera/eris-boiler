@@ -76,13 +76,11 @@ export class Forge extends CoreForge {
         const middlewares = [ ...command.middleware ?? [] ]
         let permission = command.permission ?? null
 
-        let action
-        let options
+        let action = command.action
+        let options = command.options
+        let interactionOptions = interaction.data.options
 
-        if (command.action != null) {
-          action = command.action
-          options = command.options
-        } else {
+        if (command.action == null) {
           // look for sub command or sub command group
           if (interaction.data.options == null || command.options == null) {
             throw new Error(
@@ -112,6 +110,11 @@ export class Forge extends CoreForge {
           if (subCommand.type === 1) {
             action = subCommand.action
             options = subCommand.options
+            const subCommandOption = interactionOptions?.find(
+              (option) => option.name === subCommand.name)
+            if (subCommandOption?.type === 1) {
+              interactionOptions = subCommandOption.options
+            }
           } else {
             // sub command group
             if (
@@ -143,14 +146,24 @@ export class Forge extends CoreForge {
             }
             action = lastCommand.action
             options = lastCommand.options
+            const lastCommandOption = interactionOptions?.find(
+              (option) => option.name === lastCommand.name)
+            if (lastCommandOption?.type === 1) {
+              interactionOptions = lastCommandOption.options
+            }
           }
         }
 
         if (isAutocomplete) {
-          const focusedOption = interaction.data.options
+          const focusedOption = interactionOptions
             ?.find((option) => 'focused' in option)
-          const option = options
-            ?.find((option) => option.name === focusedOption?.name)
+          let option
+          for (const opt of options ?? []) {
+            if (opt.name === focusedOption?.name) {
+              option = opt
+              break
+            }
+          }
 
           if (!option || !('autocomplete' in option) || !option.autocomplete) {
             await interaction.result([])
@@ -159,6 +172,12 @@ export class Forge extends CoreForge {
 
           void option.autocompleteAction(interaction, this.client)
           return
+        }
+
+        if (!action) {
+          throw new Error(
+            `Command \`${interaction.data.name}\` is not executable.`,
+          )
         }
 
         if (permission != null) {
