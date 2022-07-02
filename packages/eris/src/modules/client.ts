@@ -1,4 +1,5 @@
 import {
+  AutocompleteInteraction,
   Client,
   CommandInteraction,
 } from 'eris'
@@ -57,9 +58,15 @@ export class Forge extends CoreForge {
     this.events.forEach((event) => this.registerEvent(event))
 
     this.client.on('interactionCreate', async (interaction) => {
-      if (interaction instanceof CommandInteraction) {
+      const isCommand = interaction instanceof CommandInteraction
+      const isAutcomplete = interaction instanceof AutocompleteInteraction
+      if (isCommand || isAutcomplete) {
         const command = this.commands.get(interaction.data.name)
         if (command == null) {
+          if (isAutcomplete) {
+            await interaction.result([])
+            return
+          }
           await interaction.createMessage({
             content: `Command \`${interaction.data.name}\` not found.`,
             flags: 64,
@@ -69,12 +76,12 @@ export class Forge extends CoreForge {
         const middlewares = [ ...command.middleware ?? [] ]
         let permission = command.permission ?? null
 
-        const hasSubCommand = command.options
-          ?.some(({ type }) => type < 3) ?? false
         let action
+        let options
 
-        if (!hasSubCommand) {
+        if ('action' in command) {
           action = command.action
+          options = command.options
         } else {
           // look for sub command or sub command group
           if (interaction.data.options == null || command.options == null) {
@@ -104,6 +111,7 @@ export class Forge extends CoreForge {
 
           if (subCommand.type === 1) {
             action = subCommand.action
+            options = subCommand.options
           } else {
             // sub command group
             if (
@@ -134,7 +142,23 @@ export class Forge extends CoreForge {
               permission = lastCommand.permission
             }
             action = lastCommand.action
+            options = lastCommand.options
           }
+        }
+
+        if (isAutcomplete) {
+          const focusedOption = interaction.data.options
+            ?.find((option) => 'focused' in option)
+          const option = options
+            ?.find((option) => option.name === focusedOption?.name)
+
+          if (!option || !('autocomplete' in option) || !option.autocomplete) {
+            await interaction.result([])
+            return
+          }
+
+          void option.autocompleteAction(interaction, this.client)
+          return
         }
 
         if (permission != null) {
@@ -154,7 +178,11 @@ export class Forge extends CoreForge {
           }
 
           if (!hasPermission) {
-            await interaction.createMessage({
+            const invoker = interaction.acknowledged
+              ? 'createFollowup'
+              : 'createMessage'
+
+            await interaction[invoker]({
               content: permission.reason ??
                 'You do not have permission to use this command.',
               flags: 64,
@@ -167,7 +195,11 @@ export class Forge extends CoreForge {
           try {
             await middleware.action(interaction, this.client)
           } catch (error) {
-            await interaction.createMessage({
+            const invoker = interaction.acknowledged
+              ? 'createFollowup'
+              : 'createMessage'
+
+            await interaction[invoker]({
               content: (unknownHasKey(error, 'message') &&
               typeof error.message === 'string')
                 ? error.message

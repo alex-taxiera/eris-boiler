@@ -5,6 +5,13 @@ import { LoadableMap } from '@modules/loadable'
 import { CommandMiddleware } from './middleware'
 import { Permission } from './permission'
 
+export interface AutoCompleteOption<Client, Interaction> {
+  autocompleteAction: (
+    interaction: Interaction,
+    client: Client,
+  ) => MaybePromise<void>
+}
+
 export interface Command<Client, Interaction> {
   name: string
   permission?: Permission<Client, Interaction>
