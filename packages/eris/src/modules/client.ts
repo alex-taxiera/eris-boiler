@@ -59,11 +59,11 @@ export class Forge extends CoreForge {
 
     this.client.on('interactionCreate', async (interaction) => {
       const isCommand = interaction instanceof CommandInteraction
-      const isAutcomplete = interaction instanceof AutocompleteInteraction
-      if (isCommand || isAutcomplete) {
+      const isAutocomplete = interaction instanceof AutocompleteInteraction
+      if (isCommand || isAutocomplete) {
         const command = this.commands.get(interaction.data.name)
         if (command == null) {
-          if (isAutcomplete) {
+          if (isAutocomplete) {
             await interaction.result([])
             return
           }
@@ -79,7 +79,7 @@ export class Forge extends CoreForge {
         let action
         let options
 
-        if ('action' in command) {
+        if (command.action != null) {
           action = command.action
           options = command.options
         } else {
@@ -146,7 +146,7 @@ export class Forge extends CoreForge {
           }
         }
 
-        if (isAutcomplete) {
+        if (isAutocomplete) {
           const focusedOption = interaction.data.options
             ?.find((option) => 'focused' in option)
           const option = options

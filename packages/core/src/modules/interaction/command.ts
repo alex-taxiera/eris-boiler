@@ -1,4 +1,7 @@
-import { MaybePromise } from '@hephaestus/utils'
+import {
+  MaybePromise,
+  unknownHasKey,
+} from '@hephaestus/utils'
 
 import { LoadableMap } from '@modules/loadable'
 
@@ -33,15 +36,29 @@ T extends Command<any, any>,
       return false
     }
 
-    if (!('name' in loadable)) {
+    if (!unknownHasKey(loadable, 'name')) {
       return false
     }
 
     if (
-      !('action' in loadable) &&
-      (!('subCommands' in loadable) || !('subCommandGroups' in loadable))
+      !unknownHasKey(loadable, 'action')
     ) {
-      return false
+      if (
+        !unknownHasKey(loadable, 'options') ||
+        !Array.isArray(loadable.options)
+      ) {
+        return false
+      }
+
+      return loadable.options.some((option) => {
+        if (unknownHasKey(option, 'type')) {
+          if (typeof option.type === 'number' && option.type <= 2) {
+            return true
+          }
+        }
+
+        return false
+      })
     }
 
     return true

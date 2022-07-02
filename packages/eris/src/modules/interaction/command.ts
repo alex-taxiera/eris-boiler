@@ -70,7 +70,8 @@ export type ExecutableTopLevelCommand =
 export type TopLevelCommandWithSubCommands =
 & BaseTopLevelCommand
 & {
-  options?: Array<SubCommandGroup | SubCommand>
+  options: Array<SubCommandGroup | SubCommand>
+  action?: never
 }
 
 export type TopLevelCommand =
