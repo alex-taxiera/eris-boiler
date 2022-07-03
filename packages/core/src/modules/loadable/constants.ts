@@ -1,1 +1,1 @@
-export const FILE_REGEXP = /^(?!.*\.(?:d|spec|test)\.[jt]s$).*(?=\.[jt]s$)/
+export const FILE_REGEXP = /^\.?\.?(?!.*\..+\.[cm]?[jt]s$).*\.[cm]?[jt]s$/
