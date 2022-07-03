@@ -14,7 +14,7 @@
     "version": "lerna version",
     "prepublishOnly": "npm run build",
     "publish": "lerna publish from-package",
-    "publish:next": "npm run publish --dist-tag next",
+    "publish:next": "npm run publish -- --dist-tag next",
     "install:prod": "npm ci --omit=dev --ignore-scripts"
   },
   "devDependencies": {
