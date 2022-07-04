@@ -37,8 +37,8 @@
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"
   },
   "dependencies": {
-    "@hephaestus/core": "1.0.0-alpha.6",
-    "@hephaestus/utils": "1.0.0-alpha.2"
+    "@hephaestus/core": "1.0.0-alpha.8",
+    "@hephaestus/utils": "1.0.0-alpha.4"
   },
   "peerDependencies": {
     "eris": "^0.16.1"
