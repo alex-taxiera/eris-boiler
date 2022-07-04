@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "tsup src/index.ts",
+    "build": "tsup src/index.ts --clean --target node12 --format cjs && tsup src/index.ts --format esm",
     "build:cjs": "ttsc",
     "build:esm": "ttsc -p ./tsconfig.esm.json",
     "clean": "rm -rf dist",
