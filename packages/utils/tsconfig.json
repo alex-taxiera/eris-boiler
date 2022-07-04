@@ -3,7 +3,12 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "dist/cjs",
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "paths": {
+      "@*": [
+        "*"
+      ]
+    }
   },
   "include": [
     "src",

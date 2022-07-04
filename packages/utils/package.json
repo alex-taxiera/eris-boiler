@@ -27,7 +27,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "ttsc",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "build:cjs": "ttsc",
     "build:esm": "ttsc -p ./tsconfig.esm.json",
     "clean": "rm -rf dist",
     "lint": "eslint src"

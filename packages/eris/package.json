@@ -27,7 +27,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "ttsc",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "build:cjs": "ttsc",
     "build:esm": "ttsc -p ./tsconfig.esm.json",
     "clean": "rm -rf dist",
     "lint": "eslint src"
@@ -36,8 +37,8 @@
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"
   },
   "dependencies": {
-    "@hephaestus/core": "^1.0.0-alpha.7",
-    "@hephaestus/utils": "^1.0.0-alpha.3"
+    "@hephaestus/core": "1.0.0-alpha.6",
+    "@hephaestus/utils": "1.0.0-alpha.2"
   },
   "peerDependencies": {
     "eris": "^0.16.1"

@@ -10,7 +10,7 @@
     "pretest": "npm run build",
     "test": "ava",
     "prebuild": "lerna run clean",
-    "build": "lerna run build && lerna run build:esm",
+    "build": "lerna run build:cjs && lerna run build:esm",
     "preversion": "npm run lint",
     "version": "lerna version",
     "prepublishOnly": "npm run build",
