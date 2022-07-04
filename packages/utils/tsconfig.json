@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "rootDir": "./",
-    "outDir": "dist/cjs",
+    "outDir": "dist",
     "baseUrl": "src",
     "paths": {
       "@*": [
