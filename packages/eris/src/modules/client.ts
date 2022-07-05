@@ -2,6 +2,7 @@ import {
   AutocompleteInteraction,
   Client,
   CommandInteraction,
+  InteractionDataOptionsWithValue,
 } from 'eris'
 
 import { Forge as CoreForge } from '@hephaestus/core'
@@ -15,7 +16,11 @@ import {
   TopLevelCommand,
   Event,
 } from './'
-import { getValidSubCommands } from './interaction'
+import {
+  ApplicationCommandOption,
+  ExecutableCommand,
+  getValidSubCommands,
+} from './interaction'
 
 export class Forge extends CoreForge {
 
@@ -76,11 +81,16 @@ export class Forge extends CoreForge {
         const middlewares = [ ...command.middleware ?? [] ]
         let permission = command.permission ?? null
 
-        let action = command.action
-        let options = command.options
-        let interactionOptions = interaction.data.options
+        let action: ExecutableCommand['action'] | undefined
+        let options: ApplicationCommandOption[] | undefined
+        let interactionOptions: InteractionDataOptionsWithValue[] | undefined
 
-        if (command.action == null) {
+        if (command.action != null) {
+          action = command.action
+          options = command.options
+          interactionOptions =
+            interaction.data.options as InteractionDataOptionsWithValue[]
+        } else {
           // look for sub command or sub command group
           if (interaction.data.options == null || command.options == null) {
             throw new Error(
@@ -110,10 +120,9 @@ export class Forge extends CoreForge {
           if (subCommand.type === 1) {
             action = subCommand.action
             options = subCommand.options
-            const subCommandOption = interactionOptions?.find(
-              (option) => option.name === subCommand.name)
-            if (subCommandOption?.type === 1) {
-              interactionOptions = subCommandOption.options
+            if (option.type === 1) {
+              interactionOptions =
+                option.options as InteractionDataOptionsWithValue[]
             }
           } else {
             // sub command group
@@ -128,10 +137,10 @@ export class Forge extends CoreForge {
             }
 
             const lastOption = option.options[0]
-            const lastCommand = subCommand.options.find(
-              (command) => command.name === lastOption.name,
+            const lastCommand = getValidSubCommands(subCommand.options).find(
+              (command) => command.name === option.name,
             )
-            if (!lastCommand) {
+            if (!lastCommand || lastCommand.type !== 1) {
               throw new Error(`Command \`${lastOption.name}\` not found.`)
             }
             if (lastCommand.middleware != null) {
@@ -146,10 +155,9 @@ export class Forge extends CoreForge {
             }
             action = lastCommand.action
             options = lastCommand.options
-            const lastCommandOption = interactionOptions?.find(
-              (option) => option.name === lastCommand.name)
-            if (lastCommandOption?.type === 1) {
-              interactionOptions = lastCommandOption.options
+            if (lastOption?.type === 1) {
+              interactionOptions =
+                lastOption.options as InteractionDataOptionsWithValue[]
             }
           }
         }
@@ -170,14 +178,12 @@ export class Forge extends CoreForge {
             return
           }
 
-          void option.autocompleteAction(interaction, this.client)
-          return
-        }
-
-        if (!action) {
-          throw new Error(
-            `Command \`${interaction.data.name}\` is not executable.`,
+          void option.autocompleteAction(
+            interaction,
+            this.client,
+            interactionOptions ?? [],
           )
+          return
         }
 
         if (permission != null) {
@@ -228,7 +234,7 @@ export class Forge extends CoreForge {
           }
         }
 
-        void action(interaction, this.client)
+        void action(interaction, this.client, interactionOptions ?? [])
       }
     })
 

@@ -8,6 +8,7 @@ import {
   Client,
   CommandInteraction,
   AutocompleteInteraction,
+  InteractionDataOptionsWithValue,
 } from 'eris'
 
 import {
@@ -18,7 +19,9 @@ import {
 } from '@hephaestus/core'
 
 interface AutocompleteCommandOption
-  extends CoreAutoCompleteOption<Client, AutocompleteInteraction> {
+  extends CoreAutoCompleteOption<
+  Client, AutocompleteInteraction, InteractionDataOptionsWithValue
+  > {
   autocomplete: true
 }
 
@@ -31,11 +34,14 @@ export type ApplicationCommandOption =
 & ApplicationCommandOptionsWithValue
 & (AutocompleteCommandOption | NoAutocompleteCommandOption)
 
-type Command<Interaction = CommandInteraction> =
-  CoreCommand<Client, Interaction>
+type Command = CoreCommand<Client, CommandInteraction>
 
-export type ExecutableCommand<Interaction = CommandInteraction> =
-CoreExecutableCommand<Client, Interaction>
+export type ExecutableCommand =
+CoreExecutableCommand<
+Client,
+CommandInteraction,
+InteractionDataOptionsWithValue
+>
 
 export type UserCommand = UserApplicationCommandStructure & ExecutableCommand
 export type MessageCommand =
@@ -43,7 +49,7 @@ export type MessageCommand =
 & ExecutableCommand
 
 export type SubCommandGroup =
-& Omit<ApplicationCommandOptionsSubCommandGroup, 'options'>
+& ApplicationCommandOptionsSubCommandGroup
 & Command
 & {
   options?: SubCommand[]
@@ -78,13 +84,21 @@ export type TopLevelCommand =
 | TopLevelCommandWithSubCommands
 | ExecutableTopLevelCommand
 
+export function isNotApplicationCommandOption (
+  option:
+  | SubCommandGroup
+  | SubCommand
+  | ApplicationCommandOption,
+): option is SubCommandGroup | SubCommand {
+  return option.type < 3
+}
+
 export function getValidSubCommands (options: Array<
 | SubCommandGroup
 | SubCommand
 | ApplicationCommandOption
 >): Array<SubCommandGroup | SubCommand> {
-  return options
-    .filter((option) => option.type < 3) as Array<SubCommandGroup | SubCommand>
+  return options.filter(isNotApplicationCommandOption)
 }
 
 export class CommandMap extends CoreCommandMap<TopLevelCommand> {}

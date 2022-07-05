@@ -8,10 +8,15 @@ import { LoadableMap } from '@modules/loadable'
 import { CommandMiddleware } from './middleware'
 import { Permission } from './permission'
 
-export interface AutoCompleteOption<Client, Interaction> {
+export interface AutoCompleteOption<
+Client,
+Interaction,
+InteractionDataOptions,
+> {
   autocompleteAction: (
     interaction: Interaction,
     client: Client,
+    data: InteractionDataOptions[],
   ) => MaybePromise<void>
 }
 
@@ -22,9 +27,13 @@ export interface Command<Client, Interaction> {
   guildId?: string
 }
 
-export interface ExecutableCommand<Client, Interaction>
+export interface ExecutableCommand<Client, Interaction, InteractionDataOptions>
   extends Command<Client, Interaction> {
-  action: (interaction: Interaction, client: Client) => MaybePromise<void>
+  action: (
+    interaction: Interaction,
+    client: Client,
+    data: InteractionDataOptions[],
+  ) => MaybePromise<void>
 }
 
 export abstract class CommandMap<
