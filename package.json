@@ -9,6 +9,7 @@
     "lint:fix": "npm run lint -- -- -- --fix",
     "pretest": "npm run build",
     "test": "ava",
+    "prebuild": "lerna run clean",
     "build": "lerna run build",
     "preversion": "npm run lint",
     "version": "lerna version",
