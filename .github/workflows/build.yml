@@ -1,0 +1,152 @@
+name: Build
+
+on: 
+  push:
+    branches: [master, v4]
+  pull_request: {}
+
+jobs:
+  install:
+    name: Install Dependencies
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        node-version:
+          - 16.x
+    runs-on: ${{ matrix.os }}
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@master
+      -
+        name: Setup Node.JS
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      -
+        name: Dependency Cache
+        id: deps
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+            ~/.npm
+          key: ${{ matrix.os }}_node-v${{ matrix.node-version }}_${{ hashFiles('**/package-lock.json') }}
+      -
+        name: npm ci
+        if: steps.deps.outputs.cache-hit != 'true'
+        run: npm ci
+  # test:
+  #   name: Ava Testing
+
+  #   strategy:
+  #     matrix:
+  #       os: [ubuntu-latest]
+  #       node-version: [12.x]
+        
+  #   runs-on: ${{ matrix.os }}
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Set up Node
+  #       uses: actions/setup-node@v1.4.2
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: Cache Dependencies
+  #       uses: actions/cache@v1.1.2
+  #       env:
+  #         cache-name: cache-node-modules
+  #       with:
+  #         path: ~/.npm
+  #         key: ${{ matrix.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-build-${{ env.cache-name }}-
+  #           ${{ runner.os }}-build-
+  #           ${{ runner.os }}-
+  #     - name: Install Dependencies
+  #       run: npm i
+  #     - name: Run Tests
+  #       run: npm test
+  #     - name: Upload Coverage
+  #       if: success()
+  #       uses: codecov/codecov-action@v1.0.6
+  #       with:
+  #         token: ${{secrets.CODECOV_TOKEN}}
+  #         file: ./coverage/lcov.info
+  compile:
+    name: Compile
+    needs: [install]
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        node-version:
+          - 16.x
+    runs-on: ${{ matrix.os }}
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@master
+      -
+        name: Setup Node.JS
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      -
+        name: Dependency Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+            ~/.npm
+          key: ${{ matrix.os }}_node-v${{ matrix.node-version }}_${{ hashFiles('**/package-lock.json') }}
+      -
+        name: Build Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/dist
+          key: ${{ matrix.os }}_node-v${{ matrix.node-version }}_${{ hashFiles('**/src/**/*.ts') }}
+      -
+        name: Compile packages
+        run: npm run build
+  lint:
+    name: Linting
+    needs: [compile]
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        node-version:
+          - 16.x
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@master
+      -
+        name: Setup Node.JS
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      -
+        name: Dependency Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+            ~/.npm
+          key: ${{ matrix.os }}_node-v${{ matrix.node-version }}_${{ hashFiles('**/package-lock.json') }}
+      -
+        name: Build Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/dist
+          key: ${{ matrix.os }}_node-v${{ matrix.node-version }}_${{ hashFiles('**/src/**/*.ts') }}
+      -
+        name: Lint Repo
+        run: npm run lint

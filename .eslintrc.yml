@@ -6,6 +6,8 @@ parserOptions:
   project:
     - ./tsconfig.json
     - ./**/tsconfig.json
+ignorePatterns:
+  - dist
 extends:
   - '@alex-taxiera/eslint-config-ts'
 rules:

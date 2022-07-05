@@ -1,6 +1,6 @@
 {
   "name": "@hephaestus/utils",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.6",
   "description": "> TODO: description",
   "author": "Alex Taxiera <alex.taxiera@gmail.com>",
   "homepage": "https://github.com/alex-taxiera/eris-boiler#readme",
@@ -8,15 +8,13 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "typings": "./dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     }
-  },
-  "directories": {
-    "lib": "dist"
   },
   "files": [
     "dist"
@@ -27,7 +25,9 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "build": "run-p build:*",
+    "build:cjs": "tsup src/index.ts --target node12 --format cjs",
+    "build:esm": "tsup src/index.ts --format esm --dts",
     "clean": "rm -rf dist",
     "lint": "eslint src"
   },
