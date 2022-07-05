@@ -102,11 +102,18 @@ jobs:
             ~/.npm
           key: ${{ matrix.os }}_node-v${{ matrix.node-version }}_${{ hashFiles('**/package-lock.json') }}
       -
+        name: Build Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/dist
+          key: ${{ matrix.os }}_node-v${{ matrix.node-version }}_${{ hashFiles('**/src/**/*.ts') }}
+      -
         name: Compile packages
         run: npm run build
   lint:
     name: Linting
-    needs: [install]
+    needs: [compile]
     strategy:
       matrix:
         os:
@@ -133,6 +140,13 @@ jobs:
             **/node_modules
             ~/.npm
           key: ${{ matrix.os }}_node-v${{ matrix.node-version }}_${{ hashFiles('**/package-lock.json') }}
+      -
+        name: Build Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/dist
+          key: ${{ matrix.os }}_node-v${{ matrix.node-version }}_${{ hashFiles('**/src/**/*.ts') }}
       -
         name: Lint Repo
         run: npm run lint
