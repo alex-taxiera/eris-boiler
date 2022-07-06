@@ -1,13 +1,13 @@
-import { LoadableMap } from '@modules/loadable'
+import { Anvil } from '@modules/loadable'
 
 export interface Event {
   name: string
   handler: (...args: any) => void
 }
 
-export abstract class EventMap<
+export abstract class EventAnvil<
 T extends Event,
-> extends LoadableMap<T> {
+> extends Anvil<T> {
 
   protected isValid (loadable: unknown): loadable is T {
     if (

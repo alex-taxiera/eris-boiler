@@ -5,10 +5,10 @@ import {
 
 import {
   Permission as CorePermission,
-  PermissionMap as CorePermissionMap,
+  PermissionAnvil as CorePermissionAnvil,
 } from '@hephaestus/core'
 
 export interface Permission
   extends CorePermission<Client, CommandInteraction> {}
 
-export class PermissionMap extends CorePermissionMap<Permission> {}
+export class PermissionAnvil extends CorePermissionAnvil<Permission> {}

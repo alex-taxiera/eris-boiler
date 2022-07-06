@@ -5,30 +5,29 @@ import {
   InteractionDataOptionsWithValue,
 } from 'eris'
 
-import { Forge as CoreForge } from '@hephaestus/core'
+import { Hephaestus as CoreHephaestus } from '@hephaestus/core'
 
 import { unknownHasKey } from '@hephaestus/utils'
 
 import {
   CommandMap,
-  EventMap,
-  PermissionMap,
+  EventAnvil,
+  PermissionAnvil,
   TopLevelCommand,
   Event,
-} from './'
-import {
   ApplicationCommandOption,
-  ExecutableCommand,
   getValidSubCommands,
-} from './interaction'
+  CommandAction,
+  CommandActionWithOptions,
+} from './'
 
-export class Forge extends CoreForge {
+export class Hephaestus extends CoreHephaestus {
 
   public commands = new CommandMap('name')
 
-  public events = new EventMap('name')
+  public events = new EventAnvil('name')
 
-  public permissions = new PermissionMap('name')
+  public permissions = new PermissionAnvil('name')
 
   public readonly client: Client
 
@@ -38,9 +37,7 @@ export class Forge extends CoreForge {
     this.client = new Client(token, options)
   }
 
-  private async registerCommand (
-    command: TopLevelCommand,
-  ): Promise<void> {
+  private async registerCommand (command: TopLevelCommand): Promise<void> {
     if ('guildId' in command && command.guildId != null) {
       await this.client.createGuildCommand(command.guildId, command)
     } else {
@@ -55,9 +52,9 @@ export class Forge extends CoreForge {
 
   public async connect (): Promise<void> {
     await Promise.all([
-      this.commands.load(),
-      this.events.load(),
-      this.permissions.load(),
+      this.commands.hammer(),
+      this.events.hammer(),
+      this.permissions.hammer(),
     ])
 
     this.events.forEach((event) => this.registerEvent(event))
@@ -81,7 +78,10 @@ export class Forge extends CoreForge {
         const middlewares = [ ...command.middleware ?? [] ]
         let permission = command.permission ?? null
 
-        let action: ExecutableCommand['action'] | undefined
+        let action:
+        | CommandAction
+        | CommandActionWithOptions<readonly ApplicationCommandOption[]>
+        | undefined
         let options: ApplicationCommandOption[] | undefined
         let interactionOptions: InteractionDataOptionsWithValue[] | undefined
 
@@ -173,15 +173,21 @@ export class Forge extends CoreForge {
             }
           }
 
-          if (!option || !('autocomplete' in option) || !option.autocomplete) {
+          if (
+            !focusedOption ||
+            !('autocomplete' in focusedOption) ||
+            !option ||
+            !('autocomplete' in option) ||
+            !option.autocomplete
+          ) {
             await interaction.result([])
             return
           }
 
           void option.autocompleteAction(
             interaction,
-            this.client,
-            interactionOptions ?? [],
+            focusedOption,
+            this,
           )
           return
         }
@@ -234,7 +240,10 @@ export class Forge extends CoreForge {
           }
         }
 
-        void action(interaction, this.client, interactionOptions ?? [])
+        const optionsMap = interactionOptions
+          ?.reduce((ax, dx) => ({ ...ax, [dx.name]: dx }), {})
+
+        void action(interaction, optionsMap ?? {}, this)
       }
     })
 

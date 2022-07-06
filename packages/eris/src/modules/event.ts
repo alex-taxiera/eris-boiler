@@ -1,6 +1,6 @@
 import { EventListeners } from 'eris'
 
-import { EventMap as CoreEventMap } from '@hephaestus/core'
+import { EventAnvil as CoreEventAnvil } from '@hephaestus/core'
 
 export type Event = {
   [K in keyof EventListeners]: {
@@ -9,4 +9,4 @@ export type Event = {
   }
 }[keyof EventListeners]
 
-export class EventMap extends CoreEventMap<Event> {}
+export class EventAnvil extends CoreEventAnvil<Event> {}

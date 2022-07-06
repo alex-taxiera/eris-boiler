@@ -1,21 +1,21 @@
-import { MaybePromise } from '@hephaestus/utils'
+import { Promisable } from 'type-fest'
 import {
-  CommandMap,
+  CommandAnvil,
   Command,
   Event,
-  EventMap,
-  PermissionMap,
+  EventAnvil,
+  PermissionAnvil,
   Permission,
 } from '../'
 
-export abstract class Forge {
+export abstract class Hephaestus {
 
-  public abstract commands: CommandMap<Command<any, any>>
+  public abstract commands: CommandAnvil<Command<any, any>>
 
-  public abstract events: EventMap<Event>
+  public abstract events: EventAnvil<Event>
 
-  public abstract permissions: PermissionMap<Permission<any, any>>
+  public abstract permissions: PermissionAnvil<Permission<any, any>>
 
-  public abstract connect (): MaybePromise<void>
+  public abstract connect (): Promisable<void>
 
 }

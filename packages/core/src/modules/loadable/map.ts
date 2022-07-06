@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
+import { ConditionalKeys } from 'type-fest'
 import {
   ExtendedMap,
-  KeysMatching,
   MaybeArray,
 } from '@hephaestus/utils'
 
@@ -13,7 +13,7 @@ import {
   LoadableBadKey,
 } from './error'
 
-export abstract class LoadableMap<
+export abstract class Anvil<
 A, T extends A & Loadable = A & Loadable,
 > extends ExtendedMap<string, T> {
 
@@ -29,12 +29,12 @@ A, T extends A & Loadable = A & Loadable,
   ): loadable is T
 
   constructor (
-    private readonly key: KeysMatching<T, string>,
+    private readonly key: ConditionalKeys<T, string>,
   ) {
     super()
   }
 
-  public add (
+  public forge (
     ...loadables: Array<MaybeArray<T | string>>
   ): this {
     this.toLoad = this.toLoad.concat(
@@ -47,7 +47,7 @@ A, T extends A & Loadable = A & Loadable,
     return this
   }
 
-  public async load (onLoad?: (loadable: T) => unknown): Promise<this> {
+  public async hammer (onLoad?: (loadable: T) => unknown): Promise<this> {
     const loadables = await this.resolveToLoad()
 
     for (const loadable of loadables) {

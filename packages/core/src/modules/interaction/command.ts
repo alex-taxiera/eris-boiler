@@ -1,24 +1,20 @@
 import {
-  MaybePromise,
-  unknownHasKey,
-} from '@hephaestus/utils'
+  Promisable,
+  UnionToIntersection,
+} from 'type-fest'
+import { unknownHasKey } from '@hephaestus/utils'
 
-import { LoadableMap } from '@modules/loadable'
+import { Anvil } from '@modules/loadable'
+import { Hephaestus } from '@modules/client'
 
 import { CommandMiddleware } from './middleware'
 import { Permission } from './permission'
 
-export interface AutoCompleteOption<
-Client,
-Interaction,
-InteractionDataOptions,
-> {
-  autocompleteAction: (
-    interaction: Interaction,
-    client: Client,
-    data: InteractionDataOptions[],
-  ) => MaybePromise<void>
-}
+export type AutocompleteAction<Interaction, Option, H extends Hephaestus> = (
+  interaction: Interaction,
+  focusedOption: Option,
+  hephaestus: H,
+) => Promisable<void>
 
 export interface Command<Client, Interaction> {
   name: string
@@ -27,18 +23,37 @@ export interface Command<Client, Interaction> {
   guildId?: string
 }
 
-export interface ExecutableCommand<Client, Interaction, InteractionDataOptions>
-  extends Command<Client, Interaction> {
-  action: (
-    interaction: Interaction,
-    client: Client,
-    data: InteractionDataOptions[],
-  ) => MaybePromise<void>
+export type CommandAction<Interaction, H extends Hephaestus> = (
+  interaction: Interaction,
+  hephaestus: H,
+) => Promisable<void>
+
+export type CommandActionWithOptions<
+Interaction, OptionsMap, H extends Hephaestus,
+> = (
+  interaction: Interaction,
+  data: OptionsMap,
+  hephaestus: H,
+) => Promisable<void>
+
+export interface BaseOption {
+  name: string
+  required?: boolean
 }
 
-export abstract class CommandMap<
+export type ConvertOptionsToArgs<
+T extends readonly BaseOption[],
+> = UnionToIntersection<{
+  [P in keyof T]: {
+    [_ in T[P]['name']]: T[P]['required'] extends true
+      ? T[P]
+      : T[P] | undefined
+  }
+}[number]>
+
+export abstract class CommandAnvil<
 T extends Command<any, any>,
-> extends LoadableMap<T> {
+> extends Anvil<T> {
 
   protected isValid (loadable: unknown): loadable is T {
     if (loadable == null || typeof loadable !== 'object') {

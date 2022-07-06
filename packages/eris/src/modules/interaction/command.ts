@@ -7,82 +7,116 @@ import {
   UserApplicationCommandStructure,
   Client,
   CommandInteraction,
+  InteractionDataOptionWithValue,
   AutocompleteInteraction,
-  InteractionDataOptionsWithValue,
 } from 'eris'
 
 import {
   Command as CoreCommand,
-  ExecutableCommand as CoreExecutableCommand,
-  CommandMap as CoreCommandMap,
-  AutoCompleteOption as CoreAutoCompleteOption,
+  CommandAction as CoreCommandAction,
+  CommandActionWithOptions as CoreCommandActionWithOptions,
+  CommandAnvil as CoreCommandAnvil,
+  AutocompleteAction as CoreAutocompleteAction,
+  ConvertOptionsToArgs,
 } from '@hephaestus/core'
+import { Hephaestus } from '@modules/client'
 
-interface AutocompleteCommandOption
-  extends CoreAutoCompleteOption<
-  Client, AutocompleteInteraction, InteractionDataOptionsWithValue
-  > {
+export type AutocompleteAction<T extends 3 | 4 | 10> = CoreAutocompleteAction<
+AutocompleteInteraction, InteractionDataOptionWithValue<T>, Hephaestus
+>
+
+export type AutocompleteCommandOption<T extends 3 | 4 | 10 = 3> =
+& ApplicationCommandOptionsWithValue
+& {
+  type: T
   autocomplete: true
+  autocompleteAction: AutocompleteAction<T>
 }
 
-interface NoAutocompleteCommandOption {
+type NoAutocompleteCommandOption =
+& ApplicationCommandOptionsWithValue
+& {
   autocomplete?: false
   autocompleteAction?: never
 }
 
 export type ApplicationCommandOption =
-& ApplicationCommandOptionsWithValue
-& (AutocompleteCommandOption | NoAutocompleteCommandOption)
+| AutocompleteCommandOption
+| NoAutocompleteCommandOption
 
-type Command = CoreCommand<Client, CommandInteraction>
+export type Command = CoreCommand<Client, CommandInteraction>
 
-export type ExecutableCommand =
-CoreExecutableCommand<
-Client,
-CommandInteraction,
-InteractionDataOptionsWithValue
+export type CommandAction = CoreCommandAction<CommandInteraction, Hephaestus>
+
+export type CommandActionWithOptions<
+O extends readonly ApplicationCommandOption[],
+> = CoreCommandActionWithOptions<
+CommandInteraction, ConvertOptionsToArgs<O>, Hephaestus
 >
 
-export type UserCommand = UserApplicationCommandStructure & ExecutableCommand
+export type UserCommand =
+& UserApplicationCommandStructure
+& {
+  action: CommandAction
+}
+
 export type MessageCommand =
 & MessageApplicationCommandStructure
-& ExecutableCommand
+& {
+  action: CommandAction
+}
 
-export type SubCommandGroup =
+export type SubCommandGroup<
+SO extends readonly ApplicationCommandOption[] = [],
+O extends ReadonlyArray<SubCommand<SO>> = []> =
 & ApplicationCommandOptionsSubCommandGroup
 & Command
 & {
-  options?: SubCommand[]
+  options?: O
 }
 
-export type SubCommand =
+export type SubCommand<O extends readonly ApplicationCommandOption[] = []> =
 & ApplicationCommandOptionsSubCommand
-& ExecutableCommand
+& Command
 & {
-  options?: ApplicationCommandOption[]
+  options?: O
+  action: CommandActionWithOptions<O>
 }
 
 export type BaseTopLevelCommand =
 & Omit<ChatInputApplicationCommandStructure, 'options'>
 & Command
 
-export type ExecutableTopLevelCommand =
+export type ExecutableTopLevelCommand<
+O extends readonly ApplicationCommandOption[] = [],
+> =
 & BaseTopLevelCommand
-& ExecutableCommand
 & {
-  options?: ApplicationCommandOption[]
+  options?: O
+  action: CommandActionWithOptions<O>
 }
 
-export type TopLevelCommandWithSubCommands =
+export type TopLevelCommandWithSubCommands<
+SO extends readonly ApplicationCommandOption[] = [],
+O extends ReadonlyArray<SubCommandGroup<SO> | SubCommand> = []> =
 & BaseTopLevelCommand
 & {
-  options: Array<SubCommandGroup | SubCommand>
+  options: O
   action?: never
 }
 
-export type TopLevelCommand =
-| TopLevelCommandWithSubCommands
-| ExecutableTopLevelCommand
+export type TopLevelCommand<
+SO extends readonly ApplicationCommandOption[] =
+ApplicationCommandOption[],
+O extends readonly ApplicationCommandOption[]
+| ReadonlyArray<SubCommandGroup | SubCommand> = ApplicationCommandOption[]
+| ReadonlyArray<SubCommandGroup | SubCommand>,
+> =
+  O extends Array<SubCommandGroup | SubCommand>
+    ? TopLevelCommandWithSubCommands<SO, O>
+    : O extends readonly ApplicationCommandOption[]
+      ? ExecutableTopLevelCommand<O>
+      : never
 
 export function isNotApplicationCommandOption (
   option:
@@ -101,4 +135,14 @@ export function getValidSubCommands (options: Array<
   return options.filter(isNotApplicationCommandOption)
 }
 
-export class CommandMap extends CoreCommandMap<TopLevelCommand> {}
+export class CommandMap extends CoreCommandAnvil<TopLevelCommand> {}
+
+export function createCommand<
+SO extends readonly ApplicationCommandOption[],
+O extends
+| readonly ApplicationCommandOption[]
+| ReadonlyArray<SubCommandGroup | SubCommand>,
+T extends TopLevelCommand<SO, O>,
+> (data: T): T {
+  return data
+}
