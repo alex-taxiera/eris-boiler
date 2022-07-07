@@ -39,15 +39,16 @@ Interaction, OptionsMap, H extends Hephaestus,
 export interface BaseOption {
   name: string
   required?: boolean
+  type: number
 }
 
 export type ConvertOptionsToArgs<
-T extends readonly BaseOption[],
+T extends readonly BaseOption[], D,
 > = UnionToIntersection<{
   [P in keyof T]: {
     [_ in T[P]['name']]: T[P]['required'] extends true
-      ? T[P]
-      : T[P] | undefined
+      ? { type: T[P]['type'] } & D
+      : { type: T[P]['type'] } & D | undefined
   }
 }[number]>
 

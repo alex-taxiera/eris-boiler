@@ -8,6 +8,7 @@ import {
   Client,
   CommandInteraction,
   InteractionDataOptionWithValue,
+  InteractionDataOptionsWithValue,
   AutocompleteInteraction,
 } from 'eris'
 
@@ -51,7 +52,9 @@ export type CommandAction = CoreCommandAction<CommandInteraction, Hephaestus>
 export type CommandActionWithOptions<
 O extends readonly ApplicationCommandOption[],
 > = CoreCommandActionWithOptions<
-CommandInteraction, ConvertOptionsToArgs<O>, Hephaestus
+CommandInteraction, ConvertOptionsToArgs<
+O, InteractionDataOptionsWithValue
+>, Hephaestus
 >
 
 export type UserCommand =
@@ -142,7 +145,6 @@ SO extends readonly ApplicationCommandOption[],
 O extends
 | readonly ApplicationCommandOption[]
 | ReadonlyArray<SubCommandGroup | SubCommand>,
-T extends TopLevelCommand<SO, O>,
-> (data: T): T {
+> (data: TopLevelCommand<SO, O>): TopLevelCommand<SO, O> {
   return data
 }
