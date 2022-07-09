@@ -7,9 +7,9 @@ import {
   UserApplicationCommandStructure,
   Client,
   CommandInteraction,
-  InteractionDataOptionWithValue,
   InteractionDataOptionsWithValue,
   AutocompleteInteraction,
+  ApplicationCommandOptionChoice,
 } from 'eris'
 
 import {
@@ -23,13 +23,16 @@ import {
 import { Hephaestus } from '@modules/client'
 
 export type AutocompleteAction<T extends 3 | 4 | 10> = CoreAutocompleteAction<
-AutocompleteInteraction, InteractionDataOptionWithValue<T>, Hephaestus
+AutocompleteInteraction,
+{ type: T, focused: true } & InteractionDataOptionsWithValue,
+Hephaestus
 >
 
 export type AutocompleteCommandOption<T extends 3 | 4 | 10 = 3> =
 & ApplicationCommandOptionsWithValue
 & {
   type: T
+  choices?: never
   autocomplete: true
   autocompleteAction: AutocompleteAction<T>
 }
@@ -39,11 +42,22 @@ type NoAutocompleteCommandOption =
 & {
   autocomplete?: false
   autocompleteAction?: never
+  choices?: readonly ApplicationCommandOptionChoice[]
+}
+
+type MinMaxCommandOption<T extends 4 | 10 = 4> =
+& ApplicationCommandOptionsWithValue
+& {
+  type: T
+  autocomplete?: false
+  autocompleteAction?: never
+  choices?: null
 }
 
 export type ApplicationCommandOption =
 | AutocompleteCommandOption
 | NoAutocompleteCommandOption
+| MinMaxCommandOption
 
 export type Command = CoreCommand<Client, CommandInteraction>
 
@@ -78,7 +92,8 @@ O extends ReadonlyArray<SubCommand<SO>> = []> =
   options?: O
 }
 
-export type SubCommand<O extends readonly ApplicationCommandOption[] = []> =
+export type SubCommand<
+O extends readonly ApplicationCommandOption[] = []> =
 & ApplicationCommandOptionsSubCommand
 & Command
 & {
@@ -112,7 +127,8 @@ export type TopLevelCommand<
 SO extends readonly ApplicationCommandOption[] =
 ApplicationCommandOption[],
 O extends readonly ApplicationCommandOption[]
-| ReadonlyArray<SubCommandGroup | SubCommand> = ApplicationCommandOption[]
+| ReadonlyArray<SubCommandGroup | SubCommand>
+= ApplicationCommandOption[]
 | ReadonlyArray<SubCommandGroup | SubCommand>,
 > =
   O extends Array<SubCommandGroup | SubCommand>
@@ -121,13 +137,13 @@ O extends readonly ApplicationCommandOption[]
       ? ExecutableTopLevelCommand<O>
       : never
 
-export function isNotApplicationCommandOption (
+export function isApplicationCommandOption (
   option:
   | SubCommandGroup
   | SubCommand
   | ApplicationCommandOption,
 ): option is SubCommandGroup | SubCommand {
-  return option.type < 3
+  return option.type >= 3
 }
 
 export function getValidSubCommands (options: Array<
@@ -135,7 +151,9 @@ export function getValidSubCommands (options: Array<
 | SubCommand
 | ApplicationCommandOption
 >): Array<SubCommandGroup | SubCommand> {
-  return options.filter(isNotApplicationCommandOption)
+  return options.filter(
+    (option) => !isApplicationCommandOption(option),
+  ) as Array<SubCommandGroup | SubCommand>
 }
 
 export class CommandMap extends CoreCommandAnvil<TopLevelCommand> {}

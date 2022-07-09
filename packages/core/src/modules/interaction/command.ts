@@ -40,16 +40,35 @@ export interface BaseOption {
   name: string
   required?: boolean
   type: number
+  choices?: readonly BaseChoice[] | null
 }
 
+export interface BaseData {
+  value: unknown
+}
+
+export interface BaseChoice {
+  value: unknown
+}
+
+type MaybeUndefined<X, Condition = false> =
+  Condition extends true ? X : X | undefined
+
 export type ConvertOptionsToArgs<
-T extends readonly BaseOption[], D,
+T extends readonly BaseOption[],
+D extends BaseData,
 > = UnionToIntersection<{
   [P in keyof T]: {
-    [_ in T[P]['name']]: T[P]['required'] extends true
-      ? { type: T[P]['type'] } & D
-      : { type: T[P]['type'] } & D | undefined
-  }
+    [_ in T[P]['name']]: MaybeUndefined<
+    D & {
+      type: T[P]['type']
+      value: T[P]['choices'] extends readonly BaseChoice[]
+        ? { [I in keyof T[P]['choices']]: T[P]['choices'][I] }[number]['value']
+        : D['value']
+    },
+    T[P]['required']
+    >
+  };
 }[number]>
 
 export abstract class CommandAnvil<
