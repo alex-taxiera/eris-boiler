@@ -54,18 +54,25 @@ export interface BaseChoice {
 type MaybeUndefined<X, Condition = false> =
   Condition extends true ? X : X | undefined
 
+type MaybeChoices<
+B,
+O extends BaseOption,
+> = O['choices'] extends readonly BaseChoice[] ? B & {
+  value: { [I in keyof O['choices']]: O['choices'][I] }[number]['value']
+} : B
+
 export type ConvertOptionsToArgs<
 T extends readonly BaseOption[],
 D extends BaseData,
 > = UnionToIntersection<{
   [P in keyof T]: {
     [_ in T[P]['name']]: MaybeUndefined<
-    D & {
+    D & MaybeChoices<
+    {
       type: T[P]['type']
-      value: T[P]['choices'] extends readonly BaseChoice[]
-        ? { [I in keyof T[P]['choices']]: T[P]['choices'][I] }[number]['value']
-        : D['value']
     },
+    T[P]
+    >,
     T[P]['required']
     >
   };
