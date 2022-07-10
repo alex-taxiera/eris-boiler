@@ -28,8 +28,8 @@ AutocompleteInteraction,
 Hephaestus
 >
 
-export type AutocompleteCommandOption<T extends 3 | 4 | 10 = 3> =
-& ApplicationCommandOptionsWithValue
+export type AutocompleteCommandOption<T extends 3 | 4 | 10 = 3 | 4 | 10> =
+& BaseApplicationCommandOption
 & {
   type: T
   choices?: never
@@ -38,26 +38,20 @@ export type AutocompleteCommandOption<T extends 3 | 4 | 10 = 3> =
 }
 
 type NoAutocompleteCommandOption =
-& ApplicationCommandOptionsWithValue
+& BaseApplicationCommandOption
 & {
   autocomplete?: false
   autocompleteAction?: never
   choices?: readonly ApplicationCommandOptionChoice[]
 }
 
-type MinMaxCommandOption<T extends 4 | 10 = 4> =
-& ApplicationCommandOptionsWithValue
-& {
-  type: T
-  autocomplete?: false
-  autocompleteAction?: never
-  choices?: null
-}
+export type BaseApplicationCommandOption =
+& Omit<ApplicationCommandOptionsWithValue, 'choices'>
+& { choices?: readonly ApplicationCommandOptionChoice[] | null }
 
 export type ApplicationCommandOption =
-| AutocompleteCommandOption
 | NoAutocompleteCommandOption
-| MinMaxCommandOption
+| AutocompleteCommandOption
 
 export type Command = CoreCommand<Client, CommandInteraction>
 
@@ -166,3 +160,26 @@ O extends
 > (data: TopLevelCommand<SO, O>): TopLevelCommand<SO, O> {
   return data
 }
+
+// const x = createCommand({
+//   type: 1,
+//   name: 'get',
+//   description: 'Finds, Adds, Remove, or Edit tags',
+//   options: [
+//     {
+//       type: 4,
+//       name: 'name',
+//       description: 'The tag to get',
+//       required: true,
+//       autocomplete: true,
+//       autocompleteAction: (int, option) => {
+//         console.log(option.value)
+//       },
+//     },
+//   ] as const,
+//   action: (interaction, args) => {
+//     console.log(args.name.value)
+//   },
+// })
+
+// console.log(x)
