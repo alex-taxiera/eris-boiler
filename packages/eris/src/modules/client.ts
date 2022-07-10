@@ -1,4 +1,5 @@
 import {
+  ApplicationCommandStructure,
   AutocompleteInteraction,
   Client,
   CommandInteraction,
@@ -39,9 +40,11 @@ export class Hephaestus extends CoreHephaestus {
 
   private async registerCommand (command: TopLevelCommand): Promise<void> {
     if ('guildId' in command && command.guildId != null) {
-      await this.client.createGuildCommand(command.guildId, command)
+      await this.client.createGuildCommand(
+        command.guildId, command as ApplicationCommandStructure,
+      )
     } else {
-      await this.client.createCommand(command)
+      await this.client.createCommand(command as ApplicationCommandStructure)
     }
   }
 

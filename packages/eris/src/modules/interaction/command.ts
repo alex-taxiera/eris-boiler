@@ -10,6 +10,7 @@ import {
   InteractionDataOptionsWithValue,
   AutocompleteInteraction,
   ApplicationCommandOptionChoice,
+  Constants,
 } from 'eris'
 
 import {
@@ -22,36 +23,84 @@ import {
 } from '@hephaestus/core'
 import { Hephaestus } from '@modules/client'
 
-export type AutocompleteAction<T extends 3 | 4 | 10> = CoreAutocompleteAction<
+type AllCommandOptionTypes = typeof Constants.ApplicationCommandOptionTypes[
+  keyof typeof Constants.ApplicationCommandOptionTypes
+]
+
+type ApplicationCommandOptionTypes = Exclude<AllCommandOptionTypes, 1 | 2>
+
+type NumberCommandOptionTypes = Extract<ApplicationCommandOptionTypes, 4 | 10>
+
+type AutocompleteCommandOptionTypes =
+  Extract<ApplicationCommandOptionTypes, 3 | 4 | 10>
+
+export type AutocompleteAction<
+T extends AutocompleteCommandOptionTypes,
+> = CoreAutocompleteAction<
 AutocompleteInteraction,
 { type: T, focused: true } & InteractionDataOptionsWithValue,
 Hephaestus
 >
 
-export type AutocompleteCommandOption<T extends 3 | 4 | 10 = 3 | 4 | 10> =
-& BaseApplicationCommandOption
+export type AutocompleteCommandOption<
+T extends AutocompleteCommandOptionTypes,
+> =
+& BaseApplicationCommandOption<T>
 & {
   type: T
   choices?: never
   autocomplete: true
   autocompleteAction: AutocompleteAction<T>
+  // eslint-disable-next-line camelcase
+  min_value?: never
+  // eslint-disable-next-line camelcase
+  max_value?: never
 }
 
-type NoAutocompleteCommandOption =
-& BaseApplicationCommandOption
+type NoAutocompleteCommandOption<T extends ApplicationCommandOptionTypes> =
+& BaseApplicationCommandOption<T>
 & {
   autocomplete?: false
   autocompleteAction?: never
   choices?: readonly ApplicationCommandOptionChoice[]
+  // eslint-disable-next-line camelcase
+  min_value?: never
+  // eslint-disable-next-line camelcase
+  max_value?: never
 }
 
-export type BaseApplicationCommandOption =
-& Omit<ApplicationCommandOptionsWithValue, 'choices'>
-& { choices?: readonly ApplicationCommandOptionChoice[] | null }
+type MinMaxCommandOption<T extends NumberCommandOptionTypes> =
+& BaseApplicationCommandOption<T>
+& {
+  autocomplete?: false
+  autocompleteAction?: never
+  choices?: null
+  // eslint-disable-next-line camelcase
+  min_value?: number
+  // eslint-disable-next-line camelcase
+  max_value?: number
+}
 
-export type ApplicationCommandOption =
-| NoAutocompleteCommandOption
-| AutocompleteCommandOption
+export type BaseApplicationCommandOption<
+T extends ApplicationCommandOptionTypes,
+> =
+& Omit<
+ApplicationCommandOptionsWithValue, 'choices' | 'min_value' | 'max_value'
+>
+& { type: T, choices?: readonly ApplicationCommandOptionChoice[] | null }
+
+export type ApplicationCommandOption<
+T extends ApplicationCommandOptionTypes = ApplicationCommandOptionTypes,
+> =
+T extends AutocompleteCommandOptionTypes
+  ? T extends NumberCommandOptionTypes
+    ? | NoAutocompleteCommandOption<T>
+      | AutocompleteCommandOption<T>
+      | MinMaxCommandOption<T>
+    : NoAutocompleteCommandOption<T> | AutocompleteCommandOption<T>
+  : T extends NumberCommandOptionTypes
+    ? NoAutocompleteCommandOption<T> | MinMaxCommandOption<T>
+    : NoAutocompleteCommandOption<T>
 
 export type Command = CoreCommand<Client, CommandInteraction>
 
@@ -160,26 +209,3 @@ O extends
 > (data: TopLevelCommand<SO, O>): TopLevelCommand<SO, O> {
   return data
 }
-
-// const x = createCommand({
-//   type: 1,
-//   name: 'get',
-//   description: 'Finds, Adds, Remove, or Edit tags',
-//   options: [
-//     {
-//       type: 4,
-//       name: 'name',
-//       description: 'The tag to get',
-//       required: true,
-//       autocomplete: true,
-//       autocompleteAction: (int, option) => {
-//         console.log(option.value)
-//       },
-//     },
-//   ] as const,
-//   action: (interaction, args) => {
-//     console.log(args.name.value)
-//   },
-// })
-
-// console.log(x)
