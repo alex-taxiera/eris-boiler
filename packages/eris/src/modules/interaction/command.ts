@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ApplicationCommandOptionsSubCommand,
   ApplicationCommandOptionsSubCommandGroup,
@@ -127,85 +128,88 @@ export type MessageCommand =
 }
 
 export type SubCommandGroup<
-SO extends readonly ApplicationCommandOption[] = [],
-O extends ReadonlyArray<SubCommand<SO>> = []> =
-& ApplicationCommandOptionsSubCommandGroup
+SO extends readonly ApplicationCommandOption[],
+O extends ReadonlyArray<SubCommand<SO>>> =
+& Omit<ApplicationCommandOptionsSubCommandGroup, 'options'>
 & Command
 & {
   options?: O
 }
 
-export type SubCommand<
-O extends readonly ApplicationCommandOption[] = []> =
-& ApplicationCommandOptionsSubCommand
+export type SubCommand<O extends readonly ApplicationCommandOption[]> =
+& Omit<ApplicationCommandOptionsSubCommand, 'options'>
 & Command
 & {
   options?: O
   action: CommandActionWithOptions<O>
 }
 
-export type BaseTopLevelCommand =
+export type BaseCommand =
 & Omit<ChatInputApplicationCommandStructure, 'options'>
 & Command
 
-export type ExecutableTopLevelCommand<
-O extends readonly ApplicationCommandOption[] = [],
+export type ExecutableCommand<
+O extends readonly ApplicationCommandOption[] =
+readonly ApplicationCommandOption[],
 > =
-& BaseTopLevelCommand
+& BaseCommand
 & {
   options?: O
   action: CommandActionWithOptions<O>
 }
 
-export type TopLevelCommandWithSubCommands<
-SO extends readonly ApplicationCommandOption[] = [],
-O extends ReadonlyArray<SubCommandGroup<SO> | SubCommand> = []> =
-& BaseTopLevelCommand
+export type CommandWithSubCommands<
+O extends ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>> =
+ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>>,
+> =
+& BaseCommand
 & {
   options: O
   action?: never
 }
 
 export type TopLevelCommand<
-SO extends readonly ApplicationCommandOption[] =
-ApplicationCommandOption[],
 O extends readonly ApplicationCommandOption[]
-| ReadonlyArray<SubCommandGroup | SubCommand>
-= ApplicationCommandOption[]
-| ReadonlyArray<SubCommandGroup | SubCommand>,
+| ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>> =
+readonly ApplicationCommandOption[],
 > =
-  O extends Array<SubCommandGroup | SubCommand>
-    ? TopLevelCommandWithSubCommands<SO, O>
-    : O extends readonly ApplicationCommandOption[]
-      ? ExecutableTopLevelCommand<O>
-      : never
+O extends readonly ApplicationCommandOption[]
+  ? ExecutableCommand<O>
+  : O extends ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>>
+    ? CommandWithSubCommands<O>
+    : never
 
 export function isApplicationCommandOption (
   option:
-  | SubCommandGroup
-  | SubCommand
+  | SubCommandGroup<any, any>
+  | SubCommand<any>
   | ApplicationCommandOption,
-): option is SubCommandGroup | SubCommand {
+): option is SubCommandGroup<any, any> | SubCommand<any> {
   return option.type >= 3
 }
 
 export function getValidSubCommands (options: Array<
-| SubCommandGroup
-| SubCommand
+| SubCommandGroup<any, any>
+| SubCommand<any>
 | ApplicationCommandOption
->): Array<SubCommandGroup | SubCommand> {
+>): Array<SubCommandGroup<any, any> | SubCommand<any>> {
   return options.filter(
     (option) => !isApplicationCommandOption(option),
-  ) as Array<SubCommandGroup | SubCommand>
+  ) as Array<SubCommandGroup<any, any> | SubCommand<any>>
 }
 
 export class CommandMap extends CoreCommandAnvil<TopLevelCommand> {}
 
 export function createCommand<
-SO extends readonly ApplicationCommandOption[],
-O extends
-| readonly ApplicationCommandOption[]
-| ReadonlyArray<SubCommandGroup | SubCommand>,
-> (data: TopLevelCommand<SO, O>): TopLevelCommand<SO, O> {
+  O extends
+  | readonly ApplicationCommandOption[]
+  | ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>>,
+> (data: TopLevelCommand<O>): TopLevelCommand<O> {
+  return data
+}
+
+export function createSubCommand<
+O extends readonly ApplicationCommandOption[],
+> (data: SubCommand<O>): SubCommand<O> {
   return data
 }
