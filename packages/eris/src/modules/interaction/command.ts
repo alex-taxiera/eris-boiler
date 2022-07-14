@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  ApplicationCommandOptionsSubCommand,
   ApplicationCommandOptionsSubCommandGroup,
   ApplicationCommandOptionsWithValue,
   ChatInputApplicationCommandStructure,
@@ -127,21 +126,11 @@ export type MessageCommand =
   action: CommandAction
 }
 
-export type SubCommandGroup<
-SO extends readonly ApplicationCommandOption[],
-O extends ReadonlyArray<SubCommand<SO>>> =
+export type SubCommandGroup =
 & Omit<ApplicationCommandOptionsSubCommandGroup, 'options'>
 & Command
 & {
-  options?: O
-}
-
-export type SubCommand<O extends readonly ApplicationCommandOption[]> =
-& Omit<ApplicationCommandOptionsSubCommand, 'options'>
-& Command
-& {
-  options?: O
-  action: CommandActionWithOptions<O>
+  options?: readonly ExecutableCommand[]
 }
 
 export type BaseCommand =
@@ -159,8 +148,8 @@ readonly ApplicationCommandOption[],
 }
 
 export type CommandWithSubCommands<
-O extends ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>> =
-ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>>,
+O extends ReadonlyArray<SubCommandGroup | ExecutableCommand> =
+ReadonlyArray<SubCommandGroup | ExecutableCommand>,
 > =
 & BaseCommand
 & {
@@ -170,32 +159,32 @@ ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>>,
 
 export type TopLevelCommand<
 O extends readonly ApplicationCommandOption[]
-| ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>> =
+| ReadonlyArray<SubCommandGroup | ExecutableCommand> =
 readonly ApplicationCommandOption[],
 > =
 O extends readonly ApplicationCommandOption[]
   ? ExecutableCommand<O>
-  : O extends ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>>
+  : O extends ReadonlyArray<SubCommandGroup | ExecutableCommand>
     ? CommandWithSubCommands<O>
     : never
 
 export function isApplicationCommandOption (
   option:
-  | SubCommandGroup<any, any>
-  | SubCommand<any>
+  | SubCommandGroup
+  | ExecutableCommand
   | ApplicationCommandOption,
-): option is SubCommandGroup<any, any> | SubCommand<any> {
+): option is SubCommandGroup | ExecutableCommand {
   return option.type >= 3
 }
 
 export function getValidSubCommands (options: Array<
-| SubCommandGroup<any, any>
-| SubCommand<any>
+| SubCommandGroup
+| ExecutableCommand
 | ApplicationCommandOption
->): Array<SubCommandGroup<any, any> | SubCommand<any>> {
+>): Array<SubCommandGroup | ExecutableCommand> {
   return options.filter(
     (option) => !isApplicationCommandOption(option),
-  ) as Array<SubCommandGroup<any, any> | SubCommand<any>>
+  ) as Array<SubCommandGroup | ExecutableCommand>
 }
 
 export class CommandMap extends CoreCommandAnvil<TopLevelCommand> {}
@@ -203,13 +192,7 @@ export class CommandMap extends CoreCommandAnvil<TopLevelCommand> {}
 export function createCommand<
   O extends
   | readonly ApplicationCommandOption[]
-  | ReadonlyArray<SubCommandGroup<any, any> | SubCommand<any>>,
+  | ReadonlyArray<SubCommandGroup | ExecutableCommand> = [],
 > (data: TopLevelCommand<O>): TopLevelCommand<O> {
-  return data
-}
-
-export function createSubCommand<
-O extends readonly ApplicationCommandOption[],
-> (data: SubCommand<O>): SubCommand<O> {
   return data
 }
