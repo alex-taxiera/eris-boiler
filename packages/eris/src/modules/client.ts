@@ -85,7 +85,7 @@ export class Hephaestus extends CoreHephaestus {
         | CommandAction
         | CommandActionWithOptions<readonly ApplicationCommandOption[]>
         | undefined
-        let options: ApplicationCommandOption[] | undefined
+        let options: readonly ApplicationCommandOption[] | undefined
         let interactionOptions: InteractionDataOptionsWithValue[] | undefined
 
         if (command.action != null) {

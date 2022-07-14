@@ -177,7 +177,7 @@ export function isApplicationCommandOption (
   return option.type >= 3
 }
 
-export function getValidSubCommands (options: Array<
+export function getValidSubCommands (options: ReadonlyArray<
 | SubCommandGroup
 | ExecutableCommand
 | ApplicationCommandOption
