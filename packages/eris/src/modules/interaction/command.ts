@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ApplicationCommandOptionsSubCommandGroup,
   ApplicationCommandOptionsWithValue,
@@ -138,8 +137,8 @@ export type BaseCommand =
 & Command
 
 export type ExecutableCommand<
-O extends readonly ApplicationCommandOption[] =
-readonly ApplicationCommandOption[],
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+O extends readonly ApplicationCommandOption[] = any,
 > =
 & BaseCommand
 & {
