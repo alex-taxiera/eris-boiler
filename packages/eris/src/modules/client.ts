@@ -122,6 +122,7 @@ export class Hephaestus extends CoreHephaestus {
 
           if (subCommand.type === 1) {
             action = subCommand.action
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             options = subCommand.options
             if (option.type === 1) {
               interactionOptions =
@@ -157,6 +158,7 @@ export class Hephaestus extends CoreHephaestus {
               permission = lastCommand.permission
             }
             action = lastCommand.action
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             options = lastCommand.options
             if (lastOption?.type === 1) {
               interactionOptions =
