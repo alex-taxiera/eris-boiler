@@ -87,7 +87,7 @@
     "eslint-plugin-standard": "^5.0.0",
     "husky": "^6.0.0",
     "jsdoc": "^3.6.7",
-    "knex": "^0.21.19",
+    "knex": "^2.4.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.7",
     "nyc": "^15.1.0",
