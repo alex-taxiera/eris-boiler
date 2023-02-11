@@ -75,7 +75,7 @@
     "sqlite": ">= 3.0.6"
   },
   "devDependencies": {
-    "ava": "2.4.0",
+    "ava": "5.2.0",
     "clean-jsdoc-theme": "^3.2.7",
     "dotenv": "^10.0.0",
     "eris-boiler": "file:.",
