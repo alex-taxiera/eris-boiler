@@ -5,7 +5,7 @@ import {
 
 import { CommandMiddleware as CoreCommandMiddleware } from '@hephaestus/core'
 
-export interface CommandMiddleware<Return = unknown>
+export interface CommandMiddleware<O = unknown, Return = unknown>
   extends CoreCommandMiddleware<
-  Client, CommandInteraction, Return
+  Client, CommandInteraction, O, Return
   > {}

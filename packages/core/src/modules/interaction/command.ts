@@ -16,10 +16,10 @@ export type AutocompleteAction<Interaction, Option, H extends Hephaestus> = (
   hephaestus: H,
 ) => Promisable<void>
 
-export interface Command<Client, Interaction> {
+export interface Command<Client, Interaction, OptionsMap> {
   name: string
-  permission?: Permission<Client, Interaction>
-  middleware?: Array<CommandMiddleware<Client, Interaction>>
+  permission?: Permission<Client, Interaction, OptionsMap>
+  middleware?: Array<CommandMiddleware<Client, Interaction, OptionsMap>>
   guildId?: string
 }
 
@@ -79,7 +79,7 @@ D extends BaseData,
 }[number]>
 
 export abstract class CommandAnvil<
-T extends Command<any, any>,
+T extends Command<any, any, any>,
 > extends Anvil<T> {
 
   protected isValid (loadable: unknown): loadable is T {

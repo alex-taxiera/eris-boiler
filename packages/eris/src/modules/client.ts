@@ -197,16 +197,21 @@ export class Hephaestus extends CoreHephaestus {
           return
         }
 
+        const optionsMap = interactionOptions
+          ?.reduce((ax, dx) => ({ ...ax, [dx.name]: dx }), {}) ?? {}
+
         if (permission != null) {
           const level = permission.level
-          let hasPermission = await permission.action(interaction, this.client)
+          let hasPermission = await permission.action(
+            interaction, optionsMap, this.client)
           if (!hasPermission) {
             const overrides = this.permissions
               .filter((perm) => perm.level > level)
               .sort((a, b) => a.level - b.level)
 
             for (const override of overrides) {
-              hasPermission = await override.action(interaction, this.client)
+              hasPermission = await override.action(
+                interaction, optionsMap, this.client)
               if (hasPermission) {
                 break
               }
@@ -229,7 +234,7 @@ export class Hephaestus extends CoreHephaestus {
 
         for (const middleware of middlewares) {
           try {
-            await middleware.action(interaction, this.client)
+            await middleware.action(interaction, optionsMap, this.client)
           } catch (error) {
             const invoker = interaction.acknowledged
               ? 'createFollowup'
@@ -244,9 +249,6 @@ export class Hephaestus extends CoreHephaestus {
             })
           }
         }
-
-        const optionsMap = interactionOptions
-          ?.reduce((ax, dx) => ({ ...ax, [dx.name]: dx }), {})
 
         void action(interaction, optionsMap ?? {}, this)
       }

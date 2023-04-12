@@ -1,11 +1,13 @@
 import { Promisable } from 'type-fest'
 
 type CommandMiddlewareAction<
-Client, Interaction, Return = unknown,
-> = (interaction: Interaction, client: Client) => Promisable<Return>
+Client, Interaction, OptionsMap, Return = unknown,
+> = (
+  interaction: Interaction,
+  data: OptionsMap, client: Client) => Promisable<Return>
 
 export interface CommandMiddleware<
-Client, Interaction, Return = unknown,
+Client, Interaction, OptionsMap, Return = unknown,
 > {
-  action: CommandMiddlewareAction<Client, Interaction, Return>
+  action: CommandMiddlewareAction<Client, Interaction, OptionsMap, Return>
 }

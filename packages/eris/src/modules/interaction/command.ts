@@ -101,7 +101,7 @@ T extends AutocompleteCommandOptionTypes
     ? NoAutocompleteCommandOption<T> | MinMaxCommandOption<T>
     : NoAutocompleteCommandOption<T>
 
-export type Command = CoreCommand<Client, CommandInteraction>
+export type Command<O> = CoreCommand<Client, CommandInteraction, O>
 
 export type CommandAction = CoreCommandAction<CommandInteraction, Hephaestus>
 
@@ -127,14 +127,14 @@ export type MessageCommand =
 
 export type SubCommandGroup =
 & Omit<ApplicationCommandOptionsSubCommandGroup, 'options'>
-& Command
+& Command<unknown>
 & {
   options?: readonly ExecutableCommand[]
 }
 
 export type BaseCommand =
 & Omit<ChatInputApplicationCommandStructure, 'options'>
-& Command
+& Command<unknown>
 
 export type ExecutableCommand<
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -181,9 +181,12 @@ export function getValidSubCommands (options: ReadonlyArray<
 | ExecutableCommand
 | ApplicationCommandOption
 >): Array<SubCommandGroup | ExecutableCommand> {
-  return options.filter(
+  const res = options.filter(
     (option) => !isApplicationCommandOption(option),
-  ) as Array<SubCommandGroup | ExecutableCommand>
+  )
+
+  // @ts-expect-error typescript is eating my ass
+  return res
 }
 
 export class CommandMap extends CoreCommandAnvil<TopLevelCommand> {}

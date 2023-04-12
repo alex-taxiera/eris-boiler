@@ -2,15 +2,15 @@ import { Anvil } from '@modules/loadable'
 
 import { CommandMiddleware } from './middleware'
 
-export interface Permission<Client, Interaction>
-  extends CommandMiddleware<Client, Interaction, boolean> {
+export interface Permission<Client, Interaction, OptionsMap>
+  extends CommandMiddleware<Client, Interaction, OptionsMap, boolean> {
   level: number
   name: string
   reason?: string
 }
 
 export abstract class PermissionAnvil<
-T extends Permission<any, any>,
+T extends Permission<any, any, any>,
 > extends Anvil<T> {
 
   protected isValid (loadable: unknown): loadable is T {

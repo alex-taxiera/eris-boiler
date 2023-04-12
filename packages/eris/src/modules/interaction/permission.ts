@@ -9,6 +9,6 @@ import {
 } from '@hephaestus/core'
 
 export interface Permission
-  extends CorePermission<Client, CommandInteraction> {}
+  extends CorePermission<Client, CommandInteraction, unknown> {}
 
 export class PermissionAnvil extends CorePermissionAnvil<Permission> {}
