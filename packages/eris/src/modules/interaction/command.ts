@@ -96,7 +96,7 @@ export type ApplicationCommandOption<
   ? NoAutocompleteCommandOption<T> | MinMaxCommandOption<T>
   : NoAutocompleteCommandOption<T>
 
-export type Command<O> = CoreCommand<Client, CommandInteraction, O>
+export type Command = CoreCommand<Client, CommandInteraction>
 
 export type CommandAction = CoreCommandAction<CommandInteraction, Hephaestus>
 
@@ -120,7 +120,7 @@ export type SubCommandGroup = Omit<
   ApplicationCommandOptionsSubCommandGroup,
   'options'
 > &
-  Command<unknown> & {
+  Command & {
     options?: readonly ExecutableCommand[]
   }
 
@@ -128,7 +128,7 @@ export type BaseCommand = Omit<
   ChatInputApplicationCommandStructure,
   'options'
 > &
-  Command<unknown>
+  Command
 
 export type ExecutableCommand<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
