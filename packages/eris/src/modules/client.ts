@@ -180,7 +180,6 @@ export class Hephaestus extends CoreHephaestus {
 
           if (
             !focusedOption ||
-            !('autocomplete' in focusedOption) ||
             !option ||
             !('autocomplete' in option) ||
             !option.autocomplete
@@ -191,9 +190,10 @@ export class Hephaestus extends CoreHephaestus {
 
           void option.autocompleteAction(
             interaction,
-            focusedOption,
+            focusedOption as never, // HACK: the function signature is messed up unless you narrow the type of "option"
             this,
           )
+
           return
         }
 
