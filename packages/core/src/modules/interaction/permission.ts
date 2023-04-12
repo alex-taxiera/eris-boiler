@@ -10,10 +10,9 @@ export interface Permission<Client, Interaction, OptionsMap>
 }
 
 export abstract class PermissionAnvil<
-T extends Permission<any, any, any>,
+  T extends Permission<any, any, any>
 > extends Anvil<T> {
-
-  protected isValid (loadable: unknown): loadable is T {
+  protected isValid(loadable: unknown): loadable is T {
     if (
       loadable == null ||
       typeof loadable !== 'object' ||
@@ -26,5 +25,4 @@ T extends Permission<any, any, any>,
 
     return true
   }
-
 }

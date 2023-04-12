@@ -5,11 +5,8 @@ export interface Event {
   handler: (...args: any) => void
 }
 
-export abstract class EventAnvil<
-T extends Event,
-> extends Anvil<T> {
-
-  protected isValid (loadable: unknown): loadable is T {
+export abstract class EventAnvil<T extends Event> extends Anvil<T> {
+  protected isValid(loadable: unknown): loadable is T {
     if (
       loadable == null ||
       typeof loadable !== 'object' ||
@@ -21,5 +18,4 @@ T extends Event,
 
     return true
   }
-
 }

@@ -23,7 +23,6 @@ import {
 } from './'
 
 export class Hephaestus extends CoreHephaestus {
-
   public commands = new CommandMap('name')
 
   public events = new EventAnvil('name')
@@ -32,28 +31,29 @@ export class Hephaestus extends CoreHephaestus {
 
   public readonly client: Client
 
-  constructor (...args: ConstructorParameters<typeof Client>) {
+  constructor(...args: ConstructorParameters<typeof Client>) {
     super()
-    const [ token, options = { intents: [] } ] = args
+    const [token, options = { intents: [] }] = args
     this.client = new Client(token, options)
   }
 
-  private async registerCommand (command: TopLevelCommand): Promise<void> {
+  private async registerCommand(command: TopLevelCommand): Promise<void> {
     if ('guildId' in command && command.guildId != null) {
       await this.client.createGuildCommand(
-        command.guildId, command as ApplicationCommandStructure,
+        command.guildId,
+        command as ApplicationCommandStructure
       )
     } else {
       await this.client.createCommand(command as ApplicationCommandStructure)
     }
   }
 
-  private registerEvent (event: Event): void {
+  private registerEvent(event: Event): void {
     // @ts-expect-error this just won't compile lol
     this.client.on(event.name, event.handler)
   }
 
-  public async connect (): Promise<void> {
+  public async connect(): Promise<void> {
     await Promise.all([
       this.commands.hammer(),
       this.events.hammer(),
@@ -78,31 +78,31 @@ export class Hephaestus extends CoreHephaestus {
           })
           return
         }
-        const middlewares = [ ...command.middleware ?? [] ]
+        const middlewares = [...(command.middleware ?? [])]
         let permission = command.permission ?? null
 
         let action:
-        | CommandAction
-        | CommandActionWithOptions<readonly ApplicationCommandOption[]>
-        | undefined
+          | CommandAction
+          | CommandActionWithOptions<readonly ApplicationCommandOption[]>
+          | undefined
         let options: readonly ApplicationCommandOption[] | undefined
         let interactionOptions: InteractionDataOptionsWithValue[] | undefined
 
         if (command.action != null) {
           action = command.action
           options = command.options
-          interactionOptions =
-            interaction.data.options as InteractionDataOptionsWithValue[]
+          interactionOptions = interaction.data
+            .options as InteractionDataOptionsWithValue[]
         } else {
           // look for sub command or sub command group
           if (interaction.data.options == null || command.options == null) {
             throw new Error(
-              `Command \`${interaction.data.name}\` is not executable.`,
+              `Command \`${interaction.data.name}\` is not executable.`
             )
           }
           const option = interaction.data.options[0]
           const subCommand = getValidSubCommands(command.options).find(
-            (command) => command.name === option.name,
+            (command) => command.name === option.name
           )
 
           if (!subCommand) {
@@ -135,14 +135,12 @@ export class Hephaestus extends CoreHephaestus {
               option.options == null ||
               subCommand.options == null
             ) {
-              throw new Error(
-                `Command \`${option.name}\` is not executable.`,
-              )
+              throw new Error(`Command \`${option.name}\` is not executable.`)
             }
 
             const lastOption = option.options[0]
             const lastCommand = getValidSubCommands(subCommand.options).find(
-              (command) => command.name === option.name,
+              (command) => command.name === option.name
             )
             if (!lastCommand || lastCommand.type !== 1) {
               throw new Error(`Command \`${lastOption.name}\` not found.`)
@@ -168,8 +166,9 @@ export class Hephaestus extends CoreHephaestus {
         }
 
         if (isAutocomplete) {
-          const focusedOption = interactionOptions
-            ?.find((option) => 'focused' in option)
+          const focusedOption = interactionOptions?.find(
+            (option) => 'focused' in option
+          )
           let option
           for (const opt of options ?? []) {
             if (opt.name === focusedOption?.name) {
@@ -191,19 +190,25 @@ export class Hephaestus extends CoreHephaestus {
           void option.autocompleteAction(
             interaction,
             focusedOption as never, // HACK: the function signature is messed up unless you narrow the type of "option"
-            this,
+            this
           )
 
           return
         }
 
-        const optionsMap = interactionOptions
-          ?.reduce((ax, dx) => ({ ...ax, [dx.name]: dx }), {}) ?? {}
+        const optionsMap =
+          interactionOptions?.reduce(
+            (ax, dx) => ({ ...ax, [dx.name]: dx }),
+            {}
+          ) ?? {}
 
         if (permission != null) {
           const level = permission.level
           let hasPermission = await permission.action(
-            interaction, optionsMap, this.client)
+            interaction,
+            optionsMap,
+            this.client
+          )
           if (!hasPermission) {
             const overrides = this.permissions
               .filter((perm) => perm.level > level)
@@ -211,7 +216,10 @@ export class Hephaestus extends CoreHephaestus {
 
             for (const override of overrides) {
               hasPermission = await override.action(
-                interaction, optionsMap, this.client)
+                interaction,
+                optionsMap,
+                this.client
+              )
               if (hasPermission) {
                 break
               }
@@ -224,7 +232,8 @@ export class Hephaestus extends CoreHephaestus {
               : 'createMessage'
 
             await interaction[invoker]({
-              content: permission.reason ??
+              content:
+                permission.reason ??
                 'You do not have permission to use this command.',
               flags: 64,
             })
@@ -241,10 +250,11 @@ export class Hephaestus extends CoreHephaestus {
               : 'createMessage'
 
             await interaction[invoker]({
-              content: (unknownHasKey(error, 'message') &&
-              typeof error.message === 'string')
-                ? error.message
-                : 'An error occured.',
+              content:
+                unknownHasKey(error, 'message') &&
+                typeof error.message === 'string'
+                  ? error.message
+                  : 'An error occured.',
               flags: 64,
             })
           }
@@ -255,12 +265,13 @@ export class Hephaestus extends CoreHephaestus {
     })
 
     this.client.on('ready', async () => {
-      await Promise.all(this.commands.map(
-        async (command) => await this.registerCommand(command),
-      ))
+      await Promise.all(
+        this.commands.map(
+          async (command) => await this.registerCommand(command)
+        )
+      )
     })
 
     await this.client.connect()
   }
-
 }

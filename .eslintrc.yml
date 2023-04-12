@@ -10,7 +10,9 @@ ignorePatterns:
   - dist
 extends:
   - '@alex-taxiera/eslint-config-ts'
+  - plugin:prettier/recommended
 rules:
+  import-newlines/enforce: off
   '@typescript-eslint/no-base-to-string':
     - 'error'
     -

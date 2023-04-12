@@ -1,7 +1,4 @@
-import {
-  Promisable,
-  UnionToIntersection,
-} from 'type-fest'
+import { Promisable, UnionToIntersection } from 'type-fest'
 import { unknownHasKey } from '@hephaestus/utils'
 
 import { Anvil } from '@modules/loadable'
@@ -13,7 +10,7 @@ import { Permission } from './permission'
 export type AutocompleteAction<Interaction, Option, H extends Hephaestus> = (
   interaction: Interaction,
   focusedOption: Option,
-  hephaestus: H,
+  hephaestus: H
 ) => Promisable<void>
 
 export interface Command<Client, Interaction, OptionsMap> {
@@ -25,15 +22,17 @@ export interface Command<Client, Interaction, OptionsMap> {
 
 export type CommandAction<Interaction, H extends Hephaestus> = (
   interaction: Interaction,
-  hephaestus: H,
+  hephaestus: H
 ) => Promisable<void>
 
 export type CommandActionWithOptions<
-Interaction, OptionsMap, H extends Hephaestus,
+  Interaction,
+  OptionsMap,
+  H extends Hephaestus
 > = (
   interaction: Interaction,
   data: OptionsMap,
-  hephaestus: H,
+  hephaestus: H
 ) => Promisable<void>
 
 export interface BaseOption {
@@ -51,38 +50,43 @@ export interface BaseChoice {
   value: unknown
 }
 
-type MaybeUndefined<X, Condition = false> =
-  Condition extends true ? X : X | undefined
+type MaybeUndefined<X, Condition = false> = Condition extends true
+  ? X
+  : X | undefined
 
 type MaybeChoices<
-B,
-O extends BaseOption,
-> = O['choices'] extends readonly BaseChoice[] ? B & {
-  value: { [I in keyof O['choices']]: O['choices'][I] }[number]['value']
-} : B
+  B,
+  O extends BaseOption
+> = O['choices'] extends readonly BaseChoice[]
+  ? B & {
+      value: { [I in keyof O['choices']]: O['choices'][I] }[number]['value']
+    }
+  : B
 
 export type ConvertOptionsToArgs<
-T extends readonly BaseOption[],
-D extends BaseData,
-> = UnionToIntersection<{
-  [P in keyof T]: {
-    [_ in T[P]['name']]: MaybeUndefined<
-    D & MaybeChoices<
-    {
-      type: T[P]['type']
-    },
-    T[P]
-    >,
-    T[P]['required']
-    >
-  };
-}[number]>
+  T extends readonly BaseOption[],
+  D extends BaseData
+> = UnionToIntersection<
+  {
+    [P in keyof T]: {
+      [_ in T[P]['name']]: MaybeUndefined<
+        D &
+          MaybeChoices<
+            {
+              type: T[P]['type']
+            },
+            T[P]
+          >,
+        T[P]['required']
+      >
+    }
+  }[number]
+>
 
 export abstract class CommandAnvil<
-T extends Command<any, any, any>,
+  T extends Command<any, any, any>
 > extends Anvil<T> {
-
-  protected isValid (loadable: unknown): loadable is T {
+  protected isValid(loadable: unknown): loadable is T {
     if (loadable == null || typeof loadable !== 'object') {
       return false
     }
@@ -91,9 +95,7 @@ T extends Command<any, any, any>,
       return false
     }
 
-    if (
-      !unknownHasKey(loadable, 'action')
-    ) {
+    if (!unknownHasKey(loadable, 'action')) {
       if (
         !unknownHasKey(loadable, 'options') ||
         !Array.isArray(loadable.options)
@@ -114,5 +116,4 @@ T extends Command<any, any, any>,
 
     return true
   }
-
 }

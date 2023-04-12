@@ -1,6 +1,5 @@
 export class ExtendedMap<Key, T> extends Map<Key, T> {
-
-  public find (func: (item: T) => boolean): T | undefined {
+  public find(func: (item: T) => boolean): T | undefined {
     for (const item of this.values()) {
       if (func(item)) {
         return item
@@ -10,7 +9,7 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
     return undefined
   }
 
-  public filter (func: (item: T) => boolean): T[] {
+  public filter(func: (item: T) => boolean): T[] {
     const arr = []
 
     for (const item of this.values()) {
@@ -22,7 +21,7 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
     return arr
   }
 
-  public map<R> (func: (item: T) => R): R[] {
+  public map<R>(func: (item: T) => R): R[] {
     const arr = []
 
     for (const item of this.values()) {
@@ -32,8 +31,8 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
     return arr
   }
 
-  public reduce<R> (func: (accumulator: R, item: T) => R, initialValue: R): R
-  public reduce (func: (accumulator: T, item: T) => T, initialValue?: T): T {
+  public reduce<R>(func: (accumulator: R, item: T) => R, initialValue: R): R
+  public reduce(func: (accumulator: T, item: T) => T, initialValue?: T): T {
     const iter = this.values()
     let current: IteratorResult<T, T> = iter.next()
     let result = initialValue ?? current.value
@@ -46,7 +45,7 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
     return result
   }
 
-  public every (func: (item: T) => boolean): boolean {
+  public every(func: (item: T) => boolean): boolean {
     for (const item of this.values()) {
       if (!func(item)) {
         return false
@@ -56,7 +55,7 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
     return true
   }
 
-  public some (func: (item: T) => boolean): boolean {
+  public some(func: (item: T) => boolean): boolean {
     for (const item of this.values()) {
       if (func(item)) {
         return true
@@ -65,5 +64,4 @@ export class ExtendedMap<Key, T> extends Map<Key, T> {
 
     return false
   }
-
 }

@@ -1,7 +1,4 @@
-import {
-  Client,
-  CommandInteraction,
-} from 'eris'
+import { Client, CommandInteraction } from 'eris'
 
 import {
   Permission as CorePermission,
