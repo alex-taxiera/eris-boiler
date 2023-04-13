@@ -1,0 +1,47 @@
+{
+  "name": "@hephaestus/oceanic",
+  "version": "1.0.0-alpha.0",
+  "description": "> TODO: description",
+  "author": "Alex Taxiera <alex.taxiera@gmail.com>",
+  "homepage": "https://github.com/alex-taxiera/eris-boiler#readme",
+  "license": "ISC",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typings": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex-taxiera/eris-boiler.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "run-p build:*",
+    "build:cjs": "tsup src/index.ts --target node12 --format cjs",
+    "build:esm": "tsup src/index.ts --format esm --dts",
+    "clean": "rm -rf dist",
+    "lint": "eslint src"
+  },
+  "bugs": {
+    "url": "https://github.com/alex-taxiera/eris-boiler/issues"
+  },
+  "dependencies": {
+    "@hephaestus/core": "^1.0.0-alpha.17",
+    "@hephaestus/utils": "^1.0.0-alpha.8"
+  },
+  "peerDependencies": {
+    "oceanic.js": "^1.6.0"
+  },
+  "devDependencies": {
+    "oceanic.js": "^1.6.0"
+  }
+}
