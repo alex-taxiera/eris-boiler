@@ -1,6 +1,6 @@
 {
-  "name": "@hephaestus/core",
-  "version": "1.0.0-alpha.17",
+  "name": "@hephaestus/oceanic",
+  "version": "1.0.0-alpha.0",
   "description": "> TODO: description",
   "author": "Alex Taxiera <alex.taxiera@gmail.com>",
   "homepage": "https://github.com/alex-taxiera/eris-boiler#readme",
@@ -35,7 +35,13 @@
     "url": "https://github.com/alex-taxiera/eris-boiler/issues"
   },
   "dependencies": {
+    "@hephaestus/core": "^1.0.0-alpha.17",
     "@hephaestus/utils": "^1.0.0-alpha.8"
   },
-  "gitHead": "e4c176a8afdb66d7e07dd6587a806cd8d4f5b642"
+  "peerDependencies": {
+    "oceanic.js": "^1.6.0"
+  },
+  "devDependencies": {
+    "oceanic.js": "^1.6.0"
+  }
 }

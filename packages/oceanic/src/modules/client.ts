@@ -1,10 +1,9 @@
 import {
-  ApplicationCommandStructure,
-  AutocompleteInteraction,
   Client,
-  CommandInteraction,
-  InteractionDataOptionsWithValue,
-} from 'eris'
+  CreateApplicationCommandOptions,
+  InteractionOptions,
+} from 'oceanic.js'
+import type { ClientOptions } from 'oceanic.js'
 
 import { Hephaestus as CoreHephaestus } from '@hephaestus/core'
 
@@ -16,10 +15,10 @@ import {
   PermissionAnvil,
   TopLevelCommand,
   Event,
-  ApplicationCommandOption,
   getValidSubCommands,
   CommandAction,
   CommandActionWithOptions,
+  ApplicationCommandOption,
 } from './'
 
 export class Hephaestus extends CoreHephaestus {
@@ -31,20 +30,21 @@ export class Hephaestus extends CoreHephaestus {
 
   public readonly client: Client
 
-  constructor(...args: ConstructorParameters<typeof Client>) {
+  constructor(options: ClientOptions) {
     super()
-    const [token, options = { intents: [] }] = args
-    this.client = new Client(token, options)
+    this.client = new Client(options)
   }
 
   private async registerCommand(command: TopLevelCommand): Promise<void> {
     if ('guildId' in command && command.guildId != null) {
-      await this.client.createGuildCommand(
+      await this.client.application.createGuildCommand(
         command.guildId,
-        command as ApplicationCommandStructure
+        command as CreateApplicationCommandOptions
       )
     } else {
-      await this.client.createCommand(command as ApplicationCommandStructure)
+      await this.client.application.createGlobalCommand(
+        command as CreateApplicationCommandOptions
+      )
     }
   }
 
@@ -63,8 +63,8 @@ export class Hephaestus extends CoreHephaestus {
     this.events.forEach((event) => this.registerEvent(event))
 
     this.client.on('interactionCreate', async (interaction) => {
-      const isCommand = interaction instanceof CommandInteraction
-      const isAutocomplete = interaction instanceof AutocompleteInteraction
+      const isCommand = interaction.type === 2
+      const isAutocomplete = interaction.type === 4
       if (isCommand || isAutocomplete) {
         const command = this.commands.get(interaction.data.name)
         if (command == null) {
@@ -85,14 +85,14 @@ export class Hephaestus extends CoreHephaestus {
           | CommandAction
           | CommandActionWithOptions<readonly ApplicationCommandOption[]>
           | undefined
+
         let options: readonly ApplicationCommandOption[] | undefined
-        let interactionOptions: InteractionDataOptionsWithValue[] | undefined
+        let interactionOptions: InteractionOptions[] | undefined
 
         if (command.action != null) {
           action = command.action
           options = command.options
-          interactionOptions = interaction.data
-            .options as InteractionDataOptionsWithValue[]
+          interactionOptions = interaction.data.options.raw
         } else {
           // look for sub command or sub command group
           if (interaction.data.options == null || command.options == null) {
@@ -100,7 +100,7 @@ export class Hephaestus extends CoreHephaestus {
               `Command \`${interaction.data.name}\` is not executable.`
             )
           }
-          const option = interaction.data.options[0]
+          const option = interaction.data.options.raw[0]
           const subCommand = getValidSubCommands(command.options).find(
             (command) => command.name === option.name
           )
@@ -125,8 +125,7 @@ export class Hephaestus extends CoreHephaestus {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             options = subCommand.options
             if (option.type === 1) {
-              interactionOptions =
-                option.options as InteractionDataOptionsWithValue[]
+              interactionOptions = option.options
             }
           } else {
             // sub command group
@@ -159,16 +158,13 @@ export class Hephaestus extends CoreHephaestus {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             options = lastCommand.options
             if (lastOption?.type === 1) {
-              interactionOptions =
-                lastOption.options as InteractionDataOptionsWithValue[]
+              interactionOptions = lastOption.options
             }
           }
         }
 
         if (isAutocomplete) {
-          const focusedOption = interactionOptions?.find(
-            (option) => 'focused' in option
-          )
+          const focusedOption = interaction.data.options.getFocused()
           let option
           for (const opt of options ?? []) {
             if (opt.name === focusedOption?.name) {

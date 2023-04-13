@@ -1,19 +1,17 @@
-import {
-  MaybePromise,
-  unknownHasKey,
-} from '@hephaestus/utils'
+import { Promisable, UnionToIntersection } from 'type-fest'
+import { unknownHasKey } from '@hephaestus/utils'
 
-import { LoadableMap } from '@modules/loadable'
+import { Anvil } from '@modules/loadable'
+import { Hephaestus } from '@modules/client'
 
 import { CommandMiddleware } from './middleware'
 import { Permission } from './permission'
 
-export interface AutoCompleteOption<Client, Interaction> {
-  autocompleteAction: (
-    interaction: Interaction,
-    client: Client,
-  ) => MaybePromise<void>
-}
+export type AutocompleteAction<Interaction, Option, H extends Hephaestus> = (
+  interaction: Interaction,
+  focusedOption: Option,
+  hephaestus: H
+) => Promisable<void>
 
 export interface Command<Client, Interaction> {
   name: string
@@ -22,16 +20,73 @@ export interface Command<Client, Interaction> {
   guildId?: string
 }
 
-export interface ExecutableCommand<Client, Interaction>
-  extends Command<Client, Interaction> {
-  action: (interaction: Interaction, client: Client) => MaybePromise<void>
+export type CommandAction<Interaction, H extends Hephaestus> = (
+  interaction: Interaction,
+  hephaestus: H
+) => Promisable<void>
+
+export type CommandActionWithOptions<
+  Interaction,
+  OptionsMap,
+  H extends Hephaestus
+> = (
+  interaction: Interaction,
+  data: OptionsMap,
+  hephaestus: H
+) => Promisable<void>
+
+export interface BaseOption {
+  name: string
+  required?: boolean
+  type: number
+  choices?: readonly BaseChoice[] | null
 }
 
-export abstract class CommandMap<
-T extends Command<any, any>,
-> extends LoadableMap<T> {
+export interface BaseData {
+  value: unknown
+}
 
-  protected isValid (loadable: unknown): loadable is T {
+export interface BaseChoice {
+  value: unknown
+}
+
+type MaybeUndefined<X, Condition = false> = Condition extends true
+  ? X
+  : X | undefined
+
+type MaybeChoices<
+  B,
+  O extends BaseOption
+> = O['choices'] extends readonly BaseChoice[]
+  ? B & {
+      value: { [I in keyof O['choices']]: O['choices'][I] }[number]['value']
+    }
+  : B
+
+export type ConvertOptionsToArgs<
+  T extends readonly BaseOption[],
+  D extends BaseData
+> = UnionToIntersection<
+  {
+    [P in keyof T]: {
+      [_ in T[P]['name']]: MaybeUndefined<
+        D &
+          MaybeChoices<
+            {
+              type: T[P]['type']
+            },
+            T[P]
+          >,
+        T[P]['required']
+      >
+    }
+  }[number]
+>
+
+export abstract class CommandAnvil<
+  T extends Command<any, any>
+> extends Anvil<T> {
+  protected isValid(loadable: unknown): loadable is T {
     if (loadable == null || typeof loadable !== 'object') {
       return false
     }
@@ -40,9 +95,7 @@ T extends Command<any, any>,
       return false
     }
 
-    if (
-      !unknownHasKey(loadable, 'action')
-    ) {
+    if (!unknownHasKey(loadable, 'action')) {
       if (
         !unknownHasKey(loadable, 'options') ||
         !Array.isArray(loadable.options)
@@ -63,5 +116,4 @@ T extends Command<any, any>,
 
     return true
   }
-
 }

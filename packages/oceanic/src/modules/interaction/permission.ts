@@ -1,4 +1,4 @@
-import { Client, CommandInteraction } from 'eris'
+import type { AnyInteractionGateway, Client } from 'oceanic.js'
 
 import {
   Permission as CorePermission,
@@ -6,6 +6,6 @@ import {
 } from '@hephaestus/core'
 
 export interface Permission
-  extends CorePermission<Client, CommandInteraction> {}
+  extends CorePermission<Client, AnyInteractionGateway> {}
 
 export class PermissionAnvil extends CorePermissionAnvil<Permission> {}

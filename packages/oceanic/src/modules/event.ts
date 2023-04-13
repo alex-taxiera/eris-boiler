@@ -1,12 +1,12 @@
-import { EventListeners } from 'eris'
+import type { ClientEvents } from 'oceanic.js'
 
 import { EventAnvil as CoreEventAnvil } from '@hephaestus/core'
 
 export type Event = {
-  [K in keyof EventListeners]: {
+  [K in keyof ClientEvents]: {
     name: K
-    handler: (...args: EventListeners[K]) => void
+    handler: (...args: ClientEvents[K]) => void
   }
-}[keyof EventListeners]
+}[keyof ClientEvents]
 
 export class EventAnvil extends CoreEventAnvil<Event> {}

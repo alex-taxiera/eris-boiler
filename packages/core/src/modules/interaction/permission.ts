@@ -1,4 +1,4 @@
-import { LoadableMap } from '@modules/loadable'
+import { Anvil } from '@modules/loadable'
 
 import { CommandMiddleware } from './middleware'
 
@@ -9,11 +9,10 @@ export interface Permission<Client, Interaction>
   reason?: string
 }
 
-export abstract class PermissionMap<
-T extends Permission<any, any>,
-> extends LoadableMap<T> {
-
-  protected isValid (loadable: unknown): loadable is T {
+export abstract class PermissionAnvil<
+  T extends Permission<any, any>
+> extends Anvil<T> {
+  protected isValid(loadable: unknown): loadable is T {
     if (
       loadable == null ||
       typeof loadable !== 'object' ||
@@ -26,5 +25,4 @@ T extends Permission<any, any>,
 
     return true
   }
-
 }
